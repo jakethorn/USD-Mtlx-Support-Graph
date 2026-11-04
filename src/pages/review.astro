@@ -1,0 +1,109 @@
+---
+/**
+ * Every record flagged for human review (a `review:` note or low confidence), in one place.
+ * This is the only part of the data the maintainer reviews by hand.
+ */
+import Base from '../layouts/Base.astro';
+import LevelBadge from '../components/LevelBadge.astro';
+import { loadData } from '../lib/data';
+import { withBase } from '../lib/url';
+
+const { products, capabilities } = await loadData();
+const capById = new Map(capabilities.map((c) => [c.id, c]));
+
+const items = products.flatMap((p) => [
+  ...p.support
+    .filter((s) => s.review || s.confidence === 'low')
+    .map((s) => ({
+      product: p,
+      what: capById.get(s.capability)?.label ?? s.capability,
+      tech: capById.get(s.capability)?.tech,
+      level: s.level as string | undefined,
+      reason: s.review ?? 'Low confidence',
+      notes: s.notes,
+      sources: s.sources,
+    })),
+  ...p.releases
+    .filter((r) => r.review)
+    .map((r) => ({ product: p, what: `Release ${r.version}`, tech: undefined, level: undefined, reason: r.review!, notes: r.notes, sources: r.sources })),
+  ...p.issues
+    .filter((i) => i.review)
+    .map((i) => ({ product: p, what: `Issue: ${i.title}`, tech: undefined, level: undefined, reason: i.review!, notes: undefined, sources: [{ url: i.url, title: 'Issue' }] })),
+]);
+---
+
+<Base title="Needs review">
+  <div class="container page">
+    <h1>Needs review <span class="muted">({items.length})</span></h1>
+    <p class="muted">
+      Records whose sources conflict, are ambiguous or are indirect. Everything else on the site stands on its cited
+      sources.
+    </p>
+    {items.length === 0 && <p>Nothing flagged.</p>}
+    <ul class="items" role="list">
+      {
+        items.map((i) => (
+          <li>
+            <div class="head">
+              <a href={withBase(`products/${i.product.id}/`)}>
+                <strong>{i.product.name}</strong>
+              </a>
+              <span>·</span>
+              <span>{i.what}</span>
+              {i.tech && <span class="muted">{i.tech === 'usd' ? 'OpenUSD' : 'MaterialX'}</span>}
+              {i.level && <LevelBadge level={i.level} />}
+            </div>
+            <p class="reason">{i.reason}</p>
+            {i.notes && <p class="muted">{i.notes}</p>}
+            <p class="sources">
+              {i.sources.map((s) => (
+                <a href={s.url} rel="noopener">{s.title ?? new URL(s.url).hostname}</a>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 32px;
+  }
+  .items {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .items > li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--level-partial);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+  }
+  .head a {
+    color: var(--text);
+  }
+  p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+  }
+  .reason {
+    font-weight: 600;
+  }
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 0.82rem;
+  }
+</style>

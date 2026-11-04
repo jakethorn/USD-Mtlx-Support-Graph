@@ -1,0 +1,518 @@
+name: Nuke
+vendor: Foundry
+categories: [compositing]
+industries: [film-tv, vfx]
+license: commercial
+website: https://www.foundry.com/products/nuke-family/nuke
+tier: 1
+summary: >-
+  Foundry's node-based compositor. Its new 3D system, introduced as a beta in 14.0 and out of beta in 17.0, is built
+  on USD stages with a Hydra viewport; 17.1 adds Hydra 2.0 render delegates, render-settings nodes and layered USD
+  export. A first MaterialX node arrived in 17.0.
+
+releases:
+  - version: "14.0"
+    date: 2022-12-06
+    notes: >-
+      VFX Reference Platform 2022. Introduced the new USD-based 3D system as a beta, running alongside the classic
+      3D system, with a scene graph, over 40 nodes and a PreviewSurface material node.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/14.0/nuke_14.0v1_releasenotes.html
+        title: Nuke 14.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "15.1"
+    date: 2024-06-13
+    usd: "23.11"
+    notes: TimeOffset and FrameHold work with the new 3D system; stage building was optimised for large scenes.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/15.1/nuke_15.1v1_releasenotes.html
+        title: Nuke 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "16.0"
+    date: 2025-02-27
+    usd: "24.05"
+    notes: VFX Reference Platform CY2024. ScanlineRender2 becomes ray traced by default; new GeoXformPrim and GeoConstrain nodes.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/16.0/nuke_16.0v1_releasenotes.html
+        title: Nuke 16.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/16.0/content/misc/studio_third_party_libraries.html
+        title: Nuke 16.0 — Third-Party Libraries and Fonts
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "17.0"
+    date: 2026-02-26
+    usd: "25.08"
+    notes: >-
+      VFX Reference Platform CY2025. Brings the USD-based 3D system out of beta and adds USD light and camera nodes,
+      Gaussian splats and the MtlXStandardSurface node. 16.1 (VFX Reference Platform 2024) shipped the same day with
+      most of the same 3D features. The 17.0 library table lists MaterialX 1.38.8 on Linux and 1.39.3 on macOS and
+      Windows.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0/content/misc/studio_third_party_libraries.html
+        title: Nuke 17.0 — Third-Party Libraries and Fonts
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/16.1/nuke_16.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 16.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    review: MaterialX left blank because the 17.0 library table gives different versions per platform (1.38.8 Linux, 1.39.3 macOS/Windows).
+
+  - version: "17.1"
+    date: 2026-08-20
+    usd: "25.08"
+    materialx: "1.39.3"
+    notes: >-
+      Hydra 2.0 in the 3D Viewer with selectable render delegates, the GeoRender node and render-settings nodes, and
+      non-destructive layered USD export with GeoBreakLayer.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/resources/index.html
+        title: Nuke — Third Party Libraries (current docs)
+        kind: docs
+        accessed: 2026-11-04
+    review: >-
+      USD and MaterialX versions come from the current (unversioned) library table linked from the 17.1v2 docs, which
+      states VFX Reference Platform 2025 but does not name the Nuke version itself; the 17.1v1 notes give no versions.
+
+support:
+  # ── Workflow ───────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    since: "17.0"
+    notes: >-
+      The new 3D system builds a USD stage from the node graph: Geo nodes create or modify prims, knobs can author an
+      opinion (Set Value) or leave the incoming value alone (No Change), and GeoScript/GeoViewScene show the stage as
+      text. It shipped as a beta from 14.0 and Foundry describes 17.0 as bringing it out of beta. The classic 3D
+      system remains available.
+    gaps:
+      - Some new 3D nodes are still marked Beta in the menus and are described as not production ready.
+      - The 3D system does not work with VariableGroups holding differing values in one node graph (known issue 612465).
+    sources:
+      - url: https://www.foundry.com/news-and-awards/foundry-releases-nuke-17-advancing-compositing-workflows
+        title: Foundry releases Nuke 17
+        kind: news
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/14.0/nuke_14.0v1_releasenotes.html
+        title: Nuke 14.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/comp_environment/usd-3d-comp/usd-concepts.html
+        title: Nuke 17.1 — USD Concepts in the New 3D System
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0/content/reference_guide/3dnew_nodes/usd3d_nodes.html
+        title: Nuke 17.0 — New 3D System Nodes
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    since: "17.1"
+    notes: >-
+      GeoBreakLayer (or GeoImport's Act as Layer Break option) marks where the exported layer starts, so GeoExport's
+      Flatten Sublayers, Keep References mode writes only the downstream changes as overs in a sublayer that other
+      departments can layer over the original asset.
+    gaps:
+      - Layer breaks have no effect with the Flatten All export method.
+      - GeoBreakLayer does not work with GeoMerge set to duplicate prims in place (known issue 622876).
+      - TimeOffset nodes ignore Layer Break nodes (known issue 618961).
+    sources:
+      - url: https://learn.foundry.com/nuke/17.1/content/comp_environment/usd-3d-comp/export-objects.html
+        title: Nuke 17.1 — Export From Your Scene
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Nuke has no layer-stack editor; the record rests on routing edits to an exported override layer, which only
+      partly matches "choose which layer receives edits".
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      Studios can run Nuke against a custom USD build by compiling the shipped FnUsdShim library against it, and
+      extra Hydra render delegates are found through PXR_PLUGINPATH_NAME. Nuke ships a built-in USD Python
+      path, which can be disabled when using a custom build.
+    gaps:
+      - The custom USD must be built with usd-imaging and Python enabled, matching Nuke's Python version.
+      - Foundry's docs don't specifically cover custom schemas, file-format plugins or asset resolvers.
+    sources:
+      - url: https://learn.foundry.com/nuke/developers/16.1/ndkdevguide/3d-usd/using-custom-usd.html
+        title: Nuke NDK Developer Guide — Using a Custom USD Build with FnUsdShim
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/comp_environment/usd-3d-comp/hydra-intro.html
+        title: Nuke 17.1 — Hydra in the 3D Viewer
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      GeoImport reads .usd, .usda and .usdc (and Alembic, FBX, OBJ, PLY and splat files). An import dialog lists
+      prims with their type, kind and purpose, and lets users load or unload payloads, activate or deactivate prims,
+      and set graph depth before import; a Scene Graph tab adjusts this afterwards. Dragging a USD file into the node
+      graph creates a GeoImport node (17.0).
+    gaps:
+      - The same file cannot be imported twice to duplicate objects, because prim paths can't be changed; GeoReference is used instead.
+    sources:
+      - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoimport.html
+        title: Nuke 17.1 — GeoImport node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/NUKE/CONTENT/comp_environment/usd-3d-comp/import-geoimport.html
+        title: Nuke 17.1 — Importing with GeoImport
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    notes: >-
+      GeoExport writes .usd, .usda and .usdc (plus Alembic, FBX, OBJ, PLY, splat and SPZ). Flatten All writes the
+      whole flattened stage; Flatten Sublayers, Keep References (17.1) writes only Nuke's changes as overs while
+      keeping the imported composition arcs. Stitched export, on by default, writes frames one by one to save memory.
+    gaps:
+      - The export docs do not list .usdz.
+      - Before 17.1, GeoExport wrote only a flattened stage.
+    sources:
+      - url: https://learn.foundry.com/nuke/17.1/content/comp_environment/usd-3d-comp/export-objects.html
+        title: Nuke 17.1 — Export From Your Scene
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0/content/reference_guide/3dnew_nodes/usd3d_nodes.html
+        title: Nuke 17.0 — New 3D System Nodes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/nuke_17.1.html
+        title: What's New in Nuke 17.1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.payloads
+    level: native
+    notes: >-
+      Payloads load by default and can be unloaded per prim or all at once in GeoImport's import dialog and Scene
+      Graph tab to speed up loading.
+    gaps:
+      - Unloading payloads does not remove the items from the scene graph (known issue 612791 in 17.0v1).
+      - Resetting payloads produces many console errors (known issue 604715 in 17.0v1).
+    sources:
+      - url: https://learn.foundry.com/NUKE/CONTENT/comp_environment/usd-3d-comp/import-geoimport.html
+        title: Nuke 17.1 — Importing with GeoImport
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    notes: >-
+      GeoReference creates a lightweight reference to another object rather than a copy, and GeoInstance's
+      Reference mode creates individually editable reference instances. Layered export keeps the composition arcs
+      of imported stages (17.1).
+    sources:
+      - url: https://learn.foundry.com/nuke/17.0/content/reference_guide/3dnew_nodes/usd3d_nodes.html
+        title: Nuke 17.0 — New 3D System Nodes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoinstance.html
+        title: Nuke 17.1 — GeoInstance node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.1/content/comp_environment/usd-3d-comp/export-objects.html
+        title: Nuke 17.1 — Export From Your Scene
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: partial
+    notes: >-
+      GeoInstance can create reference instances, cheaper instanceable references, or a point instancer. Imported
+      instances, however, are not kept as instances.
+    gaps:
+      - Nuke does not support importing instanced prims; they behave like ordinary prims and instancing must be rebuilt in Nuke.
+      - Point-instancer instances can't be edited individually by downstream nodes.
+      - GeoBindMaterial crashes when targeting an instance (known issue 620100 in 17.1v1).
+    sources:
+      - url: https://learn.foundry.com/NUKE/CONTENT/comp_environment/usd-3d-comp/import-geoimport.html
+        title: Nuke 17.1 — Importing with GeoImport
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoinstance.html
+        title: Nuke 17.1 — GeoInstance node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.animation
+    level: native
+    notes: >-
+      GeoImport and GeoReference have Time Offset and Time Scale controls for USD animation (from 15.1), and
+      GeoSequencer (17.1) turns USD, PLY or splat file sequences into time-sampled USDC value clips.
+    sources:
+      - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoimport.html
+        title: Nuke 17.1 — GeoImport node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/15.1/nuke_15.1v1_releasenotes.html
+        title: Nuke 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      GeoCamera creates USD cameras and GeoEditCamera edits imported ones in place (17.0). The Camera and Axis nodes
+      read live USD attribute data and can inject their data into the stage.
+    gaps:
+      - GeoEditCamera offsets differ from the Camera node's window translate (known issue 605741 in 17.0v1).
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0v1/content/release_notes/nuke_17.0.html
+        title: What's New in Nuke 17.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      GeoDistantLight, GeoDiskLight, GeoSphereLight and GeoDomeLight create USD lights, GeoEditLight edits imported
+      lights, and the classic-style light nodes read attributes live from USD and can inject lights into the stage
+      (17.0).
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0v1/content/release_notes/nuke_17.0.html
+        title: What's New in Nuke 17.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ────────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    since: "14.0"
+    notes: >-
+      A PreviewSurface node represents USD's preview shader and was among the first new-3D-system material nodes in
+      14.0; GeoBindMaterial binds materials with binding strength and purpose controls.
+    gaps:
+      - PreviewSurface output format is wrong on every input except diffuse (known issue 618533 in 17.1v1).
+      - PreviewSurface errors when a texture is connected, and its emission differs between Hydra and ScanlineRender2 (known issues 613514 and 610149 in 17.0v1).
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/14.0/nuke_14.0v1_releasenotes.html
+        title: Nuke 14.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/17.0/content/reference_guide/3dnew_nodes/usd3d_nodes.html
+        title: Nuke 17.0 — New 3D System Nodes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Rendering ──────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: native
+    since: "17.1"
+    notes: >-
+      The new 3D system's viewport is Hydra-based, defaulting to Storm (the GL renderer). 17.1 moves it to Hydra 2.0
+      so other installed delegates, such as RenderMan and MoonRay, can be picked in the Viewer, found through
+      PXR_PLUGINPATH_NAME. The GeoRender node renders the scene through a delegate and outputs its passes into Nuke.
+    gaps:
+      - Two RenderMan Hydra delegates in one scene can crash Nuke (known issue 624310 in 17.1v1).
+      - Hydra needs a light source to show materials; Nuke supplies a fallback dome light.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/comp_environment/usd-3d-comp/hydra-intro.html
+        title: Nuke 17.1 — Hydra in the 3D Viewer
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/nuke_17.1.html
+        title: What's New in Nuke 17.1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    since: "17.1"
+    notes: >-
+      GeoRenderSetting, GeoRenderProduct and GeoRenderVariable nodes author UsdRender settings, products and
+      variables for GeoRender; with Use Schema Mode, delegates such as RenderMan read the stage's own render settings.
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/nuke_17.1.html
+        title: What's New in Nuke 17.1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/comp_environment/usd-3d-comp/hydra-intro.html
+        title: Nuke 17.1 — Hydra in the 3D Viewer
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >-
+      MtlXStandardSurface, Nuke's first MaterialX shader node, exposes Autodesk Standard Surface inputs and previews
+      in the Hydra viewer and renders through ScanlineRender2. It appears in both 17.0 and 16.1, released the same day.
+    gaps:
+      - ScanlineRender2 has no indirect lighting yet, so MtlXStandardSurface shows no reflections or refractions.
+      - MtlXStandardSurface can briefly hang Nuke on update (known issue 610766 in 17.0v1).
+    sources:
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/16.1/nuke_16.1v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 16.1v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: partial
+    notes: >-
+      MaterialX shading is previewed in the Hydra viewer and rendered by ScanlineRender2, but Foundry describes the
+      implementation as a first step focused on the Standard Surface node.
+    gaps:
+      - Only the MtlXStandardSurface shader is supported so far.
+      - ScanlineRender2 renders no reflections or refractions for it.
+    sources:
+      - url: https://www.aswf.io/blog/materialx-implementation-underway-in-foundrys-nuke-17-0/
+        title: MaterialX implementation underway in Foundry's Nuke 17.0 (ASWF blog, Foundry guest post)
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+        title: Release Notes for Nuke and Hiero 17.0v1
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: native
+    notes: >-
+      The 17.1 GeoImport reference lists a MaterialX extension among supported formats, and Foundry's ASWF post says
+      imported MaterialX shaders can be bound to meshes in Nuke.
+    sources:
+      - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoimport.html
+        title: Nuke 17.1 — GeoImport node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.aswf.io/blog/materialx-implementation-underway-in-foundrys-nuke-17-0/
+        title: MaterialX implementation underway in Foundry's Nuke 17.0 (ASWF blog, Foundry guest post)
+        kind: blog
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      The GeoImport page spells the extension ".mltx" (likely a typo for .mtlx), no release note describes .mtlx
+      import, and it is unclear whether arbitrary MaterialX graphs or only Standard Surface shaders come through.
+
+issues:
+  - title: Two RenderMan Hydra delegates in one scene can crash Nuke (ID 624310)
+    url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+    capability: usd.hydra.host
+    status: open
+    affects: "17.1v1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: GeoBindMaterial crashes when targeting an instance (ID 620100)
+    url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+    capability: usd.instancing
+    status: open
+    affects: "17.1v1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: PreviewSurface output format is incorrect on all inputs except diffuse (ID 618533)
+    url: https://learn.foundry.com/nuke/content/release_notes/17.1/nuke_17.1v1_releasenotes.html
+    capability: usd.shade.preview_surface
+    status: open
+    affects: "17.1v1"
+    verified: 2026-11-04
+
+  - title: ScanlineRender2 does not apply subdivision set on mesh prims (ID 609993)
+    url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+    capability: usd.geom.meshes
+    status: unknown
+    affects: "17.0v1"
+    verified: 2026-11-04
+
+  - title: 3D system does not work with VariableGroups holding differing values in one node graph (ID 612465)
+    url: https://learn.foundry.com/nuke/content/release_notes/17.0/nuke_17.0v1_releasenotes.html
+    capability: usd.stage
+    status: unknown
+    affects: "16.1v1, 17.0v1"
+    verified: 2026-11-04

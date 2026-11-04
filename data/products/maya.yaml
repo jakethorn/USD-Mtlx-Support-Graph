@@ -5,3 +5,821 @@ industries: [film-tv, vfx, animation, games]
 license: commercial
 website: https://www.autodesk.com/products/maya/overview
 tier: 1
+summary: >-
+  Autodesk's animation and VFX DCC. USD comes through the open-source maya-usd plugin bundled in the installer, which
+  edits live stages. MaterialX authoring uses LookdevX, and OpenPBR is the default shader from Maya
+  2026.
+
+releases:
+  - version: "2027"
+    date: 2026-03-25
+    usd: "25.11"
+    materialx: "1.39.4"
+    notes: >-
+      Ships USD for Maya 0.35.0 (Component Creator, Variant Manager) and LookdevX 2.0.0, which moves MaterialX to
+      1.39.4 with an upgrade path for 1.38 documents. maya-usd 0.36 and 0.37 builds target Maya 2027.1 and 2027.2
+      with the same USD and MaterialX versions.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.37.0
+        title: maya-usd v0.37.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-WhatsNew/files/GUID-6DA3C115-C004-48DB-9D84-90D19E42E358.htm
+        title: What's New in LookdevX for Maya (Maya 2027)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=174872
+        title: CG Channel, "Maya 2027 is out" (25 March 2026)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2026"
+    date: 2025-03-26
+    usd: "24.11"
+    materialx: "1.38.8"
+    notes: >-
+      Shipped with USD for Maya 0.31 and LookdevX 1.7, and made OpenPBR the default surface shader. From Maya 2026.2
+      (maya-usd 0.33) the installer also includes a USD 25.05 build, selectable at launch with -usdVersion; 24.11
+      stays the default.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.32.0 build table lists USD 24.11 / MaterialX 1.38.8 for Maya 2026)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-5157FE90-8B78-4590-AF33-600E1E810AE6.htm
+        title: What's New in USD for Maya (Maya 2026.2)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/03/autodesk-releases-maya-2026-and-maya-creative-2026/
+        title: CG Channel, "Autodesk releases Maya 2026 and Maya Creative 2026"
+        kind: news
+        accessed: 2026-11-04
+    review: >-
+      MaterialX for the Maya 2026.3 build conflicts between maya-usd releases. v0.34.5 says 1.38.8, while v0.35.0 to
+      v0.37.0 say 1.38.10. The value here is the 2026.0 build (maya-usd v0.32.0).
+
+  - version: "2025"
+    date: 2024-03-27
+    usd: "23.11"
+    materialx: "1.38.8"
+    notes: >-
+      Shipped with USD for Maya 0.27, which added bulk loading and unloading of prims, and LookdevX 1.3, which added
+      MaterialX support. Later maya-usd builds target Maya 2025.3.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/03/autodesk-releases-maya-2025-and-maya-creative-2025
+        title: CG Channel, "Autodesk releases Maya 2025 and Maya Creative 2025"
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2024"
+    usd: "22.11"
+    materialx: "1.38.5"
+    notes: maya-usd builds for Maya 2024 target the 2024.2 update.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2023"
+    usd: "21.11"
+    materialx: "1.38.3"
+    notes: maya-usd builds target Maya 2023.3. v0.35.0 was the last maya-usd release with a Maya 2023 installer.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ───────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    via: maya-usd
+    notes: >-
+      The USD extension ships in the Maya installer and is loaded as mayaUsdPlugin. File > Import offers a USD
+      Hierarchy View to scope the import and pick variants. Materials can be left as-is or converted to Standard
+      Surface, Lambert, USD Preview Surface, Blinn or Phong. Instanced prims become Maya instances, and the
+      mayaUSDImport command exposes the same options.
+    gaps:
+      - Only one variant per variant set can be chosen for an import.
+      - The point-based animation cache option only works for Mesh prims.
+      - Some animation types, such as time-varying curve points, are not imported.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/blob/dev/lib/mayaUsd/commands/Readme.md
+        title: maya-usd command documentation (mayaUSDImport / mayaUSDExport)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/GUID-8FB49D7F-8651-47CE-80FC-5C940E568C97.html
+        title: Install USD for Maya
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    via: maya-usd
+    notes: >-
+      Exports .usd, .usda or .usdc with options for meshes and subdivision schemes, component tags as GeomSubsets,
+      colour and UV sets as primvars, NURBS curves, skeletons, blend shapes, materials, time-sampled animation,
+      cameras, lights and visibility. Maya instances become instanceable references, and USD stages in the scene can
+      be written as references to their layers. Axis and unit conversion arrived in maya-usd 0.31.
+    gaps:
+      - Export writes one Maya scene to one USD file.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/blob/dev/lib/mayaUsd/commands/Readme.md
+        title: maya-usd command documentation (mayaUSDImport / mayaUSDExport)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.31.0 axis and units)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    via: maya-usd
+    notes: >-
+      mayaUSDExport writes .usdz packages that bundle textures and layers, with an appleArKit compatibility profile
+      that flattens to a single layer. On import, textures inside a USDZ archive are written out to the workspace's
+      sourceimages folder or a chosen directory.
+    gaps:
+      - The Export dialog docs say a typed .usdz extension is not supported, so USDZ output is documented for the command.
+      - Open bug #4273 reports wrong texture colour spaces when importing USDZ files.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/blob/dev/lib/mayaUsd/commands/Readme.md
+        title: maya-usd command documentation (mayaUSDImport / mayaUSDExport)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      The command docs describe .usdz export, but the Export options page says .usdz is not supported when typing a
+      file name. It is unclear whether the UI exposes USDZ export.
+
+  # ── Workflow ──────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    via: maya-usd
+    notes: >-
+      USD stages load into the viewport through a proxy shape and are edited in place from the Outliner, which can
+      add prims, activate, hide, set the default prim and mark prims instanceable. Edit as Maya Data pulls a prim
+      into Maya and caches the changes back to USD. Maya 2027 adds a Component Creator that builds a structured USD
+      asset from selected objects, optionally from a template.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-9FD37B6B-7559-4F9D-B393-3AAD9AB4F24B.html
+        title: USD for Maya, USD contextual menu in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-WhatsNew/files/GUID-93ED1C8E-AF46-4F5A-BC07-8B66C7C3D32E.htm
+        title: Maya 2027, New USD asset build workflows
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd
+        title: Autodesk/maya-usd README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    via: maya-usd
+    notes: >-
+      The USD Layer Editor sets the target layer for edits and can add anonymous sublayers, load file sublayers,
+      mute, lock and bulk-save layers, and pin a stage. A Layer Data View shows a layer's contents (0.34). maya-usd
+      0.37 adds sublayer merging and Edit Forwarding, a rules-based system that routes edits to the right layer, so
+      far only lightly exposed in the Layer Editor.
+    gaps:
+      - Edits to weaker layers in the stack are blocked.
+      - Locked layers cannot be targeted, and read-only layers get a limited set of options.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/GUID-4FAD73CA-E775-4009-9DCB-3BC6792C465E.html
+        title: USD for Maya, USD Layer Editor
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.37.0
+        title: maya-usd v0.37.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.34.0 Layer Data View)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    via: maya-usd
+    notes: >-
+      The USD importer and exporter list registered plug-in configurations (for example Arnold's export context).
+      maya-usd 0.34 added the Autodesk Asset Resolver, which handles tokens and environment variables in paths and can
+      be extended with custom URI resolvers, on Linux and Windows at first, with Mac support added in 0.34.5.
+    gaps:
+      - Open bug #4537 reports that studio asset resolvers stop working with maya-usd 0.34 and later.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.34.0 Asset Resolver)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/issues/4537
+        title: "maya-usd #4537: AdskAssetResolver disables our resolver"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      No page read describes loading arbitrary studio schemas or file-format plugins. This record rests on plug-in
+      configurations and the extensible resolver, and the open resolver bug undercuts it.
+
+  # ── Composition ───────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    via: maya-usd
+    notes: The Layer Editor creates anonymous sublayers and loads existing layer files as sublayers of a chosen layer.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/GUID-4FAD73CA-E775-4009-9DCB-3BC6792C465E.html
+        title: USD for Maya, USD Layer Editor
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    via: maya-usd
+    notes: >-
+      Add USD Reference/Payload in the Outliner authors a reference to a file's default prim or a chosen prim path,
+      prepended or appended. References can be reloaded (0.30) and cleared per edit target.
+    gaps:
+      - Referenced content shows in the viewport but not in the Outliner hierarchy.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-EDC40BE3-2112-46D5-9E31-B620C08C8DDE.html
+        title: USD for Maya, Add a reference in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-9FD37B6B-7559-4F9D-B393-3AAD9AB4F24B.html
+        title: USD for Maya, USD contextual menu in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: native
+    via: maya-usd
+    notes: >-
+      Payload arcs can be authored from the Outliner with an option to load them immediately. Prims with payloads can
+      be loaded or unloaded from the context menu, and maya-usd 0.27 (Maya 2025) added bulk load and unload.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-EDC40BE3-2112-46D5-9E31-B620C08C8DDE.html
+        title: USD for Maya, Add a reference in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-9FD37B6B-7559-4F9D-B393-3AAD9AB4F24B.html
+        title: USD for Maya, USD contextual menu in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/03/autodesk-releases-maya-2025-and-maya-creative-2025
+        title: CG Channel, "Autodesk releases Maya 2025 and Maya Creative 2025"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: native
+    via: maya-usd
+    notes: >-
+      The Outliner's Variant Sets submenu switches variants on a stage. Maya 2027 (maya-usd 0.35) adds a Variant
+      Manager to add, remove and edit variant sets in one place, and the Component Creator can build assets as
+      variants. maya-usd 0.37 lets the Variant Manager set prim purpose.
+    gaps:
+      - The importer brings in only one selected variant per variant set.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-USD/files/USD-for-Maya/USD-in-the-Maya-Interface/USD-data-in-the-Outliner/GUID-9FD37B6B-7559-4F9D-B393-3AAD9AB4F24B.html
+        title: USD for Maya, USD contextual menu in the Outliner
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-WhatsNew/files/GUID-93ED1C8E-AF46-4F5A-BC07-8B66C7C3D32E.htm
+        title: Maya 2027, New USD asset build workflows
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.37.0
+        title: maya-usd v0.37.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    via: maya-usd
+    notes: >-
+      Instanceable prims import as Maya instances, and Maya instances export as instanceable references by default.
+      The Outliner can mark or unmark prims as instanceable on a live stage.
+    gaps:
+      - Point instancers cannot be imported as Maya instancers (open request #3391).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/issues/3391
+        title: "maya-usd #3391: Allow mayaUSDImport command to import point instancer to maya instancer"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ─────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    via: maya-usd
+    notes: >-
+      Mesh export picks a subdivision scheme (Catmull-Clark by default, Bilinear, Loop or none) and writes component
+      tags as GeomSubsets and colour and UV sets as primvars. maya-usd 0.34 added import of left-handed meshes.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.34.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    via: maya-usd
+    notes: NURBS curves export as NurbsCurves or BasisCurves. maya-usd 0.35 fixed time-sample issues in curve export.
+    gaps:
+      - Time-varying curve points are not supported as imported animation.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/blob/dev/lib/mayaUsd/commands/Readme.md
+        title: maya-usd command documentation (mayaUSDImport / mayaUSDExport)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    via: maya-usd
+    notes: >-
+      Export writes time samples with frame step, multi-sample and Euler filter options, and import can read
+      animated transforms, visibility, cameras and blend shapes. USD animation curves (splines) arrived in maya-usd
+      0.32 for camera attributes (Maya 2026.1+). Light properties followed with USD 24.11+ and transforms with USD
+      25.05+ in 0.33.
+    gaps:
+      - Transform animation curves need the optional USD 25.05 build on Maya 2026.2 and later, since 24.11 is the default there.
+      - Open bug #3580 reports frame-rate mismatches when 25 fps animation is referenced into a stage without timeCodesPerSecond.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-7EC10AEA-7EEF-4CE2-8A3C-FDA50AA3D4F0.htm
+        title: What's New in USD for Maya (Maya 2026.1)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-5157FE90-8B78-4590-AF33-600E1E810AE6.htm
+        title: What's New in USD for Maya (Maya 2026.2)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/issues/3580
+        title: "maya-usd #3580: Maya USD Reference Animation 25 FPS time mismatch"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    via: maya-usd
+    notes: >-
+      Export writes joints as UsdSkel skeletons, skinClusters as skinning and blend shapes as USD blendShapes. Import
+      rebuilds joint hierarchies, bind poses and skinClusters, and blend shapes come in as Maya blend shapes (faster
+      from maya-usd 0.35).
+    gaps:
+      - Blend shape export requires skeleton export to be on.
+      - On import, skinClusters are only created for mesh prims.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/blob/dev/lib/mayaUsd/fileio/translators/translatorSkel.h
+        title: maya-usd translatorSkel.h (UsdSkel import translator)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases/tag/v0.35.0
+        title: maya-usd v0.35.0 release
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    via: maya-usd
+    notes: >-
+      Cameras export and import, including camera attribute animation curves from Maya 2026.1. Standard viewport
+      controls work when looking through a USD camera (Maya 2025.3+), and the Render Sequencer accepts USD cameras
+      (Maya 2026+).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-7EC10AEA-7EEF-4CE2-8A3C-FDA50AA3D4F0.htm
+        title: What's New in USD for Maya (Maya 2026.1)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.30.0, v0.31.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    via: maya-usd
+    notes: >-
+      Scene lights export, and standard USD lights get viewport shapes (Maya 2025.3+). Light linking and collections
+      are edited in the Attribute Editor (0.31), and RectLight lighting and shadows draw in Maya 2026.3+ (0.34).
+    gaps:
+      - maya-usd 0.32 dropped USD light shading in Viewport 2.0 for Maya 2026, and 0.33 restored it for Maya 2026.2 and later.
+      - Light linking with expression-based collections does not work with MtoA 5.4.x or older.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.30.0 to v0.34.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ───────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    via: maya-usd
+    notes: >-
+      USD Preview Surface is an export target and an import conversion option. It was the default export target
+      until maya-usd 0.34 made MaterialX the default for new installs.
+    gaps:
+      - Open bug #4273 reports USD Preview Surface textures from USDZ files imported with the wrong colour spaces.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.34.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    via: maya-usd
+    notes: >-
+      The MaterialX shading export target writes bound shaders as a MaterialX UsdShade network, and it is the default
+      target from maya-usd 0.34. From 0.32, LookdevX MaterialX stacks bound to geometry export straight into the USD
+      shade graph, not as separate .mtlx files. Live stages can get MaterialX materials such as OpenPBR from Assign
+      New Material.
+    gaps:
+      - Per a maintainer on #4209, USD's MaterialX loader ignores node definitions embedded in a document.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.30.0, v0.32.0, v0.34.0)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://forum.aousd.org/t/usd-for-maya-and-max-updates/2500
+        title: AOUSD forum, "USD for Maya and Max Updates" (Autodesk staff, June 2025)
+        kind: forum
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/issues/4209
+        title: "maya-usd #4209: MaterialX mix_surfaceshader and nodedefs support"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    via: maya-usd
+    notes: >-
+      Besides UsdPreviewSurface and MaterialX, the exporter can write RenderMan for Maya shading networks. When MtoA
+      is loaded, an Arnold plug-in configuration adds Arnold data to the export so it renders standalone with kick.
+    gaps:
+      - Importing such a file back into Maya does not restore all the Arnold data.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-3A763D43-E626-4832-9824-57AAA9BC0A00.html
+        title: USD for Maya, USD Export options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Maya/files/am-Arnold_for_Maya_User_Guide/shapes/arnold_for_maya_shapes_am_USD_html.html
+        title: Arnold for Maya user guide, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Rendering ─────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: experimental
+    via: maya-hydra
+    notes: >-
+      Hydra for Maya (mayaHydra.mll) replaces the main viewport with a Hydra viewer using Storm or third-party render
+      delegates such as Arnold's. It is enabled from the Plug-in Manager, and its renderer shows as "(Technology
+      Preview) Hydra GL".
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/GUID-8FB49D7F-8651-47CE-80FC-5C940E568C97.html
+        title: Install USD for Maya
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-hydra
+        title: Autodesk/maya-hydra README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ─────────────────────────────────────────────────────────────
+  - capability: mtlx.authoring
+    level: native
+    notes: >-
+      LookdevX, Autodesk's look-development plugin, builds MaterialX graphs inside MaterialX Stacks
+      that can be assigned to native Maya geometry. LookdevX 2.0 ships with Maya 2027.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/LookdevX/files/LookdevX_for_Maya/Getting_Started_with_LookdevX/GUID-C5538D9F-612D-4735-BAA9-96C0104CCB22.html
+        title: LookdevX for Maya, Overview of the MaterialX data model
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-WhatsNew/files/GUID-D24D261B-4A78-47C2-918B-6EA461ADB002.htm
+        title: What's New in Maya 2027
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: native
+    since: "2026.2"
+    notes: >-
+      LookdevX 1.9 (Maya 2026.2) loads MaterialX documents into a MaterialX Stack. They stay linked to the file on
+      disk, so edits can be saved back, discarded or saved as a copy.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-26EA5B09-DA2E-4B71-9EA5-0391E4E5B8E8.htm
+        title: What's New in LookdevX for Maya (Maya 2026.2)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/LookdevX/files/LookdevX_for_Maya/Getting_Started_with_LookdevX/GUID-C5538D9F-612D-4735-BAA9-96C0104CCB22.html
+        title: LookdevX for Maya, Overview of the MaterialX data model
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: native
+    notes: >-
+      MaterialX Stacks and Documents export to .mtlx from the Outliner, with texture paths optionally relative to the
+      .mtlx file. Maya 2027 (LookdevX 2.0) adds relative paths to the scene or workspace, and Archive Scene now
+      bundles MaterialX files and their textures.
+    gaps:
+      - Archived scenes with absolute MaterialX paths may need manual repathing.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/LookdevX/files/LookdevX_for_Maya/Getting_Started_with_LookdevX/GUID-C5538D9F-612D-4735-BAA9-96C0104CCB22.html
+        title: LookdevX for Maya, Overview of the MaterialX data model
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-WhatsNew/files/GUID-6DA3C115-C004-48DB-9D84-90D19E42E358.htm
+        title: What's New in LookdevX for Maya (Maya 2027)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      LookdevX 1.9 added live node-preview swatches for MaterialX nodes. CG Channel reports that MtoA 5.4 (Maya 2025)
+      added support for MaterialX shader networks in LookdevX.
+    gaps:
+      - LookdevX docs say MaterialX does not support DirectX 11.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-26EA5B09-DA2E-4B71-9EA5-0391E4E5B8E8.htm
+        title: What's New in LookdevX for Maya (Maya 2026.2)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/03/autodesk-releases-maya-2025-and-maya-creative-2025
+        title: CG Channel, "Autodesk releases Maya 2025 and Maya Creative 2025"
+        kind: news
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/LookdevX/files/LookdevX_for_Maya/Getting_Started_with_LookdevX/GUID-C5538D9F-612D-4735-BAA9-96C0104CCB22.html
+        title: LookdevX for Maya, Overview of the MaterialX data model
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      No Autodesk page read says outright how MaterialX renders in Viewport 2.0. This rests on LookdevX node previews
+      and a news report about Arnold rendering LookdevX networks.
+
+  - capability: mtlx.color_management
+    level: native
+    since: "2026.2"
+    notes: >-
+      Maya's default OCIO config includes MaterialX colour spaces from 2026.2. LookdevX 1.10 (Maya 2026.3) shows
+      document, node-graph and node colour spaces, defaults new documents to ACEScg or the colour-management
+      preference, and writes a Raw colour space as "none".
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-26EA5B09-DA2E-4B71-9EA5-0391E4E5B8E8.htm
+        title: What's New in LookdevX for Maya (Maya 2026.2)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-559E830D-519F-4570-9D79-1A2A99001654.htm
+        title: What's New in LookdevX for Maya (Maya 2026.3)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.custom_nodes
+    level: partial
+    via: maya-usd
+    notes: >-
+      A maintainer on #4209 suggested putting custom node definitions in their own .mtlx files on
+      MATERIALX_SEARCH_PATH and PXR_MTLX_STDLIB_SEARCH_PATHS.
+    gaps:
+      - Node definitions embedded in a MaterialX document are not handled by USD's MaterialX loader in Maya.
+    sources:
+      - url: https://github.com/Autodesk/maya-usd/issues/4209
+        title: "maya-usd #4209: MaterialX mix_surfaceshader and nodedefs support"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: Based only on a maintainer comment in an issue thread. There are no official docs on custom node definitions in Maya.
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "2025.3"
+    notes: >-
+      OpenPBR Surface was added in Maya 2025.3 and became the default surface shader in Maya 2026, so every new scene
+      gets an openPBRSurface node. It previews in Hypershade with the hardware or Arnold renderer. On live USD stages,
+      Assign New Material offers an OpenPBR MaterialX shader (maya-usd 0.30, Maya 2025.3+).
+    gaps:
+      - Layer weights or colours above 1 break energy conservation.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-2B248BA3-CC49-4695-BE16-251D5725BEE1.htm
+        title: Maya 2026, Default surface shader OpenPBR
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/MayaCRE-LightingShading/files/GUID-E36FC183-D437-491B-8C48-5CBD4B3974FE.htm
+        title: OpenPBR Surface (Maya help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/03/autodesk-releases-maya-2026-and-maya-creative-2026/
+        title: CG Channel, "Autodesk releases Maya 2026 and Maya Creative 2026"
+        kind: news
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/releases
+        title: maya-usd releases (v0.30.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >-
+      Maya has a native Standard Surface shader, and the USD importer can convert materials to it. A maya-usd
+      maintainer points users to LookdevX's MaterialX Standard Surface alongside OpenPBR.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Maya-USD/files/USD-for-Maya/USD-import-export/GUID-65E19505-E27D-4477-BD7D-7C0F2BC0D328.html
+        title: USD for Maya, USD Import options
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/maya-usd/issues/4273
+        title: "maya-usd #4273: Maya USDZ Import Incorrectly Displays USD Preview Surface Material"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+issues:
+  - title: Autodesk Asset Resolver stops studio asset resolvers from loading
+    url: https://github.com/Autodesk/maya-usd/issues/4537
+    capability: usd.plugins
+    status: open
+    affects: maya-usd 0.34 and later
+    severity: major
+    verified: 2026-11-04
+
+  - title: MaterialX mix_surfaceshader inputs and embedded nodedefs fail to resolve in USD
+    url: https://github.com/Autodesk/maya-usd/issues/4209
+    capability: usd.shade.materialx
+    status: open
+    affects: Maya 2026, maya-usd 0.31.0
+    severity: major
+    verified: 2026-11-04
+
+  - title: USDZ import assigns wrong texture colour spaces to USD Preview Surface, breaking round-trips
+    url: https://github.com/Autodesk/maya-usd/issues/4273
+    capability: usd.usdz
+    status: open
+    affects: Maya 2026.1, maya-usd 0.32.0
+    severity: major
+    verified: 2026-11-04
+
+  - title: 25 fps animation referenced into a stage plays at the wrong frames
+    url: https://github.com/Autodesk/maya-usd/issues/3580
+    capability: usd.animation
+    status: open
+    affects: Maya 2024.2 (maya-usd 0.26.0) to Maya 2026.1
+    severity: major
+    verified: 2026-11-04
+
+  - title: Point instancers cannot be imported as Maya instancers
+    url: https://github.com/Autodesk/maya-usd/issues/3391
+    capability: usd.instancing
+    status: open
+    verified: 2026-11-04

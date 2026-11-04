@@ -1,0 +1,368 @@
+name: Cycles
+vendor: Blender Foundation
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: open-source
+website: https://www.cycles-renderer.org
+repo: blender/cycles
+tier: 1
+summary: >-
+  Blender's Apache-licensed path tracer, also buildable standalone and as an experimental Hydra render delegate
+  (hdCycles) for usdview and Houdini. The delegate reads UsdPreviewSurface and native Cycles shader networks; MaterialX
+  rendering is not implemented.
+
+releases:
+  - version: "5.2.0"
+    notes: >-
+      Standalone tag matching Blender 5.2. Building the Hydra delegate requires USD 25.11 or newer, or Houdini 21 or
+      newer. Cycles ships inside Blender, so the bundled USD/MaterialX versions are listed under Blender.
+    sources:
+      - url: https://github.com/blender/cycles/blob/v5.2.0/BUILDING.md
+        title: Cycles BUILDING.md at v5.2.0
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "5.1.0"
+    notes: Building the Hydra delegate requires USD 24.03 or newer, or Houdini 20 or newer with legacy libraries.
+    sources:
+      - url: https://github.com/blender/cycles/blob/v5.1.0/BUILDING.md
+        title: Cycles BUILDING.md at v5.1.0
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "5.0.0"
+    notes: Building the Hydra delegate requires USD 24.03 or newer, or Houdini 20 or newer with legacy libraries.
+    sources:
+      - url: https://github.com/blender/cycles/blob/v5.0.0/BUILDING.md
+        title: Cycles BUILDING.md at v5.0.0
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "4.5.0"
+    notes: Building the Hydra delegate requires USD 24.03 or newer, or Houdini 20 or newer with legacy libraries.
+    sources:
+      - url: https://github.com/blender/cycles/blob/v4.5.0/BUILDING.md
+        title: Cycles BUILDING.md at v4.5.0
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "4.4.0"
+    notes: >-
+      Building the Hydra delegate requires USD 24.03 or newer, or Houdini 20 or newer. Blender 4.4 also improved OSL
+      closure compatibility with MaterialX in Cycles.
+    sources:
+      - url: https://github.com/blender/cycles/blob/v4.4.0/BUILDING.md
+        title: Cycles BUILDING.md at v4.4.0
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/cycles/
+        title: Blender 4.4 release notes — Cycles
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Rendering ────────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: experimental
+    hosts: [houdini]
+    notes: >-
+      Cycles can be built as a Hydra render delegate (hdCycles) for usdview and other applications built on the USD
+      repository, and for Houdini using Houdini's own USD libraries. The tracking task describes the delegate as
+      experimental and also names Omniverse as an example Hydra host. CPU, CUDA, OptiX, HIP and Metal devices are listed
+      as working.
+    gaps:
+      - Must be built from source against the host's USD (USD 25.11+ or Houdini 21+ on current main).
+      - The tracking task says no official support is provided because of the experimental state.
+      - When built against the USD repository, OSL and NanoVDB support are disabled.
+      - Only basic AOVs (colour, depth, normal and IDs) are done; other and custom AOVs are open items.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/BUILDING.md
+        title: Cycles BUILDING.md
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/README.md
+        title: Cycles README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      When built with USD (on by default), the standalone Cycles application treats any non-XML scene file as USD,
+      opens it as a stage and renders it through its Hydra scene reader.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/app/cycles_standalone.cpp
+        title: Cycles standalone application source
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/file_reader.cpp
+        title: hdCycles file_reader.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/CMakeLists.txt
+        title: Cycles CMakeLists.txt (WITH_CYCLES_USD option)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Based on source code only; the standalone app is mostly a developer and testing tool, and inside Blender scenes
+      reach Cycles through Blender rather than USD.
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      The Hydra delegate maps UsdPreviewSurface, UsdUVTexture, UsdPrimvarReader and UsdTransform2d nodes to equivalent
+      Cycles shader nodes.
+    gaps:
+      - UDIM texture paths in UsdUVTexture are opened as literal file names (open issue).
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/material.cpp
+        title: hdCycles material.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/cycles/issues/77
+        title: "Hydra: UsdUVTexture UDIM paths are loaded as literal filenames (#77)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >-
+      The Hydra delegate reads native Cycles shader nodes embedded in UsdShade (cycles render context and cycles_ node
+      identifiers). The tracking task notes Cycles materials could be exported to USD from an experimental Blender
+      branch.
+    gaps:
+      - Blender's documented USD export options write UsdPreviewSurface or MaterialX networks, not Cycles-native ones.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/material.cpp
+        title: hdCycles material.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: none
+    notes: >-
+      The MaterialX integration design task marks both rendering MaterialX graphs directly in Cycles and mapping them
+      to Blender nodes for Cycles as missing, with no approved design. The Hydra delegate only requests the cycles
+      material render context. Blender 4.4 improved OSL closure compatibility with MaterialX.
+    sources:
+      - url: https://projects.blender.org/blender/blender/issues/158138
+        title: MaterialX Integration Overview (#158138)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/149490
+        title: "Cycles/Blender : MaterialX support (#149490)"
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/cycles/
+        title: Blender 4.4 release notes — Cycles
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      "None" rests on a developer design task's status chart and the delegate source, not a formal documentation
+      statement.
+
+  - capability: mtlx.openpbr
+    level: planned
+    notes: >-
+      Blender developers have decided to add an OpenPBR shading node as an alternative to Principled BSDF in a future
+      release, and a separate task plans OpenPBR support in the Cycles Hydra delegate via the MaterialX OpenPBR node.
+    sources:
+      - url: https://projects.blender.org/blender/blender/issues/156437
+        title: OpenPBR Support (#156437)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/156391
+        title: "OpenPBR: USD support (export/import/hdCycles) (#156391)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  # ── Scene description (Hydra delegate) ───────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      The delegate renders meshes with geometry subsets, subdivision surfaces (using Cycles' own subdivision) and custom
+      primvars converted to Cycles attributes.
+    sources:
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: The delegate supports BasisCurves prims.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    notes: The delegate renders Points prims as Cycles point clouds.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: The delegate renders OpenVDB volumes when Cycles is built with OpenVDB.
+    gaps:
+      - Builds against the USD repository disable NanoVDB.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/BUILDING.md
+        title: Cycles BUILDING.md
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >-
+      The delegate implements a Hydra instancer that reads instance translations, rotations, scales and transforms,
+      so point-instanced geometry renders as Cycles instances.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/instancer.cpp
+        title: hdCycles instancer.cpp
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: The delegate maps Hydra camera settings to Cycles cameras.
+    sources:
+      - url: https://projects.blender.org/blender/blender/issues/96731
+        title: Cycles Hydra Render Delegate (#96731)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      The delegate supports disk, distant, dome, rect and sphere lights, including exposure, normalize, shaping cones,
+      IES profiles, light textures and colour temperature.
+    gaps:
+      - Cylinder lights are ignored.
+      - Light spread and cone angles are capped at 180 degrees, while USD allows up to 360.
+    sources:
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/light.cpp
+        title: hdCycles light.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/blender/cycles/blob/main/src/hydra/render_delegate.cpp
+        title: hdCycles render_delegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/cycles/issues/89
+        title: "hdCycles: USDLux (State & Tracking) (#89)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "Hydra: UsdUVTexture UDIM paths are loaded as literal filenames (#77)"
+    url: https://projects.blender.org/blender/cycles/issues/77
+    capability: usd.shade.preview_surface
+    status: open
+    severity: major
+    verified: 2026-11-04
+
+  - title: "hdCycles: USDLux (State & Tracking) (#89)"
+    url: https://projects.blender.org/blender/cycles/issues/89
+    capability: usd.lights
+    status: open
+    verified: 2026-11-04
+
+  - title: "Failed to build render delegate for Houdini 21.0.512 (#37)"
+    url: https://projects.blender.org/blender/cycles/issues/37
+    capability: usd.hydra.delegate
+    status: open
+    affects: "Houdini 21.0.512 on macOS"
+    verified: 2026-11-04
+
+  - title: "Hydra Render Delegate: Verify PATH for Houdini (#12)"
+    url: https://projects.blender.org/blender/cycles/issues/12
+    capability: usd.hydra.delegate
+    status: open
+    severity: minor
+    verified: 2026-11-04

@@ -1,0 +1,24 @@
+name: Katana USD Plugins
+repo: TheFoundryVisionmongers/KatanaUsdPlugins
+tech: [usd]
+kind: plugin
+description: >-
+  Foundry's open-source branch of Pixar's original Katana USD plug-ins (UsdIn and related nodes and libraries).
+  Katana ships a build of them, and studios can fork and rebuild them against their own USD.
+license: Modified Apache 2.0
+hosts: [katana]
+tags: [dcc-plugin, importer]
+sources:
+  - url: https://github.com/TheFoundryVisionmongers/KatanaUsdPlugins
+    title: TheFoundryVisionmongers/KatanaUsdPlugins README
+    kind: repo
+    accessed: 2026-11-04
+  - url: https://raw.githubusercontent.com/TheFoundryVisionmongers/KatanaUsdPlugins/main/LICENSE.txt
+    title: KatanaUsdPlugins LICENSE.txt
+    kind: repo
+    accessed: 2026-11-04
+  - url: https://learn.foundry.com/katana/dev-guide/Plugins/KatanaUSDPlugins/GettingStarted.html
+    title: Katana Developer Guide — Katana USD Plug-ins, Getting Started
+    kind: docs
+    accessed: 2026-11-04
+verified: 2026-11-04

@@ -1,0 +1,14 @@
+name: Hydra for Maya
+repo: Autodesk/maya-hydra
+tech: [usd]
+kind: plugin
+description: Autodesk's Apache-licensed Maya plugin (mayaHydra) that replaces Maya's main viewport with a Hydra viewer using the Scene Index API, so Storm or third-party render delegates such as Arnold can draw the viewport. Labelled a technology preview.
+license: Apache-2.0
+hosts: [maya]
+tags: [dcc-plugin, hydra-host, viewport]
+sources:
+  - url: https://github.com/Autodesk/maya-hydra
+    title: Autodesk/maya-hydra README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

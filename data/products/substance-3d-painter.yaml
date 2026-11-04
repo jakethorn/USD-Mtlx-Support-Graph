@@ -1,0 +1,294 @@
+name: Substance 3D Painter
+vendor: Adobe
+categories: [texturing]
+industries: [games, film-tv, vfx, product-design]
+license: commercial
+website: https://www.adobe.com/products/substance3d/apps/painter.html
+tier: 1
+summary: >-
+  Adobe's 3D texture-painting application. Projects can be created from USD files, with scope, variant, subdivision
+  and frame options, and textures and materials export as USD or USDZ. OpenPBR 1.1 has been the default shader since
+  12.1; no native MaterialX export is documented.
+
+releases:
+  - version: "11.0.0"
+    date: 2025-03-11
+    notes: The 11.0 series moved OpenColorIO to 2.4.2 (11.0.3) and fixed multiple-UV-set and camera-name problems in USD import (11.0.2).
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "11.1.0"
+    date: 2025-11-18
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "12.0.0"
+    date: 2026-03-09
+    usd: "25.05"
+    notes: Updates the USD library to 25.05 (with Qt 6.8.6 and Python 3.13) and can open .geo.usd files in the new-project workflow.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0
+        title: Substance 3D Painter — Version 12.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "12.1.0"
+    date: 2026-06-23
+    notes: Adds OpenPBR 1.1 as the default workflow and shader, with OpenPBR import and export via USD.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-1
+        title: Substance 3D Painter — Version 12.1
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "12.2.0"
+    date: 2026-10-21
+    notes: Fixes USD export splitting geometry along UV borders and a freeze when loading malformed USDZ files.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-2
+        title: Substance 3D Painter — Version 12.2
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "8.3"
+    notes: >-
+      A project can be created from a USD file. The New Project window adds USD options (scope and variant, subdivision
+      level, animation frame), and each material on the model becomes a Texture Set. 10.1 imports material and shader
+      properties from USD, and 12.1 sets up OpenPBR projects from USD files that contain OpenPBR materials.
+    gaps:
+      - Painter textures a single frame of an animated USD file rather than its animation.
+      - Some USD shapes are rejected at project creation as unsupported.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/features/universal-scene-description-usd
+        title: Substance 3D Painter — Universal Scene Description (USD)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/getting-started/project-creation
+        title: Substance 3D Painter — Project creation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    notes: >-
+      The Export USD asset option in the Export Textures window (added in 8.3) writes the texture maps, a .usda that
+      points to them, and optionally a .usd combining the materials with the mesh and a .usd of the project mesh. It
+      follows whatever output template is chosen; USD is also a mesh-only export format. 10.1 added export of a USD
+      layer with an ASM material and 12.1 export of OpenPBR materials. Earlier versions exported USD through the
+      "USD PBR Metal Roughness" template, now named USDz (Apple AR).
+    gaps:
+      - The docs do not say which shading model (UsdPreviewSurface, MaterialX or other) the exported USD material uses.
+      - The project mesh is only written when the source mesh is not already USD or Painter generated the UVs.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/export/export-window/export-settings
+        title: Substance 3D Painter — Export settings
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/features/universal-scene-description-usd
+        title: Substance 3D Painter — Universal Scene Description (USD)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "2018.3.2"
+    notes: >-
+      The USDz (Apple AR) output template writes base colour, metallic, normal, occlusion and roughness maps plus a
+      .usdc and a .usdz file for Apple AR apps. The product page lists .usdz among supported mesh formats, and 12.2.0
+      fixed a freeze when loading malformed USDZ files.
+    gaps:
+      - Adobe recommends the Export USD asset option, not the USDz template, when using a custom output template.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/export/output-templates/default-output-templates/usd-pbr-metal-roughness-preset
+        title: Substance 3D Painter — USDz (Apple AR) predefined template
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.adobe.com/products/substance3d/apps/painter.html
+        title: Substance 3D Painter product page (FAQ)
+        kind: other
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.variants
+    level: partial
+    since: "8.3"
+    notes: A Scope and Variants window at project creation picks the part of the file and the variant to texture; it can be changed later in Project configuration.
+    gaps:
+      - Only the modeling variant selection affects the project.
+      - Variants nested inside other variants are not detected.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/getting-started/project-creation
+        title: Substance 3D Painter — Project creation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    since: "8.3"
+    notes: >-
+      USD meshes can be subdivided to a chosen level for texturing (after UV unwrapping, so UV shapes are kept); the
+      option is greyed out when the file sets subdivision to none. 11.0.2 fixed multiple-UV-set handling for USD meshes.
+    gaps:
+      - Before 12.2.0, exported USD geometry was split along UV borders.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/getting-started/project-creation
+        title: Substance 3D Painter — Project creation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: partial
+    since: "8.3"
+    notes: USD skinned meshes are imported posed at a chosen frame, which can be changed later in Project configuration.
+    gaps:
+      - Skinned meshes are textured at a single chosen frame.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/getting-started/project-creation
+        title: Substance 3D Painter — Project creation
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: Cameras in the imported mesh file become visualization presets; 11.0.2 fixed same-named USD cameras overriding each other.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/getting-started/project-creation
+        title: Substance 3D Painter — Project creation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+        title: Substance 3D Painter — All Changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ────────────────────────────────────────────────────────────────
+  - capability: usd.shade.materialx
+    level: plugin
+    via: sp-usd-creator
+    notes: >-
+      The community SP USD Creator plugin (Painter 8.3 or later) publishes a layered USD component whose material
+      layer can use MaterialX Standard Surface or MaterialX OpenPBR networks, as well as UsdPreviewSurface or Arnold
+      shaders. Adobe's own docs don't say whether Painter's native USD export writes MaterialX.
+    gaps:
+      - The prim path is fixed to /Asset and textures are matched by filename tokens.
+    sources:
+      - url: https://ahmed-hindy.github.io/Substance-Painter-Usd-Creator/user_guide.html
+        title: SP USD Creator — User Guide
+        kind: docs
+        accessed: 2026-11-04
+    confidence: low
+    verified: 2026-11-04
+
+  # ── MaterialX shading models ───────────────────────────────────────────────
+  - capability: mtlx.openpbr
+    level: native
+    since: "12.1"
+    notes: >-
+      A shader implementing OpenPBR 1.1 is the default for new projects without a template, with dedicated OpenPBR
+      templates, an OpenPBR texture-naming option in Export Textures, and OpenPBR material import and export via USD.
+      Older ASM projects keep their shader and must be migrated by hand.
+    gaps:
+      - Custom shaders may need updating because the shader API changed for OpenPBR.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-1
+        title: Substance 3D Painter — Version 12.1
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d/general-knowledge/openpbr/openpbr-faq
+        title: Substance 3D — OpenPBR frequently asked questions
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: Python-triggered USD export (from a TextureStateEvent) can crash Painter
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+    capability: usd.export
+    status: unknown
+    affects: "9.1.0–11.1.1 (listed as a known issue)"
+    severity: major
+    verified: 2026-11-04
+
+  - title: Exported USD with an opacity map renders fully transparent in Arnold
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-2
+    capability: usd.export
+    status: unknown
+    affects: "12.2.0"
+    verified: 2026-11-04
+    review: The 12.2.0 notes list this under "Added" rather than "Fixed", so it is unclear whether it is resolved.
+
+  - title: Exported USD geometry is split along UV borders
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-2
+    capability: usd.export
+    status: fixed
+    fixedIn: "12.2.0"
+    verified: 2026-11-04
+
+  - title: EXR textures were forced to sRGB instead of linear when importing USD files
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0
+    capability: usd.import
+    status: fixed
+    fixedIn: "12.0.0"
+    verified: 2026-11-04
+
+  - title: A USD mesh with no material could crash Painter on import
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes
+    capability: usd.import
+    status: fixed
+    fixedIn: "12.0.2"
+    severity: major
+    verified: 2026-11-04

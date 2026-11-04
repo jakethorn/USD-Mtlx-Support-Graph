@@ -120,10 +120,10 @@ const versionHint = 'versions are quoted strings, e.g. "24.08" (unquoted 24.10 b
 /** A product's own version, e.g. "20.5", "2025.1", "5.4". */
 export const versionSchema = z.string({ error: versionHint }).min(1);
 
-/** OpenUSD release, e.g. "24.08" or "25.05.01". */
+/** OpenUSD release, e.g. "24.08", "25.05.01" or a lettered hotfix like "25.02a". */
 export const usdVersionSchema = z
   .string({ error: versionHint })
-  .regex(/^\d{2}\.\d{2}(\.\d{1,2})?$/, 'USD versions look like "24.08" or "25.05.01"');
+  .regex(/^\d{2}\.\d{2}(\.\d{1,2})?[a-z]?$/, 'USD versions look like "24.08", "25.05.01" or "25.02a"');
 
 /** MaterialX release, e.g. "1.39.3". */
 export const mtlxVersionSchema = z

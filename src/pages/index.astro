@@ -5,7 +5,7 @@
  */
 import Base from '../layouts/Base.astro';
 import { loadData } from '../lib/data';
-import { TECHS, PRODUCT_CATEGORIES } from '../data/schema';
+import { TECHS, PRODUCT_CATEGORIES, SUPPORT_LEVELS } from '../data/schema';
 import { materialxNodes, releases, usdSchemas } from '../data/generated';
 import { withBase } from '../lib/url';
 
@@ -186,6 +186,10 @@ const stats = [
 
   <section class="container">
     <h2>Products so far</h2>
+    <p class="muted">
+      Open a product to see every record and its sources. Records with conflicting or indirect evidence are collected on
+      the <a href={withBase('review/')}>Needs review</a> page.
+    </p>
     {
       byCategory.map((g) => (
         <div class="category">
@@ -194,25 +198,34 @@ const stats = [
             {g.items.map((p) => (
               <article class="product">
                 <header>
-                  <a href={p.website} rel="noopener">
-                    {p.name}
-                  </a>
+                  <a href={withBase(`products/${p.id}/`)}>{p.name}</a>
                   <span class="muted vendor">{p.vendor}</span>
                 </header>
                 {p.support.length === 0 ? (
                   <p class="muted pending">Research pending</p>
                 ) : (
                   <ul class="records" role="list">
-                    {p.support.map((s) => (
-                      <li>
-                        <span class={`level level-${s.level}`}>{s.level}</span>
-                        <span>{capabilityById.get(s.capability)?.label ?? s.capability}</span>
-                        {s.since && <span class="muted">since {s.since}</span>}
-                        <a class="src" href={s.sources[0].url} rel="noopener" title={s.sources[0].title ?? 'Source'}>
-                          source
-                        </a>
+                    {TECHS.map((tech) => {
+                      const recs = p.support.filter((s) => capabilityById.get(s.capability)?.tech === tech);
+                      const byLevel = SUPPORT_LEVELS.map((l) => [l, recs.filter((s) => s.level === l).length] as const).filter(([, n]) => n > 0);
+                      return (
+                        recs.length > 0 && (
+                          <li>
+                            <span class="tech-name">{techLabel[tech]}</span>
+                            {byLevel.map(([l, n]) => (
+                              <span class={`level level-${l}`} title={`${n} ${l}`}>
+                                {n} {l}
+                              </span>
+                            ))}
+                          </li>
+                        )
+                      );
+                    })}
+                    {p.support.some((s) => s.review || s.confidence === 'low') && (
+                      <li class="muted flag-note">
+                        {p.support.filter((s) => s.review || s.confidence === 'low').length} flagged for review
                       </li>
-                    ))}
+                    )}
                   </ul>
                 )}
               </article>
@@ -398,8 +411,12 @@ const stats = [
   .level-planned { --level-color: var(--level-planned); }
   .level-deprecated { --level-color: var(--level-deprecated); }
   .level-none { --level-color: var(--level-none); }
-  .src {
-    margin-left: auto;
+  .tech-name {
+    min-width: 76px;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .flag-note {
     font-size: 0.8rem;
   }
   .facts {

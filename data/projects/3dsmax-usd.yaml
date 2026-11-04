@@ -1,0 +1,17 @@
+name: USD for 3ds Max
+repo: Autodesk/3dsmax-usd
+tech: [usd, materialx]
+kind: plugin
+description: Autodesk's open-source USD component for 3ds Max, with USD import and export, live USD stages in the viewport, a USD Explorer and Layer Editor, and a MaterialX material. Bundled with the 3ds Max installer since 3ds Max 2026.
+hosts: [3ds-max]
+tags: [dcc-plugin]
+sources:
+  - url: https://github.com/Autodesk/3dsmax-usd
+    title: Autodesk/3dsmax-usd README
+    kind: repo
+    accessed: 2026-11-04
+  - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+    title: USD for 3ds Max 0.10 Release Notes
+    kind: release-notes
+    accessed: 2026-11-04
+verified: 2026-11-04

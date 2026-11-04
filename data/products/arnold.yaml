@@ -1,0 +1,598 @@
+name: Arnold
+vendor: Autodesk
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.autodesk.com/products/arnold/overview
+tier: 1
+summary: >-
+  Autodesk's production renderer. USD support comes from the open-source arnold-usd project, which provides a Hydra
+  delegate shipped with HtoA, MtoA and KtoA, a USD procedural and a USD writer. Arnold renders MaterialX and has a
+  native OpenPBR shader.
+
+releases:
+  - version: "7.5.0.0"
+    date: 2026-03-25
+    usd: "25.11"
+    notes: >-
+      Arnold USD moved to USD 25.11, which arnold-usd 7.4.5.0 had already supported. Includes OpenColorIO 2.5.1. Arnold
+      now ignores UsdGeom doubleSided by default and uses primvars:arnold:sidedness instead. It ships in Maya 2027 via
+      MtoA 5.6.0. The MaterialX version is not stated.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7500_html.html
+        title: Arnold 7.5.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=174872
+        title: CG Channel, "Maya 2027 is out" (25 March 2026)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "7.4.3.0"
+    date: 2025-07-25
+    usd: "25.05"
+    materialx: "1.39.3"
+    notes: >-
+      Arnold USD moved to USD 25.05, and MaterialX was upgraded from 1.38.10 to 1.39.3. OCIO aliases such as
+      srgb_texture became usable as input colour spaces.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7430_html.html
+        title: Arnold 7.4.3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.4.0.0"
+    date: 2025-03-26
+    usd: "24.11"
+    materialx: "1.38.10"
+    notes: >-
+      The USD procedural moved to USD 24.11. MaterialX moved to "1.38.10-OpenPBR", which adds the OpenPBR MaterialX
+      node. OpenColorIO was updated to 2.4.1.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7400_html.html
+        title: Arnold 7.4.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.3.3.0"
+    date: 2024-07-24
+    notes: Added the openpbr_surface shader, which implements the OpenPBR specification.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7330_html.html
+        title: Arnold 7.3.3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.3.0.0"
+    date: 2024-03-27
+    materialx: "1.38.8"
+    notes: Arnold could now render MaterialX node graphs that mix in the standard library, and moved to MaterialX 1.38.8.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-whats-new-cards/arnold_user_guide_ac_wn_73_materialx_html.html
+        title: Arnold 7.3 what's new, Improved MaterialX support
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Rendering ─────────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: native
+    via: arnold-usd
+    hosts: [houdini, maya, katana]
+    notes: >-
+      The Arnold Hydra delegate comes with the Houdini and Maya plugins and renders interactively in Solaris and in
+      Maya's Hydra viewport. It also batch-renders through Houdini's husk. KtoA ships Arnold-USD components for
+      Katana's Hydra viewport, and the delegate works in usdview. It handles meshes, curves, points, volumes,
+      UsdLux lights, point instancers, UsdSkel, render settings and render vars. A Hydra 2 scene index plugin can
+      also be built.
+    gaps:
+      - UsdPreviewSurface normal maps are not supported in the delegate.
+      - Only converged renders are supported, so a viewport cannot block until a render finishes.
+      - Face-varying primvars are not interpolated correctly.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Katana/files/arnold_for_katana_usd_html.html
+        title: Arnold for Katana, Introduction to Arnold USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Katana/files/getting-started/arnold_for_katana_getting_started_ka_Installation_html.html
+        title: Arnold for Katana, Installation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/docs/building.md
+        title: arnold-usd building docs
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    via: arnold-usd
+    notes: >-
+      The delegate reads render settings and render vars, including raw, primvar and LPE types, deep products and
+      per-var Arnold filters. The procedural reads UsdRender. Arnold options have been written as UsdRenderSettings
+      since 7.3.1.0. RenderPass prims came in 7.4.4.0, and renderingColorSpace plus sequence rendering with Hydra 2
+      settings in 7.5.4.0.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Interchange ───────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    via: arnold-usd
+    notes: >-
+      The Arnold USD procedural reads USD files much like the Alembic and .ass procedurals, independently of Hydra,
+      and kick can render a .usd file directly. In MtoA, a Hydra option routes the translation of USD stand-ins through Hydra, so
+      results match the render delegate.
+    gaps:
+      - The procedural does not support NURBS.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Houdini/files/solaris/arnold_for_houdini_solaris_ah_Solaris_FAQ_html.html
+        title: Arnold for Houdini, Solaris FAQ
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Maya/files/am-Arnold_for_Maya_User_Guide/shapes/arnold_for_maya_shapes_am_USD_html.html
+        title: Arnold for Maya user guide, USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Katana/files/arnold_for_katana_usd_html.html
+        title: Arnold for Katana, Introduction to Arnold USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    via: arnold-usd
+    notes: >-
+      Arnold scenes can be written to USD, for example with Export All/Selection to USD in MtoA, and rendered
+      standalone with kick. The writer authors upAxis and metersPerUnit (7.5.3.0) and can write render output nodes
+      (7.4.5.0).
+    gaps:
+      - Importing an Arnold-exported USD file back into Maya does not restore all Arnold data.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Maya/files/am-Arnold_for_Maya_User_Guide/shapes/arnold_for_maya_shapes_am_USD_html.html
+        title: Arnold for Maya user guide, USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/releases
+        title: arnold-usd releases
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ─────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    via: arnold-usd
+    notes: >-
+      Meshes come through with all primvars, UVs, normals, displayColor and subdivision settings. holeIndices
+      on non-subdivided meshes arrived in 7.5.2.0. From 7.5.0.0 Arnold ignores UsdGeom doubleSided in favour of
+      primvars:arnold:sidedness, and the usd_override_double_sided option restores the old behaviour.
+    gaps:
+      - Face-varying primvars are not interpolated correctly in the delegate.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7500_html.html
+        title: Arnold 7.5.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    via: arnold-usd
+    notes: >-
+      Basis curves render in both the delegate (with UV and normal remapping) and the procedural. Skinning on USD
+      curves came in 7.3.3.0.
+    gaps:
+      - Basis primvars on curves are ignored, and periodic and pinned curves are unsupported in the delegate.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    via: arnold-usd
+    notes: >-
+      Points render in the delegate and the procedural, with motion vectors from velocities. From 7.5.4.0, OpenVDB
+      points grids render as Arnold points.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    via: arnold-usd
+    notes: Volumes backed by OpenVDB assets render in the delegate and the procedural. VDB fieldIndex was added in 7.4.5.0.
+    gaps:
+      - Field3D volume grids are not supported.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    via: arnold-usd
+    notes: >-
+      Point instancers render in both the delegate and the procedural, including nested instancers and instanced
+      volumes. 7.4.5.0 added lightweight instancing in the delegate, and HDARNOLD_FLATTEN_INSTANCING (7.5.3.0) can
+      turn it off.
+    gaps:
+      - Prototypes are not named deterministically, which can make Cryptomatte flicker and shader seeds vary per frame (#2321).
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/issues/2321
+        title: "arnold-usd #2321: Prototypes are randomly assigned different shaders"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    via: arnold-usd
+    notes: >-
+      Time samples drive deformation and transformation motion blur in the delegate. The procedural can read
+      multiple frames from one file.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    via: arnold-usd
+    notes: >-
+      UsdSkel is supported in the delegate and the procedural. 7.5.0.0 removed the scene index's dependency on
+      usdSkelImaging.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    via: arnold-usd
+    notes: >-
+      USD cameras render through the procedural and perspective cameras through the delegate. Since 7.3.5.0,
+      Arnold-specific cameras also work in Hydra.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    via: arnold-usd
+    notes: >-
+      The delegate supports distant, sphere, disk, rect, cylinder and dome lights with shaping, light linking and
+      shadow linking. The procedural also reads geometry lights and textured dome, rect and geometry lights.
+      MeshLightAPI came in 7.4.4.0, and shaping attributes and IES profiles on all lights in 7.5.2.0.
+    gaps:
+      - Per #2734, HtoA ships with the Arnold USDLux version set to none, so shaping parameters such as spotlights do nothing until an Arnold Setup LOP changes it.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/issues/2734
+        title: "arnold-usd #2734: Houdini 22 HtoA 6.5.3.2 - USDLuxLight spotlight doesn't work at all"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ───────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    via: arnold-usd
+    notes: >-
+      UsdPreviewSurface, primvar readers, UsdUVTexture and USD transform nodes are translated by the procedural and
+      the delegate, with per-channel connections through adapter nodes.
+    gaps:
+      - Normal maps on UsdPreviewSurface are not supported in the delegate.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    via: arnold-usd
+    notes: >-
+      Arnold shaders can be authored as UsdShade nodes picked by shader ID, and any extra Arnold parameter can be set
+      as an attribute. A node registry plugin registers Sdr nodes for built-in and custom Arnold shaders.
+      ArnoldNodeGraph works in referenced USD files from 7.5.2.0.
+    gaps:
+      - The node registry does not register shapes, lights, filters, drivers or the options node, and does not convert metadata.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd
+        title: Autodesk/arnold-usd README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    via: arnold-usd
+    notes: >-
+      The arnold-usd changelog covers MaterialX networks in USD: custom USD MaterialX shaders of any type (7.2.4.0),
+      MaterialX colour spaces in Hydra (7.3.5.0), and fixes for triplanar, textures through mayaHydra and boolean
+      shaders. Arnold 7.5.1.2 fixed an error when assigning a MaterialX shader to a USD prim.
+    gaps:
+      - Open bug #2639 reports Solaris MaterialX image colour-space settings not being respected by Arnold.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7512_html.html
+        title: Arnold 7.5.1.2 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/issues/2639
+        title: "arnold-usd #2639: Arnold USD/Solaris MaterialX vs Arnold Material Builder image color-space setting not respected"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Support is inferred from changelog entries and fixes. No page read describes MaterialX-in-USD support or its
+      limits as a feature.
+
+  # ── MaterialX ─────────────────────────────────────────────────────────────
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      Arnold renders MaterialX materials natively and, since 7.3.0.0, node graphs that mix in the MaterialX standard
+      library. The API loads a document's materials into an Arnold universe.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-whats-new-cards/arnold_user_guide_ac_wn_73_materialx_html.html
+        title: Arnold 7.3 what's new, Improved MaterialX support
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: Arnold API reference, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: native
+    notes: >-
+      The MaterialX API lists a .mtlx document's looks and materials and reads them into Arnold shader networks, with
+      options to pick a material, prefix shader names and expand relative paths.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: Arnold API reference, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: native
+    notes: AiMaterialxWrite generates a MaterialX document, with a named look, from an Arnold scene.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: Arnold API reference, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.custom_nodes
+    level: native
+    notes: >-
+      Arnold looks for MaterialX node definitions in its own materialx folder and in any folder listed in
+      ARNOLD_MATERIALX_NODE_DEFINITIONS. arnold-usd 7.2.4.0 added support for custom MaterialX node definitions placed
+      in a folder.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: Arnold API reference, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.color_management
+    level: native
+    notes: >-
+      MaterialX shader nodes default to an "auto" colour space (arnold-usd 7.2.1.1), and MaterialX colour spaces are
+      honoured in Hydra from 7.3.5.0. Since 7.4.3.0, OCIO aliases such as srgb_texture work as input colour spaces.
+    gaps:
+      - Open bug #2639 reports Solaris MaterialX image colour-space settings not changing Arnold's interpretation.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
+        title: arnold-usd CHANGELOG
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7430_html.html
+        title: Arnold 7.4.3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/arnold-usd/issues/2639
+        title: "arnold-usd #2639: Arnold USD/Solaris MaterialX vs Arnold Material Builder image color-space setting not respected"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "7.3.3.0"
+    notes: >-
+      Arnold 7.3.3.0 added openpbr_surface, which implements the OpenPBR specification. 7.3.4.1 fixed
+      open_pbr_surface in Arnold's MaterialX implementation, and 7.4.0.0 moved to MaterialX 1.38.10-OpenPBR with the
+      OpenPBR MaterialX node. 7.4.3.0 made the metal lobe energy-conserving.
+    gaps:
+      - Layer weights or colours above 1 break energy conservation.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7330_html.html
+        title: Arnold 7.3.3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7341_html.html
+        title: Arnold 7.3.4.1 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7400_html.html
+        title: Arnold 7.4.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-shading/ac-surface-shaders/arnold_user_guide_ac_surface_shaders_ac_open_pbr_html.html
+        title: Arnold user guide, OpenPBR Surface
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >-
+      Arnold has a Standard Surface shader, and its release notes describe OpenPBR Surface as an evolution of Standard
+      Surface.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-shading/ac-surface-shaders/arnold_user_guide_ac_surface_shaders_ac_standard_surface_html.html
+        title: Arnold user guide, Standard Surface
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7330_html.html
+        title: Arnold 7.3.3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      The Standard Surface page does not name the Autodesk Standard Surface specification or the MaterialX
+      standard_surface node. Their equivalence is assumed, not stated.
+
+issues:
+  - title: USDLux shaping parameters (spotlights, IES) do nothing in Solaris unless the Arnold USDLux version is changed
+    url: https://github.com/Autodesk/arnold-usd/issues/2734
+    capability: usd.lights
+    status: open
+    affects: Houdini 22, HtoA 6.5.3.2
+    severity: major
+    verified: 2026-11-04
+
+  - title: Solaris MaterialX image colour-space setting not respected, so MaterialX and Arnold materials render differently
+    url: https://github.com/Autodesk/arnold-usd/issues/2639
+    capability: mtlx.color_management
+    status: open
+    affects: HtoA 6.5.1.1, Houdini 21.0
+    severity: major
+    verified: 2026-11-04
+
+  - title: Prototypes under nested instancers get different shaders between frames
+    url: https://github.com/Autodesk/arnold-usd/issues/2321
+    capability: usd.instancing
+    status: open
+    affects: Arnold 7.4.2, Houdini 20.5
+    severity: major
+    verified: 2026-11-04
+
+  - title: USD area-light falloff, luminance and colour temperature render differently from other engines
+    url: https://github.com/Autodesk/arnold-usd/issues/2637
+    capability: usd.lights
+    status: open
+    affects: HtoA 6.5.1.1, Houdini 21.0
+    verified: 2026-11-04
+    review: No maintainer response yet. It is unclear whether this is a bug or a deliberate interpretation of UsdLux.

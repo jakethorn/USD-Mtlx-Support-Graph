@@ -51,6 +51,7 @@ npm install
 npm run dev        # http://localhost:4321/USD-Mtlx-Support-Graph/
 npm run validate   # schema, cross-reference and hygiene checks for /data
 npm run review     # same, plus the list of records needing human review
+npm run check:links  # check every cited source URL still resolves
 npm run check      # type check
 npm run build      # static site → dist/
 npm run ingest     # refresh data/generated/ from upstream (set GITHUB_TOKEN for the GitHub API)
@@ -66,5 +67,6 @@ commits and deploys any changes.
 
 ## Contributing
 
+How support records are researched and sourced is described in the [research guide](docs/research-guide.md).
 Spotted something wrong or missing? [Open an issue](https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues) with a
 link to a source, or edit the product's YAML file and open a pull request. CI validates every change.

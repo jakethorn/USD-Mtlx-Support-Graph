@@ -1,0 +1,320 @@
+name: RenderMan
+vendor: Pixar
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://renderman.pixar.com
+tier: 1
+
+releases:
+  - version: "27.3"
+    date: "2026-07"
+    notes: Adds native MaterialX BSDF, uniform EDF and combiner evaluation to XPU through hdPrman in Solaris, and faster MaterialX ingestion in hdPrman. Pixar does not state a bundled USD or MaterialX version.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2026/07/pixar-releases-renderman-27-3/
+        title: Pixar releases RenderMan 27.3 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "27.2"
+    date: "2026-02"
+    notes: Lama layering fixes; RenderMan for Katana adds Katana 8.5 and 9.0, and render passes work in Solaris for Houdini 21+.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/726761480.md
+        title: RenderMan 27.2 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=174274
+        title: Pixar releases RenderMan 27.2 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "27.1"
+    date: "2025-12"
+    notes: XPU Lama gains coating support; hdPrman sets frame numbers automatically with USD 25.05, and USD plugins move to the dso folder.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/697499649.md
+        title: RenderMan 27.1 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=172507
+        title: Pixar releases RenderMan 27.1 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "27.0"
+    date: "2025-11"
+    notes: XPU declared ready for final frames and RIS slated for future deprecation; MaterialX Lama is early access in XPU. Pixar cites VFX Reference Platform 2024 compliance but no USD version.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542238759.md
+        title: RenderMan 27.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=170470
+        title: Pixar releases RenderMan 27 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "26.0"
+    date: "2024-04-08"
+    sources:
+      - url: https://renderman.pixar.com/news/pixar-animation-studios-releases-renderman-26
+        title: Pixar Animation Studios releases RenderMan 26
+        kind: news
+        accessed: 2026-11-04
+
+support:
+  # ── Rendering ───────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini, katana]
+    notes: >-
+      RenderMan's Hydra delegate, hdPrman, ships with RenderMan for Houdini, where it drives interactive rendering in
+      the Solaris viewport and husk, and with RenderMan for Katana, where it is a Viewer render delegate (Katana 5.0+
+      with RenderMan 26.0+) offering RIS, XPU-CPU, XPU-GPU and XPU variants. hdPrman's source lives in the OpenUSD
+      repository and needs RenderMan 25.0 or newer to build.
+    gaps:
+      - In Solaris, NURBS and implicit geometry are not supported.
+      - "The Katana Viewer delegate lacks light mute/solo, mesh and portal lights, RenderMan render options, integrators and filters, NURBS, volumes, light linking, light filters and displacement."
+      - XPU is not supported on macOS and its GPU mode needs an NVIDIA Pascal-or-later card.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/544640429.md
+        title: RenderMan for Houdini 27 — Solaris
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/544640480.md
+        title: RenderMan for Houdini 27 — Solaris Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFK27/546177441.md
+        title: RenderMan for Katana 27 — hdPrman in Katana
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://openusd.org/release/plugins_renderman.html
+        title: OpenUSD — RenderMan USD Imaging Plugin
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236871.md
+        title: RenderMan 27 — XPU Technical Specifications
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    notes: >-
+      hdPrman supports the Hydra renderSettings prim (with USD 23.08+). In Solaris, the RenderMan Render Settings LOP
+      creates and connects RenderSettings, RenderProduct and RenderVar prims, and the RenderMan Render Vars LOP defines
+      common RenderMan AOVs; the render settings prim can also reference an integrator and display or sample filters.
+    gaps:
+      - Some RenderMan ROP options are handled by RfH but not by hdPrman in Solaris.
+      - The Katana Viewer delegate does not support RenderMan options, integrators, display/sample filters or projections.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/634748959.md
+        title: RenderMan for Houdini 27 — RenderMan Render Settings
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/544641753.md
+        title: RenderMan for Houdini 27 — Solaris Render Settings
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/PixarAnimationStudios/OpenUSD/blob/release/third_party/renderman/plugin/hdPrman/renderDelegate.cpp
+        title: OpenUSD — hdPrman renderDelegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFK27/546177441.md
+        title: RenderMan for Katana 27 — hdPrman in Katana
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      hdPrman supports the UsdLux light types (distant, dome, rect, disk, cylinder, sphere, mesh and plugin lights) and
+      light filters. XPU supports analytic lights, mesh lights, light filters and light linking.
+    gaps:
+      - XPU does not support mesh lights on volumes or manifold next-event estimation, and scales less well than RIS to hundreds of lights.
+      - The Katana Viewer delegate lacks mesh lights, portal lights and light mute/solo.
+    sources:
+      - url: https://github.com/PixarAnimationStudios/OpenUSD/blob/release/third_party/renderman/plugin/hdPrman/renderDelegate.cpp
+        title: OpenUSD — hdPrman renderDelegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFK27/546177441.md
+        title: RenderMan for Katana 27 — hdPrman in Katana
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: hdPrman supports volume prims backed by OpenVDB (and Field3D) assets; since 27.3 XPU can load in-memory Houdini/Solaris volumes directly.
+    gaps:
+      - XPU prefers VDB and aggregate volumes; non-aggregate support is limited to homogeneous volumes.
+      - The Katana Viewer delegate does not support volumes.
+    sources:
+      - url: https://github.com/PixarAnimationStudios/OpenUSD/blob/release/third_party/renderman/plugin/hdPrman/renderDelegate.cpp
+        title: OpenUSD — hdPrman renderDelegate.cpp
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ─────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: hdPrman includes a material filter that converts USD preview shading nodes to RenderMan equivalents.
+    sources:
+      - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/third_party/renderman/plugin/hdPrman/matfiltConvertPreviewMaterial.h
+        title: OpenUSD — hdPrman matfiltConvertPreviewMaterial.h
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    hosts: [houdini]
+    notes: >-
+      hdPrman processes MaterialX node graphs from UsdShade; for RIS the terminals become PxrSurface, PxrDisplacement
+      and PxrVolume. In Solaris, MaterialX networks are built in a Material Library and assigned like other RenderMan
+      materials.
+    gaps:
+      - MaterialX subnets are not supported in RIS (they are in XPU).
+    sources:
+      - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/third_party/renderman/plugin/hdPrman/matfiltMaterialX.h
+        title: OpenUSD — hdPrman matfiltMaterialX.h
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/544640862.md
+        title: RenderMan for Houdini 27 — Solaris & MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ───────────────────────────────────────────────────────────
+  - capability: mtlx.render
+    level: native
+    hosts: [houdini]
+    notes: >-
+      RIS translates MaterialX networks to PxrSurface; since 27.3 XPU evaluates MaterialX BSDF, uniform EDF and
+      combiner nodes natively, so arbitrary MaterialX shading networks render without translation. Pattern nodes run
+      as OSL in both engines. RenderMan also includes MaterialX Lama, ILM's material layering system.
+      The MaterialX docs only describe Solaris (hdPrman) workflows.
+    gaps:
+      - RIS does not support MaterialX material layering and inherits PxrSurface's limits.
+      - XPU's native MaterialX path is only available through hdPrman and USD workflows, currently Solaris.
+      - Only the uniform_edf EDF node is supported, and VDF (volume) nodes are not supported yet.
+      - PBR shader nodes used directly as surface shaders are not supported.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542218994.md
+        title: RenderMan 27 — MaterialX Lama
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: native
+    notes: For RIS, RenderMan uses MaterialX's ShaderGen system to convert MaterialX networks into native RenderMan materials, with pattern nodes compiled to OSL.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/third_party/renderman/plugin/hdPrman/matfiltMaterialX.h
+        title: OpenUSD — hdPrman matfiltMaterialX.h
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    hosts: [houdini]
+    notes: Standard Surface renders in RIS (translated to PxrSurface) and, since 27.3, natively in XPU in Hydra workflows such as Solaris.
+    gaps:
+      - RIS results inherit PxrSurface's capabilities and limits, and MaterialX does not guarantee a pixel match between renderers.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    hosts: [houdini]
+    notes: OpenPBR Surface renders in RIS (translated to PxrSurface) and, since 27.3, natively in XPU in Hydra workflows such as Solaris.
+    gaps:
+      - RIS results inherit PxrSurface's capabilities and limits.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: Crash in the PRMan render delegate (hdPrman) when used through Maya Hydra
+    url: https://github.com/PixarAnimationStudios/OpenUSD/issues/3964
+    capability: usd.hydra.delegate
+    status: open
+    severity: major
+    verified: 2026-11-04
+
+  - title: Light filters ignored by hdPrman when the scene delegate uses a non-default delegateId
+    url: https://github.com/PixarAnimationStudios/OpenUSD/issues/3849
+    capability: usd.lights
+    status: open
+    verified: 2026-11-04
+
+  - title: Changing a DomeLight's texture file is not picked up by hdPrman
+    url: https://github.com/PixarAnimationStudios/OpenUSD/issues/3094
+    capability: usd.lights
+    status: open
+    affects: "USD 23.08 with RenderMan 25.1"
+    verified: 2026-11-04

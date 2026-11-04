@@ -1,0 +1,22 @@
+name: SP USD Creator
+repo: ahmed-hindy/Substance-Painter-Usd-Creator
+url: https://ahmed-hindy.github.io/Substance-Painter-Usd-Creator/
+tech: [usd, materialx]
+kind: plugin
+description: >-
+  Community Substance 3D Painter plugin that publishes materials (and optionally the mesh) as a layered USD component
+  following the ASWF asset structure, with UsdPreviewSurface, MaterialX Standard Surface, MaterialX OpenPBR or Arnold
+  shading.
+license: Apache-2.0
+hosts: [substance-3d-painter]
+tags: [dcc-plugin, exporter, community]
+sources:
+  - url: https://ahmed-hindy.github.io/Substance-Painter-Usd-Creator/user_guide.html
+    title: SP USD Creator — User Guide
+    kind: docs
+    accessed: 2026-11-04
+  - url: https://github.com/ahmed-hindy/Substance-Painter-Usd-Creator
+    title: ahmed-hindy/Substance-Painter-Usd-Creator
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

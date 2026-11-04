@@ -1,0 +1,352 @@
+name: Karma
+vendor: SideFX
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.sidefx.com/products/karma/
+tier: 1
+
+# Karma ships inside Houdini, so its releases follow Houdini's and use Houdini's bundled USD and MaterialX.
+releases:
+  - version: "22.0"
+    date: "2026-07"
+    usd: "26.05"
+    materialx: "1.39.5"
+    notes: Ships with Houdini 22.0. Adds native rendering of USD's ParticleField3DGaussianSplat schema and husk rendering of RenderPass prims.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/licenses/index.html
+        title: Houdini 22.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
+
+  - version: "21.0"
+    date: "2025-08"
+    usd: "25.05"
+    materialx: "1.39.3"
+    notes: Ships with Houdini 21.0. Adds the MtlX OpenPBR Surface VOP for CPU and XPU; Hydra 2 becomes the standard.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini21.0/licenses/index.html
+        title: Houdini 21.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
+
+  - version: "20.5"
+    date: "2024-07"
+    usd: "24.03"
+    materialx: "1.38.10"
+    notes: Ships with Houdini 20.5.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini20.5/licenses/index.html
+        title: Houdini 20.5 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20_5/karma.html
+        title: What's new in Houdini 20.5 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
+
+  - version: "20.0"
+    date: "2023-11"
+    usd: "23.08"
+    materialx: "1.38.8"
+    notes: Ships with Houdini 20.0. Karma XPU moved from beta to gold in this release.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini20.0/licenses/index.html
+        title: Houdini 20.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20/karma.html
+        title: What's new in Houdini 20 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
+
+support:
+  # ── Rendering ───────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Karma uses USD as its scene description and acts as a Hydra render delegate, both in the Solaris viewport and
+      in husk, Houdini's command-line USD renderer. It has two engines - Karma CPU and Karma XPU (CPU plus GPU) - and
+      SideFX says it can also be used as a delegate in other USD applications such as usdview. XPU moved from beta to
+      gold in Houdini 20.0.
+    gaps:
+      - Karma XPU's GPU device is NVIDIA OptiX only; other GPU hardware is not supported yet.
+      - Machines without an NVIDIA GPU, such as Apple Silicon Macs, run XPU on its Embree CPU device only.
+      - XPU drops more legacy features than Karma CPU and never supports VEX shaders.
+      - XPU limits scenes to 4 shadow-linking groups and 4 trace sets (shared with SSS).
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma.html
+        title: Houdini docs — Karma
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/products/karma/
+        title: Karma Renderer | SideFX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20/karma.html
+        title: What's new in Houdini 20 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    notes: >-
+      Karma renders from UsdRenderSettings, RenderProduct and RenderVar prims authored by the Render Settings, Karma
+      Render Settings, Karma Render Products and render-var LOPs. Since Houdini 22.0 husk can render RenderPass prims
+      with --pass, and Karma and husk default to the stage's frame range.
+    gaps:
+      - Many render options are Karma-specific karma attributes rather than generic UsdRender settings.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/rendersettings.html
+        title: Houdini docs — Render Settings LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      Karma renders the USD lights created by Houdini's Light LOPs (point, rectangle, sphere, disk, cylinder, distant,
+      dome) plus geometry lights, Karma Physical Sky, light filters, light and shadow linking and portal lights.
+    gaps:
+      - XPU dome lights only accept lat-long environment maps, not sixpack or cube maps.
+      - XPU volume lights do not support Active Radius or Shadow Distance.
+      - Karma does not support MaterialX light shaders.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/light.html
+        title: Houdini docs — Light LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: Karma XPU renders BasisCurves as rounded tubes for the linear, cubic B-spline, Catmull-Rom and cubic Bezier bases.
+    gaps:
+      - In XPU, BasisCurves cannot disable backface culling and other curve types or render modes do not work.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: Karma renders VDB volume prims with MaterialX or Karma volume materials; in 22.0 XPU can render iso-surface VDBs directly as uniform volumes.
+    gaps:
+      - Volume materials only work on volume primitives (VDBs), and surface plus volume materials on one prim are not supported.
+      - XPU volumes do not support the volume filter or width parameters.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ─────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      Both engines render USD Preview Surface and can mix USD Preview nodes with MaterialX and Karma nodes. In XPU,
+      materials it cannot handle (e.g. the Principled Shader) are converted to USD Preview Surface with varying success.
+    gaps:
+      - XPU ignores the Occlusion parameter on USD Preview Surface.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    notes: Karma reads MaterialX networks as described in UsdShade and builds the material on the fly; it prefers Karma Material Builder outputs, then USD MaterialX Builder outputs.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ───────────────────────────────────────────────────────────
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      Karma CPU renders MaterialX alongside legacy VEX shaders; Karma XPU works only with MaterialX, USD Preview
+      Surface and Karma-specific VOPs, and supports all MaterialX standard-library and supplementary nodes except a
+      couple. SideFX describes MaterialX as the future of shading in Karma.
+    gaps:
+      - Karma XPU does not support MaterialX PBR (BSDF/EDF building-block) nodes, only the surface shaders.
+      - MtlX Array Append and MtlX Curve Adjust are not implemented in XPU.
+      - Karma does not support MaterialX light shaders or compositing nodes.
+      - MaterialX tokens such as {frame} are ignored; only <UDIM> works.
+      - In XPU, MaterialX opacity is monochromatic only.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/products/karma/
+        title: Karma Renderer | SideFX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20_5/karma.html
+        title: What's new in Houdini 20.5 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: none
+    notes: SideFX states that Karma supports MaterialX shaders but does not rely on MaterialX's code generation; it builds materials from the USD-described network itself.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.custom_nodes
+    level: native
+    notes: >-
+      Custom MaterialX node definitions render in Karma once SideFX's mtlx2karma.py has generated the
+      karmaNodeGraph.json Karma needs (alongside vop2mtlx.py and mtlx2hda.py in Houdini).
+    gaps:
+      - SideFX calls the workflow a technical process, and graphs containing kma_ nodes break the scripts.
+      - The docs do not say whether custom nodegraphs work in Karma XPU.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.color_management
+    level: partial
+    notes: Texture colour conversion is normally automatic through OCIO file rules, with the MtlX Image Signature deciding whether a file is treated as colour or raw data.
+    gaps:
+      - The MtlX Image File Color Space parameter is not supported by USD at this time.
+      - MaterialX colour-space metadata is not passed through Hydra to the render delegate.
+      - Geometry colours and primvars are always treated as linear and never converted.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/ocio.html
+        title: Houdini docs — Color management
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.texture_baking
+    level: native
+    notes: The Karma Texture Baker LOP bakes connected inputs of MtlX Standard Surface and (since 22.0) MtlX OpenPBR Surface to textures, as well as geometry and lighting maps.
+    gaps:
+      - The baker is for Karma CPU only.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/support/karma_texture_baker.html
+        title: Houdini docs — Karma Texture Baker
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: Both engines render MtlX Standard Surface; XPU can mix up to 16 Standard Surface or OpenPBR shaders with MtlX Mix since 21.0.
+    gaps:
+      - XPU ignores Transmission Scatter and Transmission Scatter Anisotropy.
+      - XPU does not support mixing SSS or transmission depth/absorption properties in MtlX Mix.
+      - Displacement Style in XPU only works with Standard Surface or OpenPBR and float displacement.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "21.0"
+    notes: The MtlX OpenPBR Surface VOP, new in Houdini 21.0, works with both Karma CPU and Karma XPU.
+    gaps:
+      - XPU ignores Transmission Scatter and Transmission Scatter Anisotropy on OpenPBR.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

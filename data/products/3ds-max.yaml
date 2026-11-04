@@ -1,0 +1,537 @@
+name: 3ds Max
+vendor: Autodesk
+categories: [dcc]
+industries: [aec, games, film-tv, product-design]
+license: commercial
+website: https://www.autodesk.com/products/3ds-max/overview
+tier: 1
+summary: >-
+  Autodesk's 3D modelling, animation and rendering DCC. USD comes through the open-source USD for 3ds Max component,
+  bundled in the installer since 3ds Max 2026, which imports, exports and references live USD stages. OpenPBR is the
+  default material from 3ds Max 2026.
+
+releases:
+  - version: "2027"
+    usd: "25.11"
+    materialx: "1.39.4"
+    notes: >-
+      Includes USD for 3ds Max 0.14.0, which focuses on stability, and Arnold for 3ds Max (MAXtoA) 5.9.0. Uses
+      OpenColorIO 2.5.1.
+    sources:
+      - url: https://github.com/Autodesk/3dsmax-usd/blob/dev/doc/build.md
+        title: 3dsmax-usd build documentation (per-version dependency table)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/3DSMax-What-s-New/files/GUID-7CC2F041-F797-4DB9-B2F9-326AAB994F37.htm
+        title: What's New in 3ds Max 2027
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026"
+    date: 2025-03
+    usd: "24.11"
+    materialx: "1.38.10"
+    notes: >-
+      The first release with USD for 3ds Max (0.10) bundled in the installer. 0.10 added the USD Layer Editor and
+      light linking. OpenPBR became the default material, and MAXtoA 5.8.0 shipped with Arnold 7.4.0.0.
+    sources:
+      - url: https://github.com/Autodesk/3dsmax-usd/blob/dev/doc/build.md
+        title: 3dsmax-usd build documentation (per-version dependency table)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://cgpress.org/archives/autodesk-releases-3ds-max-2026.html
+        title: CGPress, "Autodesk releases 3ds Max 2026" (26 March 2025)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2025"
+    usd: "23.11"
+    materialx: "1.38.8"
+    sources:
+      - url: https://github.com/Autodesk/3dsmax-usd/blob/dev/doc/build.md
+        title: 3dsmax-usd build documentation (per-version dependency table)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+    review: >-
+      build.md lists MaterialX 1.38.8 for 3ds Max 2025, but the MaterialX and USD for 3ds Max help page gives the
+      bundled MaterialX plug-in as 1.38.4 for 2024 and 2025.
+
+  - version: "2024"
+    usd: "22.11"
+    materialx: "1.38.4"
+    sources:
+      - url: https://github.com/Autodesk/3dsmax-usd/blob/dev/doc/build.md
+        title: 3dsmax-usd build documentation (per-version dependency table)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ───────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "2026"
+    via: 3dsmax-usd
+    notes: >-
+      File > Import reads USD, with a filterable prim hierarchy to choose what to bring in, a frame range, material
+      import and registered import plug-ins (chasers). Before 3ds Max 2026 the USD component was a separate install.
+    gaps:
+      - Vertex animation and material animation are not imported.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-0524FF19-5C9C-4066-A016-0F71C4482E2B.html
+        title: USD for 3ds Max, Import USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "2026"
+    via: 3dsmax-usd
+    notes: >-
+      Exports binary or ASCII USD with options for mesh format, normals as primvars, vertex channels, shapes,
+      materials, skin, morph targets, animation, cameras (including V-Ray and Arnold cameras), photometric lights and
+      up axis. USD stage objects in the scene are written as references to their root layer.
+    gaps:
+      - Modifiers that change mesh topology prevent USD from resolving the modifier stack.
+      - Exported stage references ignore any stage mask applied in 3ds Max.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    via: 3dsmax-usd
+    notes: The exporter offers a USDZ Package format alongside binary and ASCII USD.
+    gaps:
+      - USDZ exports cannot carry MaterialX data.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ──────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      A USD stage node references a USD file without converting it. Prims can be transformed in sub-object mode,
+      driven by 3ds Max controllers and viewed through USD cameras. Later releases added Promote to 3ds Max Object
+      (0.11), Duplicate to USD (0.12), and prim rename, delete and reparent plus anonymous root layers (0.13).
+    gaps:
+      - The stage display requires OpenGL 4.5, and unsupported graphics cards can crash 3ds Max.
+      - Autodesk staff said in January 2026 that material binding inside loaded stages is still planned.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-4A9C51B2-69C1-4D9C-8DFA-47193905DC14.html
+        title: USD for 3ds Max, Reference a USD Stage
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-76AC25BC-C95A-4E04-8220-DB43509D2A68.html
+        title: USD for 3ds Max 0.13 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/releases
+        title: 3dsmax-usd releases
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://forum.aousd.org/t/usd-for-maya-and-3ds-max-updates/2646
+        title: AOUSD forum, "USD for Maya and 3ds Max updates" (Autodesk staff replies, January 2026)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      The "Reference a USD Stage" page says no UI tool edits data inside a stage, but the 0.13 notes add prim rename,
+      delete and reparent. The help page may be out of date.
+
+  - capability: usd.layer_editing
+    level: native
+    since: "2026"
+    via: 3dsmax-usd
+    notes: >-
+      USD for 3ds Max 0.10 added a USD Layer Editor that sets the edit target and can add or load sublayers, mute,
+      lock and save layers. Edits can be saved to disk or into the .max file. 0.16.2 added layer merging.
+    gaps:
+      - Edits to weaker layers are blocked.
+      - Read-only USD files are system-locked and cannot be unlocked by standard users.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-5820CFDE-36A2-4C4E-8E57-632881BBD9B2.html
+        title: USD for 3ds Max, USD Layer Editor
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/releases
+        title: 3dsmax-usd releases (v0.16.2)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ───────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    via: 3dsmax-usd
+    notes: The Layer Editor adds anonymous sublayers to the root or session layer and loads existing layers as sublayers.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-5820CFDE-36A2-4C4E-8E57-632881BBD9B2.html
+        title: USD for 3ds Max, USD Layer Editor
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    via: 3dsmax-usd
+    notes: On export, USD stage objects in the scene are written as references to their root layer.
+    gaps:
+      - Exported references do not reflect a stage mask applied in 3ds Max.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: partial
+    via: 3dsmax-usd
+    notes: A stage node has a Load Payloads toggle, and all payloads load by default.
+    gaps:
+      - Autodesk staff said in January 2026 that payload loading workflows were still planned.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-4A9C51B2-69C1-4D9C-8DFA-47193905DC14.html
+        title: USD for 3ds Max, Reference a USD Stage
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://forum.aousd.org/t/usd-for-maya-and-3ds-max-updates/2646
+        title: AOUSD forum, "USD for Maya and 3ds Max updates" (Autodesk staff replies, January 2026)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      The docs show a stage-wide Load Payloads toggle, but Autodesk staff still described payload loading as planned
+      in January 2026. Per-prim load and unload may be what's missing.
+
+  - capability: usd.composition.variants
+    level: partial
+    via: 3dsmax-usd
+    notes: >-
+      The exporter can write Material Switcher inputs as material variant sets (3ds Max 2024 and later), or export only
+      the active material.
+    gaps:
+      - Complex inputs such as multi-materials cannot be exported as variant sets.
+      - Autodesk staff said in January 2026 that variant set workflows were being worked on.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://forum.aousd.org/t/usd-for-maya-and-3ds-max-updates/2646
+        title: AOUSD forum, "USD for Maya and 3ds Max updates" (Autodesk staff replies, January 2026)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      Only material-variant export is documented. Switching variant sets on a loaded stage is not documented, and a
+      user in the forum thread described variant sets as missing.
+
+  # ── Scene description ─────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      Mesh export can keep the existing format or convert to polygons or triangles, and can write normals as primvars
+      (the recommended option) along with vertex channels.
+    gaps:
+      - Open bug #40 reports normals authored as float3[] instead of normal3f[].
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/issues/40
+        title: "3dsmax-usd #40: primvars:normals authored as float3[] instead of normal3f[]"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      Shapes export as basic curve data, as BasisCurves when they don't render in the viewport, and spline animation
+      exports. Since 0.10, USD BasisCurves display in the viewport.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      Export writes time samples, animation curves or both for transforms, cameras and lights, plus vertex and spline
+      animation. Import brings in transform, light and camera animation and blend shapes. Camera curves need USD 24.11+
+      (0.13), and general animation-curve export arrived in 0.14 with USD 25.11+.
+    gaps:
+      - Vertex animation and material animation are not imported.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-0524FF19-5C9C-4066-A016-0F71C4482E2B.html
+        title: USD for 3ds Max, Import USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-76AC25BC-C95A-4E04-8220-DB43509D2A68.html
+        title: USD for 3ds Max 0.13 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/releases
+        title: 3dsmax-usd releases (v0.14.0)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      With Skin enabled, skinned meshes export as UsdSkel instead of vertex caches, and morph targets export as blend
+      shapes. 0.13 added joint naming, bone collection and bone-mesh exclusion options. USD Skel animations import as
+      skinned meshes.
+    gaps:
+      - Import skips skinned baked data where only the skeleton is animated.
+      - The export page contradicts itself on progressive morphers, saying they are unsupported in one place and exported as in-between blend shapes in another.
+      - Open bugs report invalid joint indices with hidden bones (#39) and missing skeletons when bones lack a common parent (#41).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-0524FF19-5C9C-4066-A016-0F71C4482E2B.html
+        title: USD for 3ds Max, Import USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-76AC25BC-C95A-4E04-8220-DB43509D2A68.html
+        title: USD for 3ds Max 0.13 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      Physical, free and target cameras export, as do two V-Ray and four Arnold camera types. USD cameras on a stage
+      can be used in the viewport.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-4A9C51B2-69C1-4D9C-8DFA-47193905DC14.html
+        title: USD for 3ds Max, Reference a USD Stage
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      Photometric lights and the Sun Positioner export. 0.10 added light linking through the Collection widget and a
+      light gizmo for 3ds Max 2025 and later.
+    gaps:
+      - Ambient and diffuse multipliers have limited export support.
+      - USD light-linking expressions do not work in ActiveShade or Arnold legacy mode.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-61580AC0-7302-4B4B-9059-BADE926FA18B.html
+        title: USD for 3ds Max 0.10 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ───────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      On export, USD Preview Surface and Physical Material convert to UsdPreviewSurface, including UDIMs through OSL
+      bitmap maps. Unrecognised materials fall back to a name and diffuse colour. Import brings in shading data and
+      builds UDIMs for USD Preview Surface materials. 0.14 added import of materials not bound to geometry.
+    gaps:
+      - Open bug #32 reports OpenPBR-to-UsdPreviewSurface conversion keeping only base colour and metallic, and OSL bitmaps tagged with the wrong colour space.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
+        title: USD for 3ds Max, Export USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-0524FF19-5C9C-4066-A016-0F71C4482E2B.html
+        title: USD for 3ds Max, Import USD data
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/issues/32
+        title: "3dsmax-usd #32: USD referenced as stage has wrong material"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      With the MaterialX export option, prims assigned a MaterialX Material reference the MaterialX files. Since 0.13
+      the importer also loads MaterialX materials referenced from USD files.
+    gaps:
+      - Exporting a MaterialX Material can lose parameters.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max-Release-Notes/GUID-76AC25BC-C95A-4E04-8220-DB43509D2A68.html
+        title: USD for 3ds Max 0.13 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ─────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    via: 3dsmax-usd
+    notes: >-
+      The MaterialX Material, which ships with the USD component, loads a .mtlx file and lets you pick one of its
+      materials. The MtlxIOUtil utility also imports .mtlx files. Under the hood the material becomes a Physical
+      Material driven by an OSL texture network, and Explode Permanently turns it into editable OSL nodes.
+    gaps:
+      - Materials are converted to Physical Material and OSL nodes, not kept as native MaterialX graphs.
+      - Open For Edit is labelled experimental and for debugging, and its edits don't persist.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: MaterialX and USD for 3ds Max
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd
+        title: Autodesk/3dsmax-usd README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    notes: >-
+      OpenPBR is the default material from 3ds Max 2026 and is described as compatible with MaterialX and OpenUSD.
+      USD for 3ds Max 0.11 added export of OpenPBR materials.
+    gaps:
+      - By default the viewport uses a simplified OpenPBR shader, which can be turned off in CurrentDefaults.ini.
+      - Open bug #32 reports roughness and normal maps dropped when OpenPBR converts to UsdPreviewSurface.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3DSMax-What-s-New/files/GUID-450AF743-2E88-4E4B-83EF-5D31A614067A.htm
+        title: 3ds Max 2026, Default Material OpenPBR
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/Autodesk/3dsmax-usd/releases
+        title: 3dsmax-usd releases (v0.11.0)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://forum.aousd.org/t/usd-for-maya-and-max-updates/2500
+        title: AOUSD forum, "USD for Maya and Max Updates" (Autodesk staff, June 2025)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: OpenPBR and OSL bitmap materials lose roughness, normals and colour space when written to USD
+    url: https://github.com/Autodesk/3dsmax-usd/issues/32
+    capability: usd.shade.preview_surface
+    status: open
+    affects: 3ds Max 2026.3, USD for 3ds Max 0.13 to 0.15
+    severity: major
+    verified: 2026-11-04
+
+  - title: Skinned meshes with hidden bones export a mismatched skel:joints list and invalid jointIndices
+    url: https://github.com/Autodesk/3dsmax-usd/issues/39
+    capability: usd.skel
+    status: open
+    affects: 3ds Max 2024.2.11, USD for 3ds Max 0.15.0.14
+    severity: major
+    verified: 2026-11-04
+
+  - title: Skeleton missing and mesh broken when bones have no common parent
+    url: https://github.com/Autodesk/3dsmax-usd/issues/41
+    capability: usd.skel
+    status: open
+    affects: USD for 3ds Max 0.15 to 0.16.2 (3ds Max 2024 to 2027)
+    severity: major
+    verified: 2026-11-04
+
+  - title: Mesh normals authored as float3[] instead of normal3f[]
+    url: https://github.com/Autodesk/3dsmax-usd/issues/40
+    capability: usd.geom.meshes
+    status: open
+    severity: minor
+    verified: 2026-11-04

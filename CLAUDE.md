@@ -31,6 +31,19 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 - Version strings are quoted. Product ids are kebab-case and match the file name.
 - Scope includes adjacent industries: AEC, product design/CAD, automotive, simulation, XR/web.
 
+## Researching products
+
+- Follow `docs/research-guide.md` (levels, sources, review flags). Tier 1 (19 products) was researched on 2026-11-04
+  by parallel agents grouped by vendor, then each file was independently fact-checked against every cited source.
+  Repeat that two-step pattern (research, then verify) for Tier 2.
+- Verification agents work fine on Sonnet. Running six research agents on Opus at once hit the user's 5-hour usage
+  limit, so stagger agents or use smaller groups.
+- `npm run check:links` checks every source URL (0 broken at last run). Sites that block bots: unrealengine.com,
+  issues.unrealengine.com, autodesk.com product pages, support.maxon.net, projects.blender.org pages (its API and
+  raw files work). Appending `.md` gives clean text on help.maxon.net, documentation.chaos.com and
+  rmanwiki-27.pixar.com.
+- `/products/<id>/` and `/review/` are plain interim pages for reading the data. The designed views come in Phase 4.
+
 ## Ingestion quirks (scripts/ingest)
 
 - Upstream repos are blobless sparse clones in `.cache/repos/` (gitignored). Each tag is checked out with only the

@@ -1,0 +1,254 @@
+---
+/**
+ * Plain product detail page: every record with its evidence. Interim view used to read and
+ * review the research; the designed product page replaces it in Phase 4.
+ */
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import LevelBadge from '../../components/LevelBadge.astro';
+import { loadData, type ProductEntry } from '../../lib/data';
+import { withBase } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { products } = await loadData();
+  return products.map((p) => ({ params: { id: p.id } }));
+}) satisfies GetStaticPaths;
+
+const { products, projects, capabilities } = await loadData();
+const product = products.find((p) => p.id === Astro.params.id) as ProductEntry;
+const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? projects.find((p) => p.id === id)?.name ?? id;
+const linkOf = (id: string) =>
+  products.some((p) => p.id === id) ? withBase(`products/${id}/`) : projects.find((p) => p.id === id)?.stats?.url;
+
+const capIndex = new Map(capabilities.map((c, i) => [c.id, i]));
+const capById = new Map(capabilities.map((c) => [c.id, c]));
+const techLabel = { usd: 'OpenUSD', materialx: 'MaterialX' } as const;
+
+const sections = (['usd', 'materialx'] as const)
+  .map((tech) => {
+    const records = product.support
+      .filter((s) => capById.get(s.capability)?.tech === tech)
+      .sort((a, b) => (capIndex.get(a.capability) ?? 0) - (capIndex.get(b.capability) ?? 0));
+    const groups = [...new Set(records.map((r) => capById.get(r.capability)!.group))];
+    return { tech, label: techLabel[tech], groups: groups.map((g) => ({ g, records: records.filter((r) => capById.get(r.capability)!.group === g) })) };
+  })
+  .filter((s) => s.groups.length > 0);
+---
+
+<Base title={product.name}>
+  <div class="container page">
+    <p class="crumbs"><a href={withBase()}>All products</a></p>
+    <h1>{product.name}</h1>
+    <p class="muted">
+      {product.vendor} · {product.categories.join(', ')} · {product.license} · <a href={product.website} rel="noopener">website</a>
+    </p>
+    {product.summary && <p>{product.summary}</p>}
+
+    {
+      product.releases.length > 0 && (
+        <section>
+          <h2>Releases</h2>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Version</th><th>Date</th><th>OpenUSD</th><th>MaterialX</th><th>Notes</th><th>Source</th></tr>
+              </thead>
+              <tbody>
+                {product.releases.map((r) => (
+                  <tr class={r.review ? 'flagged' : ''}>
+                    <td><strong>{r.version}</strong></td>
+                    <td>{r.date ?? '—'}</td>
+                    <td>{r.usd ?? '—'}</td>
+                    <td>{r.materialx ?? '—'}</td>
+                    <td>{r.notes}{r.review && <p class="review">Review: {r.review}</p>}</td>
+                    <td>{r.sources.map((s, i) => <a href={s.url} rel="noopener" title={s.title}>[{i + 1}]</a>)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      sections.map((sec) => (
+        <section>
+          <h2>{sec.label}</h2>
+          {sec.groups.map(({ g, records }) => (
+            <>
+              <h3>{g}</h3>
+              <ul class="records" role="list">
+                {records.map((s) => (
+                  <li class={s.review || s.confidence === 'low' ? 'flagged' : ''}>
+                    <div class="head">
+                      <LevelBadge level={s.level} />
+                      <strong title={capById.get(s.capability)?.description}>{capById.get(s.capability)?.label}</strong>
+                      {s.since && <span class="muted">since {s.since}</span>}
+                      {s.until && <span class="muted">until {s.until}</span>}
+                      {s.via && (
+                        <span class="muted">
+                          via <a href={linkOf(s.via)}>{nameOf(s.via)}</a>
+                        </span>
+                      )}
+                      {s.hosts && <span class="muted">in {s.hosts.map(nameOf).join(', ')}</span>}
+                      <span class={`conf conf-${s.confidence}`}>{s.confidence} confidence</span>
+                    </div>
+                    {s.notes && <p>{s.notes}</p>}
+                    {s.gaps.length > 0 && (
+                      <ul class="gaps">
+                        {s.gaps.map((gap) => <li>{gap}</li>)}
+                      </ul>
+                    )}
+                    {s.review && <p class="review">Review: {s.review}</p>}
+                    <p class="sources">
+                      {s.sources.map((src) => (
+                        <a href={src.url} rel="noopener">{src.title ?? new URL(src.url).hostname}</a>
+                      ))}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ))}
+        </section>
+      ))
+    }
+
+    {
+      product.issues.length > 0 && (
+        <section>
+          <h2>Known issues</h2>
+          <ul class="records" role="list">
+            {product.issues.map((i) => (
+              <li class={i.review ? 'flagged' : ''}>
+                <div class="head">
+                  <span class={`status status-${i.status}`}>{i.status}</span>
+                  <a href={i.url} rel="noopener"><strong>{i.title}</strong></a>
+                  {i.severity && <span class="muted">{i.severity}</span>}
+                  {i.affects && <span class="muted">affects {i.affects}</span>}
+                  {i.fixedIn && <span class="muted">fixed in {i.fixedIn}</span>}
+                </div>
+                {i.capability && <p class="muted">{capById.get(i.capability)?.label}</p>}
+                {i.review && <p class="review">Review: {i.review}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {product.support.length === 0 && <p class="muted">Research pending.</p>}
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 32px;
+  }
+  .crumbs {
+    font-size: 0.9rem;
+  }
+  h1 {
+    margin: 4px 0;
+  }
+  section {
+    margin-top: 40px;
+  }
+  h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin: 24px 0 8px;
+  }
+  .scroll {
+    overflow-x: auto;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  td a + a {
+    margin-left: 4px;
+  }
+  .records {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .records > li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .records > li.flagged,
+  tr.flagged {
+    border-left: 3px solid var(--level-partial);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+  }
+  .records p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+  }
+  .gaps {
+    margin: 6px 0 0;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .review {
+    color: var(--level-partial);
+    font-weight: 600;
+  }
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 0.82rem;
+  }
+  .conf {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .conf-low {
+    color: var(--level-none);
+  }
+  .status {
+    font-size: 0.72rem;
+    font-weight: 650;
+    text-transform: uppercase;
+    padding: 1px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .status-open {
+    border-color: var(--level-none);
+    color: var(--level-none);
+  }
+  .status-fixed {
+    border-color: var(--level-native);
+    color: var(--level-native);
+  }
+</style>

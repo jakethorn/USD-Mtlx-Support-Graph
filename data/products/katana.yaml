@@ -1,0 +1,541 @@
+name: Katana
+vendor: Foundry
+categories: [lookdev]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.foundry.com/products/katana
+tier: 1
+summary: >-
+  Foundry's look-development and lighting tool. USD arrives either through the UsdIn plug-ins (converted to Katana's
+  Geolib data) or through native USD nodes that edit a live stage, with a Hydra-based Viewer that can host third-party
+  render delegates.
+
+releases:
+  - version: "7.0"
+    date: 2023-11-01
+    usd: "23.05"
+    notes: >-
+      VFX Reference Platform CY2023, with USD 23.05 adopted outside the platform. First wave of native USD nodes
+      (NodeUSD), LIVRPS composition-arc nodes and OpenVDB volumes in Hydra.
+    sources:
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/7.0/Katana_7.0v1_ReleaseNotes.html
+        title: Katana 7.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.5"
+    date: 2024-12-09
+    usd: "24.05"
+    notes: >-
+      Stays on VFX Reference Platform CY2023 but moves to USD 24.05. Shipped the same day as 8.0 with the same native
+      USD export, KatanaToUsd and Pattern-Based Collections work.
+    sources:
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/7.5v1/Katana_7.5v1_ReleaseNotes/index.html
+        title: Katana 7.5v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "8.0"
+    date: 2024-12-09
+    usd: "24.05"
+    notes: >-
+      VFX Reference Platform CY2024 (Qt 6 / PySide 6), with USD 24.05 adopted outside the platform. Adds native USD
+      layer export, KatanaToUsd and FnUsdShim for custom USD builds.
+    sources:
+      - url: https://katanasigned.s3.us-east-1.amazonaws.com/products/katana/releases/8.0v1/Katana_8.0v1_ReleaseNotes/index.html
+        title: Katana 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_8.0.html
+        title: What's New in Katana 8.0
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "8.5"
+    date: 2026-02-10
+    usd: "25.08"
+    materialx: "1.39.4"
+    notes: >-
+      VFX Reference Platform CY2024 build released alongside 9.0, carrying the same UsdSuperLayer, UsdGaffer,
+      UsdMaterial and experimental Hydra 2.0 features with USD 25.08.
+    sources:
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/8.5/Katana_8.5v1_ReleaseNotes.html
+        title: Katana 8.5v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "9.0"
+    date: 2026-02-10
+    usd: "25.08"
+    materialx: "1.39.4"
+    notes: >-
+      VFX Reference Platform CY2025, with USD 25.08 adopted outside the platform. Adds UsdSuperLayer, UsdGaffer and
+      UsdMaterial, plus an experimental Hydra 2.0 Viewer. The current point release is 9.0v4 (21 October 2026).
+    sources:
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+        title: Katana 9.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+        title: Katana 9.0v4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    via: katana-usd-plugins
+    notes: >-
+      The UsdIn node and its helper nodes (UsdInVariantSelect, UsdInResolveMaterialBindings, UsdInIsolate and
+      others) load geometry, materials and bindings, lights and physics, converting them to Katana's Geolib data.
+      They come from Foundry's open-source Katana USD Plug-ins, which ship with Katana and are enabled by default.
+      9.0 added conversion of USD light filters and MeshLights. USD can also be brought in natively (see usd.stage),
+      and UsdToKatana converts native USD data to Geolib.
+    gaps:
+      - UsdIn data is converted to Geolib on load, so it is no longer USD-native once in Katana.
+      - Plug-ins built for a different USD build are not loaded, because Katana uses FNPXR_PLUGINPATH rather than PXR_PLUGINPATH_NAME.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/loading_usdin_assets.html
+        title: Katana 9.0 — Loading in USD Assets with UsdIn
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/preexisting_usdin_workflows.html
+        title: Katana 9.0 — Pre-existing UsdIn Workflows
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/dev-guide/Plugins/KatanaUSDPlugins/GettingStarted.html
+        title: Katana Developer Guide — Katana USD Plug-ins, Getting Started
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+        title: Katana 9.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Sources disagree on when the shipped plug-ins became enabled by default: the "Loading USD Plug-ins" page says
+      4.5v1, the 5.0v1 release notes say 5.0, and the developer guide says both "enabled" and "disabled by default".
+
+  - capability: usd.export
+    level: native
+    notes: >-
+      UsdLayerDefine and UsdLayerExport (grouped with UsdLayerExportGroup) bake the changes made by native USD nodes
+      to a layer, with Keep Composition Arcs, Flatten Sublayers or Flatten All methods. With no target layer the
+      edits are written as overs; a useExported toggle brings the baked layer back in as a sublayer. KatanaToUsd
+      converts Geolib materials, lights, subdivision meshes (FaceSets become GeomSubsets) and cameras to USD, and
+      the older UsdMaterialBake node exports materials and lights. Native export arrived in 7.5 and 8.0, both
+      released on 9 December 2024.
+    gaps:
+      - Only changes made with native USD nodes are baked by UsdLayerExport; Geolib edits need KatanaToUsd first.
+      - USD's stitch method does not keep blocked attributes (known issue 586965).
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/usd_layer_export.html
+        title: Katana 9.0 — USD Layer Export
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_8.0.html
+        title: What's New in Katana 8.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/7.5v1/Katana_7.5v1_ReleaseNotes/index.html
+        title: Katana 7.5v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/usd-katana.html
+        title: Katana 9.0 — USD in Katana
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ───────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    since: "7.0"
+    notes: >-
+      Native USD nodes (the NodeUSD class) compose and edit a USD stage directly, alongside Katana's Geolib
+      architecture. 7.0 introduced the framework and first nodes; 7.5 and 8.0 added cameras, lights, transforms, export and
+      collections; 8.5 and 9.0 added the UsdSuperLayer and UsdGaffer SuperTools, which author many prims into a single layer.
+      The Scene Explorer shows USD and Katana data together, and a USD Text View shows a node's layer or the composed
+      stage.
+    gaps:
+      - Native USD material networks cannot yet be built; UsdMaterial handles single-shader materials only.
+      - Downstream nodes cannot fully remove prims authored upstream by a UsdSuperLayer.
+      - Pattern-Based Collections using membershipExpression do not update correctly (known issue 579376).
+    sources:
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_7.0.html
+        title: What's New in Katana 7.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_9.0.html
+        title: What's New in Katana 9.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+        title: Katana 9.0v4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    notes: >-
+      UsdLayerWrite edits a .usda layer and writes it to the stage, UsdPythonWrite authors layers in Python, and
+      UsdSuperLayer and UsdGaffer edit their own authoring layer directly, marking each prim as new, edited or
+      unchanged. UsdLayerDefine and UsdLayerExport set which span of the node graph is written to an exported layer.
+    gaps:
+      - UsdPythonWrite is hidden behind the KATANA_ENABLE_USDPYTHONWRITE_NODE environment variable (as of 7.0).
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+        title: Katana 9.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_7.0.html
+        title: What's New in Katana 7.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      Studios can run Katana against their own USD build through FnUsdShim (7.5 and 8.0 onwards, replacing
+      FnUsdAbstraction), rebuild the open-source Katana USD Plug-ins, and write Engine plug-ins and UsdLayerExporter
+      plug-ins. 9.0's shim layer also allows custom Hydra SceneIndexFilters, recommended for studios with custom
+      render delegates.
+    gaps:
+      - Katana looks for USD plug-ins on FNPXR_PLUGINPATH, so plug-ins must be built against Katana's USD or a matching custom build.
+      - Loading two different versions of the Katana USD Plug-ins in one session is unsupported.
+    sources:
+      - url: https://learn.foundry.com/katana/dev-guide/Plugins/KatanaUSDPlugins/GettingStarted.html
+        title: Katana Developer Guide — Katana USD Plug-ins, Getting Started
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.us-east-1.amazonaws.com/products/katana/releases/8.0v1/Katana_8.0v1_ReleaseNotes/index.html
+        title: Katana 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_9.0.html
+        title: What's New in Katana 9.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    notes: >-
+      UsdSubLayerAdd adds a layer to the stage, and UsdLayerExport can keep or flatten sublayers on export.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/usd_layer_export.html
+        title: Katana 9.0 — USD Layer Export
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    since: "7.0"
+    notes: UsdReferenceSet authors references on the native USD stage; it was one of the first native nodes in 7.0.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_7.0.html
+        title: What's New in Katana 7.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: native
+    notes: >-
+      UsdPayloadSet authors payloads. The Scene Explorer's payload column sets Load One, Load All or Load None rules
+      per prim, which cascade down the hierarchy and recompose the stage when changed.
+    gaps:
+      - Without the payload column, deferred expansion loads only a prim's own payloads, not its descendants'.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/using_scene_graph/payloads_scene_explorer.html
+        title: Katana 9.0 — Payloads in the Scene Explorer
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: native
+    notes: >-
+      UsdVariantSet picks a variant from the variant sets on a prim (and can apply it to extra prims); UsdIn
+      workflows use UsdInVariantSelect.
+    gaps:
+      - The UsdVariantSet reference describes selecting existing variants only, not authoring new variant sets.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/rg/usd_nodes/usdvariantset.html
+        title: Katana 9.0 — UsdVariantSet node reference
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      The native-workflows page says VariantSets could not be authored in Katana 7, implying later versions can, but
+      no page found describes variant-set authoring.
+
+  - capability: usd.composition.inherits
+    level: native
+    notes: UsdInheritSet and UsdSpecializeSet author inherits and specializes arcs on the native USD stage.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/native-usd-workflows.html
+        title: Katana 9.0 — Using Native USD Workflows
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/composition_arcs_livrps.html
+        title: Katana 9.0 — Composition Arcs (LIVRPS)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      KatanaToUsd converts meshes, including subdivision meshes, with FaceSets written as UsdGeomSubsets. UsdIn
+      loads USD geometry into Geolib.
+    gaps:
+      - UsdIn does not load NURBS curves (open KatanaUsdPlugins issue 30).
+    sources:
+      - url: https://katanasigned.s3.us-east-1.amazonaws.com/products/katana/releases/8.0v1/Katana_8.0v1_ReleaseNotes/index.html
+        title: Katana 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/loading_usdin_assets.html
+        title: Katana 9.0 — Loading in USD Assets with UsdIn
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      The UsdCamera node (added in 7.5 and 8.0) creates USD cameras, USD cameras get Viewer locators and can be used as look-through cameras
+      (model-hierarchy cameras by default, or all cameras with Full USD Traversal).
+    gaps:
+      - The Centre of Interest manipulator does not support USD prims (known issue 587515).
+    sources:
+      - url: https://katanasigned.s3.us-east-1.amazonaws.com/products/katana/releases/8.0v1/Katana_8.0v1_ReleaseNotes/index.html
+        title: Katana 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_8.0.html
+        title: What's New in Katana 8.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      UsdLight (7.5 and 8.0) creates lights on the stage. UsdGaffer (8.5 and 9.0) is a lighting SuperTool built on UsdSuperLayer
+      with light and shadow linking. UsdIn and KatanaToUsd convert light filters in both directions as of 9.0.
+    gaps:
+      - "Disable Interactive Transforms is unavailable for UsdGaffer lights (known issue 618268)."
+      - In UsdGaffer, membershipExpression is ignored when includeRoot or includes/excludes are set.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_8.0.html
+        title: What's New in Katana 8.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+        title: Katana 9.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+        title: Katana 9.0v4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    since: "7.0"
+    notes: >-
+      OpenVDB volumes display in Hydra, and UsdVol data imports through UsdIn and UsdToKatana. In 9.0 the Advanced
+      Viewport (AVP) delegate also renders OpenVDB volumes.
+    sources:
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/7.0/Katana_7.0v1_ReleaseNotes.html
+        title: Katana 7.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+        title: Katana 9.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ────────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      With the USD plug-ins loaded, UsdPreviewSurface, UsdUVTexture and primvar-reader nodes are available in
+      NetworkMaterialCreate under the USD renderer, and display in the Hydra Viewer. Katana's Basic Material also
+      uses a UsdPreviewSurface shader.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/using_hydra_viewer/usd_setting_up_materials.html
+        title: Katana 9.0 — Setting up UsdPreviewSurface materials
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/5.0/Katana_5.0v1_ReleaseNotes.html
+        title: Katana 5.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >-
+      Renderer shader networks built in NetworkMaterialCreate can be converted to USD with KatanaToUsd and assigned
+      to native USD meshes with UsdMaterialAssign; UsdIn brings USD materials and bindings back into Geolib.
+      UsdMaterial (8.5 and 9.0) creates or edits a single shader from the shader registry on the native stage.
+    gaps:
+      - Native USD material networks cannot yet be built in Katana; UsdMaterial is for simple or debugging use.
+      - With a custom USD build, the NdrDiscoveryPlugin must be available to the Katana USD Plug-ins for shader import and export (7.0 notes).
+      - Disabling USD Native shaders in an existing network does not change the Hydra-rendered material (known issue 619875, an OpenUSD issue).
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/usd/materials_usd_intro.html
+        title: Katana 9.0 — Materials in USD scenes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/ug/usd/using_usdmaterial.html
+        title: Katana 9.0 — Using UsdMaterial
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_7.0.html
+        title: What's New in Katana 7.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/8.0v7/Katana_8.0v7_ReleaseNotes/index.html
+        title: Katana 8.0v7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Rendering ──────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: native
+    notes: >-
+      The Viewer is Hydra-based. Katana ships the Advanced Viewport (AVP) as its GL delegate, and vendor Hydra
+      delegates (for example RenderMan's hdPrman) can be chosen once their plug-ins are loaded. 5.0 restored
+      render-delegate choice in the Viewer after a USD 21.05 upgrade. 8.5 and 9.0 add an experimental Hydra 2.0
+      Viewer and Hydra Scene Browser behind KATANA_ENABLE_HYDRA2=1.
+    gaps:
+      - Delegates support either stop or pause but not both, and GL/AVP support neither.
+      - Standard selection modes are not supported with non-GL delegates.
+      - The Hydra 2.0 Viewer has no default lighting, does not use expansion-based loading for USD stages, and is not at parity with Hydra 1.
+    sources:
+      - url: https://learn.foundry.com/katana/Content/ug/using_hydra_viewer/hydra-render-delegates.html
+        title: Katana 9.0 — Render Delegates in the Hydra Viewer
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/5.0/Katana_5.0v1_ReleaseNotes.html
+        title: Katana 5.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/katana/Content/release_notes/whats_new_9.0.html
+        title: What's New in Katana 9.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+        title: Katana 9.0v4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.export
+    level: plugin
+    via: arnold
+    notes: >-
+      Arnold for Katana (KtoA) provides an ArnoldMaterialXBake operator that exports selected locations and their
+      materials as a MaterialX look, which an Arnold operator can re-apply at render time. Katana's own docs describe
+      no MaterialX workflow, although 8.5 and 9.0 bundle MaterialX 1.39.4.
+    gaps:
+      - The export is Arnold-specific; it is not a renderer-neutral MaterialX export from Katana.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Katana/files/arnold_for_katana_ka_Operators_html.html
+        title: Arnold for Katana User Guide — Operators
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: UsdIn does not load NURBS curves exported from Maya
+    url: https://github.com/TheFoundryVisionmongers/KatanaUsdPlugins/issues/30
+    capability: usd.geom.curves
+    status: open
+    affects: "4.0v8–5.0v1 (reported)"
+    severity: major
+    verified: 2026-11-04
+
+  - title: UsdIn always sets point-instancer arbitrary attributes to primitive scope, which Arnold cannot expand
+    url: https://github.com/TheFoundryVisionmongers/KatanaUsdPlugins/issues/33
+    capability: usd.instancing
+    status: open
+    verified: 2026-11-04
+
+  - title: Pattern-Based Collections with membershipExpression do not update correctly (ID 579376, USD issue)
+    url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+    capability: usd.stage
+    status: open
+    affects: "7.5v1–9.0v4"
+    verified: 2026-11-04
+
+  - title: USD stitch method does not keep blocked attributes (ID 586965)
+    url: https://katanasigned.s3.amazonaws.com/products/katana/releases/9.0v4/Katana_9.0v4_ReleaseNotes/index.html
+    capability: usd.export
+    status: open
+    affects: "7.5v1–9.0v4"
+    verified: 2026-11-04
+
+  - title: RenderMan live render could crash when UsdSuperLayer parameters changed (ID 610386), fixed by cherry-picking USD 25.11 commits
+    url: https://learn.foundry.com/katana/9.0/Content/release_notes/9.0/Katana_9.0v1_ReleaseNotes.html
+    capability: usd.hydra.host
+    status: fixed
+    fixedIn: "9.0v1"
+    severity: major
+    verified: 2026-11-04

@@ -1,0 +1,392 @@
+name: Cinema 4D
+vendor: Maxon
+categories: [dcc]
+industries: [film-tv, vfx, animation, product-design]
+license: commercial
+website: https://www.maxon.net/en/cinema-4d
+tier: 1
+summary: >-
+  USD import/export since R23 (USDZ, cameras, lights, instances, skeletal animation, baked material approximations).
+  A USD Bridge keeps opened files linked so edits can be written back. No MaterialX support is documented; Redshift's
+  OpenPBR material is the default since 2026.2.
+
+releases:
+  - version: "2027.0"
+    date: 2026-10
+    notes: The What's new summary for 2027.0 lists no USD changes.
+    sources:
+      - url: https://www.cgchannel.com/?p=179339
+        title: Maxon releases Cinema 4D 2027.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2027
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.0"
+    date: 2025-09
+    notes: >-
+      The 2026 cycle's What's new pages (2026.0 to 2026.4) list no USD changes; 2026.2 made the Redshift OpenPBR
+      material the default for new materials.
+    sources:
+      - url: https://www.cgchannel.com/?p=170066
+        title: Maxon releases Cinema 4D 2026.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/2026/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2026
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.1"
+    date: 2024-12
+    notes: Added USD import of character animation and import/export of some animated camera and light settings.
+    sources:
+      - url: https://www.cgchannel.com/2024/12/maxon-releases-cinema-4d-2025-1/
+        title: Maxon releases Cinema 4D 2025.1 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.0"
+    date: 2024-09
+    usd: "24.08"
+    notes: >-
+      A Maxon SDK specialist stated on the developer forum that the internal USD library was updated to OpenUSD 24.08
+      with this release. Also added USD export of joint animation and USD instance import/export.
+    sources:
+      - url: https://developers.maxon.net/forum/post/73510
+        title: OpenUSD (pxr) library in c4d python — Maxon developer forum
+        kind: forum
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/09/maxon-releases-cinema-4d-2025
+        title: Maxon releases Cinema 4D 2025 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "R23"
+    notes: >-
+      Imports cameras, geometry (simple USD shapes become Cinema 4D primitives; meshes come in as triangles and quads
+      with UVs, normals and display colour), materials as Node Materials, instances and lights. Light intensity can be
+      read as nits, candela or the legacy R24/R25 convention, and lights are converted to Redshift lights where possible.
+    sources:
+      - url: https://help.maxon.net/c4d/r23/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D R23
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_SETTINGS.html
+        title: USD Import Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_GEOMETRY.html
+        title: USD Import Options — Geometry (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "R23"
+    notes: >-
+      Exports geometry, cameras, instances, Node Materials and lights to .usda, .usdc or .usdz. Simple primitives are
+      written as native USD shapes with their basic size parameters.
+    gaps:
+      - Primitives must be made editable before export to keep other properties such as subdivision settings.
+      - Camera projections other than perspective and parallel are written as perspective.
+      - Materials are approximations, and objects without a material get a grey placeholder material.
+    sources:
+      - url: https://help.maxon.net/c4d/r23/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D R23
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER.html
+        title: USD Export Options (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      .usdz files can be opened and written; the export packs referenced USD files and textures into one uncompressed
+      archive.
+    gaps:
+      - A USD Bridge often cannot be established with .usdz files.
+    sources:
+      - url: https://help.maxon.net/c4d/en-us/Content/html/78533.html
+        title: USD (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ─────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: partial
+    notes: >-
+      By default an opened USD file keeps a "USD Bridge": bridged objects carry a USD tag, and Update USD Changes writes
+      edits back to the file without overwriting all of it, so several users or programs can work on the same file.
+      Closing the bridge turns the objects into ordinary Cinema 4D objects.
+    gaps:
+      - The hierarchy of bridged USD objects cannot be changed.
+      - Only one bridge per scene; further USD files are imported without one.
+      - The bridge is lost when the scene is saved as a Cinema 4D file and reopened.
+      - Only data the USD exporter can write is saved back to the file.
+    sources:
+      - url: https://help.maxon.net/c4d/en-us/Content/html/78533.html
+        title: USD (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_SETTINGS.html
+        title: USD Import Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Interpretation: the bridge converts USD into Cinema 4D objects but keeps a write-back link; the docs don't say
+      whether edits are authored as sparse USD opinions.
+
+  - capability: usd.layer_editing
+    level: partial
+    since: "2023.1"
+    notes: >-
+      2023.1 added export of USD layers: the Export to USD Layer option saves the differences to the open USD file into
+      a new layer file.
+    gaps:
+      - The docs describe only writing differences to a new layer, not managing the layer stack or choosing an edit target.
+    sources:
+      - url: https://help.maxon.net/c4d/2023/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2023
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    since: "2025.0"
+    notes: Instances in USD files import as Cinema 4D instances, and Instance objects export as USD instances.
+    gaps:
+      - Multi-instances are not exported.
+    sources:
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      Meshes import and export as triangles and quads with normals, UVs and display colour; vertex colours can also be
+      exported. On import, normals can become vertex normals or Phong tags.
+    sources:
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_GEOMETRY.html
+        title: USD Import Options — Geometry (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_GEOMETRY.html
+        title: USD Export Options — Geometry (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    since: "2024.3"
+    notes: >-
+      Export of position, angle and size animation was added in 2024.3; 2025.1 added import and export of some animated
+      camera and light settings.
+    gaps:
+      - Exported animation is always baked to one key per frame.
+    sources:
+      - url: https://help.maxon.net/c4d/2024/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2024
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_ANIMATION.html
+        title: USD Export Options — Animation (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    since: "2025.0"
+    notes: >-
+      Joint animation export arrived in 2025.0 (joint hierarchies with weights and skin deformers), and 2025.1 added
+      import of USD skeletons as joint hierarchies with weight tags and skin objects.
+    gaps:
+      - Only keyframed animation exports; animation generated by CMotion is not exported.
+    sources:
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER.html
+        title: USD Export Options (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_ANIMATION.html
+        title: USD Import Options — Animation (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      Export writes projection, focal length, sensor size, vertical field of view, film offset, focus distance, f-stop
+      and clipping; import reads the common camera parameters. Focal length, offset, exposure, focus distance and
+      aperture can be animated (2025.1).
+    gaps:
+      - Camera projections other than perspective and parallel are exported as perspective.
+    sources:
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_SETTINGS.html
+        title: USD Import Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/78533.html
+        title: USD (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      Import handles point, infinite and area (sphere, cylinder, disc, hemisphere, object) lights; export writes point,
+      spot, area, infinite and polygon lights. Intensity can be written or read in nits or candela. Intensity, exposure,
+      colour and temperature can be animated (2025.1).
+    sources:
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDIMPORTER-USDIMPORTER_GROUP_SETTINGS.html
+        title: USD Import Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_SETTINGS.html
+        title: USD Export Options — Settings (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/78533.html
+        title: USD (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      A Maxon SDK specialist said UsdPreviewSurface materials can be loaded into the Redshift node space, mapped to
+      Redshift node materials. On export, Standard/Physical and Redshift materials are approximated from their main
+      channels (base colour, opacity/transmission, metalness, roughness, normal map, emission, clearcoat, displacement),
+      with an option to bake procedural textures to bitmaps.
+    gaps:
+      - The export docs warn that materials are approximations and will look different in other applications.
+    sources:
+      - url: https://developers.maxon.net/forum/post/71324
+        title: USD material import — Maxon developer forum
+        kind: forum
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER.html
+        title: USD Export Options (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER-USDEXPORTER_GROUP_MATERIALS.html
+        title: USD Export Options — Materials (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      Neither source names the exported shader schema; UsdPreviewSurface export is inferred from the channel list.
+      Import evidence is an undated staff forum reply.
+
+  - capability: usd.shade.native
+    level: partial
+    notes: >-
+      A Maxon SDK specialist said Cinema 4D partially supports native Redshift material nodes in USD on import, with no
+      active development in that direction.
+    sources:
+      - url: https://developers.maxon.net/forum/post/71324
+        title: USD material import — Maxon developer forum
+        kind: forum
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: The staff reply is undated and may be outdated; the shipping help pages do not cover this.
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "2025.2"
+    via: redshift
+    notes: >-
+      Redshift, bundled with Cinema 4D since 2025.0, added a standardized OpenPBR material in 2025.2, and from 2026.2 it
+      is the default for new materials; Redshift Standard materials can be converted to it.
+    gaps:
+      - The USD export docs describe Redshift materials exported as channel approximations rather than as OpenPBR networks.
+    sources:
+      - url: https://help.maxon.net/c4d/2025/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2025
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/2026/en-us/Content/html/33010.html
+        title: What's new in Cinema 4D 2026
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/COM_REDSHIFT3D_REDSHIFT4C4D_NODES_CORE_OPENPBRMATERIAL.html
+        title: OpenPBR Material (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/c4d/en-us/Content/html/FUSDEXPORTER.html
+        title: USD Export Options (Cinema 4D 2027 help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

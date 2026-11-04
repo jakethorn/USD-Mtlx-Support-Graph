@@ -1,0 +1,30 @@
+---
+interface Props {
+  level: string;
+}
+const { level } = Astro.props;
+---
+
+<span class={`level level-${level}`}>{level}</span>
+
+<style>
+  .level {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 1px 8px;
+    border-radius: 4px;
+    color: #fff;
+    background: var(--level-color);
+    white-space: nowrap;
+  }
+  .level-native { --level-color: var(--level-native); }
+  .level-plugin { --level-color: var(--level-plugin); }
+  .level-partial { --level-color: var(--level-partial); }
+  .level-experimental { --level-color: var(--level-experimental); }
+  .level-planned { --level-color: var(--level-planned); }
+  .level-deprecated { --level-color: var(--level-deprecated); }
+  .level-none { --level-color: var(--level-none); }
+</style>

@@ -5,3 +5,664 @@ industries: [film-tv, vfx, animation, games]
 license: commercial
 website: https://www.sidefx.com/products/houdini/
 tier: 1
+
+releases:
+  - version: "22.0"
+    date: "2026-07"
+    usd: "26.05"
+    materialx: "1.39.5"
+    notes: Bundles OpenColorIO 2.5.0 and Adobe's USD File Format Plugins 2026.03.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/licenses/index.html
+        title: Houdini 22.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2026/07/sidefx-just-released-houdini-22/
+        title: SideFX just released Houdini 22 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "21.0"
+    date: "2025-08"
+    usd: "25.05"
+    materialx: "1.39.3"
+    notes: SideFX states 21.0 is compliant with VFX Reference Platform CY2025. First release with Hydra 2 as the standard delegate interface.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini21.0/licenses/index.html
+        title: Houdini 21.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/08/sidefx-just-released-houdini-21-check-out-its-5-key-features/
+        title: SideFX just released Houdini 21 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "20.5"
+    date: "2024-07"
+    usd: "24.03"
+    materialx: "1.38.10"
+    sources:
+      - url: https://www.sidefx.com/docs/houdini20.5/licenses/index.html
+        title: Houdini 20.5 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20_5/solaris.html
+        title: What's new in Houdini 20.5 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20_5/karma.html
+        title: What's new in Houdini 20.5 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/07/sidefx-releases-houdini-20-5-check-out-its-five-key-features/
+        title: SideFX releases Houdini 20.5 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "20.0"
+    date: "2023-11"
+    usd: "23.08"
+    materialx: "1.38.8"
+    sources:
+      - url: https://www.sidefx.com/docs/houdini20.0/licenses/index.html
+        title: Houdini 20.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2023/11/discover-the-key-features-of-houdini-20
+        title: Discover the key features of Houdini 20 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "19.5"
+    usd: "22.05"
+    materialx: "1.38.4"
+    sources:
+      - url: https://www.sidefx.com/docs/houdini19.5/licenses/index.html
+        title: Houdini 19.5 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ─────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      In Solaris, USD files are brought in with the Sublayer and Reference LOPs. In SOPs, the USD File Import SOP
+      loads prims as packed USD primitives that can be unpacked to ordinary Houdini geometry. Since 21.0 the bundled
+      Adobe file-format plugins also let FBX, glTF and SBSAR files be opened through the same sublayer and reference nodes.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/nodes/sop/usdimport.html
+        title: Houdini docs — USD File Import SOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/21/solaris.html
+        title: What's new in Houdini 21 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    notes: >-
+      The USD ROP (or USD LOP at the end of a network) writes the stage to disk; any layer with a save path is written
+      to its own file, and Python output processors can rewrite paths per layer. Since 21.0 the USD ROP can also export
+      FBX and glTF through Adobe's file-format plugins.
+    gaps:
+      - Save paths should be absolute.
+      - Writing animation with frames held in memory can use a lot of memory; flushing per frame is slower and can make larger files.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/output.html
+        title: Houdini docs — Writing out USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/21/solaris.html
+        title: What's new in Houdini 21 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "18.0"
+    notes: >-
+      The USD Zip render node packages a USD file and its dependencies (sublayers, textures, volumes) into a .usdz,
+      with an optional ARKit-compatible mode. The resulting .usdz loads into Houdini like any other USD file.
+    gaps:
+      - Only the usdzip "asset" and "ARKit asset" modes are exposed, not every usdzip option.
+      - ARKit mode applies Apple's stricter constraints and can drop data such as variant sets.
+      - SideFX notes .usdz cannot hold volume files and is unsuited to most pipeline work.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/out/usdzip.html
+        title: Houdini docs — USD Zip render node
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/output.html
+        title: Houdini docs — Writing out USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: SideFX pages disagree on volumes in USDZ. The USD Zip node says it bundles dependent volume files, while the Writing out USD page says USDZ cannot hold volume files.
+
+  # ── Workflow ────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    since: "18.0"
+    notes: >-
+      Solaris (the LOP context) is built on USD. Each LOP takes the incoming USD stage, modifies it and outputs a new
+      stage, so edits are authored as USD opinions rather than converted. Inline USD and Python Script LOPs allow
+      low-level edits. Houdini's USD integration code (HoudiniUsdBridge) is published as open source so studios can
+      rebuild it against their own USD build.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://digitalproduction.com/2019/10/28/sidefx-houdini-18-launch/
+        title: SideFX Houdini 18 launch (Digital Production)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://github.com/sideeffects/HoudiniUsdBridge
+        title: sideeffects/HoudiniUsdBridge
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    notes: >-
+      LOP networks edit the strongest sublayer; the Layer Break LOP starts a new active sublayer for downstream nodes.
+      The Edit Target Layer LOP edits a lower layer directly; other layer nodes include Configure Layer, Load Layer for
+      Editing and Layer Replace. The Scene Graph Layers pane can show the prim, variant and attribute specs of each layer.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20/solaris.html
+        title: What's new in Houdini 20 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/edittargetlayer.html
+        title: Houdini docs — Edit Target Layer LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/index.html
+        title: Houdini docs — LOP nodes
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      HOUDINI_USD_DSO_PATH passes extra plugin search paths to the USD library, and the docs describe asset resolvers
+      for studio asset IDs. Custom file-format plugins can be built against the HDK's USD headers, or studios can
+      rebuild HoudiniUsdBridge against their own USD build. Houdini 22 also bundles Adobe's glTF, FBX and SBSAR
+      file-format plugins, which can be disabled with environment variables.
+    gaps:
+      - Houdini's own output processors only allow limited customisation, mainly of file paths.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/ref/env.html
+        title: Houdini docs — Environment variables
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/licenses/index.html
+        title: Houdini 22.0 third-party libraries and tools
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ─────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    notes: The Sublayer LOP reads and authors sublayers.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    notes: The Reference LOP references external files or prims from its first input; Stage Manager and Graft Stages also author references.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/reference.html
+        title: Houdini docs — Reference LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: native
+    notes: >-
+      The Reference LOP can author payloads. Houdini loads all payloads by default; the Configure Stage LOP and load
+      masks choose which ones are loaded.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/reference.html
+        title: Houdini docs — Reference LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: native
+    notes: Add Variant, Set Variant and Explore Variants LOPs author and switch variant sets; Create LOD and Auto Select LOD build on them.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/index.html
+        title: Houdini docs — LOP nodes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.inherits
+    level: native
+    notes: The Reference LOP can author inherits and specializes arcs to prims from its first input.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/reference.html
+        title: Houdini docs — Reference LOP
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >-
+      The Instancer LOP (renamed Copy to Points LOP in 22.0) creates or edits PointInstancer prims from SOP points. The
+      SOP Import LOP can turn packed primitives into point instancers or native instances.
+    gaps:
+      - Children of instanceable prims cannot be edited (a USD rule the docs call out).
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/sop_import.html
+        title: Houdini docs — SOP Geometry I/O
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ───────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      The SOP Import LOP writes polygons as USD meshes, optionally as subdivision surfaces with a per-face scheme
+      (Catmull-Clark, Loop, bilinear) and Houdini crease and boundary attributes; standard attributes map to USD
+      primvars.
+    gaps:
+      - Houdini's winding order differs from USD's, so polygon vertex order may need reversing on import.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/sop_import.html
+        title: Houdini docs — SOP Geometry I/O
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    notes: The SOP Import LOP authors Points prims, including the partition subset types added in USD 24.03 (Houdini 20.5).
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/news/20_5/solaris.html
+        title: What's new in Houdini 20.5 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: The SOP Import LOP writes volume fields under volume prims, with the location set by an attribute.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/sop_import.html
+        title: Houdini docs — SOP Geometry I/O
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >-
+      Animated stages are written as time samples, either held in memory and combined with USD Stitch or flushed frame
+      by frame. Geometry Clip Sequence and Value Clip LOPs store data as USD value clips.
+    gaps:
+      - Value clips only work for an isolated branch of the scene graph.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/output.html
+        title: Houdini docs — Writing out USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/20/solaris.html
+        title: What's new in Houdini 20 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    notes: >-
+      KineFX characters are exported to Skeleton and SkelAnimation prims with the SOP Import UsdSkel Character LOP,
+      and UsdSkel characters come back into KineFX with the UsdSkel Character Import SOP (renamed from USD Character
+      Import in 22.0). Bake UsdSkel Skinning bakes skinning to point positions.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/kinefx--sopcharacterimport.html
+        title: Houdini docs — SOP Import UsdSkel Character LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--usdcharacterimport.html
+        title: Houdini docs — UsdSkel Character Import SOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/solaris.html
+        title: What's new in Houdini 22 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: The Camera LOP creates or edits USD cameras, including focal length, aperture, clipping range, focus and the USD exposure controls added in 22.0.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/camera.html
+        title: Houdini docs — Camera LOP
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: The Light LOP creates or edits USD light prims (point, distant, disk, rectangle, sphere, cylinder, geometry), adding Karma-specific attributes; Dome Light and Light Linker LOPs cover environment lights and linking.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/light.html
+        title: Houdini docs — Light LOP
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ─────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      USD Preview Surface materials can be built with the USD Preview Material Builder and nodes such as the USD UV
+      Texture VOP, and the Material Library LOP can auto-generate a preview shader next to the renderer-specific one
+      (works best from Principled Shader and MtlX Standard Surface).
+    gaps:
+      - The auto-generated preview shader is an approximation that depends on parameter tagging.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/shader_framework.html
+        title: Houdini docs — Shader translation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/ocio.html
+        title: Houdini docs — Color management
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    notes: >-
+      MaterialX networks built from MtlX VOPs inside a USD MaterialX Builder or Karma Material Builder are translated
+      to UsdShade prims; Solaris relies on USD's UsdMtlx plugin to read MaterialX.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >-
+      The Material Library LOP translates VOP shader networks to UsdShade through Python or C++ shader translators
+      chosen by render mask, so third-party renderers can register their own translators and shader HDAs.
+    gaps:
+      - The default translator relies on heuristics, spare parameters and tags that must be set carefully.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/shader_framework.html
+        title: Houdini docs — Shader translation
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Rendering ───────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: native
+    notes: >-
+      The Solaris viewer can switch between Hydra render delegates (Houdini VK/GL, Storm, Karma, and any installed
+      third-party delegate), and the husk command-line renderer can drive other delegates too. Hydra 2 has been the
+      standard delegate interface since 21.0, and several delegates can stay active at once.
+    gaps:
+      - MaterialX colour-space metadata is not passed through Hydra to render delegates.
+      - Storm does not appear in the Houdini clone renderer list.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/usd.html
+        title: Houdini docs — USD basics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma.html
+        title: Houdini docs — Karma
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/21/solaris.html
+        title: What's new in Houdini 21 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/solaris.html
+        title: What's new in Houdini 22 — Solaris
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    notes: >-
+      The Render Settings, Render Product and Render Var LOPs author UsdRenderSettings, UsdRenderProduct and
+      UsdRenderVar prims under /Render. Many options on the stock LOP are Karma-specific.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/nodes/lop/rendersettings.html
+        title: Houdini docs — Render Settings LOP
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ───────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    notes: A .mtlx file is loaded with the Reference LOP (choosing a material prim) and then assigned; SideFX recommends this over sublayering .mtlx files.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: partial
+    notes: A script can convert VOP nodes to .mtlx files, but SideFX describes Solaris support for writing .mtlx as much more limited; the main workflow keeps MaterialX as USD prims.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: native
+    notes: >-
+      MaterialX node graphs are built from MtlX VOPs (surface, BSDF, EDF, texture, math and colour nodes) inside a USD
+      MaterialX Builder or Karma Material Builder in a Material Library LOP.
+    gaps:
+      - String inputs are not allowed, even for connecting parameters from a public interface.
+      - MaterialX tokens such as {frame} are not used by Houdini or Karma; only <UDIM> works.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      The Houdini GL viewport delegate displays MaterialX materials by default (HOUDINI_GL_USE_MATERIALX), and the
+      bundled Karma renderer renders them in both its CPU and XPU engines. See the karma record for renderer details.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/ref/env.html
+        title: Houdini docs — Environment variables
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.custom_nodes
+    level: native
+    notes: >-
+      Custom nodegraphs can be turned into atomic MaterialX node definitions with SideFX's vop2mtlx.py, mtlx2karma.py
+      (writes the karmaNodeGraph.json Karma needs) and mtlx2hda.py (makes the user-facing HDA) scripts.
+    gaps:
+      - SideFX calls the workflow a technical process.
+      - Graphs containing kma_ (Karma) nodes make the scripts fail.
+      - Only the first signature is exported unless --all_signatures is used.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Karma User Guide — Materials
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: The MtlX Standard Surface VOP is SideFX's recommended general-purpose MaterialX shader, with conversion nodes to OpenPBR, glTF PBR and USD Preview Surface.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "21.0"
+    notes: The MtlX OpenPBR Surface VOP arrived in 21.0 and works in Karma CPU and XPU; the Vulkan viewport gained OpenPBR shader support in the same release.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/08/sidefx-just-released-houdini-21-check-out-its-5-key-features/
+        title: SideFX just released Houdini 21 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.gltf_pbr
+    level: native
+    notes: The MtlX glTF PBR VOP and glTF image and normal-map nodes are available, plus a Standard Surface to glTF PBR conversion; 22.0 added glTF Material and glTF Anisotropy Image VOPs.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.preview_surface
+    level: native
+    notes: The MtlX USD Preview Surface VOP and related USD-flavoured MaterialX nodes can be mixed with other MaterialX nodes in Karma.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini docs — MaterialX
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: HoudiniUsdBridge Windows build and installation issues when building against a custom USD
+    url: https://github.com/sideeffects/HoudiniUsdBridge/issues/27
+    capability: usd.plugins
+    status: open
+    affects: "19.5"
+    verified: 2026-11-04

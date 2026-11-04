@@ -1,0 +1,341 @@
+name: Substance 3D Designer
+vendor: Adobe
+categories: [texturing]
+industries: [games, film-tv, vfx, product-design]
+license: commercial
+website: https://www.adobe.com/products/substance3d/apps/designer.html
+tier: 1
+summary: >-
+  Adobe's node-based procedural material authoring tool. Since 15.0 its 3D View imports whole USD scenes, renders
+  MaterialX shaders they contain and exports edits as USD layers; 16.0 made OpenPBR the default and dropped MDL in
+  favour of MaterialX, which it cannot yet author.
+
+releases:
+  - version: "14.0.0"
+    date: 2024-07-30
+    usd: "23.08"
+    notes: Follows the 2023 and 2024 VFX Reference Platform recommendations, updating Boost to 1.82.0, Python to 3.11 and Qt to 6.5.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "14.1.0"
+    date: 2025-01-14
+    notes: The 14.1 series (14.1.1) began warning that MDL graphs would be deprecated.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "15.0.0"
+    date: 2025-07-15
+    notes: >-
+      New 3D View renderer (rasterizer and path tracer) with full USD scene import, MaterialX shaders from USD scenes,
+      layered USD export, and glTF, PLY and STL support.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "15.1.0"
+    date: 2025-12-11
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "16.0.0"
+    date: 2026-04-14
+    notes: >-
+      OpenPBR becomes the default 3D View material model; the MDL graph feature set and Iray are removed. Library
+      updates include Python 3.13, Qt 6.8, OpenColorIO 2.5 and OpenSubdiv 3.7. The current patch is 16.0.7
+      (8 October 2026).
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "12.1"
+    notes: >-
+      USD files were first supported in 12.1.0 (April 2022). Since 15.0 the 3D View imports whole USD scenes
+      (.usd, .usda, .usdc, .usdz) and shows their textures, cameras and lights, so materials can be previewed in
+      context; a mesh's material can be overridden with a Designer graph, or its textures extracted into a new graph.
+    gaps:
+      - Scenes with animated primitives are not properly supported (known issue in 15.0.0 and 16.0.0).
+      - Meshes with multiple UDIMs or multiple UV sets were not supported as of 15.0.0.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "15.0"
+    notes: >-
+      Export scene in the 3D View's Scene menu writes a flattened scene (including Designer's default camera,
+      environment, added lights and material copies) to .usd, .usda, .usdc or .usdz, with textures in a sibling
+      "_textures" folder as PNG or EXR. glTF, PLY and STL export were added in the same release.
+    gaps:
+      - The docs do not say which shading model the exported USD materials use.
+      - The flattened export drops references to the original scene, so later edits to the source are not picked up.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/working-with-3d-scenes/exporting-scenes
+        title: Substance 3D Designer — Exporting scenes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    notes: USDZ is supported for scene import and export, and exported USDZ files are self-contained since 15.0.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/working-with-3d-scenes/exporting-scenes
+        title: Substance 3D Designer — Exporting scenes
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    since: "15.0"
+    notes: >-
+      Export scene as layers writes a non-destructive chain of USD sublayers over the original scene, with separate
+      layers for material overrides, recomputed geometry, added cameras, added lights and material copies, so later
+      changes to the source scene still flow through. It can also be saved as a new layer in the original file.
+    gaps:
+      - Layered export is available for USD formats only.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/working-with-3d-scenes/exporting-scenes
+        title: Substance 3D Designer — Exporting scenes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.cameras
+    level: native
+    since: "15.0"
+    notes: The 3D View can switch between the cameras in an imported USD scene.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    since: "15.0"
+    notes: >-
+      Imported USD scenes display their lights, and lights added in Designer are written to their own layer on
+      layered export. Since 15.0.1 the default environment is disabled when the USD scene brings its own.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/working-with-3d-scenes/exporting-scenes
+        title: Substance 3D Designer — Exporting scenes
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+        title: Substance 3D Designer — All changes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ────────────────────────────────────────────────────────────────
+  - capability: usd.shade.materialx
+    level: native
+    since: "15.0"
+    notes: >-
+      MaterialX shaders referenced by an imported USD scene are rendered by the 3D View's rasterizer; materials can
+      then be overridden with Designer graphs.
+    gaps:
+      - Designer reads MaterialX from USD for display only; no MaterialX authoring or export is documented.
+      - The release notes only mention the rasterizer, not the path tracer.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: plugin
+    via: usd-fileformat-plugins
+    notes: >-
+      Adobe's open-source SBSAR file-format plugin lets USD applications reference Designer's published .sbsar
+      materials directly, exposing each as UsdPreviewSurface and Adobe Standard Material (ASM) networks. Presets and
+      output resolution are variant selections, and inputs are procedural_sbsar attributes; textures are generated on
+      demand by the Substance engine.
+    gaps:
+      - The plugin is off by default, needs the Substance 3D Materials SDK, and is not tested in the project's CI.
+      - OpenPBR and MaterialX output are not mentioned for SBSAR.
+    sources:
+      - url: https://github.com/adobe/USD-Fileformat-plugins/blob/main/sbsar/README.md
+        title: adobe/USD-Fileformat-plugins — SBSAR plugin README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/adobe/USD-Fileformat-plugins
+        title: adobe/USD-Fileformat-plugins README
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Capability fit is interpretive: the plugin runs inside USD host applications (it is not part of Designer) and
+      carries Designer's published materials into UsdShade.
+
+  # ── Rendering ──────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: planned
+    notes: >-
+      In 2023 Adobe said in a livestream that Designer would get a Hydra-based viewport able to use its own renderer
+      or third-party delegates such as RenderMan, expected in 2024.
+    sources:
+      - url: https://80.lv/articles/substance-3d-designer-will-get-new-hydra-viewport-native-materialx-support/
+        title: 80 Level — Substance 3D Designer will get new Hydra viewport, native MaterialX support (2023)
+        kind: news
+        accessed: 2026-11-04
+    confidence: low
+    verified: 2026-11-04
+    review: >-
+      The announcement is from September 2023 and its 2024 target passed; 15.0 shipped a new rasterizer/path-tracer
+      renderer, and none of the 15.0 or 16.0 notes read mention Hydra, so the plan may have changed.
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.render
+    level: native
+    since: "15.0"
+    notes: >-
+      The 15.0 rasterizer renders MaterialX shaders from imported USD scenes; 16.0.0 fixed a regression in which such
+      scenes stopped rendering correctly.
+    gaps:
+      - Only MaterialX carried in imported USD scenes is rendered; Designer graphs themselves are not MaterialX.
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-15-0
+        title: Substance 3D Designer — Version 15.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: planned
+    notes: >-
+      Adobe has said Designer will let users author MaterialX directly (2023 livestream) and that future updates will
+      add MaterialX support (2025, per CG Channel). The 16.0 notes say Designer is moving away from MDL in favour of
+      MaterialX, without a timeframe.
+    sources:
+      - url: https://80.lv/articles/substance-3d-designer-will-get-new-hydra-viewport-native-materialx-support/
+        title: 80 Level — Substance 3D Designer will get new Hydra viewport, native MaterialX support (2023)
+        kind: news
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/?p=168545
+        title: CG Channel — Adobe releases Substance 3D Designer 15.0
+        kind: news
+        accessed: 2026-11-04
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: low
+    verified: 2026-11-04
+    review: >-
+      The vendor statements come second-hand through news sites; the only first-party source (16.0 notes) states a
+      direction, not a planned feature.
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "16.0"
+    notes: >-
+      OpenPBR Surface is supported throughout, with dedicated shaders for the OpenGL, rasterizer and GPU path-tracer
+      renderers, and is the default 3D View material model. Legacy PBR graphs map onto OpenPBR, and a new Material
+      model graph attribute is stored in published SBSAR files.
+    gaps:
+      - Generated icons for OpenPBR graphs are not accurate (16.0.0 known issue).
+    sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: Scenes with animated primitives are not properly supported in the 3D View
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+    capability: usd.import
+    status: open
+    affects: "15.0.0–16.0.0 (known issue)"
+    verified: 2026-11-04
+
+  - title: USD scenes with MaterialX materials no longer rendered correctly
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+    capability: mtlx.render
+    status: fixed
+    fixedIn: "16.0.0"
+    verified: 2026-11-04
+
+  - title: Meshes exported from Designer did not render the same in usdview
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+    capability: usd.export
+    status: fixed
+    fixedIn: "16.0.0"
+    verified: 2026-11-04
+
+  - title: Incorrect surface look after overriding the material in a specific USD scene
+    url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes
+    capability: usd.import
+    status: fixed
+    fixedIn: "16.0.7"
+    verified: 2026-11-04

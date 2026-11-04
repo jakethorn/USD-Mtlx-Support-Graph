@@ -1,0 +1,477 @@
+name: RealityKit & Reality Composer Pro
+vendor: Apple
+categories: [xr-web, lookdev]
+industries: [xr, games, web]
+license: free
+website: https://developer.apple.com/documentation/realitykit
+tier: 1
+
+# Covers the RealityKit framework and renderer, the Reality Composer Pro editor (version 3, now a
+# standalone download), and USDKit, the Swift USD framework with a RealityKit integration layer that
+# arrived with Apple's version 27 operating systems. `since: "27"` means iOS / iPadOS / macOS / visionOS 27.
+# Apple's "Validating feature support for USD files" tables are explicit per renderer (a blank cell means
+# importing that feature from USD is unsupported), so they back the `none` records below.
+
+releases:
+  - version: "27"
+    notes: >-
+      Apple's version 27 operating systems add USDKit and update OpenUSD, MaterialX and OpenVDB across
+      platforms; Apple did not publish the version numbers. On macOS 27, Preview and Quick Look default to
+      RealityKit for all USD files, with Storm (and a new Raytracer in Preview) as alternatives.
+    sources:
+      - url: https://developer.apple.com/videos/play/wwdc2026/285/
+        title: Discover USDKit and what's new in OpenUSD (WWDC26)
+        kind: talk
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      RealityKit loads .usd, .usda, .usdc and .usdz into entity hierarchies (Entity.load and the async
+      Entity initialisers). Reality Composer Pro imports USD files as read-only entity assets and compiles
+      projects to .reality files for apps.
+    gaps:
+      - Reality Composer Pro does not write edits back to the imported .usd source file, though it offers options to export changes back.
+      - USDKit's newer RealityKit backend does not support Apple's interactive behaviours.
+    sources:
+      - url: https://developer.apple.com/documentation/realitykit/loading-entities-from-a-file
+        title: Loading entities from a file
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/realitycomposerpro/realitycomposerpro-essentials-addingentitiestoscene
+        title: Reality Composer Pro — Adding entities and assets to a scene
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: Apple's USD guide says Reality Composer Pro uses USDA as its native scene format, but the Reality Composer Pro 3 docs say projects don't use .usd as their file type; check which applies to version 3.
+
+  - capability: usd.export
+    level: native
+    since: "27"
+    notes: >-
+      USDKit's USDStage can save its layers, export a flattened USD file, or package the stage as USDZ.
+      Before USDKit, an Apple engineer said there was no supported API for writing USD from RealityKit
+      (only .reality files).
+    gaps:
+      - Export is of a USDKit stage, not of a RealityKit entity hierarchy.
+    sources:
+      - url: https://developer.apple.com/documentation/usdkit/usdstage
+        title: USDKit — USDStage
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/forums/thread/780797
+        title: How to export an entity to USD? (Apple Developer Forums, Apple engineer reply, April 2025)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      USDZ is Apple's recommended distribution format: RealityKit and AR Quick Look load it, and from
+      version 27 USDKit exports USDZ with optional mesh compression and AVIF textures (also exposed in
+      Preview and the usdcrush command-line tool). Quick Look lets viewers switch variants on the default prim.
+    gaps:
+      - USDZ files may only contain JPEG, PNG, EXR and AVIF textures.
+    sources:
+      - url: https://developer.apple.com/documentation/usd
+        title: USD (Apple developer documentation)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usdkit/usdstage
+        title: USDKit — USDStage
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/videos/play/wwdc2026/285/
+        title: Discover USDKit and what's new in OpenUSD (WWDC26)
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ─────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    since: "27"
+    notes: >-
+      USDKit's USDStageComponent renders a composed USDStage as RealityKit entities and, in automatic mode,
+      re-renders when the stage or time code changes.
+    gaps:
+      - USDKit does not load USD physics data into RealityKit.
+      - USDKit exposes a curated subset of OpenUSD rather than the full API.
+    sources:
+      - url: https://developer.apple.com/documentation/usdkit/usdstagecomponent
+        title: USDKit — USDStageComponent
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usdkit
+        title: USDKit
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    since: "27"
+    notes: >-
+      USDKit's USDStage can mute and unmute layers, set the edit target and keep temporary edits in a
+      session layer. This is a Swift API.
+    sources:
+      - url: https://developer.apple.com/documentation/usdkit/usdstage
+        title: USDKit — USDStage
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ──────────────────────────────────────────────────────────
+  - capability: usd.composition.references
+    level: native
+    since: "27"
+    notes: USDKit prims carry references, and adding a reference to another USD file from Swift is shown in Apple's WWDC26 walkthrough.
+    sources:
+      - url: https://developer.apple.com/documentation/usdkit
+        title: USDKit
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/videos/play/wwdc2026/285/
+        title: Discover USDKit and what's new in OpenUSD (WWDC26)
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: native
+    notes: >-
+      RealityKit loads the active variant and can switch variants after loading depending on context;
+      Reality Composer Pro supports switching too, and Quick Look offers variants on the default prim as
+      configuration options.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: partial
+    notes: >-
+      Apple's support table marks deferred payload loading as unsupported in RealityKit, while USDKit's
+      stage API takes a payload load rule when opening a stage.
+    gaps:
+      - RealityKit cannot defer payload loading.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usdkit/usdstage
+        title: USDKit — USDStage
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: The support table and the USDKit payload load rule point different ways; unclear whether payloads left unloaded in USDKit stay unloaded when rendered by RealityKit.
+
+  - capability: usd.instancing
+    level: partial
+    notes: RealityKit instances mesh and texture data from imported USD files.
+    gaps:
+      - Point instancers are not supported by RealityKit.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      Polygon meshes, primitive shapes, geometry subsets, vertex colours, purpose and subdivision are
+      supported, and Alembic (Ogawa) files load.
+    gaps:
+      - Subdivision only applies to meshes using UsdPreviewSurface; meshes with custom MaterialX materials stay polygonal.
+      - Double-sided meshes and NURBS patches are not supported, and the plane primitive is unsupported.
+      - Materials support at most two UV sets.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: none
+    notes: Apple's support table marks basis curves as unsupported in RealityKit (Raytracer has partial support).
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: none
+    notes: Apple's support table marks points as unsupported in RealityKit (Storm and SceneKit render them).
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    notes: Transform animation and skeletal animation play back.
+    gaps:
+      - Vertex (point-cache) animation is not supported in RealityKit.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    notes: >-
+      Skeletons, skeletal animation and blend shapes are supported; geometry needs SkelBindingAPI applied.
+      Reality Composer Pro 3 adds a skeleton editor and Animation Graph.
+    gaps:
+      - Apple recommends merging rigs into a single skeleton per model; multiple skeletons cause performance and compatibility issues.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/realitycomposerpro
+        title: Reality Composer Pro documentation
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: none
+    notes: >-
+      Apple's support table marks USD cameras as unsupported in RealityKit; only Apple's own spatial camera
+      type is listed as supported.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: none
+    notes: >-
+      RealityKit ignores lights in USD files and lights scenes from real-world lighting instead; no UsdLux
+      type is supported. Lights are added in Reality Composer Pro or code instead.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: none
+    notes: Apple's support table marks OpenVDB volumes as unsupported in RealityKit (Raytracer and Storm render them).
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.physics
+    level: partial
+    notes: RealityKit reads physics scenes, rigid bodies, mass, collisions and physics materials from USD.
+    gaps:
+      - Joints, limits, drives, articulation roots, mesh collisions, collision groups and filtered pairs are not supported.
+      - USDKit does not load physics data into RealityKit.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: UsdPreviewSurface with the metallic workflow is supported, along with textures, wrap modes and AVIF textures.
+    gaps:
+      - The specular workflow, bias and displacement are not supported.
+      - Only one packed texture and one UsdTransform2d per material; texture scale doesn't apply to normal maps.
+      - Normal maps are expected in OpenGL (not DirectX) orientation.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/usd/creating-usd-files-for-apple-devices
+        title: Creating USD files for Apple devices
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    notes: >-
+      RealityKit renders MaterialX material graphs in USD, and Reality Composer Pro's Shader Graph uses
+      MaterialX 1.38 conventions so graphs can move between DCCs that read and write MaterialX in USD.
+      Materials load at runtime as ShaderGraphMaterial.
+    gaps:
+      - Support for individual MaterialX nodes varies by renderer; Apple advises checking assets in the target renderer.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/shadergraph
+        title: ShaderGraph
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/realitykit/shadergraphmaterial
+        title: RealityKit — ShaderGraphMaterial
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    notes: ShaderGraphMaterial can be created directly from MaterialX data at runtime, as well as from named materials in USD files.
+    sources:
+      - url: https://developer.apple.com/documentation/realitykit/shadergraphmaterial
+        title: RealityKit — ShaderGraphMaterial
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: native
+    notes: >-
+      Reality Composer Pro's Shader Graph is a node-based material editor built on MaterialX 1.38
+      conventions, with surface and geometry-modifier outputs and runtime-adjustable promoted inputs.
+      Apple publishes MaterialX definitions for some RealityKit-specific nodes for use in other tools.
+    gaps:
+      - Some Shader Graph nodes are RealityKit-specific and only some of them have published MaterialX definitions.
+    sources:
+      - url: https://developer.apple.com/documentation/shadergraph
+        title: ShaderGraph
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/realitycomposerpro/designing-materials-with-shader-graph
+        title: Designing materials with Shader Graph
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/realitycomposerpro/reality-composer-pro-3-release-notes
+        title: Reality Composer Pro 3 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      RealityKit renders MaterialX shading networks; Reality
+      Composer Pro 3 adds Subsurface Scattering, a PBR Surface 2 node (sheen, SSS) and a Hair Surface node.
+    sources:
+      - url: https://developer.apple.com/documentation/usd/validating-usd-files
+        title: Validating feature support for USD files
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/videos/play/wwdc2026/393/
+        title: Supercharge your spatial workflows with Reality Composer Pro 3 (WWDC26)
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.preview_surface
+    level: native
+    notes: New Shader Graph materials start from a PreviewSurface node, and the Surface node category generates a MaterialX preview surface.
+    sources:
+      - url: https://developer.apple.com/documentation/realitycomposerpro/designing-materials-with-shader-graph
+        title: Designing materials with Shader Graph
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.apple.com/documentation/shadergraph
+        title: ShaderGraph
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    notes: >-
+      Apple's WWDC26 USD session says the RealityKit, Storm and Raytracer renderers offered in Preview and
+      Quick Look all support OpenPBR.
+    sources:
+      - url: https://developer.apple.com/videos/play/wwdc2026/285/
+        title: Discover USDKit and what's new in OpenUSD (WWDC26)
+        kind: talk
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: Only a WWDC talk says this; the Shader Graph docs still cite MaterialX 1.38 conventions (OpenPBR arrived with MaterialX 1.39), so check whether OpenPBR reaches RealityKit apps and Reality Composer Pro or only the USDKit path.
+
+issues:
+  - title: Shader graph of an imported asset fails on normal maps in Reality Composer Pro 3 (184117276)
+    url: https://developer.apple.com/documentation/realitycomposerpro/reality-composer-pro-3-release-notes
+    capability: usd.shade.materialx
+    status: unknown
+    affects: "Reality Composer Pro 3"
+    severity: major
+    verified: 2026-11-04
+    review: Listed as a known issue for Reality Composer Pro 3; the 3.1 notes no longer list it but don't say it was fixed.

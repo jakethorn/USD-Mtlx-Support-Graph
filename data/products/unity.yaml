@@ -1,0 +1,282 @@
+name: Unity
+vendor: Unity Technologies
+categories: [game-engine]
+industries: [games, film-tv, automotive, aec, xr, simulation]
+license: commercial
+website: https://unity.com
+tier: 1
+
+# Unity's editor does not bundle USD. Support comes from three Unity packages installed by name through
+# the Package Manager: com.unity.importer.usd (1.0.0-pre.2, pre-release), com.unity.exporter.usd
+# (1.0.0-exp.1, experimental) and com.unity.usd.core (1.0.0-pre.1, C# bindings for USD v23.02). They are
+# closed source, so no `via` is set, and they are labelled pre-release/experimental, so records are
+# `experimental`. The USD version belongs to the USD Core package rather than to Unity releases, so no
+# `releases` are listed. The older com.unity.formats.usd package (usd-unity-sdk) was deprecated in
+# November 2024.
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: experimental
+    notes: >-
+      The USD Importer package (latest 1.0.0-pre.2, August 2024) is a ScriptedImporter for .usd, .usda,
+      .usdc and .usdz that handles multi-file scenes, re-imports when source files change, and builds
+      materials with Shader Graph for all three render pipelines. It sits on USD Core, Unity's C# bindings
+      for USD v23.02, and needs Unity 2023.1 or later.
+    gaps:
+      - Editor only; the importer does not run in player builds.
+      - .usd, .usda and .usdc files are not imported until the Import option is enabled in the Inspector.
+      - No new importer release since 1.0.0-pre.2 in August 2024.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/Importing.html
+        title: Unity USD Importer — Importing
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Importer changelog
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.usd.core@1.0/manual/index.html
+        title: USD Core 1.0.0-pre.1 manual (USD v23.02 C# bindings)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://discussions.unity.com/t/new-openusd-packages-now-available/935041
+        title: New OpenUSD packages now available (Unity staff announcement, Dec 2023)
+        kind: forum
+        accessed: 2026-11-04
+      - url: https://discussions.unity.com/t/openusd-runtime-support/1555273
+        title: OpenUSD - Runtime Support (Unity Discussions thread)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: experimental
+    notes: >-
+      The USD Exporter package (1.0.0-exp.1) exports GameObjects to .usd, .usda, .usdc or .usdz from the
+      editor, and adds USD output to the Recorder package for animation.
+    gaps:
+      - Not designed for runtime export, so built players are unsupported.
+      - Some physical camera settings are not exported.
+      - Can error when installed alongside NVIDIA's Omniverse connector because of conflicting USD plugins.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/manual/index.html
+        title: Unity USD Exporter 1.0.0-exp.1 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/manual/UnderstandingUsdPackages.html
+        title: Understanding Unity USD packages
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: experimental
+    notes: >-
+      The importer imports .usdz packages immediately and extracts the textures they contain; the exporter
+      can write .usdz.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/Importing.html
+        title: Unity USD Importer — Importing
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/manual/index.html
+        title: Unity USD Exporter 1.0.0-exp.1 manual
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition (legacy package only) ────────────────────────────────────
+  - capability: usd.composition.variants
+    level: deprecated
+    via: usd-unity-sdk
+    notes: >-
+      Variant selection was a feature of the legacy com.unity.formats.usd package, which Unity deprecated
+      on 15 November 2024. The replacement importer's docs don't mention variants.
+    sources:
+      - url: https://github.com/Unity-Technologies/usd-unity-sdk/blob/master/README.md
+        title: usd-unity-sdk README (deprecation notice)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: deprecated
+    via: usd-unity-sdk
+    notes: >-
+      Loading all or individual payloads was a feature of the legacy com.unity.formats.usd package,
+      deprecated on 15 November 2024. The replacement importer's docs don't mention payloads.
+    sources:
+      - url: https://github.com/Unity-Technologies/usd-unity-sdk/blob/master/README.md
+        title: usd-unity-sdk README (deprecation notice)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: deprecated
+    via: usd-unity-sdk
+    notes: >-
+      Point instancing and scenegraph instancing were features of the legacy com.unity.formats.usd package,
+      deprecated on 15 November 2024. The replacement importer's docs don't mention instancing.
+    sources:
+      - url: https://github.com/Unity-Technologies/usd-unity-sdk/blob/master/README.md
+        title: usd-unity-sdk README (deprecation notice)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: experimental
+    notes: >-
+      Mesh import supports multiple UV sets and vertex colours for materials and UsdTransform2d texture
+      transforms, plus an option to recalculate normals and tangents.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Importer changelog
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: experimental
+    notes: Hair is supported through Unity's separate Hair package, and groom/hair import is opt-in through a second import graph.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Importer changelog
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: experimental
+    notes: The importer brings in transform animation, and the exporter writes animation through the Recorder package's Timeline recording track.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/manual/index.html
+        title: Unity USD Exporter 1.0.0-exp.1 manual
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: experimental
+    notes: >-
+      Skeletal and blend-shape animation import, including blend-shape in-betweens and more than four bone
+      influences per vertex; the exporter applies UsdSkelBindingAPI where needed.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Importer changelog
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Exporter changelog
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: experimental
+    notes: >-
+      Cameras import with animated orthographic size, focal length, focus distance, lens shift and
+      near/far clipping planes.
+    gaps:
+      - The exporter does not write some physical camera settings.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/manual/index.html
+        title: Unity USD Exporter 1.0.0-exp.1 manual
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: experimental
+    notes: Imports DistantLight, SphereLight, DiskLight and RectLight prims.
+    gaps:
+      - Unity describes light support as limited because USD lights differ from Unity's real-time lights; other UsdLux types are not listed.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: experimental
+    notes: >-
+      UsdPreviewSurface is the only material the importer reads, rebuilt as a cross-pipeline Shader Graph;
+      the exporter writes Shader Graph materials back out as UsdPreviewSurface.
+    gaps:
+      - Imported materials are read-only sub-assets; Unity staff suggest making a material variant to edit them.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.importer.usd@1.0/manual/index.html
+        title: Unity USD Importer 1.0.0-pre.2 manual
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.unity3d.com/Packages/com.unity.exporter.usd@1.0/changelog/CHANGELOG.html
+        title: Unity USD Exporter changelog
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://discussions.unity.com/t/new-openusd-packages-now-available/935041
+        title: New OpenUSD packages now available (Unity staff announcement, Dec 2023)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.export
+    level: partial
+    notes: >-
+      Unity's PolySpatial package for visionOS converts Shader Graph materials to MaterialX so they can
+      be displayed on Apple Vision Pro and in its simulator. It is a separately installed package, and the
+      conversion is internal rather than a general .mtlx file export.
+    gaps:
+      - Only Shader Graphs with the Universal or Built-In target convert.
+      - Unsupported nodes are flagged with a # symbol in the editor and do not convert.
+      - Texture sampler settings are ignored, so filtering and wrapping need a Sampler State node.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.polyspatial.visionos@3.3/manual/ShaderGraph.html
+        title: PolySpatial visionOS 3.3 — Shader Graph support
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: Mapping PolySpatial's internal Shader Graph-to-MaterialX conversion to mtlx.export is an interpretation; Unity documents no other MaterialX import or export.

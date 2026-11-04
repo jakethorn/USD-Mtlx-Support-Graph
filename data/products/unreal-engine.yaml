@@ -5,3 +5,591 @@ industries: [games, film-tv, automotive, aec, simulation]
 license: source-available
 website: https://www.unrealengine.com
 tier: 1
+
+# How levels are assigned here. Unreal has two USD paths, both shipped inside the engine:
+#  - the USD Importer plugin (Engine/Plugins/Importers/USDImporter: USD Stage Editor, USD Stage Actor,
+#    legacy stage importer and the USD exporter). It is bundled but must be enabled, and the 5.8 docs
+#    label it Beta, so records that depend on it are `experimental`.
+#  - USD through the Interchange framework (added in 5.5). The 5.8 release notes call it production
+#    ready for asset import and experimental for level import, so asset-level records are `native`.
+# Both are closed components of the engine, so no `via` is set.
+
+releases:
+  - version: "5.8"
+    date: 2026-06-17
+    notes: >-
+      The release notes do not state the bundled OpenUSD or MaterialX version. USD import through
+      Interchange is declared production ready for asset import (level import stays experimental), and
+      an experimental USD Asset Pre-Generation framework is added.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://forums.unrealengine.com/t/unreal-engine-5-8-released/2729274
+        title: Unreal Engine 5.8 Released (Epic forum announcement)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "5.7"
+    usd: "25.08"
+    materialx: "1.39.3"
+    notes: Release notes list "Upgraded OpenUSD version to v25.08" and "Upgraded MaterialX version to v1.39.3".
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "5.6"
+    usd: "25.02a"
+    materialx: "1.38.10"
+    notes: Release notes say OpenUSD was upgraded to v25.02a (a hotfix of 25.02) and MaterialX to 1.38.10.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "5.5"
+    usd: "24.05"
+    notes: >-
+      Release notes say OpenUSD was upgraded to v24.05. This release also added USD to the Interchange
+      framework and moved USD SDK access into a new USDCore plugin. The MaterialX version is not stated.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-5-release-notes
+        title: Unreal Engine 5.5 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      Two bundled import paths: the USD Importer plugin (Import Into Level, Content Browser import, or
+      Actions > Import in the USD Stage Editor) and USD through Interchange, added in 5.5. In 5.8 Epic calls
+      Interchange USD production ready for asset import; schema handlers are reorderable and the USD
+      translator can be extended in C++ for custom schemas.
+    gaps:
+      - Importing USD into a level through Interchange is still experimental in 5.8.
+      - The USD Importer plugin must be enabled from the Plugins menu, and its docs label it Beta.
+      - Lightmaps are not generated automatically, so a static lighting build of an imported stage can come out black.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes — USD Import with Interchange
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/PluginIndex/USDImporter
+        title: USD Importer plugin index (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: The USD docs page and plugin index label USD Beta, while the 5.8 release notes call Interchange USD asset import production ready; level set to native on the strength of the release notes.
+
+  - capability: usd.export
+    level: experimental
+    notes: >-
+      The USDExporter module of the bundled USD Importer plugin exports levels, level sequences and assets
+      (static and skeletal meshes, animation sequences, geometry caches, baked materials) to USD, from the
+      editor or via the LevelExporterUSDOptions Python API. Recorded as experimental because the plugin is
+      labelled Beta.
+    gaps:
+      - Since 5.6 exported assets go into a flat Assets folder rather than mirroring the Content Browser hierarchy.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/LevelExporterUSDOptions
+        title: unreal.LevelExporterUSDOptions (Python API, 5.8)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-5-release-notes
+        title: Unreal Engine 5.5 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/PluginIndex/USDImporter
+        title: USD Importer plugin index (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://forums.unrealengine.com/t/usd-exports-have-wrong-reference-paths/2649958
+        title: USD exports have wrong reference paths (Epic staff replies)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: Level export is long-standing, but it lives in the Beta-labelled USD Importer plugin; confirm whether experimental is the right reading.
+
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      .usdz files load alongside .usd, .usda and .usdc, and since 5.6 Interchange handles textures packed
+      inside USDZ files.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ─────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: experimental
+    notes: >-
+      The USD Stage Editor and USD Stage Actor open a USD file as a live stage in the level; edits made in
+      the editor are written back to the USD file with File > Save, and stages can also be loaded at
+      runtime with the Set Root Layer Blueprint node. Supports multi-user editing.
+    gaps:
+      - Each opened USD file needs its own USD Stage Actor.
+      - Runtime loading needs FORCE_ANSI_ALLOCATOR=1 in the project's Target.cs.
+      - Prim deletion can't be undone during a multi-user session, and all users must reach the files via the same path.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/usd-stage-editor-quick-start-in-unreal-engine
+        title: USD Stage Editor Quick Start (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: Both pages carry Epic's "Beta feature" banner, which the guide maps to experimental; the Stage Editor has shipped since UE 4.x, so check whether the banner is still meant.
+
+  - capability: usd.layer_editing
+    level: experimental
+    notes: >-
+      The Stage Editor has a Layers panel for adding new or existing layers, muting layers and choosing the
+      edit target, and can export all layers, selected layers, a flattened stage or a flattened layer stack.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/UsdStageEditorLibrary
+        title: unreal.UsdStageEditorLibrary (Python API)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/usd-stage-editor-quick-start-in-unreal-engine
+        title: USD Stage Editor Quick Start (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-5-release-notes
+        title: Unreal Engine 5.5 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      Loads USD plugins such as the Alembic file format and custom path resolvers. Since 5.8 the
+      Interchange USD translator can also be extended in C++ to handle custom schemas.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: The plugin claim comes from the Beta-labelled USD page; recorded as native because plugin loading sits in the USD Core SDK both import paths share.
+
+  # ── Composition ──────────────────────────────────────────────────────────
+  - capability: usd.composition.references
+    level: experimental
+    notes: >-
+      The Stage Editor highlights prims with composition arcs and can add or clear references; 5.8 makes
+      it possible to author references and payloads on prims there.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/usd-stage-editor-quick-start-in-unreal-engine
+        title: USD Stage Editor Quick Start (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: experimental
+    notes: >-
+      Payloads can be loaded and unloaded per prim from the Stage Editor, with Load All / Load None options
+      and an initial load set that can also be set from Blueprints at runtime.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/usd-stage-editor-quick-start-in-unreal-engine
+        title: USD Stage Editor Quick Start (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: experimental
+    notes: >-
+      Variant selections can be switched in the Stage Editor's Properties panel. Since 5.6 Interchange can
+      also import variant-style LODs.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/usd-stage-editor-quick-start-in-unreal-engine
+        title: USD Stage Editor Quick Start (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >-
+      The USD docs list hierarchical instanced static meshes among supported prim types, Interchange gained
+      point-instance support in 5.7, and instanced prims reuse the same generated assets on import.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      Meshes import as static meshes. 5.7 added a custom SubdivisionAPI schema for a per-prim subdivision
+      level and subdivision of static meshes and geometry caches on Interchange import; primitive shape
+      schemas are also handled.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    since: "5.7"
+    notes: >-
+      Interchange USD imports groom assets and groom caches from 5.7, and 5.8 adds support for all groom
+      attributes.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >-
+      Transform animation maps to Level Sequence transform tracks and other animated attributes to the
+      stage's Time track; animated meshes can import as geometry caches (Interchange since 5.6). Sequencer
+      key edits are written back to the stage.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    notes: >-
+      Skeletal meshes, blend shapes and skeletal animation import from UsdSkel; Interchange produces
+      AnimSequence assets, and 5.8 adds skeletal mesh collapsing.
+    gaps:
+      - Recent releases still fix edge cases, such as skeletons with several root bones or non-unique prim names (5.7).
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: experimental
+    notes: >-
+      UsdGeomCamera parameters convert to Unreal camera properties, with clip-plane support expanded in
+      5.8. Cameras arrive as actors, so they come through the Beta stage workflow or Interchange level
+      import, which is experimental.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: experimental
+    notes: >-
+      UsdLux lights import as Unreal light actors: dome lights as sky lights (Interchange, 5.7), DomeLight_1
+      treated as DomeLight (5.8), point/spot radius and distant-light angle (5.8), and basic UsdLuxShadowAPI
+      (5.5). Lights are actors, so they come through the Beta stage workflow or experimental Interchange level import.
+    gaps:
+      - Files authored before USD 21.05 need a Python script to rename light attributes.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-5-release-notes
+        title: Unreal Engine 5.5 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes?application_version=5.7
+        title: Unreal Engine 5.7 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >-
+      Volumes referencing OpenVDB files import as Sparse Volume Textures (Interchange since 5.6).
+    gaps:
+      - 5.4 release notes limit usdVol support to OpenVDB assets.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5.4-release-notes?application_version=5.4
+        title: Unreal Engine 5.4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.physics
+    level: partial
+    notes: >-
+      Release notes cover collision schemas only: collisions were added to USD coverage in 5.4, and 5.6
+      added physics collision schemas to Interchange. Chaos Cloth assets import through dedicated schemas in 5.8,
+      where the notes also mention importing USD constraints.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5.4-release-notes?application_version=5.4
+        title: Unreal Engine 5.4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: Docs mention collision schemas and, in 5.8, constraints; rigid body support is neither confirmed nor ruled out, so partial is an interpretation.
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      UsdPreviewSurface and displayColor materials import via reference materials configured in the USD
+      project settings; on export, Unreal materials are baked to USD, with the refraction channel added in 5.8.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    notes: >-
+      MaterialX surfaces embedded in a USD stage, or .mtlx files referenced from USD, import through
+      Interchange; embedded MaterialX support was added in 5.6.
+    gaps:
+      - Per Epic staff, the legacy USD Stage importer handles only referenced .mtlx files, not MaterialX authored as UsdShade.
+      - Transmission and subsurface scattering can't be evaluated together in the same shading path.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://forums.unrealengine.com/t/importing-usds-with-referenced-mtlx-files-does-not-work-when-using-udims/2652295
+        title: Importing USDs with referenced MTLX files does not work when using UDIMs (Epic staff replies)
+        kind: forum
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: experimental
+    notes: >-
+      MDL surface materials authored with NVIDIA's MDL USD schema are supported. Since 5.6 the MDL schema
+      translator is a separate plugin (USD Importer MDL integration) that depends on the Beta USD Importer.
+    sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/universal-scene-description-in-unreal-engine
+        title: Universal Scene Description in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
+        title: Unreal Engine 5.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/PluginIndex/USDImporter
+        title: USD Importer plugin index (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: Unclear whether Interchange USD also reads MDL schemas; recorded as experimental because the documented path is the Beta USD Importer.
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    notes: >-
+      .mtlx files import directly into the Content Browser through Interchange, configured under Project
+      Settings > Interchange MaterialX. In Substrate projects they become native Substrate materials.
+    gaps:
+      - Displacement only shows on Nanite-enabled meshes, and Nanite doesn't support transparent materials.
+      - Full OpenPBR expressiveness needs the Adaptive GBuffer, which adds storage and evaluation cost.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: Standard Surface, including a transmission variant, is a supported surface model on MaterialX import.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    notes: >-
+      OpenPBR Surface, including a transmission variant, is a supported surface model on MaterialX import.
+      5.4 added translation of OpenPBR shaders and Substrate material creation.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5.4-release-notes?application_version=5.4
+        title: Unreal Engine 5.4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: 5.4 labelled the OpenPBR/Substrate MaterialX path experimental; the 5.8 import page lists OpenPBR without a label, and a search snippet of the unreadable Interchange MaterialX reference suggested the Substrate option is still experimental.
+
+  - capability: mtlx.preview_surface
+    level: native
+    notes: MaterialX graphs using the USD Preview Surface node are a supported surface model on import, alongside Surface Unlit.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.8 docs)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: USD level exports write absolute or broken asset reference paths
+    url: https://issues.unrealengine.com/issue/UE-306180
+    capability: usd.export
+    status: fixed
+    affects: "5.6"
+    fixedIn: "5.7"
+    severity: major
+    verified: 2026-11-04
+    review: Tracker page returned HTTP 403; the fix is inferred from the 5.7 release-note item about level exports always using absolute paths for layer references and payloads.
+
+  - title: UDIM textures not loaded when importing USD stages with MaterialX materials
+    url: https://forums.unrealengine.com/t/importing-usds-with-referenced-mtlx-files-does-not-work-when-using-udims/2652295
+    capability: usd.shade.materialx
+    status: fixed
+    affects: "before 5.7"
+    fixedIn: "5.7"
+    severity: major
+    verified: 2026-11-04
+
+  - title: DomeLight_1 schema not recognised, so dome lights from Houdini or Omniverse import as plain actors
+    url: https://forums.unrealengine.com/t/usd-importer-usd-stage-editor-failing-to-read-domelight-1-definition-for-dome-lights-usd-questions/2653850
+    capability: usd.lights
+    status: fixed
+    affects: "5.7 and earlier"
+    fixedIn: "5.8"
+    severity: major
+    verified: 2026-11-04

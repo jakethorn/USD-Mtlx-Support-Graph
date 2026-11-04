@@ -1,0 +1,14 @@
+name: IO Blender MTLX
+repo: Activision/io_blender_mtlx
+tech: [materialx]
+kind: plugin
+description: Activision's MIT-licensed Blender add-on that loads MaterialX documents, exposes their top-level inputs on a Blender material and generates native Blender shader nodes from them.
+license: MIT
+hosts: [blender]
+tags: [dcc-plugin, importer]
+sources:
+  - url: https://github.com/Activision/io_blender_mtlx
+    title: Activision/io_blender_mtlx README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

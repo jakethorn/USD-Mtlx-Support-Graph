@@ -5,3 +5,415 @@ industries: [aec, manufacturing, automotive, simulation]
 license: mixed
 website: https://www.nvidia.com/en-us/omniverse/
 tier: 1
+
+# Records describe the Omniverse Kit SDK and the apps built on it (USD Composer, USD Explorer, Isaac Sim,
+# ...). Releases are Kit SDK versions. Kit 108 introduced OpenUSD 25.02 but was never released to
+# production, so it is not listed.
+
+releases:
+  - version: "110.4"
+    date: 2026-10
+    usd: "25.11"
+    notes: Highlights mention a targeted 25.11 build in omni.usd_libs and USDZ packages gaining MDL material support.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
+        title: Kit 110.4 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "110.0"
+    date: 2026-02
+    usd: "25.11"
+    materialx: "1.39.3"
+    notes: >-
+      Kit 110 moves OpenUSD from 25.02 to 25.11 and MaterialX from 1.38.10 to 1.39.3, removes the Hydra 2
+      rendering backend and introduces the OpenPBR Surface material template.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/kit-manual/latest/guide/migration_110.html
+        title: Kit Migration Guide 107.x to 110
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_0_highlights.html
+        title: Kit 110.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    review: The dev-guide highlights give February 2026; the materials release notes date Kit 110.0 to March 2026.
+
+  - version: "109.0"
+    date: 2025-11
+    usd: "25.02"
+    materialx: "1.38.10"
+    notes: >-
+      The 109 release notes don't state library versions; the 110 migration guide says Kit 110 upgrades
+      OpenUSD from 25.02 and MaterialX from 1.38.10, which are the versions Kit 109 shipped with.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/kit-manual/latest/guide/migration_110.html
+        title: Kit Migration Guide 107.x to 110
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/109_0_highlights.html
+        title: Kit 109.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    review: Versions are read from the "upgrades from" wording in the Kit 110 migration guide rather than stated for 109 directly.
+
+  - version: "107.0"
+    date: 2025-03
+    usd: "24.05"
+    notes: Breaking release that moved Kit to a nearly stock Pixar OpenUSD 24.05 build and Python 3.11.
+    sources:
+      - url: https://docs-prod.omniverse.nvidia.com/dev-guide/latest/release-notes/107_0_highlights.html
+        title: Kit 107.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Workflow ─────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: native
+    notes: >-
+      Kit apps work directly on a live USD stage: omni.usd's UsdContext owns the UsdStage that the
+      viewport, Stage window and Layer window all operate on, and standard USD APIs edit it directly.
+      Since Kit 107 the platform uses a nearly stock OpenUSD build. NVIDIA's DCC connectors (Maya, 3ds Max,
+      Unreal and others) are now in maintenance mode, and NVIDIA recommends applications' own native USD
+      support instead.
+    gaps:
+      - The Omniverse Launcher was deprecated on 1 October 2025; USD Composer and USD Explorer are now built from the Kit App Template.
+      - USD stage access through omni.usd is not thread-safe.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.usd/latest/Overview.html
+        title: omni.usd extension overview
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.nvidia.com/omniverse/legacy-tools
+        title: NVIDIA Omniverse Launcher (Deprecated) and legacy tools
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs-prod.omniverse.nvidia.com/dev-guide/latest/release-notes/107_0_highlights.html
+        title: Kit 107.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: native
+    notes: >-
+      omni.kit.usd.layers sets the edit target, mutes layers (locally or persisted in the root layer),
+      locks layers, links specs to layers and merges or flattens layers. Live Sessions sync edits between
+      users through .live layers bound to a base layer; joining a session moves the edit target to the
+      live layer, and the session owner merges changes back.
+    gaps:
+      - Live Sessions only work for layers stored on a Nucleus server; Nucleus Workstation is deprecated.
+      - Layer locks are a UI hint, not a file permission.
+      - Auto-authoring mode, which routes edits to the layers holding the strongest opinions, is experimental.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.kit.usd.layers/latest/Overview.html
+        title: omni.kit.usd.layers overview
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.kit.usd.layers/latest/omni.kit.usd.layers.html
+        title: omni.kit.usd.layers Python API
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.nvidia.com/omniverse/legacy-tools
+        title: NVIDIA Omniverse Launcher (Deprecated) and legacy tools
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ──────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: native
+    notes: Sublayers can be created, moved, replaced and removed through omni.kit.usd.layers commands and the Layer window.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.kit.usd.layers/latest/omni.kit.usd.layers.html
+        title: omni.kit.usd.layers Python API
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: native
+    notes: References can be created, replaced and removed through omni.usd commands (AddReference, ReplaceReference, RemoveReference).
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.usd/latest/Overview.html
+        title: omni.usd extension overview
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: native
+    notes: >-
+      omni.usd provides payload load and unload functions, and stages can be opened with payloads
+      disabled (a 110.4 fix covers payloads added to such stages).
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.usd/latest/Overview.html
+        title: omni.usd extension overview
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4.html
+        title: Kit 110.4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.lights
+    level: native
+    notes: >-
+      Since Kit 109 the RTX renderer fully supports the UsdLux 25.05 specification, including photometric
+      APIs, and new lights default to UsdLux 25.05 behaviour.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/109_0_highlights.html
+        title: Kit 109.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/kit/docs/kit-manual/latest/guide/migration_110.html
+        title: Kit Migration Guide 107.x to 110
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.physics
+    level: native
+    notes: >-
+      Omni Physics (the omni.physx extensions wrapping the PhysX SDK) reads simulation setup from USD
+      Physics schemas and writes results back; NVIDIA's PhysX schemas extend UsdPhysics with solver and
+      tuning attributes. Kit 110 adds nested rigid bodies.
+    gaps:
+      - PhysX-specific features rely on NVIDIA's own Physx* schema extensions rather than UsdPhysics alone.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/index.html
+        title: Omni Physics documentation
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://nvidia-omniverse.github.io/PhysX/ovphysx/0.7.0/physics_schemas.html
+        title: ovphysx — Physics Schemas
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_0_highlights.html
+        title: Kit 110.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      The omni.kit.usdz_export extension packages a layer and its collected assets into a USDZ archive
+      from the Layer window or Python. From Kit 110.4 USDZ packages can carry MDL materials and resources,
+      including UDIM textures.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.kit.usdz_export/latest/Overview.html
+        title: omni.kit.usdz_export overview
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
+        title: Kit 110.4 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      UsdPreviewSurface is rendered through a native MDL implementation of Pixar's specification, with
+      UsdTransform2d and UsdPrimvarReader support; Kit 110.4 adds the opacityMode input from USD 25.11.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_templates.html
+        title: Omniverse Material Templates
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_release-notes/2022_3_0.html
+        title: Materials release notes 2022.3.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
+        title: Kit 110.4 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    notes: >-
+      MaterialX networks load either as UsdShade graphs or as .mtlx documents referenced into a layer, and
+      are compiled to MDL for the RTX renderer. Kit 110 adds the sourceAsset/subIdentifier shader
+      pattern from OpenUSD 25.11 and upgrades older MaterialX documents.
+    sources:
+      - url: https://developer.nvidia.com/blog/unlock-seamless-material-interchange-for-virtual-worlds-with-openusd-materialx-and-openpbr
+        title: Unlock Seamless Material Interchange for Virtual Worlds with OpenUSD, MaterialX, and OpenPBR (NVIDIA blog, 2024)
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_0.html
+        title: Kit 110.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >-
+      MDL is Omniverse's own material language: MDL materials such as OmniPBR, OmniSurface, OmniGlass and
+      OmniHair are bound through UsdShade, and Kit 107 added a usdMdl plugin.
+    gaps:
+      - Not all material templates are available by default; they are enabled per installation or per user.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_templates.html
+        title: Omniverse Material Templates
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs-prod.omniverse.nvidia.com/dev-guide/latest/release-notes/107_0_highlights.html
+        title: Kit 107.0 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Rendering ────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: native
+    notes: >-
+      The Kit viewport renders through Hydra: the RTX renderer is itself a Hydra render delegate, Storm
+      remains available, and omni.hydra.pxr lets other Pixar Hydra delegates run in the viewport.
+    gaps:
+      - Third-party Pixar Hydra delegates need Kit started with Vulkan enabled.
+      - The Hydra 2 backend was removed in Kit 110, and OmniHydra is being phased out.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/kit/docs/omni.hydra.pxr/latest/Overview.html
+        title: Omniverse Pixar Hydra Engine (omni.hydra.pxr)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/kit/docs/kit-manual/latest/guide/migration_110.html
+        title: Kit Migration Guide 107.x to 110
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4.html
+        title: Kit 110.4 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    notes: Omniverse reads .mtlx material documents, typically by referencing them into a USD layer.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_release-notes/2022_3_0.html
+        title: Materials release notes 2022.3.0
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.nvidia.com/blog/unlock-seamless-material-interchange-for-virtual-worlds-with-openusd-materialx-and-openpbr
+        title: Unlock Seamless Material Interchange for Virtual Worlds with OpenUSD, MaterialX, and OpenPBR (NVIDIA blog, 2024)
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      The RTX renderer renders MaterialX through its MDL backend; complex graphs are distilled into a
+      compact form for real-time modes. Kit 110.4 reuses cached MaterialX-derived MDL to speed up warm loads.
+    sources:
+      - url: https://developer.nvidia.com/blog/unlock-seamless-material-interchange-for-virtual-worlds-with-openusd-materialx-and-openpbr
+        title: Unlock Seamless Material Interchange for Virtual Worlds with OpenUSD, MaterialX, and OpenPBR (NVIDIA blog, 2024)
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
+        title: Kit 110.4 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: native
+    notes: >-
+      MaterialX is translated with the MaterialX SDK's MDL code generator (the OpenPBR template uses the
+      MaterialX reference implementation this way), and since Kit 110 the MaterialX MDL modules match the
+      versions USD is built against.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/templates/OpenPBR.html
+        title: OpenPBR material template
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_0.html
+        title: Kit 110.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "110.0"
+    notes: >-
+      Kit 110.0 introduced OpenPBR Surface as a material template, in a simple Base form and a graph-based
+      form, both built on the MaterialX reference implementation translated to MDL.
+    gaps:
+      - The RTX Real-Time 2.0 mode does not yet render sheen or thin film; path tracing supports the full model.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_release-notes.html
+        title: Materials release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/templates/OpenPBR.html
+        title: OpenPBR material template
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >-
+      MaterialX Standard Surface materials render in RTX; Kit 110.4 fixed refraction of interior geometry
+      for thin-walled Standard Surface glass.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
+        title: Kit 110.4 Release Highlights
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: The only evidence found is a bug-fix entry; no Omniverse page documents Standard Surface support directly.
+
+issues:
+  - title: OpenPBR sheen and thin film are not rendered in RTX Real-Time 2.0 mode
+    url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/materials_release-notes.html
+    capability: mtlx.openpbr
+    status: open
+    affects: "110.0 and later"
+    severity: major
+    verified: 2026-11-04
+
+  - title: UsdPreviewSurface ignored the opacityMode input introduced in USD 25.11
+    url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4.html
+    capability: usd.shade.preview_surface
+    status: fixed
+    fixedIn: "110.4"
+    severity: minor
+    verified: 2026-11-04
+
+  - title: MaterialX Standard Surface thin-walled glass refracted interior geometry incorrectly
+    url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4.html
+    capability: mtlx.standard_surface
+    status: fixed
+    fixedIn: "110.4"
+    severity: minor
+    verified: 2026-11-04

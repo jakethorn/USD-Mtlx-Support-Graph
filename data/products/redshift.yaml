@@ -1,0 +1,450 @@
+name: Redshift
+vendor: Maxon
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.maxon.net/en/redshift
+tier: 1
+summary: >-
+  GPU-accelerated production renderer from Maxon. Its USD support centres on a Hydra render delegate for Houdini
+  Solaris, a USD Procedural for Houdini, Maya and Katana, a standalone USD command-line renderer, and a native
+  OpenPBR material.
+
+releases:
+  - version: "2025.0.0"
+    date: 2024-09
+    notes: First release of the 2025 series.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.3.0"
+    date: 2025-02
+    usd: "24.08"
+    notes: >-
+      Added a USD Procedural build compiled against the USD 24.08 libraries included in the Redshift core.
+      redshiftUsdCmdLine gained UsdPreviewSurface support, and Maya gained USD files in RS Proxy.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.4.0"
+    date: 2025-04
+    notes: Added the OpenPBR material surface shader and support for the Autodesk OpenPBR material in 3ds Max.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.0.0"
+    date: 2025-09
+    notes: >-
+      First release of the 2026 series. During the series, Hydra 2.0 work appears in the notes from 2026.1.0, and 2026.9 adds a USD Procedural build for USD 26.05 for Houdini 22.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2027.0"
+    date: 2026-10
+    notes: >-
+      Added Houdini and Solaris 22.0.429 support, rendering in multiple Solaris viewports at once, and
+      redshiftUsdCmdLine support for the stage's default render settings.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Rendering ─────────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Redshift release archive includes a Solaris (Hydra) plugin, loaded through PXR_PLUGINPATH_NAME in a
+      houdini.env file or a Houdini package. Redshift can be picked as the Solaris viewport renderer, and final
+      renders go through the USD Render ROP with a Render Settings LOP. Release notes track Hydra 2.0 fixes and
+      additions from 2026.1.0, UsdRenderPass support from 2026.6, and rendering in several viewports at
+      once from 2027.0. Each release supports specific Solaris builds.
+    gaps:
+      - On Linux the Solaris plugin cannot be loaded from a houdini.env file, so a Houdini package or system environment variable is required.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BIntro.html
+        title: Redshift for Houdini, Solaris Overview
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BViewport.html
+        title: Redshift for Houdini, Solaris Viewport
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BRendering.html
+        title: Redshift for Houdini, Solaris Rendering
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BPlugin%2BConfiguration.html
+        title: Redshift, Houdini & Solaris Plugin Configuration
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.hydra.delegate
+    level: experimental
+    hosts: [katana]
+    since: "2026.4"
+    notes: >-
+      The 2026.4 release notes list Katana 9.0 support for the Hydra plugin as experimental. Redshift also has
+      its own Katana plugin.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Solaris Render Settings LOP has a Redshift tab with the usual Redshift render settings. Redshift AOVs are
+      Render Var LOPs collected by Render Product LOPs. redshiftUsdCmdLine reads render settings prims and can pick
+      one with an argument. It also renders multiple render products (2026.8) and honours the stage's default
+      render settings from root layer metadata (2027.0).
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BRendering.html
+        title: Redshift for Houdini, Solaris Rendering
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BAOVs.html
+        title: Redshift for Houdini, Solaris AOVs
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BCommand%2BLine.html
+        title: Redshift, USD Command Line Rendering (redshiftUsdCmdLine)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Interchange ───────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    hosts: [houdini, maya, katana]
+    notes: >-
+      The USD Procedural loads a USD file at render time, much like a Redshift proxy, in Houdini, Solaris, Maya and
+      Katana. Maya gained USD files in RS Proxy in 2025.3.0. Variants, material overrides and file updates came in
+      2025.4.0, and USDZ assets (USD 24.03 or later) and nested instancing in 2025.5. Builds exist per USD version,
+      for example USD 26.05 for Houdini 22 in 2026.9.
+    gaps:
+      - The USD Procedural must be installed manually by copying the RSProceduralUSD.dll that matches the host's USD version, and again after every Redshift upgrade or downgrade.
+      - In Katana the USD Procedural also requires Houdini to be installed, because it is built against the Solaris USD libraries.
+      - Instancing is not automatic. It works only through the host's instancing tools.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BProcedural.html
+        title: Redshift for Houdini, USD Procedural
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/maya/en-us/Content/html/USD%2BProcedural.html
+        title: Redshift for Maya, USD Procedural
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/katana/en-us/Content/html/USD%2BProcedural.html
+        title: Redshift for Katana, USD Procedural
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.import
+    level: native
+    since: "2025.2.0"
+    notes: >-
+      redshiftUsdCmdLine is a standalone tool that renders .usd files containing Redshift data to disk, with the
+      USD libraries bundled in the Redshift core, so no DCC is needed. It handles animated sequences from a single
+      file, Redshift materials, camera, object and light parameters, render settings and AOVs including cryptomatte
+      and deep. Scene extraction uses the same Hydra core as the render delegate.
+    gaps:
+      - The tool is designed for Solaris-authored scenes, and Maxon says support for scenes from other DCCs will follow once they support the full Redshift USD pipeline.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BCommand%2BLine.html
+        title: Redshift, USD Command Line Rendering (redshiftUsdCmdLine)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    hosts: [houdini]
+    since: "2025.5.0"
+    notes: >-
+      2025.5.0 added USDZ rendering in the Hydra delegate (Solaris 20.5 and later) and USDZ assets in the USD
+      Procedural (USD 24.03 or later). The docs describe USDZ as a container for USD and its textures.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BIntro.html
+        title: Redshift for Houdini, Solaris Overview
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition and scene description ─────────────────────────────────────
+  - capability: usd.composition.variants
+    level: native
+    hosts: [houdini, maya]
+    notes: >-
+      Applies to USD files loaded through the USD Procedural, which can add and switch variant sets per prim. Added
+      to the Redshift USD Procedural LOP in 2025.4.0 and to Maya in 2026.0.0.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BProcedural.html
+        title: Redshift for Houdini, USD Procedural
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Smart Automatic Instancing is enabled from the Render Settings LOP. Nested USD instances are expanded into
+      plain Redshift point-cloud instances. The USD Procedural supports nested instancing from 2025.5, and 2026.0.0
+      added more primvar overrides for point-instancer light instancing.
+    gaps:
+      - Redshift can handle around 48 million instances in one scene without motion blur.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BMesh%2BTopics.html
+        title: Redshift for Houdini, Solaris Mesh Topics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BProcedural.html
+        title: Redshift for Houdini, USD Procedural
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Per-object Redshift settings such as tessellation, visibility and matte come from the Render Geometry Settings
+      LOP. 2025.3.0 raised the UV map limit from 8 to 64, and 2026.3 added USD implicit surface primitives under
+      Hydra 2.0.
+    gaps:
+      - With tessellation, Solaris is compatible only with triangles and quads, so n-gons render as holes unless triangulated.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BMesh%2BTopics.html
+        title: Redshift for Houdini, Solaris Mesh Topics
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Hydra delegate added vertex attributes on hair curves in 2025.4.0, hair render options in the viewport
+      settings in 2026.9, and the Redshift Fur procedural in 2027.0.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Solaris renders OpenVDB files imported with a Volume LOP and Houdini vdb primitives, shaded by a Redshift
+      Volume shader. Global volume scattering is enabled from the Render Settings LOP.
+    gaps:
+      - The Redshift Volume shader must be connected to the Volume port of the RS USD Material output, not the Surface port.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BVolumes.html
+        title: Redshift for Houdini, Solaris Volumes
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Solaris Light, Distant Light and Dome Light LOPs carry the shared settings in their Base Properties tab and
+      Redshift-specific settings in a Redshift tab. They map to Redshift area, point, spot, IES, distant, Sun & Sky
+      and dome lights. 2026.3 added USD mesh lights (Geometry Light LOP) under Hydra 2.0.
+    gaps:
+      - Under Hydra 2.0, instance light linking is limited to the same linking for all instances in a group (as of 2026.6).
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BLighting.html
+        title: Redshift for Houdini, Solaris Lighting
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Hydra delegate honours the Camera LOP Exposure parameter when the Redshift Exposure (EV) parameter is
+      unset (2026.3). redshiftUsdCmdLine supports time-sampled shutter open and close camera attributes (2027.0).
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ───────────────────────────────────────────────────────────────
+  - capability: usd.shade.native
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Redshift shader networks become USD materials through an RS USD Material Builder inside a Material Library
+      LOP, and all Redshift VOP nodes can be used there. A Collect VOP switches to the shader for the active
+      renderer in multi-renderer setups. redshiftUsdCmdLine renders .usd files containing Redshift materials.
+    gaps:
+      - The docs say the standard RS Material output VOP is not compatible with Solaris, so materials must use the RS USD Material output.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BMaterials.html
+        title: Redshift for Houdini, Solaris Materials
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BCommand%2BLine.html
+        title: Redshift, USD Command Line Rendering (redshiftUsdCmdLine)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2B3.0.html
+        title: Redshift 3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Possible conflict. The Solaris Materials page says the RS Material output VOP does not work in Solaris, but
+      the 3.0 notes say Hydra added full support for RS material nodes without the USD material output node.
+
+  - capability: usd.shade.preview_surface
+    level: native
+    hosts: [houdini]
+    notes: >-
+      There is no dedicated docs page, so support is inferred from release notes. They include Hydra fixes for
+      UsdPreviewSurface (3.0) and support for the UsdPreviewSurface texture reader's UV channel from a primvar
+      reader (3.5). redshiftUsdCmdLine added UsdPreviewSurface support in 2025.3.0.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2B3.0.html
+        title: Redshift 3.0 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2B3.5.html
+        title: Redshift 3.5 release notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: Support is inferred from release-note fixes and additions; no docs page describes which UsdPreviewSurface features work.
+
+  # ── MaterialX shading models ──────────────────────────────────────────────
+  - capability: mtlx.openpbr
+    level: native
+    since: "2025.4.0"
+    notes: >-
+      Redshift has a native OpenPBR Material shader. 2025.4.0 also added the Autodesk OpenPBR material in 3ds Max.
+      In 2026.6 the Houdini material builders and the Maya shelf switched to OpenPBR by default, and 2026.4 added
+      Standard-to-OpenPBR conversion in Cinema 4D. It is a Redshift shader, and the docs do not describe reading
+      OpenPBR from MaterialX documents.
+    sources:
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Material%2BOpenPBR.html
+        title: Redshift, OpenPBR Material
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+        title: Redshift release notes (latest)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: USD Procedural crashes and severe stability issues introduced in 2027.0.0
+    url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+    capability: usd.import
+    status: fixed
+    affects: "2027.0.0"
+    fixedIn: "2027.0.1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: Camera and transform motion blur limitations under Hydra 2.0
+    url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2BLatest.html
+    capability: usd.hydra.delegate
+    status: fixed
+    fixedIn: "2026.3"
+    verified: 2026-11-04
+
+  - title: Tessellated n-gons render as holes in Solaris (only triangles and quads supported)
+    url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BMesh%2BTopics.html
+    capability: usd.geom.meshes
+    status: open
+    verified: 2026-11-04
+
+  - title: USD Procedural must be reinstalled manually to match the host's USD version after each Redshift upgrade or downgrade
+    url: https://help.maxon.net/r3d/houdini/en-us/Content/html/USD%2BProcedural.html
+    capability: usd.import
+    status: open
+    verified: 2026-11-04

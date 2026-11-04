@@ -1,0 +1,804 @@
+name: V-Ray
+vendor: Chaos
+categories: [renderer]
+industries: [film-tv, vfx, aec, product-design, automotive]
+license: commercial
+website: https://www.chaos.com/vray
+tier: 1
+summary: >-
+  Production renderer from Chaos with separate integrations per host. USD support differs by host, with a
+  Hydra render delegate for Houdini Solaris, MayaUSD-based workflows in Maya, USD for 3ds Max workflows, and
+  MaterialX and OpenPBR shading.
+
+releases:
+  - version: "7.0"
+    date: 2024-10-31
+    notes: >-
+      V-Ray 7 shipped for 3ds Max on 2024-10-31 (hotfix 1 on 2024-11-19) and for Maya and Houdini on 2025-01-28. The Houdini build added
+      USD 24.x support and MaterialX procedural textures. The Maya build added OpenPBR mode in VRayMtl, OpenPBR
+      Surface in MaterialX, and USD 23.11 for V-Ray Standalone.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/113580676/V-Ray%207
+        title: V-Ray for 3ds Max release notes, V-Ray 7
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113278998/V-Ray%207
+        title: V-Ray for Houdini release notes, V-Ray 7 (build 7.00.10)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738897/V-Ray%207
+        title: V-Ray for Maya release notes, V-Ray 7 (build 7.00.02)
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.1"
+    date: 2025-05-13
+    notes: >-
+      Update 1 shipped for Maya on 2025-05-13, 3ds Max on 2025-05-15 and Houdini on 2025-05-16. The Houdini build
+      added USD render settings primitive support and V-Ray 7 for USD nightly builds.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738983/7.10.00
+        title: V-Ray for Maya release notes, 7.10.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113588511/7.10.00
+        title: V-Ray for 3ds Max release notes, 7.10.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279234/7.10.00
+        title: V-Ray for Houdini release notes, 7.10.00
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.2"
+    date: 2025-08-05
+    notes: >-
+      Update 2 shipped for 3ds Max on 2025-08-05 (OpenPBR shading mode in VRayMtl), for Maya on 2025-12-04 and for
+      Houdini on 2025-12-08. The Houdini build added MaterialX 1.39 support (no patch release named) and initial
+      Hydra 2 support.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/113587390/7.20.00
+        title: V-Ray for 3ds Max release notes, 7.20.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/356712449/7.20.02
+        title: V-Ray for Maya release notes, 7.20.02
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/370835504/7.20.10
+        title: V-Ray for Houdini release notes, 7.20.10
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.20.04"
+    date: 2026-04-29
+    usd: "25.05"
+    notes: >-
+      V-Ray 7.2 for Maya hotfix 1. Chaos says that from this build V-Ray Standalone uses USD 0.25.5 by default,
+      with 24.08 and 23.11 selectable. Inside Maya, V-Ray uses the USD that ships with the installed MayaUSD.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738904/USD%20Version%20Support
+        title: V-Ray for Maya, USD Version Support
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/780599306/7.20.04
+        title: V-Ray for Maya release notes, 7.20.04
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.3"
+    date: 2026-04-03
+    notes: >-
+      Update 3 was a 3ds Max release. It added 3ds Max 2027 support, USD for 3ds Max 0.14 support, export of
+      V-Ray render settings to USD, and USD 25.05 for V-Ray Standalone.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/707559558/7.30.02
+        title: V-Ray for 3ds Max release notes, 7.30.02
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.4"
+    date: 2026-05-27
+    notes: >-
+      Update 4 shipped for 3ds Max on 2026-05-27 and for Maya and Houdini on 2026-07-01. The Houdini build added
+      USD 26.x support, OpenPBR support for USD, MaterialX 1.39 and later, and MeshLightAPI support. The Maya build
+      added MayaUSD 0.35 and 0.36 support.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/859472057/7.40.00
+        title: V-Ray for 3ds Max release notes, 7.40.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/950763526/7.40.02
+        title: V-Ray for Maya release notes, 7.40.02
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Rendering ─────────────────────────────────────────────────────────────
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The V-Ray Hydra delegate ships with V-Ray for Houdini, with no extra plugin needed. It renders in the Solaris
+      viewport (IPR) and in batch through husk (HdVRayRendererPlugin). Solaris support was added in build 5.10.20,
+      Linux and macOS delegates in 5.20.02, and Apple Silicon builds in 7.00.10. Initial Hydra 2 support came in
+      7.20.10. The 7.40.30 release notes also list delegate support for usdview and usdrecord and for the latest
+      Nuke and Katana versions, but no Chaos page documenting those hosts was found.
+    gaps:
+      - V-Ray Fur, V-Ray Plane and V-Ray Enmesh are not supported in Solaris.
+      - V-Ray supports only 32-bit precision for floating-point attributes.
+      - Building scenes in /obj and bringing them in through the Scene Import LOP is only partially supported, and material assignments can fail.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279168/Solaris%20FAQ
+        title: V-Ray for Houdini, Solaris FAQ
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113282047/V-Ray%205
+        title: V-Ray for Houdini release notes, V-Ray 5
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.chaos.com/vray/houdini/features
+        title: V-Ray for Houdini features
+        kind: other
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      The 7.40.30 notes say the V-Ray delegate supports the latest Nuke and Katana, plus usdview. No host-specific
+      docs were found, so katana and nuke are not in hosts. Should they be added?
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [houdini]
+    notes: >-
+      V-Ray settings sit in a V-Ray tab on the Solaris Render Settings LOP, and final renders go through the USD
+      Render ROP. AOVs are authored with RenderVar LOPs. Render settings primitive support is listed under USD in
+      7.10.00, and 7.40.30 exposes the V-Ray render settings to usdview/Hydra.
+    gaps:
+      - By default none of the V-Ray parameters are written to USD unless they are explicitly set on the LOP.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279421/Solaris%20Render%20Settings
+        title: V-Ray for Houdini, Solaris Render Settings
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279234/7.10.00
+        title: V-Ray for Houdini release notes, 7.10.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [maya]
+    via: maya-usd
+    notes: >-
+      USD export from Maya can include V-Ray render settings and render elements. From 7.20.02, render settings,
+      camera and render elements are exported in a standard USD layout.
+    gaps:
+      - SettingsDecal, SettingsHair, SettingsLightLinker, SettingsRTEngine and VRayStereoscopicSettings are not exported.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/356712449/7.20.02
+        title: V-Ray for Maya release notes, 7.20.02
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [3ds-max]
+    since: "7.3"
+    notes: The 7.30.02 release notes add export of V-Ray render settings to USD.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/707559558/7.30.02
+        title: V-Ray for 3ds Max release notes, 7.30.02
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      Sources conflict. The 3ds Max USD docs page still lists render settings as not exported to USD (temporary
+      limitation), but the 7.30.02 release notes add render settings export.
+
+  # ── Interchange ───────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    hosts: [maya]
+    via: maya-usd
+    notes: >-
+      V-Ray renders USD stages loaded through MayaUSD proxy shapes, including meshes, particles, hair, VDB volumes,
+      UsdSkel, V-Ray and USD lights, and V-Ray materials stored in USD. With mayaUSDImport and the V-Ray shading
+      mode, V-Ray materials in USD come back as native V-Ray materials. From V-Ray 6 Update 2 the default USD
+      translator is Hydra-compatible. Chaos says V-Ray USD support in Maya starts with 5.20.02. Each V-Ray build
+      supports specific MayaUSD versions.
+    gaps:
+      - Unsaved USD edits may render wrongly with distributed rendering, Chaos Cloud or .vrscene export.
+      - Assets linked inside USD files may fail to resolve with distributed rendering, Chaos Cloud or .vrscene export.
+      - IPR support for USD edits is limited.
+      - Instancing lights is not yet supported with the Hydra translator, and disabled lights are always rendered.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739288/USD%20Workflow
+        title: V-Ray for Maya, USD Workflow
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738904/USD%20Version%20Support
+        title: V-Ray for Maya, USD Version Support
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.import
+    level: native
+    hosts: [3ds-max]
+    notes: >-
+      USD files are rendered through a USD Stage object (V-Ray 6 Update 1 and later) or a VRayScene object.
+      Renders meshes, animation, particles, UsdPreviewSurface, V-Ray materials, textures and lights, and 3ds Max
+      MaterialX materials. Material overrides on USD Stage objects work from V-Ray 6 Update 2. Relies on Autodesk's
+      USD for 3ds Max plugin, and Chaos lists supported plugin versions per V-Ray build.
+    gaps:
+      - The 3ds Max USD Importer is not supported. V-Ray renders USD via the USD Stage or VRayScene objects instead.
+      - Mismatched 3ds Max system units and USD meters-per-unit render V-Ray lights, displacement, bump and translucent materials incorrectly.
+      - V-Ray Proxies inside USD can be previewed only in a USD Stage node, not in a VRayScene object.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    hosts: [maya]
+    via: maya-usd
+    notes: >-
+      Uses the MayaUSD exporter with the V-Ray plug-in configuration. Materials can be written as UsdPreviewSurface
+      or as V-Ray materials, and vrayExportUsdMaterials exports materials without geometry. Also exports V-Ray
+      lights, displacement and subdivision, Physical and Dome cameras, proxies, render elements, MaterialX
+      materials, crease sets, XGen interactive grooms and Gaussian splats.
+    gaps:
+      - V-Ray Fur, volumes and scenes with hair cannot yet be exported to USD.
+      - Light textures export only with the Export All option.
+      - V-Ray Decal is not supported.
+      - MayaUSD 0.29 is not supported by V-Ray for Maya because of a discrepancy when exporting V-Ray data.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739288/USD%20Workflow
+        title: V-Ray for Maya, USD Workflow
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738904/USD%20Version%20Support
+        title: V-Ray for Maya, USD Version Support
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    hosts: [3ds-max]
+    since: "6.1"
+    notes: >-
+      Uses the 3ds Max USD exporter with V-Ray selected as the plug-in configuration (6.1.1 and later). Exports V-Ray
+      materials and textures, lights, displacement, VRayInstancer, VRayProxy, the Physical Camera, animated shader
+      and light parameters, and 3ds Max MaterialX materials.
+    gaps:
+      - Object properties and V-Ray properties are not exported. Use VRayWrapperMtl for matte objects.
+      - Light instancing through VRayInstancer is not exported.
+      - VRayLightMtl direct illumination, Disc light maps and light or texture exclude lists are not exported.
+      - Some textures, such as VRayDistanceTex and VRayDirt, are not exported.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Solaris FAQ lists .usd, .usda and .usdz as supported formats. Release notes for 7.20.10 and 7.40.30 fix a
+      crash with a specific USDZ file and missing USDZ textures in usdview.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279168/Solaris%20FAQ
+        title: V-Ray for Houdini, Solaris FAQ
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ──────────────────────────────────────────────────────────────
+  - capability: usd.plugins
+    level: native
+    hosts: [maya]
+    notes: >-
+      Renders USD content from dynamic USD plugins, for example Golaem for USD. V-Ray resolves assets with its own
+      V-Ray USD asset resolver.
+    gaps:
+      - The Autodesk USD Asset Resolver added in MayaUSD 0.34 does not work with V-Ray 7 Update 2.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738904/USD%20Version%20Support
+        title: V-Ray for Maya, USD Version Support
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition and scene description ─────────────────────────────────────
+  - capability: usd.instancing
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Instancing and variants are listed as supported in Solaris. 7.40.30 significantly reduces memory use for
+      nested instancing.
+    gaps:
+      - Lights on an instancer's class prim also emit light unless you disable them, and Chaos says this will be fixed.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279168/Solaris%20FAQ
+        title: V-Ray for Houdini, Solaris FAQ
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    hosts: [maya, 3ds-max]
+    notes: >-
+      Rendering USD files supports animated transforming and deforming meshes and animated shader parameters in
+      both hosts. Maya also supports motion blur for animated meshes and light parameter animation is listed for
+      3ds Max.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    hosts: [maya]
+    notes: >-
+      USD Skel is listed among the features supported when rendering USD files. 7.20.02 fixed meshes with UsdSkel
+      not rendering in V-Ray Standalone.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/356712449/7.20.02
+        title: V-Ray for Maya release notes, 7.20.02
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    hosts: [houdini, maya]
+    notes: >-
+      In Solaris, the V-Ray Physical Camera settings are on the Camera LOP, and since 7.00.10 the USD camera
+      shutter open and close drive motion blur. 7.40.30 adds stereoscopic cameras. In Maya, V-Ray Physical Cameras
+      and their attributes round-trip through USD export and mayaUSDImport.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279421/Solaris%20Render%20Settings
+        title: V-Ray for Houdini, Solaris Render Settings
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113278998/V-Ray%207
+        title: V-Ray for Houdini release notes, V-Ray 7 (build 7.00.10)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739288/USD%20Workflow
+        title: V-Ray for Maya, USD Workflow
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Solaris Light, Distant Light and Dome Light LOPs carry the USD lighting schema parameters in their base tabs
+      and V-Ray-specific settings in a V-Ray tab. Light filters, the Light Mixer and the Light Linker are supported.
+      7.40.30 adds MeshLightAPI support and light linker support for USD 25.x.
+    gaps:
+      - Before 7.40.30, V-Ray parameters on basic USD lights did not update in IPR with USD 25 and later.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279856/Working%20with%20Solaris%20Lights
+        title: V-Ray for Houdini, Working with Solaris Lights
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    hosts: [maya]
+    notes: >-
+      Renders USD light types stored in USD files, including those from Maya spot, directional and point lights,
+      and V-Ray lights. V-Ray lights can be exported. 7.40.02 adds support for the USD light normalize attribute.
+    gaps:
+      - Instancing lights is not yet supported with the Hydra translator.
+      - Disabled lights are always rendered with the Hydra translator.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/950763526/7.40.02
+        title: V-Ray for Maya release notes, 7.40.02
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    hosts: [houdini, maya]
+    notes: >-
+      Solaris supports live volumes and native Houdini volumes. In Maya, VDB volumes referenced in USD files render.
+    gaps:
+      - Volumes cannot yet be exported to USD from Maya.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ───────────────────────────────────────────────────────────────
+  - capability: usd.shade.native
+    level: native
+    hosts: [houdini, maya, 3ds-max]
+    notes: >-
+      V-Ray material and texture networks are stored in UsdShade and rendered back. In Solaris they are built with
+      a V-Ray Material Builder inside a Material Library LOP. Maya and 3ds Max export V-Ray shaders to USD and
+      render V-Ray materials found in USD files.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279860/Working%20with%20Solaris%20Materials
+        title: V-Ray for Houdini, Working with Solaris Materials
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: native
+    hosts: [maya, 3ds-max]
+    notes: >-
+      Both hosts list UsdPreviewSurface among supported materials when rendering USD files. Maya can also export
+      materials as USD Preview Surface. V-Ray 7 for Maya added fallback color support in UsdUVTexture and V-Ray
+      material overrides for usdPreviewSurface.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+        title: V-Ray for Maya, USD Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111739288/USD%20Workflow
+        title: V-Ray for Maya, USD Workflow
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738897/V-Ray%207
+        title: V-Ray for Maya release notes, V-Ray 7 (build 7.00.02)
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The V-Ray Hydra delegate renders MaterialX shaders in Solaris. Chaos describes a shared translation layer, so
+      V-Ray and V-Ray Hydra read the same set of MaterialX nodes. Release notes add MaterialX 1.39 support in
+      7.20.10, plus 1.39 and later and primvar parameter overrides in 7.40.30.
+    gaps:
+      - MaterialX volumetric shading, layered BRDF shaders and MaterialX lights are not supported in Solaris.
+      - Chaos's MaterialX blog says LaMa nodes are not supported. The post may predate later updates.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279168/Solaris%20FAQ
+        title: V-Ray for Houdini, Solaris FAQ
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/370835504/7.20.10
+        title: V-Ray for Houdini release notes, 7.20.10
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://blog.chaos.com/materialx-and-v-ray-crafting-the-next-chapter-in-3d-creativity
+        title: MaterialX and V-Ray, crafting the next chapter in 3D creativity
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    hosts: [maya]
+    notes: >-
+      Renders USD files with MaterialX shaders and lets you change their assignments. With LookDevX, MaterialX
+      shaders can be created and edited on a USD stage with interactive IPR updates. Chaos publishes a per-node
+      support table with separate CPU and GPU columns.
+    gaps:
+      - Many MaterialX nodes are CPU-only in the support table, for example image, noise and most trigonometry nodes.
+      - Some nodes are unsupported on both CPU and GPU, for example curveadjust, premult, bitangent, ambientocclusion, blackbody and the transform point, vector and normal nodes.
+      - MaterialX light nodes are not supported.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111740125/MaterialX
+        title: V-Ray for Maya, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    hosts: [3ds-max]
+    notes: >-
+      The 3ds Max USD page lists native MaterialX materials through the USD for 3ds Max plugin as supported for
+      both rendering and export.
+    gaps:
+      - Before 7.20.00, the native 3ds Max MaterialX material did not render properly and was not exported to .vrscene in 3ds Max 2024 to 2026.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAX/113586826/USD
+        title: V-Ray for 3ds Max, USD
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113587390/7.20.00
+        title: V-Ray for 3ds Max release notes, 7.20.00
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ─────────────────────────────────────────────────────────────
+  - capability: mtlx.render
+    level: native
+    hosts: [houdini, maya]
+    notes: >-
+      V-Ray reads MaterialX graphs through a reusable translation layer shared by its integrations, and the Maya
+      support table maps MaterialX nodes to V-Ray texture plugins (for example ND_mix to TexMix). Chaos says other
+      V-Ray products can load .mtlx files read-only.
+    gaps:
+      - V-Ray GPU supports a smaller set of MaterialX nodes than V-Ray CPU.
+    sources:
+      - url: https://blog.chaos.com/materialx-and-v-ray-crafting-the-next-chapter-in-3d-creativity
+        title: MaterialX and V-Ray, crafting the next chapter in 3D creativity
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: native
+    hosts: [maya]
+    notes: >-
+      The VRayMaterialX loader material reads a .mtlx file and applies its materials to native Maya geometry outside
+      a USD stage. Houdini release notes also mention importing .mtlx files through MtlVRmat, but no Houdini docs
+      page describes it.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111740125/MaterialX
+        title: V-Ray for Maya, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://blog.chaos.com/materialx-and-v-ray-crafting-the-next-chapter-in-3d-creativity
+        title: MaterialX and V-Ray, crafting the next chapter in 3D creativity
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: native
+    hosts: [maya]
+    notes: A built-in Export Materials to MaterialX tool writes Maya shading networks made with V-Ray out as .mtlx.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111740125/MaterialX
+        title: V-Ray for Maya, MaterialX
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://blog.chaos.com/materialx-and-v-ray-crafting-the-next-chapter-in-3d-creativity
+        title: MaterialX and V-Ray, crafting the next chapter in 3D creativity
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    hosts: [houdini, maya]
+    notes: >-
+      Chaos says V-Ray in Solaris supports the MaterialX Standard Surface material. In Maya, Chaos documents a
+      LookDevX workflow for Standard Surface on USD geometry. The Standard Surface Dispersion parameter was added in
+      7.20.10 for Houdini and 7.20.02 for Maya.
+    sources:
+      - url: https://blog.chaos.com/materialx-and-v-ray-crafting-the-next-chapter-in-3d-creativity
+        title: MaterialX and V-Ray, crafting the next chapter in 3D creativity
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111741694/Standard%20Surface%20Shader%20Setup%20for%20USD%20Geometry
+        title: V-Ray for Maya, Standard Surface Shader Setup for USD Geometry
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/370835504/7.20.10
+        title: V-Ray for Houdini release notes, 7.20.10
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/356712449/7.20.02
+        title: V-Ray for Maya release notes, 7.20.02
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    hosts: [maya, 3ds-max, houdini]
+    notes: >-
+      VRayMtl has an OpenPBR shading mode (Maya from 7.0, 3ds Max from 7.2). V-Ray 7 for Maya also added OpenPBR
+      Surface in MaterialX and Maya's native OpenPBR Surface (Maya 2025.3). V-Ray 7 for 3ds Max supports the 3ds Max
+      2025.3 OpenPBR material, and V-Ray for Houdini 7.40.30 adds OpenPBR support for USD.
+    gaps:
+      - OpenPBR is only partly supported on V-Ray GPU.
+      - Some OpenPBR parameters have no V-Ray mapping, including transmission scatter and its anisotropy, subsurface scatter anisotropy and geometry tangents.
+      - Anisotropy tangent mapping is not supported, and only tangent- and world-space normals are supported.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111739259/OpenPBR%20Shading%20Model
+        title: V-Ray for Maya, OpenPBR Shading Model
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAYA/111738897/V-Ray%207
+        title: V-Ray for Maya release notes, V-Ray 7 (build 7.00.02)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113580676/V-Ray%207
+        title: V-Ray for 3ds Max release notes, V-Ray 7
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VMAX/113587390/7.20.00
+        title: V-Ray for 3ds Max release notes, 7.20.00
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+        title: V-Ray for Houdini release notes, 7.40.30
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: Autodesk USD Asset Resolver from MayaUSD 0.34 does not work with V-Ray 7 Update 2
+    url: https://documentation.chaos.com/space/VMAYA/111739268/USD%20Supported%20Features
+    capability: usd.plugins
+    status: open
+    affects: V-Ray 7.2 for Maya with MayaUSD 0.34 and later
+    verified: 2026-11-04
+
+  - title: MayaUSD 0.29 is not supported by V-Ray for Maya because of a V-Ray data export discrepancy
+    url: https://documentation.chaos.com/space/VMAYA/111738904/USD%20Version%20Support
+    capability: usd.export
+    status: wontfix
+    affects: MayaUSD 0.29
+    verified: 2026-11-04
+
+  - title: Shaders did not work with Hydra 2 in V-Ray for Houdini
+    url: https://documentation.chaos.com/space/VRAYHOUDINI/969048157/7.40.30
+    capability: usd.hydra.delegate
+    status: fixed
+    fixedIn: "7.40.30"
+    verified: 2026-11-04
+
+  - title: Native 3ds Max MaterialX material not rendered properly by V-Ray in 3ds Max 2024 to 2026
+    url: https://documentation.chaos.com/space/VMAX/113587390/7.20.00
+    capability: usd.shade.materialx
+    status: fixed
+    fixedIn: "7.20.00"
+    verified: 2026-11-04
+
+  - title: Mismatched 3ds Max system units and USD meters-per-unit render lights, displacement and bump incorrectly
+    url: https://documentation.chaos.com/space/VMAX/113586826/USD
+    capability: usd.import
+    status: open
+    verified: 2026-11-04

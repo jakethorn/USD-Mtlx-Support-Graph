@@ -4,16 +4,120 @@ categories: [dcc]
 industries: [film-tv, vfx, animation, games]
 license: open-source
 website: https://www.blender.org
+repo: blender/blender
 tier: 1
+summary: >-
+  Built-in USD import and export (including USDZ, UsdSkel, UsdPreviewSurface and MaterialX export) that converts to and
+  from Blender data rather than editing a live stage. A Hydra render-engine API and the bundled Hydra Storm add-on make
+  Blender a Hydra host.
+
+releases:
+  - version: "5.2"
+    date: 2026-07-14
+    usd: "26.03"
+    materialx: "1.39.4"
+    notes: LTS release. Library versions are from the release branch's dependency list.
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.2-release/build_files/build_environment/cmake/versions.cmake
+        title: versions.cmake (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/
+        title: Blender release notes index
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "5.1"
+    date: 2026-03-17
+    usd: "25.08"
+    materialx: "1.39.4"
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.1-release/build_files/build_environment/cmake/versions.cmake
+        title: versions.cmake (blender-v5.1-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/
+        title: Blender release notes index
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "5.0"
+    date: 2025-11-18
+    usd: "25.08"
+    materialx: "1.39.3"
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.0-release/build_files/build_environment/cmake/versions.cmake
+        title: versions.cmake (blender-v5.0-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/
+        title: Blender release notes index
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "4.5"
+    date: 2025-07-15
+    usd: "25.02"
+    materialx: "1.39.2"
+    notes: LTS release, supported until July 2027.
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v4.5-release/build_files/build_environment/cmake/versions.cmake
+        title: versions.cmake (blender-v4.5-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/
+        title: Blender release notes index
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "4.4"
+    date: 2025-03-18
+    usd: "25.02"
+    materialx: "1.39.2"
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v4.4-release/build_files/build_environment/cmake/versions.cmake
+        title: versions.cmake (blender-v4.4-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/
+        title: Blender release notes index
+        kind: release-notes
+        accessed: 2026-11-04
 
 support:
+  # ── Interchange ──────────────────────────────────────────────────────────
   - capability: usd.export
     level: native
     since: "2.82"
-    notes: Shipped in 2.82 as an initial implementation and expanded in later releases.
+    notes: >-
+      Shipped in 2.82 as an initial implementation and expanded in later releases. Exports visible meshes, cameras,
+      curves, text (as meshes), lights, hair, point clouds, metaballs, volumes and armatures, writing the evaluated mesh
+      per frame. Export can be extended with Python hooks (4.0), attached to collections as Collection Exporters (4.2),
+      and since 5.2 tags prims and textures with their colour space and can save incrementally to cut peak memory.
+    gaps:
+      - The manual says invisible objects, USD layers and variants are not exported.
+      - Geometry subsets are not time-sampled, so animated meshes that change topology can break material assignment.
+      - Double-sidedness is taken from the first material and applied to the whole mesh.
+      - Geometry Nodes output must contain only the component type matching the object type to export correctly.
     sources:
       - url: https://developer.blender.org/docs/release_notes/2.82/import_&_export/
         title: Blender 2.82 release notes — Import & Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.0/import_export/
+        title: Blender 4.0 release notes — Import & Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/5.2/pipeline_io/
+        title: Blender 5.2 LTS release notes — Pipeline & I/O
         kind: release-notes
         accessed: 2026-11-04
     confidence: high
@@ -22,10 +126,590 @@ support:
   - capability: usd.import
     level: native
     since: "3.0"
+    notes: >-
+      Converts USD prims into a hierarchy of Blender objects (Xforms and Scopes become empties) and rotates Y-up stages
+      to Z-up. Options cover path masks, purposes, custom attributes and unit scaling. Import can be extended with Python
+      hooks since 4.1, and since 5.2 colours are converted to the blend file's working colour space.
+    gaps:
+      - The manual says the importer does not yet handle composition concepts such as layers and references.
+      - USD file sequences (one file per frame) are not supported.
     sources:
       - url: https://developer.blender.org/docs/release_notes/3.0/pipeline_assets_io/
         title: Blender 3.0 release notes — Pipeline, Assets & I/O
         kind: release-notes
         accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.1/pipeline_assets_io/
+        title: Blender 4.1 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/5.2/pipeline_io/
+        title: Blender 5.2 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
     confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "3.5"
+    notes: >-
+      USDZ import and export were added in 3.5. Exporting to a .usdz file name packs the USD and its textures into the
+      archive, with optional texture downsampling (4.2). On import, textures can be skipped, packed into the
+      blend file or copied to a folder.
+    gaps:
+      - UDIM textures cannot be included in USDZ archives; the manual attributes this to a USD library limitation.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/3.5/pipeline_assets_io/
+        title: Blender 3.5 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow & composition ───────────────────────────────────────────────
+  - capability: usd.layer_editing
+    level: none
+    notes: >-
+      The manual states that the exporter does not support writing USD layers and that the importer does not handle
+      layers; USD data is converted to and from Blender objects.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: partial
+    notes: >-
+      With the experimental Instancing export option, collection and object instances are written as references to
+      the original prim (meshes, curves and point clouds).
+    gaps:
+      - The manual says the importer does not yet handle references as a composition concept.
+      - Reference authoring on export depends on an experimental option.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Import-side wording ("does not yet handle ... references") is ambiguous; the level reflects export behaviour and
+      the manual's statement only.
+
+  - capability: usd.composition.variants
+    level: none
+    notes: The manual states that Blender does not (yet) export variants.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: The source only covers export; no documentation of variant selection on import was found.
+
+  - capability: usd.instancing
+    level: native
+    since: "4.1"
+    notes: >-
+      Import: scene-graph instances become collection instances (4.1) and point instancers become point clouds driven by
+      a Geometry Nodes Instance on Points setup (4.1), including animated instancer attributes since 4.4. Export: the
+      experimental Instancing option writes instanced objects as references and, since 4.5, Geometry Nodes point
+      instances as UsdGeomPointInstancer.
+    gaps:
+      - Instancing on export is behind an option the manual labels experimental.
+      - Complex point-instancing setups (nested or excluded collections, other scenes) can export incorrectly.
+      - Re-exporting imported point instancers does not always round-trip, and animated instancers can miss the first frame.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.1/pipeline_assets_io/
+        title: Blender 4.1 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/pipeline_assets_io/
+        title: Blender 4.4 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/139758
+        title: Need to be able to export a USD Point Instancer (#139758)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      Meshes import with UVs, displayColor as colour attributes, primvars as attributes and Subdivision Surface
+      modifiers from the subdivision scheme. Export writes UVs (renamed to st by default since 4.2), normals including
+      custom normals, an optional subdivision schema (4.1) and indexed UVs that preserve island connectivity (5.1).
+      Since 4.4 crease values follow the range OpenSubdiv expects. USD primitive shapes import as meshes.
+    gaps:
+      - Primvars of type int64, uint, double or half are not supported, and float4 has no Blender equivalent.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.1/pipeline_assets_io/
+        title: Blender 4.1 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/pipeline_assets_io/
+        title: Blender 4.4 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/5.1/pipeline_io/
+        title: Blender 5.1 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: >-
+      Curves and hair export was added in 3.6, and the hair curves object type imports and exports since 4.2.
+      BasisCurves import as Curves objects. In 5.0 NURBS curve import and export were reworked so NURBS curves stay
+      Curves objects on import and weights are written on export.
+    gaps:
+      - Legacy particle hair exports parent strands only, with a constant colour and no UVs or normals.
+      - Materials bound to imported BasisCurves and NurbsCurves are lost on import in 5.2 (open bug).
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/3.6/pipeline_assets_io/
+        title: Blender 3.6 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/5.0/pipeline_io/
+        title: Blender 5.0 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/162342
+        title: Materials bound to USD Curves get disconnected from geometry on import (#162342)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Sources conflict: the 5.2 manual says UsdGeomNurbsCurves import as meshes, while the 5.0 release notes say they
+      are now kept as Curves.
+
+  - capability: usd.geom.points
+    level: native
+    since: "4.2"
+    notes: Point cloud import arrived in 4.2 and point cloud export in 4.3.
+    gaps:
+      - On export, particles are written only while alive and are always visible.
+      - Point lifetimes in imported USD point clouds are ignored (tracked as a known issue).
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.3/pipeline_assets_io/
+        title: Blender 4.3 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/141621
+        title: Point cloud particles ignore lifetime range from USD file (#141621)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >-
+      On import, animated transforms get a Transform Cache constraint and animated mesh, curve and point geometry a
+      Mesh Sequence Cache modifier; primvar animation (colours, UVs, velocities, generic attributes) is read. On export,
+      the evaluated scene is written per frame, including deforming and topology-changing meshes.
+    gaps:
+      - USD file sequences (one file per frame) are not supported on import.
+      - Geometry subsets are not time-sampled, which can break topology-changing meshes with several materials.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    since: "4.0"
+    notes: >-
+      UsdSkel skeleton and blend-shape animation import arrived in 4.0 (as armatures and shape keys); export of
+      armatures and shape keys followed in 4.1, and skeleton rest-pose import in 4.5.
+    gaps:
+      - Bendy bones are not supported on export.
+      - Modifiers other than Armature are not applied when exporting skinned meshes.
+      - Absolute shape keys are not supported.
+      - Blender 5.2 changed where skinned meshes land in the imported hierarchy when Merge parent Xform is on (open bug).
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.0/import_export/
+        title: Blender 4.0 release notes — Import & Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.1/pipeline_assets_io/
+        title: Blender 4.1 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/161702
+        title: "Behavior change: blender 5.2 imports skinned USD meshes under the Armature (#161702)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      Import reads projection (perspective and orthographic), focal length, focus distance, f-stop, clipping, sensor
+      shift and aperture size; animated camera properties import since 4.5.
+    gaps:
+      - Only perspective cameras are exported.
+      - Aperture-size import is limited by differences in how USD and Blender interpret sensor dimensions.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      Lights import and export, with spot lights written through UsdLuxShapingAPI. Since 4.2 a dome light can become the
+      world shader on import and a simple world can be written as a dome light; DomeLight_1 import arrived in 4.5, when
+      light exposure, temperature and normalize settings also started to round-trip.
+    gaps:
+      - Cylinder and geometry lights are not imported.
+      - Only the first dome light found is converted to the world.
+      - World-to-dome-light export only works for an environment texture feeding a background shader.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/rendering/
+        title: Blender 4.5 LTS release notes — Rendering
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >-
+      UsdVol OpenVDB assets import as Volume objects and Volume objects export; since 4.4, animated volumes generated
+      procedurally in Geometry Nodes or by volume modifiers also export.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/pipeline_assets_io/
+        title: Blender 4.4 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      Export approximates Principled BSDF node trees as UsdPreviewSurface. On import, viewport colour, metallic and
+      roughness come from UsdPreviewSurface, and an option converts it to Principled BSDF networks. Later releases added
+      opacityThreshold and emissiveColor (3.6), displacement (4.4), UsdPrimvarReader nodes (4.5) and
+      transparency/translucency (5.1).
+    gaps:
+      - Export only handles simple trees of Diffuse BSDF, Principled BSDF, Image Texture, UV Map and Separate RGB nodes.
+      - Conversion to Principled BSDF on import is lossy.
+      - An open bug reports that export writes a float specular input instead of the specularColor input the spec defines.
+    sources:
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/3.6/pipeline_assets_io/
+        title: Blender 3.6 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.4/pipeline_assets_io/
+        title: Blender 4.4 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/5.1/pipeline_io/
+        title: Blender 5.1 release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/105937
+        title: "USD Export: 'specular' input does not conform to UsdPreviewSurface specification (#105937)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: partial
+    since: "4.2"
+    notes: >-
+      A MaterialX Network export option (4.2) generates MaterialX graphs in UsdShade from Blender shader nodes. Since
+      4.5 Principled BSDF is written as OpenPBR Surface.
+    gaps:
+      - Export only; MaterialX import from USD exists only as a design task.
+      - Only a subset of shader nodes converts, and the conversion is tracked as incomplete.
+      - Displacement is not supported for MaterialX export.
+      - Graphs generated from BSDFs other than Principled BSDF can be hard for other applications to interpret.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.2/pipeline_assets_io/
+        title: Blender 4.2 LTS release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
+        title: Blender 5.2 LTS Manual — Universal Scene Description
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/138106
+        title: USD MaterialX import (#138106)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/158138
+        title: MaterialX Integration Overview (#158138)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: plugin
+    via: io-blender-mtlx
+    notes: >-
+      Activision's add-on loads .mtlx documents and generates native Blender materials whose top-level inputs can be
+      edited per material. Blender's own MaterialX-to-shader-node import is marked missing in the MaterialX integration
+      design task, which points to such add-ons.
+    gaps:
+      - Requires Blender 5.0 or later.
+      - Only a limited set of MaterialX node definitions is supported.
+      - MaterialX graphs cannot be edited inside Blender, and material parameters cannot be animated.
+    sources:
+      - url: https://github.com/Activision/io_blender_mtlx
+        title: Activision/io_blender_mtlx README
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/158138
+        title: MaterialX Integration Overview (#158138)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: partial
+    notes: >-
+      Blender converts its shader nodes to MaterialX for Hydra render engines that request it; the bundled Hydra Storm
+      engine does so (bl_use_materialx). Cycles and EEVEE do not render MaterialX graphs, which the integration design
+      task marks as missing with no approved design.
+    gaps:
+      - MaterialX is only used as a translation of Blender's own node trees; MaterialX content cannot be loaded natively.
+    sources:
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.2-release/scripts/addons_core/hydra_storm/engine.py
+        title: Hydra Storm add-on engine.py (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.0/python_api/
+        title: Blender 4.0 release notes — Python API (Hydra render delegates)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/158138
+        title: MaterialX Integration Overview (#158138)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+    review: >-
+      Interpretation: MaterialX here is an intermediate format for Hydra delegates, not general MaterialX rendering;
+      check whether "partial" is the right level.
+
+  - capability: mtlx.openpbr
+    level: partial
+    since: "4.5"
+    notes: >-
+      MaterialX export writes Principled BSDF as OpenPBR Surface since 4.5. A native OpenPBR shader node and OpenPBR
+      import from USD are tracked as planned work.
+    gaps:
+      - Export only; there is no OpenPBR shader node in the shipping release.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/156437
+        title: OpenPBR Support (#156437)
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/156391
+        title: "OpenPBR: USD support (export/import/hdCycles) (#156391)"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: deprecated
+    until: "4.5"
+    notes: >-
+      MaterialX export wrote Principled BSDF as Standard Surface until 4.5, when it switched to OpenPBR Surface as the
+      closer match.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 LTS release notes — Pipeline & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+    review: >-
+      Inferred from 4.5 release-note wording ("than the previous Standard Surface"); unclear whether Standard Surface is
+      still written in any case.
+
+  # ── Rendering ────────────────────────────────────────────────────────────
+  - capability: usd.hydra.host
+    level: native
+    since: "4.0"
+    notes: >-
+      Since 4.0 render add-ons can be implemented as Hydra render delegates through the HydraRenderEngine Python API, with
+      Blender shader nodes optionally converted to MaterialX for them. The Hydra Storm render engine ships as a core
+      add-on (still present in the 5.2 release branch), intended mainly to preview how a scene will look in other USD
+      applications.
+    gaps:
+      - The 4.0 notes say Hydra output does not yet match USD export exactly; a developer option renders via USD export instead.
+      - Storm's capabilities are limited compared to EEVEE because it was designed mostly for previews.
+      - Blender's Hydra viewport does not present Vulkan-backed Hgi textures from third-party delegates (known issue).
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.0/python_api/
+        title: Blender 4.0 release notes — Python API (Hydra render delegates)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://developer.blender.org/docs/release_notes/4.0/add_ons/
+        title: Blender 4.0 release notes — Add-ons (Hydra Storm)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.blender.org/api/current/bpy.types.HydraRenderEngine.html
+        title: HydraRenderEngine — Blender Python API
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.2-release/scripts/addons_core/hydra_storm/engine.py
+        title: Hydra Storm add-on engine.py (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/issues/160989
+        title: Missing Vulkan Hgi presentation in Hydra Delegate (#160989)
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "USD: Support UDIMs inside USDz archives (#118925)"
+    url: https://projects.blender.org/blender/blender/issues/118925
+    capability: usd.usdz
+    status: open
+    affects: "3.6 onward"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "Need to be able to export a USD Point Instancer (#139758)"
+    url: https://projects.blender.org/blender/blender/issues/139758
+    capability: usd.instancing
+    status: open
+    affects: "4.5 onward (export behind the experimental Instancing option)"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "Materials bound to USD Curves get disconnected from geometry on import (#162342)"
+    url: https://projects.blender.org/blender/blender/issues/162342
+    capability: usd.geom.curves
+    status: open
+    affects: "5.2"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "Behavior change: blender 5.2 imports skinned USD meshes under the Armature (#161702)"
+    url: https://projects.blender.org/blender/blender/issues/161702
+    capability: usd.skel
+    status: open
+    affects: "5.2"
+    verified: 2026-11-04
+
+  - title: "Missing Vulkan Hgi presentation in Hydra Delegate (#160989)"
+    url: https://projects.blender.org/blender/blender/issues/160989
+    capability: usd.hydra.host
+    status: open
+    affects: "5.1"
     verified: 2026-11-04
