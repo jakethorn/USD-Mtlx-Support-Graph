@@ -1,0 +1,31 @@
+name: Blender
+vendor: Blender Foundation
+categories: [dcc]
+industries: [film-tv, vfx, animation, games]
+license: open-source
+website: https://www.blender.org
+tier: 1
+
+support:
+  - capability: usd.export
+    level: native
+    since: "2.82"
+    notes: Shipped in 2.82 as an initial implementation and expanded in later releases.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/2.82/import_&_export/
+        title: Blender 2.82 release notes — Import & Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.import
+    level: native
+    since: "3.0"
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/3.0/pipeline_assets_io/
+        title: Blender 3.0 release notes — Pipeline, Assets & I/O
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

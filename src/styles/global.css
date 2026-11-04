@@ -1,0 +1,117 @@
+/*
+ * Design tokens. Placeholder palette for Phase 0 — the real visual system is designed in
+ * Phase 3 once the data is in. Everything visual reads from these variables.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #efefeb;
+  --border: #dcdcd6;
+  --text: #17171a;
+  --text-muted: #5d5d66;
+  --accent: #3a5bd9;
+
+  /* technology identity */
+  --usd: #d9772b;
+  --mtlx: #1f9e94;
+
+  /* support levels */
+  --level-native: #2f9e5b;
+  --level-plugin: #3a7bd5;
+  --level-partial: #d39b22;
+  --level-experimental: #8b5cd6;
+  --level-planned: #7c8796;
+  --level-deprecated: #9c6b4e;
+  --level-none: #c94a4a;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
+  --radius: 10px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --max-width: 1200px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0e0f13;
+    --surface: #16181e;
+    --surface-2: #1e2129;
+    --border: #2b2f39;
+    --text: #ecedf1;
+    --text-muted: #9a9eab;
+    --accent: #7d97ff;
+    --usd: #f0904a;
+    --mtlx: #3cc2b6;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e0f13;
+  --surface: #16181e;
+  --surface-2: #1e2129;
+  --border: #2b2f39;
+  --text: #ecedf1;
+  --text-muted: #9a9eab;
+  --accent: #7d97ff;
+  --usd: #f0904a;
+  --mtlx: #3cc2b6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

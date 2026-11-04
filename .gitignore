@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# python (ingestion scripts)
+__pycache__/
+.venv/
+
+# env / OS
+.env
+.env.*
+.DS_Store
+Thumbs.db

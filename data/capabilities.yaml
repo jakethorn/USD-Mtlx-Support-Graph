@@ -1,0 +1,246 @@
+# Capability taxonomy: the columns of the support matrix.
+# Support records in data/products/*.yaml reference these ids.
+# Order here is display order. Keep descriptions to one or two plain sentences.
+
+# ── OpenUSD · Interchange ────────────────────────────────────────────────
+- id: usd.import
+  tech: usd
+  group: Interchange
+  label: Import
+  description: Reads USD files (.usd, .usda, .usdc) and converts them into the application's own scene.
+
+- id: usd.export
+  tech: usd
+  group: Interchange
+  label: Export
+  description: Writes the application's scene out as USD.
+
+- id: usd.usdz
+  tech: usd
+  group: Interchange
+  label: USDZ
+  description: Reads or writes .usdz packages, the zipped single-file USD format used heavily on Apple platforms and the web.
+
+# ── OpenUSD · Workflow ───────────────────────────────────────────────────
+- id: usd.stage
+  tech: usd
+  group: Workflow
+  label: Native USD stage
+  description: Works directly on a live USD stage instead of converting it, so edits are authored back as USD opinions.
+
+- id: usd.layer_editing
+  tech: usd
+  group: Workflow
+  label: Layer & edit-target control
+  description: Lets users manage the layer stack and choose which layer receives their edits.
+
+- id: usd.plugins
+  tech: usd
+  group: Workflow
+  label: Site USD plugins
+  description: Loads studio USD plugins such as custom schemas, file-format plugins and asset resolvers.
+
+# ── OpenUSD · Composition ────────────────────────────────────────────────
+- id: usd.composition.sublayers
+  tech: usd
+  group: Composition
+  label: Sublayers
+  description: Respects and authors sublayer stacks.
+
+- id: usd.composition.references
+  tech: usd
+  group: Composition
+  label: References
+  description: Respects and authors references to other USD files or prims.
+
+- id: usd.composition.payloads
+  tech: usd
+  group: Composition
+  label: Payloads
+  description: Supports payloads, including loading and unloading them to control what is in memory.
+
+- id: usd.composition.variants
+  tech: usd
+  group: Composition
+  label: Variant sets
+  description: Switches between, and ideally authors, variant sets.
+
+- id: usd.composition.inherits
+  tech: usd
+  group: Composition
+  label: Inherits & specializes
+  description: Respects class-based composition arcs (inherits and specializes).
+
+- id: usd.instancing
+  tech: usd
+  group: Composition
+  label: Instancing
+  description: Preserves native (scenegraph) instances and point instancers instead of flattening them.
+
+# ── OpenUSD · Scene description ──────────────────────────────────────────
+- id: usd.geom.meshes
+  tech: usd
+  group: Scene description
+  label: Meshes & subdivision
+  description: Polygon meshes, including the subdivision scheme, primvars and UV sets.
+
+- id: usd.geom.curves
+  tech: usd
+  group: Scene description
+  label: Curves & hair
+  description: Basis and NURBS curves, used for hair, fur and splines.
+
+- id: usd.geom.points
+  tech: usd
+  group: Scene description
+  label: Points
+  description: Point clouds and particles.
+
+- id: usd.animation
+  tech: usd
+  group: Scene description
+  label: Time-sampled animation
+  description: Animated transforms, deformation and attributes stored as time samples.
+
+- id: usd.skel
+  tech: usd
+  group: Scene description
+  label: Skeletal animation
+  description: UsdSkel skeletons, skinning and blend shapes.
+
+- id: usd.cameras
+  tech: usd
+  group: Scene description
+  label: Cameras
+  description: UsdGeomCamera, including lens and film-back attributes.
+
+- id: usd.lights
+  tech: usd
+  group: Scene description
+  label: Lights
+  description: UsdLux lights.
+
+- id: usd.volumes
+  tech: usd
+  group: Scene description
+  label: Volumes
+  description: UsdVol volumes backed by OpenVDB fields.
+
+- id: usd.physics
+  tech: usd
+  group: Scene description
+  label: Physics
+  description: UsdPhysics rigid bodies, colliders and joints.
+
+# ── OpenUSD · Shading ────────────────────────────────────────────────────
+- id: usd.shade.preview_surface
+  tech: usd
+  group: Shading
+  label: UsdPreviewSurface
+  description: Reads or writes materials as UsdPreviewSurface, USD's portable baseline material.
+
+- id: usd.shade.materialx
+  tech: usd
+  group: Shading
+  label: MaterialX in USD
+  description: Reads or writes materials as MaterialX networks embedded in UsdShade.
+
+- id: usd.shade.native
+  tech: usd
+  group: Shading
+  label: Renderer-specific shaders
+  description: Round-trips renderer- or app-specific shader networks through UsdShade.
+
+# ── OpenUSD · Rendering ──────────────────────────────────────────────────
+- id: usd.hydra.delegate
+  tech: usd
+  group: Rendering
+  label: Hydra render delegate
+  description: Ships a Hydra render delegate, so any Hydra host (usdview, Solaris, …) can render with it.
+
+- id: usd.hydra.host
+  tech: usd
+  group: Rendering
+  label: Hydra host
+  description: Uses Hydra in its viewport or renderer and can load third-party render delegates.
+
+- id: usd.render_settings
+  tech: usd
+  group: Rendering
+  label: Render settings
+  description: Reads or writes UsdRender settings, products and AOVs.
+
+# ── MaterialX · Interchange ──────────────────────────────────────────────
+- id: mtlx.import
+  tech: materialx
+  group: Interchange
+  label: Import .mtlx
+  description: Reads MaterialX documents into the application's own materials.
+
+- id: mtlx.export
+  tech: materialx
+  group: Interchange
+  label: Export .mtlx
+  description: Writes materials out as MaterialX documents.
+
+# ── MaterialX · Authoring & rendering ────────────────────────────────────
+- id: mtlx.authoring
+  tech: materialx
+  group: Authoring & rendering
+  label: Node-graph authoring
+  description: Lets users build MaterialX node graphs directly in the application.
+
+- id: mtlx.render
+  tech: materialx
+  group: Authoring & rendering
+  label: Renders MaterialX
+  description: Renders MaterialX shading networks, natively or through generated shaders.
+
+- id: mtlx.shadergen
+  tech: materialx
+  group: Authoring & rendering
+  label: Uses ShaderGen
+  description: Uses MaterialX's own shader generators (GLSL, MSL, OSL, MDL, …) rather than a custom translation.
+
+- id: mtlx.custom_nodes
+  tech: materialx
+  group: Authoring & rendering
+  label: Custom node definitions
+  description: Accepts user or studio node definitions and implementations beyond the standard libraries.
+
+- id: mtlx.color_management
+  tech: materialx
+  group: Authoring & rendering
+  label: Colour spaces
+  description: Honours MaterialX colour-space tags, typically through OpenColorIO.
+
+- id: mtlx.texture_baking
+  tech: materialx
+  group: Authoring & rendering
+  label: Texture baking
+  description: Bakes MaterialX graphs down to textures for targets that cannot evaluate them.
+
+# ── MaterialX · Shading models ───────────────────────────────────────────
+- id: mtlx.standard_surface
+  tech: materialx
+  group: Shading models
+  label: Standard Surface
+  description: Supports Autodesk Standard Surface.
+
+- id: mtlx.openpbr
+  tech: materialx
+  group: Shading models
+  label: OpenPBR Surface
+  description: Supports OpenPBR Surface, the shading model jointly developed by Autodesk and Adobe under the ASWF.
+
+- id: mtlx.gltf_pbr
+  tech: materialx
+  group: Shading models
+  label: glTF PBR
+  description: Supports the MaterialX glTF PBR node for interchange with real-time and web engines.
+
+- id: mtlx.preview_surface
+  tech: materialx
+  group: Shading models
+  label: UsdPreviewSurface node
+  description: Supports MaterialX's implementation of UsdPreviewSurface.

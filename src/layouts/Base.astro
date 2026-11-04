@@ -1,0 +1,114 @@
+---
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.svelte';
+import { withBase } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = 'USD & MaterialX Support Graph';
+const {
+  title,
+  description = 'Interactive, sourced data on OpenUSD and MaterialX support across film, VFX, games, AEC and beyond.',
+} = Astro.props;
+const fullTitle = title ? `${title} · ${siteName}` : siteName;
+const builtOn = new Date().toISOString().slice(0, 10);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <script is:inline>
+      // Apply a saved theme before first paint to avoid a flash.
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container bar">
+        <a class="brand" href={withBase()}>
+          <span class="dot usd" aria-hidden="true"></span><span class="dot mtlx" aria-hidden="true"></span>
+          {siteName}
+        </a>
+        <div class="toggle-slot"><ThemeToggle client:only="svelte" /></div>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="muted">
+          Every claim links to its source. Spotted something wrong or missing?
+          <a href="https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues">Open an issue</a>.
+          · <a href={withBase('data.json')}>Download the data</a> · Built {builtOn}
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+    gap: 16px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 650;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .brand .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .brand .dot.usd {
+    background: var(--usd);
+  }
+  .brand .dot.mtlx {
+    background: var(--mtlx);
+    margin-left: -9px;
+    margin-right: 6px;
+    opacity: 0.9;
+  }
+  .toggle-slot {
+    width: 36px;
+    height: 36px;
+  }
+  main {
+    min-height: 70vh;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    padding: 24px 0 40px;
+    font-size: 0.9rem;
+  }
+</style>

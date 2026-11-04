@@ -1,0 +1,27 @@
+{
+  "name": "usd-mtlx-support-graph",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Interactive, data-driven visualisations of OpenUSD and MaterialX support across film, VFX, games and adjacent industries.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "validate": "tsx scripts/validate-data.ts",
+    "review": "tsx scripts/validate-data.ts --review"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^9.1.2",
+    "astro": "^7.4.5",
+    "svelte": "^5.57.3",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^24.19.2",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}

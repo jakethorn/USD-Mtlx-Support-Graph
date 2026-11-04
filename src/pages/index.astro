@@ -1,0 +1,325 @@
+---
+/**
+ * Phase 0 placeholder: proves data → schema → page end to end.
+ * Replaced by the real landing view in Phase 4.
+ */
+import Base from '../layouts/Base.astro';
+import { loadData } from '../lib/data';
+import { TECHS, PRODUCT_CATEGORIES } from '../data/schema';
+
+const { products, capabilities } = await loadData();
+const capabilityById = new Map(capabilities.map((c) => [c.id, c]));
+
+const supportCount = products.reduce((n, p) => n + p.support.length, 0);
+const sourceUrls = new Set(
+  products.flatMap((p) => [...p.support, ...p.releases].flatMap((r) => r.sources.map((s) => s.url))),
+);
+
+const techLabel: Record<(typeof TECHS)[number], string> = { usd: 'OpenUSD', materialx: 'MaterialX' };
+const taxonomy = TECHS.map((tech) => {
+  const caps = capabilities.filter((c) => c.tech === tech);
+  const groups = [...new Set(caps.map((c) => c.group))].map((group) => ({
+    group,
+    caps: caps.filter((c) => c.group === group),
+  }));
+  return { tech, label: techLabel[tech], count: caps.length, groups };
+});
+
+const categoryLabel: Record<string, string> = {
+  dcc: 'DCCs',
+  renderer: 'Renderers',
+  'game-engine': 'Game engines',
+  viewer: 'Viewers',
+  texturing: 'Texturing',
+  lookdev: 'Look development',
+  compositing: 'Compositing',
+  layout: 'Layout',
+  pipeline: 'Pipeline',
+  cad: 'CAD',
+  aec: 'AEC',
+  'xr-web': 'XR & web',
+  platform: 'Platforms',
+  library: 'Libraries',
+};
+const byCategory = PRODUCT_CATEGORIES.map((cat) => ({
+  cat,
+  label: categoryLabel[cat] ?? cat,
+  items: products.filter((p) => p.categories[0] === cat),
+})).filter((g) => g.items.length > 0);
+
+const stats = [
+  { value: products.length, label: 'products tracked' },
+  { value: capabilities.length, label: 'capabilities per product' },
+  { value: supportCount, label: 'sourced support records' },
+  { value: sourceUrls.size, label: 'sources cited' },
+];
+---
+
+<Base>
+  <section class="hero container">
+    <p class="eyebrow">Early preview · data collection in progress</p>
+    <h1>Who supports <span class="usd">OpenUSD</span> and <span class="mtlx">MaterialX</span>, how well, and since when?</h1>
+    <p class="lede muted">
+      A living, sourced map of USD and MaterialX support across film, VFX, games, AEC, product design and the web,
+      covering DCCs, renderers, engines and the open-source tools around them.
+    </p>
+    <ul class="stats" role="list">
+      {
+        stats.map((s) => (
+          <li>
+            <strong>{s.value}</strong>
+            <span class="muted">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container">
+    <h2>What we track</h2>
+    <p class="muted">
+      "Supports USD" can mean anything from a basic importer to a native USD stage. So every product is scored on each
+      of these capabilities separately.
+    </p>
+    <div class="taxonomy">
+      {
+        taxonomy.map((t) => (
+          <article class={`tech-card ${t.tech}`}>
+            <h3>
+              {t.label} <span class="muted count">{t.count}</span>
+            </h3>
+            {t.groups.map((g) => (
+              <div class="group">
+                <h4>{g.group}</h4>
+                <ul class="chips" role="list">
+                  {g.caps.map((c) => (
+                    <li title={c.description}>{c.label}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>Products so far</h2>
+    {
+      byCategory.map((g) => (
+        <div class="category">
+          <h3>{g.label}</h3>
+          <div class="products">
+            {g.items.map((p) => (
+              <article class="product">
+                <header>
+                  <a href={p.website} rel="noopener">
+                    {p.name}
+                  </a>
+                  <span class="muted vendor">{p.vendor}</span>
+                </header>
+                {p.support.length === 0 ? (
+                  <p class="muted pending">Research pending</p>
+                ) : (
+                  <ul class="records" role="list">
+                    {p.support.map((s) => (
+                      <li>
+                        <span class={`level level-${s.level}`}>{s.level}</span>
+                        <span>{capabilityById.get(s.capability)?.label ?? s.capability}</span>
+                        {s.since && <span class="muted">since {s.since}</span>}
+                        <a class="src" href={s.sources[0].url} rel="noopener" title={s.sources[0].title ?? 'Source'}>
+                          source
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(40px, 8vw, 96px);
+    padding-bottom: 32px;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin: 0 0 20px;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    max-width: 20ch;
+    margin: 0 0 16px;
+  }
+  .usd {
+    color: var(--usd);
+  }
+  .mtlx {
+    color: var(--mtlx);
+  }
+  .lede {
+    font-size: 1.15rem;
+    max-width: 60ch;
+    margin: 0 0 32px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .stats li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .stats strong {
+    font-size: 2rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stats span {
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+  section + section {
+    margin-top: 56px;
+  }
+  .taxonomy {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 16px;
+  }
+  .tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--tech);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .tech-card.usd {
+    --tech: var(--usd);
+  }
+  .tech-card.materialx {
+    --tech: var(--mtlx);
+  }
+  .tech-card h3 {
+    margin: 0 0 12px;
+  }
+  .count {
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+  .group h4 {
+    margin: 14px 0 6px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .chips li {
+    font-size: 0.85rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--tech) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--tech) 35%, transparent);
+    cursor: help;
+  }
+  .category h3 {
+    font-size: 1rem;
+    margin: 24px 0 10px;
+    color: var(--text-muted);
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 12px;
+  }
+  .product {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .product header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .product header a {
+    font-weight: 650;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .vendor {
+    font-size: 0.85rem;
+  }
+  .pending {
+    font-size: 0.9rem;
+    margin: 8px 0 0;
+  }
+  .records {
+    padding: 0;
+    margin: 10px 0 0;
+    list-style: none;
+    display: grid;
+    gap: 6px;
+    font-size: 0.9rem;
+  }
+  .records li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .level {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 1px 8px;
+    border-radius: 4px;
+    color: #fff;
+    background: var(--level-color);
+  }
+  .level-native { --level-color: var(--level-native); }
+  .level-plugin { --level-color: var(--level-plugin); }
+  .level-partial { --level-color: var(--level-partial); }
+  .level-experimental { --level-color: var(--level-experimental); }
+  .level-planned { --level-color: var(--level-planned); }
+  .level-deprecated { --level-color: var(--level-deprecated); }
+  .level-none { --level-color: var(--level-none); }
+  .src {
+    margin-left: auto;
+    font-size: 0.8rem;
+  }
+</style>
