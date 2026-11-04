@@ -1,0 +1,658 @@
+name: OctaneRender
+vendor: OTOY
+categories: [renderer]
+industries: [film-tv, vfx, animation, product-design]
+license: commercial
+website: https://home.otoy.com/render/octane-render/
+tier: 2
+summary: >
+  Unbiased spectrally correct GPU path tracer on CUDA and Metal with a Hydra
+  render delegate for Houdini Solaris and NVIDIA Omniverse, standalone USD scene
+  import, and native MaterialX 1.39.4 and OpenPBR Surface support since 2026.1.
+
+releases:
+  - version: "2026.6"
+    date: 2026-10-14
+    materialx: "1.39.4"
+    notes: >
+      Added Standalone USD import for DistantLight, DomeLight_1, textured
+      RectLights, and Blackbody light emission parity; fixed OpenPBR
+      displacement map import from MaterialX and USD files, UDIM tile extraction
+      in MaterialX Image nodes, and unsupported MaterialX node handling on USD
+      import. Houdini/Solaris 2026.6.0.0 added support for MaterialX nodes
+      implemented as Octane node graphs (such as mtlx separate nodes) and live
+      IPR updates for octane:* camera and light attributes in Solaris.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85881
+        title: "OctaneRender 2026.6 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85883
+        title: "OctaneRender 2026.6.0.0 for Houdini Production (including Solaris)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.5"
+    date: 2026-09-13
+    materialx: "1.39.4"
+    notes: >
+      Added support for importing USD scenes with MaterialX image nodes using
+      relative paths; fixed saving and loading USD materials in ORBX when
+      originating from referenced .mtlx files, fixed USD import errors for
+      unconnected MaterialX displacement, and fixed USD PointInstancers with
+      time-varying instance counts. Houdini 2026.5.0.0 unified the Hydra
+      Solaris plugin into the main Houdini plugin build and fixed Solaris
+      velocity motion blur.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85834
+        title: "OctaneRender 2026.5 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85846
+        title: "OctaneRender 2026.5.0.0 for Houdini Production (Unified Solaris Plugin)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.4"
+    date: 2026-06-30
+    materialx: "1.39.4"
+    notes: >
+      Fixed an issue where imported USD geometry was not connected to its
+      material in Standalone. Houdini Solaris 2026.4.0.0 added Hydra HioImage
+      texture loading (including floating-point EXR), linear and sRGB texture
+      color spaces, Octane Material Builder support, COP op:/opdef: texture
+      assets, and fixed the MaterialX multiply node.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85726
+        title: "OctaneRender 2026.4 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85770
+        title: "OctaneRender for HoudiniSolaris 2026.4.0.0 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.3"
+    date: 2026-04-22
+    materialx: "1.39.4"
+    notes: >
+      Added MaterialX import support for displacement shader subgraphs, float
+      and color primvar import on USD curves, and point instance overrides in
+      USD import preferences; updated the MaterialX importer to import
+      UsdPreviewSurface as Standard Surface to align with the USD importer; and
+      fixed motion blur on USD curves and PointInstancer/points loading from USD
+      archives.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.2"
+    date: 2026-02-08
+    materialx: "1.39.4"
+    notes: >
+      Aligned OpenPBR Coat Darkening, view-dependent Coat absorption, and
+      Specular/Coat Anisotropy (0–1 range) with the OpenPBR Surface
+      specification, and added MaterialX node descriptions to the Lua API
+      browser.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85487
+        title: "OctaneRender 2026.2 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.1"
+    date: 2025-11-27
+    materialx: "1.39.4"
+    notes: >
+      Introduced native MaterialX 1.39.4 support (over 130 native pattern nodes
+      and import from .mtlx and USD files), native OpenPBR Surface material
+      node, GPU path-traced Gaussian splats, meshlets, virtual streaming
+      textures, Neural Radiance Cache (NRC), trace sets, and 10 float / 10
+      color vertex attributes. Houdini Solaris 2026.1.0.1 added MaterialX node
+      support in Solaris.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85454
+        title: "OctaneRender for HoudiniSolaris 2026.1.0.1 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.1"
+    date: 2025-03-30
+    notes: >
+      Added rest attribute support for animated meshes and geometry archives,
+      Vectron and Volume SDF texture displacement, Spectral LensFX realistic
+      lens camera, native surface decals, and Apple M3/M4 Metal-RT hardware
+      acceleration improvements.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=84667
+        title: "OctaneRender 2025.1 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2024.1"
+    date: 2024-11-12
+    notes: >
+      Introduced a redesigned geometry pipeline with reduced VRAM usage, ORBX
+      referencing, Open Image Denoise AOV filter graphs, texture and OSL nodes
+      in the AOV compositor, and the Octane Hydra delegate for NVIDIA Omniverse
+      and usdview (2024.1 - R2).
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=83998
+        title: "OctaneRender 2024.1 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=84414
+        title: "Octane Hydra | Omniverse 2024.1 - R2 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini, omniverse]
+    notes: >
+      OTOY provides the OctaneRender Hydra render delegate ($OCTVERSION/dso/usd_plugins)
+      for Houdini Solaris (Houdini 20.5, 21.0, and 22.0 on Windows, Linux, and
+      macOS; unified with the main Octane for Houdini plugin starting in
+      2026.5.0.0) as well as a preview Octane Hydra delegate for NVIDIA
+      Omniverse Composer and usdview.
+    gaps:
+      - "In Houdini Solaris, modifying material networks or node connections in IPR requires manually resetting the render to see updates (reported in 2026.6.0.0)."
+      - "Houdini 22 Solaris builds cannot render Gaussian Splat point files yet (documented in 2026.4.0.0 release notes)."
+      - "The Octane Hydra delegate for Omniverse has not been updated past the 2024.1 - R2 preview build."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85846
+        title: "OctaneRender 2026.5.0.0 for Houdini Production (Unified Solaris & Houdini Plugin)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85883
+        title: "OctaneRender 2026.6.0.0 for Houdini Production"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85770
+        title: "OctaneRender for HoudiniSolaris 2026.4.0.0 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=84414
+        title: "Octane Hydra | Omniverse 2024.1 - R2 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/SolarisH/Solaris/Rendering.htm
+        title: "OctaneRender for SideFX Solaris Manual — Rendering"
+        kind: docs
+        accessed: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [houdini]
+    notes: >
+      In Houdini Solaris, Octane provides dedicated Octane tabs on the Render
+      Settings LOP (selecting Direct Lighting, Path Tracing, PMC, or Info
+      Channel kernels, max samples, and environment mode), Render Geometry
+      Settings LOP (object layer parameters), and Octane AOVs LOP wired into
+      Ordered Products for viewport viewing and USD Render ROP output.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/SolarisH/Solaris/RenderSettingsNode.htm
+        title: "OctaneRender for SideFX Solaris Manual — Render Settings Node"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/SolarisH/Solaris/RenderGeometrySettingsNode.htm
+        title: "OctaneRender for SideFX Solaris Manual — Render Geometry Settings Node"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/SolarisH/Solaris/OctaneAOVs.htm
+        title: "OctaneRender for SideFX Solaris Manual — Octane AOVs"
+        kind: docs
+        accessed: 2026-11-04
+
+  - capability: usd.import
+    level: native
+    notes: >
+      Octane Standalone imports USD files via the Scene geometry node with
+      configurable USD Import Preferences (length unit, vertex normals, default
+      hair thickness and particle sphere radius, OpenSubdiv scheme and boundary
+      interpolation, Load USD Materials, object layers, rest attributes, and
+      render/proxy/guide display purpose filtering). USD scenes and referenced
+      assets can also be packaged into .orbx archives.
+    gaps:
+      - "Octane 2026's adaptive meshlets system is only available on single OBJ Mesh nodes and is not yet supported on USD, Alembic, or FBX Scene node graphs."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/USDImportPreferences.html
+        title: "Octane Standalone Documentation — USD Import Preferences"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/standaloneSE/ImportingandExporting.html
+        title: "Octane Standalone Documentation — Importing and Exporting"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/standaloneSE/Scene.html
+        title: "Octane Standalone Documentation — Scene Node"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (meshlets limitation on USD scenes)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    notes: >
+      Octane 2027.1 Beta 1 added USD export support to the Geometry Exporter
+      node in Octane Standalone; in Octane 2026.x Stable, the Geometry Exporter
+      node only exports FBX and Alembic (.abc), while full scene export uses
+      OTOY's .orbx/.ocs container format.
+    gaps:
+      - "USD export via the Geometry Exporter node is only available in 2027.1 development builds; 2026.x Stable only exports FBX and Alembic."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/GeometryExporter.html
+        title: "Octane Standalone Documentation — Geometry Exporter"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85910
+        title: "OctaneRender 2027.1 Beta 1 Release Notes (Geometry Exporter USD export)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    notes: >
+      Octane's USD Scene importer and Solaris Hydra delegate support polygon
+      meshes, OpenSubdiv subdivision surfaces (Catmull-Clark, Catmull-Clark
+      smooth variant, Loop, and Bilinear schemes with vertex/face-varying
+      boundary interpolation and crease sharpness), vertex normals, rest
+      attributes, and up to 10 float and 10 color/vector vertex attributes (as
+      of 2026.1).
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/USDImportPreferences.html
+        title: "Octane Standalone Documentation — USD Import Preferences"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (10 float and 10 color vertex attributes)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: partial
+    notes: >
+      Octane Standalone imports hair/curve primitives from USD files with
+      configurable default thickness, gradient interpolation, motion blur
+      (fixed in 2026.3), and float and color primvars (added in 2026.3).
+    gaps:
+      - "In Houdini Solaris, users report that hair width and curve type options on USD curves do not always take effect (#85770)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/USDImportPreferences.html
+        title: "Octane Standalone Documentation — USD Import Preferences (Hair)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (USD curve primvars and motion blur)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85770
+        title: "OctaneRender for HoudiniSolaris 2026.4.0.0 Forum Thread (curve & particle settings report)"
+        kind: forum
+        accessed: 2026-11-04
+
+  - capability: usd.geom.points
+    level: partial
+    notes: >
+      Octane Standalone imports USD point primitives as sphere particles (with
+      configurable default sphere radius and fixes for USD archive point loading
+      in 2026.3).
+    gaps:
+      - "In Houdini Solaris, particles are exported as instanced sphere meshes rather than native Octane sphere particles, and Render Geometry Settings particle size overrides are reported as non-functional (#85427, #85770)."
+      - "Time-varying point counts in USD files failed to load in Octane Standalone 2026.4 (fixed for a subsequent release)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/USDImportPreferences.html
+        title: "Octane Standalone Documentation — USD Import Preferences (Particles)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (USD points loading fix)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85427
+        title: "OctaneRender for HoudiniSolaris 2026.1.0.0 Thread (particles rendered as instanced meshes)"
+        kind: forum
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85726
+        title: "OctaneRender 2026.4 Thread (varying USD point counts bug report)"
+        kind: forum
+        accessed: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >
+      Octane supports OpenVDB volumes in Houdini Solaris and in Standalone
+      (via Volume and Volume SDF nodes and Standard Volume Medium), with
+      absorption, scattering, emission, and velocity motion blur grids.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/Volume.html
+        title: "Octane Standalone Documentation — Volume Node"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/standaloneSE/VDBImportPreferences.html
+        title: "Octane Standalone Documentation — VDB Import Preferences"
+        kind: docs
+        accessed: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >
+      Octane supports USD PointInstancers and scenegraph instances in Houdini
+      Solaris and Standalone USD import, including overriding point instances
+      with external geometry (added in 2026.3) and time-varying instance counts
+      (fixed in 2026.5).
+    gaps:
+      - "Reading per-instance primvars:displayColor on a USD PointInstancer in Solaris requires manually wiring an Instance Color texture node named displayColor inside the Octane material (#85770)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (USD PointInstancer overrides and fixes)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85834
+        title: "OctaneRender 2026.5 Release Notes (time-varying PointInstancer fix)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85770
+        title: "OctaneRender for HoudiniSolaris 2026.4.0.0 Thread (PointInstancer displayColor workflow)"
+        kind: forum
+        accessed: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >
+      Octane's USD Scene node imports rigid-body transform animations, vertex
+      deformations, animated camera paths, and curve/instancer motion blur
+      (with timeline playback in Standalone), and the Solaris delegate supports
+      transformation, deformation, and velocity motion blur (fixed in
+      2026.5.0.0).
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/Scene.html
+        title: "Octane Standalone Documentation — Scene Node (USD & Alembic animation)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85846
+        title: "OctaneRender 2026.5.0.0 for Houdini Production (Solaris velocity motion blur fix)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.lights
+    level: partial
+    notes: >
+      In Houdini Solaris, Octane supports native UsdLux Area (Rect/Disk),
+      Distant, Dome, Sphere/Point, and Spot lights with Octane light extension
+      attributes. In Standalone USD import, Octane 2026.6 added support for
+      DistantLight, DomeLight_1, textured RectLights, and Blackbody emission
+      parity.
+    gaps:
+      - "The native Solaris Light Linker LOP (UsdLux light linking collections) is ignored by the Octane Solaris render delegate (#85665)."
+      - "For a Solaris Dome Light to illuminate the scene, Dome Light must also be explicitly selected as the Environment type in the Octane tab of the Render Settings node."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/SolarisH/Solaris/LightTypes.htm
+        title: "OctaneRender for SideFX Solaris Manual — Light Types"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85881
+        title: "OctaneRender 2026.6 Release Notes (USD light import improvements)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85665
+        title: "OctaneRender for HoudiniSolaris 2026.3.0.0 R1 Thread (Solaris Light Linker report)"
+        kind: forum
+        accessed: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >
+      Octane imports animated camera paths from USD files in Standalone and
+      supports USD cameras in Houdini Solaris with an Octane tab on Camera and
+      Camera Edit LOPs for Thin Lens, Universal, Realistic Lens, Panoramic,
+      Baking, and OSL camera parameters, Post Processing, and Imager/Denoiser
+      controls.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/Scene.html
+        title: "Octane Standalone Documentation — Scene Node (Camera Paths)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/SolarisH/Solaris/RenderSettingsNode.htm
+        title: "OctaneRender for SideFX Solaris Manual — Camera Imager & Post Processing"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85883
+        title: "OctaneRender 2026.6.0.0 for Houdini Production (Solaris camera property updates)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >
+      Octane imports UsdPreviewSurface materials from USD files when Load USD
+      Materials is enabled in USD Import Preferences; as of Octane 2026.3,
+      both the USD and MaterialX importers translate UsdPreviewSurface into
+      Octane's Standard Surface material.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/USDImportPreferences.html
+        title: "Octane Standalone Documentation — USD Import Preferences (Load USD Materials)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (UsdPreviewSurface imported as Standard Surface)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    hosts: [houdini]
+    notes: >
+      Octane provides native Octane VOP shading nodes and the Octane Material
+      Builder in Houdini Solaris (via Material Library LOPs or imported from
+      MAT networks using Scene Import Materials).
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/SolarisH/Solaris/Materials.htm
+        title: "OctaneRender for SideFX Solaris Manual — Materials"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85770
+        title: "OctaneRender for HoudiniSolaris 2026.4.0.0 Release Notes (Octane Material Builder)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    since: "2026.1"
+    hosts: [houdini]
+    notes: >
+      Octane 2026.1 added native import of MaterialX materials embedded in or
+      referenced by USD files in Standalone, and Houdini Solaris 2026.1.0.1+
+      translates Houdini MaterialX (mtlx) USD shading networks into Octane
+      materials (including OpenPBRSurface, Standard Surface, displacement
+      subgraphs in 2026.3, and multi-output node-graph nodes such as mtlx
+      separate in 2026.6.0.0).
+    gaps:
+      - "Unsupported MaterialX nodes in USD files are skipped and replaced with empty materials (with optional warnings added in 2026.6)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (MaterialX support in USD and Standalone)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85454
+        title: "OctaneRender for HoudiniSolaris 2026.1.0.1 Release Notes (Mtlx nodes)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85881
+        title: "OctaneRender 2026.6 Release Notes"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85883
+        title: "OctaneRender 2026.6.0.0 for Houdini Production"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: mtlx.import
+    level: native
+    since: "2026.1"
+    notes: >
+      Octane 2026.1+ natively imports .mtlx MaterialX documents and MaterialX
+      PBR/pattern graphs into Octane node graphs, including surface shaders,
+      BSDF layers, displacement subgraphs (added in 2026.3), and UDIM/relative
+      image paths (improved in 2026.5–2026.6).
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/MaterialX.html
+        title: "Octane Standalone Documentation — MaterialX"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (MaterialX Support)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (MaterialX displacement subgraph import)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    since: "2026.1"
+    notes: >
+      Octane 2026.1 introduced over 130 native GPU MaterialX nodes implementing
+      the MaterialX 1.39.4 pattern, procedural, BSDF, and surface shader
+      library (including MaterialX Surface Material, OpenPBR Surface, and
+      Standard Surface), which can be freely mixed with native Octane texture
+      and OSL nodes across Standalone, Houdini/Solaris, Blender, Cinema 4D, and
+      3ds Max.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/MaterialX.html
+        title: "Octane Standalone Documentation — MaterialX"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/standaloneSE/MaterialXSurfaceMaterial.html
+        title: "Octane Standalone Documentation — MaterialX Surface Material"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (MaterialX 1.39.4 native node collection)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "2026.1"
+    notes: >
+      Octane 2026.1 introduced a native OpenPBR Surface material node (and
+      support for the MaterialX OpenPBRSurface node in Houdini/Solaris,
+      Blender, Cinema 4D, and 3ds Max), including energy-preserving Oren-Nayar
+      diffuse, multi-scattering Fuzz sheen, coat darkening and view-dependent
+      absorption (refined in 2026.2), dispersion (Abbe/Cauchy), thin-walled
+      transmission, and subsurface scattering.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/OpenPBRSurfaceMaterial.html
+        title: "Octane Standalone Documentation — OpenPBR Surface Material"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.otoy.com/blender/OpenPBRSurfaceMaterial.html
+        title: "OctaneRender for Blender Documentation — Open PBR Surface Material"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: "OctaneRender 2026.1 Release Notes (OpenPBR Surface Material)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85487
+        title: "OctaneRender 2026.2 Release Notes (OpenPBR specification alignment)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >
+      Octane natively implements Autodesk Standard Surface and maps both
+      MaterialX standard_surface and UsdPreviewSurface (since 2026.3) to its
+      Standard Surface material node.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85624
+        title: "OctaneRender 2026.3 Release Notes (Standard Surface anisotropy & UsdPreviewSurface mapping)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85487
+        title: "OctaneRender 2026.2 Release Notes (Standard Surface node graph emission fix)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+issues:
+  - title: "Solaris IPR does not update material edits or node connections without manually resetting the render"
+    url: https://render.otoy.com/forum/viewtopic.php?t=85883
+    capability: usd.hydra.delegate
+    status: open
+    affects: "2026.1–2026.6"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "Solaris Light Linker LOP (UsdLux light linking) is ignored by the Octane Solaris render delegate"
+    url: https://render.otoy.com/forum/viewtopic.php?t=85665
+    capability: usd.lights
+    status: open
+    affects: "2026.3–2026.6"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "USD particles in Houdini Solaris render as instanced sphere meshes rather than native sphere particles"
+    url: https://render.otoy.com/forum/viewtopic.php?t=85427
+    capability: usd.geom.points
+    status: open
+    affects: "2026.1–2026.6"
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "Houdini 22 Solaris builds cannot render Gaussian Splat point files"
+    url: https://render.otoy.com/forum/viewtopic.php?t=85770
+    capability: usd.hydra.delegate
+    status: open
+    affects: "2026.4–2026.6"
+    severity: minor
+    verified: 2026-11-04

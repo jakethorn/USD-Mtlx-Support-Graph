@@ -1,0 +1,107 @@
+name: Rhinoceros 3D (Rhino)
+vendor: Robert McNeel & Associates
+categories: [cad, dcc]
+industries: [aec, product-design, automotive, manufacturing]
+license: commercial
+website: https://www.rhino3d.com/
+tier: 2
+summary: >-
+  NURBS 3D CAD and computational design tool (with Grasshopper) for AEC, industrial design, and manufacturing. Rhino 8
+  adds built-in export of mesh objects and materials to .usd, .usda, and .usdz (defaulting to .usdz), meshing NURBS
+  surfaces on export.
+
+releases:
+  - version: "8.0"
+    notes: >-
+      Rhino 8 adds built-in Universal Scene Description export (.usd, .usda, .usdz) for meshes and materials, converting
+      NURBS surfaces to meshes via export or document render mesh settings.
+    sources:
+      - url: https://www.rhino3d.com/8/new/
+        title: New in Rhino 8
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
+        title: Universal Scene Description export (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.import
+    level: none
+    notes: >-
+      Rhino 8's official Index of import/export file types lists Universal Scene Description (*.usd, *.usda, *.usdc,
+      *.usdz) only under Export and not under Import, and the USD help topic documents export only.
+    sources:
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/_index_of_import_export_file_types.htm
+        title: Index of import/export file types (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    since: "8.0"
+    notes: >-
+      Rhino 8 exports mesh objects and materials to .usd, .usda, and .usdz via File > Export Selected or Save As.
+      NURBS surfaces are converted to meshes on export using either specified meshing options or the document render
+      mesh settings.
+    gaps:
+      - Exports mesh objects and materials only; non-mesh primitives and full USD scene composition are not authored.
+    sources:
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
+        title: Universal Scene Description export (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/_index_of_import_export_file_types.htm
+        title: Index of import/export file types (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: partial
+    since: "8.0"
+    notes: >-
+      Rhino 8 exports packaged .usdz files (including referenced assets such as textures) as the default USD export
+      format; explicitly typing .usd or .usda in the file name exports unpacked USD or ASCII USD instead.
+    gaps:
+      - Export only; USDZ import is not listed in the supported import file types.
+    sources:
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
+        title: Universal Scene Description export (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: partial
+    since: "8.0"
+    notes: >-
+      Exports mesh objects and tessellated NURBS surfaces to USD/USDZ files using the specified meshing options or
+      document render mesh settings.
+    gaps:
+      - Export only; Rhino 8 does not list USD under supported import file formats.
+      - NURBS surfaces are converted to polygon meshes during USD export rather than exported as NURBS primitives.
+    sources:
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
+        title: Universal Scene Description export (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: partial
+    since: "8.0"
+    notes: >-
+      Rhino 8 exports object materials and referenced texture assets into USD and USDZ packages.
+    sources:
+      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
+        title: Universal Scene Description export (Rhino 8 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04

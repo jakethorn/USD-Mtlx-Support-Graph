@@ -408,12 +408,16 @@ support:
     level: native
     via: arnold-usd
     notes: >-
-      The arnold-usd changelog covers MaterialX networks in USD: custom USD MaterialX shaders of any type (7.2.4.0),
-      MaterialX colour spaces in Hydra (7.3.5.0), and fixes for triplanar, textures through mayaHydra and boolean
-      shaders. Arnold 7.5.1.2 fixed an error when assigning a MaterialX shader to a USD prim.
+      arnold-usd translates MaterialX UsdShade networks into native Arnold shaders (such as standard_surface and
+      openpbr_surface) or OSL shaders via AiMaterialxGetOslShaderCode, supporting custom USD MaterialX shaders of any
+      type (7.2.4.0) and MaterialX colour spaces in Hydra (7.3.5.0).
     gaps:
       - Open bug #2639 reports Solaris MaterialX image colour-space settings not being respected by Arnold.
     sources:
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/libs/common/materials_utils.cpp
+        title: arnold-usd materials_utils.cpp (MaterialX UsdShade translation)
+        kind: repo
+        accessed: 2026-11-04
       - url: https://github.com/Autodesk/arnold-usd/blob/master/CHANGELOG.md
         title: arnold-usd CHANGELOG
         kind: release-notes
@@ -428,9 +432,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Support is inferred from changelog entries and fixes. No page read describes MaterialX-in-USD support or its
-      limits as a feature.
 
   # ── MaterialX ─────────────────────────────────────────────────────────────
   - capability: mtlx.render
@@ -547,9 +548,13 @@ support:
   - capability: mtlx.standard_surface
     level: native
     notes: >-
-      Arnold has a Standard Surface shader, and its release notes describe OpenPBR Surface as an evolution of Standard
-      Surface.
+      Arnold's native standard_surface shader implements Autodesk Standard Surface, and arnold-usd maps MaterialX
+      ND_standard_surface_surfaceshader directly to standard_surface.
     sources:
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/libs/common/materials_utils.cpp
+        title: arnold-usd materials_utils.cpp (ND_standard_surface_surfaceshader mapping)
+        kind: repo
+        accessed: 2026-11-04
       - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-shading/ac-surface-shaders/arnold_user_guide_ac_surface_shaders_ac_standard_surface_html.html
         title: Arnold user guide, Standard Surface
         kind: docs
@@ -558,11 +563,8 @@ support:
         title: Arnold 7.3.3.0 release notes
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      The Standard Surface page does not name the Autodesk Standard Surface specification or the MaterialX
-      standard_surface node. Their equivalence is assumed, not stated.
 
 issues:
   - title: USDLux shaping parameters (spotlights, IES) do nothing in Solaris unless the Arnold USDLux version is changed
@@ -588,11 +590,3 @@ issues:
     affects: Arnold 7.4.2, Houdini 20.5
     severity: major
     verified: 2026-11-04
-
-  - title: USD area-light falloff, luminance and colour temperature render differently from other engines
-    url: https://github.com/Autodesk/arnold-usd/issues/2637
-    capability: usd.lights
-    status: open
-    affects: HtoA 6.5.1.1, Houdini 21.0
-    verified: 2026-11-04
-    review: No maintainer response yet. It is unclear whether this is a bug or a deliberate interpretation of UsdLux.

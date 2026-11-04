@@ -1,6 +1,6 @@
 /** Build-time data access shared by pages and endpoints. */
 import { getCollection } from 'astro:content';
-import type { Capability, Product, Project } from '../data/schema';
+import type { Capability, Product, Project, TimelineEvent } from '../data/schema';
 import { githubStats, type RepoStats } from '../data/generated';
 
 export type ProductEntry = Product & { id: string; stats?: RepoStats };
@@ -9,10 +9,11 @@ export type ProjectEntry = Project & { id: string; stats?: RepoStats };
 const statsFor = (repo: string | undefined) => (repo ? githubStats.repos[repo] : undefined);
 
 export async function loadData() {
-  const [productEntries, projectEntries, capabilityEntries] = await Promise.all([
+  const [productEntries, projectEntries, capabilityEntries, eventEntries] = await Promise.all([
     getCollection('products'),
     getCollection('projects'),
     getCollection('capabilities'),
+    getCollection('events'),
   ]);
 
   const products: ProductEntry[] = productEntries
@@ -28,5 +29,10 @@ export async function loadData() {
     .sort((a, b) => a.data.order - b.data.order)
     .map(({ data: { order: _order, ...c } }) => c);
 
-  return { products, projects, capabilities };
+  // Chronological order from data/events.yaml.
+  const events: TimelineEvent[] = eventEntries
+    .sort((a, b) => a.data.date.localeCompare(b.data.date) || a.data.order - b.data.order)
+    .map(({ data: { order: _order, ...e } }) => e);
+
+  return { products, projects, capabilities, events };
 }

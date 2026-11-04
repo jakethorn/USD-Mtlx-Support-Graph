@@ -1,0 +1,15 @@
+name: OpenDCC
+repo: shapefx/OpenDCC
+tech: [usd]
+kind: tool
+description: >-
+  Apache-licensed C++ and Python application framework for building USD-native 3D scene assembly, lookdev and pipeline
+  tools with Qt and Hydra.
+license: Apache-2.0
+tags: [dcc-framework, hydra, qt]
+sources:
+  - url: https://github.com/shapefx/OpenDCC
+    title: shapefx/OpenDCC README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

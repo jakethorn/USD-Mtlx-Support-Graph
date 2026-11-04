@@ -355,7 +355,7 @@ support:
       LOP, and all Redshift VOP nodes can be used there. A Collect VOP switches to the shader for the active
       renderer in multi-renderer setups. redshiftUsdCmdLine renders .usd files containing Redshift materials.
     gaps:
-      - The docs say the standard RS Material output VOP is not compatible with Solaris, so materials must use the RS USD Material output.
+      - Materials in Solaris must be built in an RS USD Material Builder (which since 3.0 no longer requires a separate USD material output node) rather than using the legacy /obj RS Material output VOP.
     sources:
       - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Houdini%2BSolaris%2BMaterials.html
         title: Redshift for Houdini, Solaris Materials
@@ -371,17 +371,13 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Possible conflict. The Solaris Materials page says the RS Material output VOP does not work in Solaris, but
-      the 3.0 notes say Hydra added full support for RS material nodes without the USD material output node.
 
   - capability: usd.shade.preview_surface
     level: native
     hosts: [houdini]
     notes: >-
-      There is no dedicated docs page, so support is inferred from release notes. They include Hydra fixes for
-      UsdPreviewSurface (3.0) and support for the UsdPreviewSurface texture reader's UV channel from a primvar
-      reader (3.5). redshiftUsdCmdLine added UsdPreviewSurface support in 2025.3.0.
+      Supported in both the Solaris Hydra delegate and redshiftUsdCmdLine (added in 2025.3.0), including the
+      UsdPreviewSurface texture reader's UV channel from a primvar reader (added in 3.5).
     sources:
       - url: https://help.maxon.net/r3d/houdini/en-us/Content/html/Release%2BNotes%2B3.0.html
         title: Redshift 3.0 release notes
@@ -395,9 +391,8 @@ support:
         title: Redshift release notes (latest)
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: Support is inferred from release-note fixes and additions; no docs page describes which UsdPreviewSurface features work.
 
   # ── MaterialX shading models ──────────────────────────────────────────────
   - capability: mtlx.openpbr

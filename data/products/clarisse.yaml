@@ -1,0 +1,573 @@
+name: Clarisse
+vendor: Isotropix
+categories: [dcc, lookdev, renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+status: discontinued
+website: https://www.isotropix.com/
+tier: 2
+summary: >-
+  Discontinued scene-assembly, layout, lookdev, and rendering tool (Clarisse iFX and BUiLDER) by Isotropix. Added
+  native USD stage referencing in 4.0, USD context export and VariantSet switching in 5.0, and MaterialX OSL rendering
+  in the Angie renderer in 5.5 Early Access.
+
+releases:
+  - version: "4.0"
+    date: 2019-02-05
+    notes: >-
+      Introduced native Pixar USD stage import via Reference contexts and GeometryBundleUsd alongside Alembic and
+      Clarisse project referencing.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "5.0"
+    date: 2021-05-05
+    notes: >-
+      Clarisse 5.0 (VFX Reference Platform CY2020) added native USD context and scene export (File > Export > Context
+      As USD), interactive USD VariantSet selection on referenced stages and USD bundles, and the Autodesk Standard
+      Surface material (MaterialPhysicalAutodeskStandardSurface), reaching final maintenance release 5.0 SP14 before
+      Isotropix shut down.
+    sources:
+      - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
+        title: "Elephorm — Clarisse 5 : une version majeure"
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse iFX 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "5.5"
+    date: 2021-12-08
+    notes: >-
+      Clarisse 5.5 Early Access introduced the hybrid CPU/GPU Angie renderer (built on NVIDIA OptiX and Open Shading
+      Language) with native MaterialX lookdev import, node-graph authoring, and rendering on referenced USD stages via
+      MaterialX OSL shader generation.
+    sources:
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Nicolas Guiard, Isotropix)"
+        kind: talk
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "4.0"
+    notes: >-
+      Clarisse imports .usd, .usda, and .usdc stages either as a scene-graph Reference context (preserving hierarchy,
+      transforms, meshes, curves, points, instances, and cameras) or as a single consolidated GeometryBundleUsd item
+      with per-shading-group material slots.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available (USD import and GeometryBundleUsd)"
+        kind: news
+        accessed: 2026-11-04
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Nicolas Guiard, Isotropix)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    since: "5.0"
+    notes: >-
+      Clarisse 5.0 added File > Export > Context As USD / Scene As USD to write .usd, .usda, and .usdc files containing
+      Xform hierarchies, UsdGeomCamera prims, and UsdGeomMesh geometry.
+    gaps:
+      - Empirical testing on Clarisse 5.0 SP14 shows the native USD exporter silently omits materials, lights, textures, and procedural scatterers even when their export checkboxes are enabled.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse iFX 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
+        title: "Elephorm — Clarisse 5 : une version majeure (USD export and variant support)"
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: none
+    notes: >-
+      Clarisse's file handlers and pipeline integrations only register .usd, .usda, and .usdc extensions and do not
+      package .usdz archives.
+    sources:
+      - url: https://github.com/diegogarciahuerta/tk-clarisse/blob/master/hooks/tk-multi-publish2/basic/collector.py
+        title: "diegogarciahuerta/tk-clarisse — Clarisse USD file extension handlers (.usd, .usda, .usdc)"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.stage
+    level: none
+    notes: >-
+      Clarisse converts referenced USD stages into its own native Context, SceneObject, and GeometryBundle data
+      structures rather than operating on a live in-memory UsdStage.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/README.md
+        title: "romainguerif/tropix — Clarisse .project scene architecture"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: none
+    notes: >-
+      Scene overrides on referenced USD stages are stored inside Clarisse's own .project / .build files or shading
+      layers rather than authored as non-destructive USD sublayers.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/README.md
+        title: "romainguerif/tropix — Clarisse .project override and shading layer storage"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse evaluates USD sublayers when opening a referenced USD stage.
+    gaps:
+      - Does not author USD sublayers on export.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available (USD stage loading)"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse resolves internal and external USD references when loading USD stages into a Reference context or
+      GeometryBundleUsd, and exports referenced geometry in USD context exports.
+    sources:
+      - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
+        title: "Elephorm — Clarisse 5 USD reference and export overview"
+        kind: blog
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse evaluates USD payloads when streaming geometry from referenced USD stages.
+    gaps:
+      - Does not author payload arcs on USD export.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: partial
+    since: "5.0"
+    notes: >-
+      Clarisse 5.0 added interactive USD VariantSet selection on referenced USD contexts and USD bundles, allowing
+      artists to switch asset variants inside Clarisse.
+    gaps:
+      - VariantSets cannot be authored when exporting to USD.
+    sources:
+      - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
+        title: "Elephorm — Clarisse 5 USD Variant support"
+        kind: blog
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.inherits
+    level: partial
+    since: "4.0"
+    notes: >-
+      Evaluated by OpenUSD when Clarisse loads a referenced USD stage.
+    gaps:
+      - Not authored on USD export.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  # ── Geometry & scene schemas ───────────────────────────────────────────────
+  - capability: usd.instancing
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse natively deduplicates and renders millions of USD scenegraph instances and UsdGeomPointInstancer
+      prototypes on import.
+    gaps:
+      - Clarisse's native USD exporter does not export procedural Scatterer items as UsdGeomPointInstancer prims.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 USD instancing support"
+        kind: news
+        accessed: 2026-11-04
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    since: "4.0"
+    notes: >-
+      Imports and exports UsdGeomMesh topology, face-varying normals, UV primvars, subdivisionScheme (catmullClark and
+      none), and UsdGeomSubset shading groups.
+    gaps:
+      - On export, Clarisse preserves its internal default UV set name (primvars:parametric) rather than renaming it to primvars:st.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse imports UsdGeomBasisCurves and hair/fur primitives from referenced USD stages and USD bundles.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse imports UsdGeomPoints point clouds from referenced USD stages and USD bundles for scattering and
+      rendering.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    since: "4.0"
+    notes: >-
+      Clarisse evaluates time-sampled transforms, camera motion, and deforming geometry from referenced USD stages with
+      full motion blur support, and writes startTimeCode, endTimeCode, and timeCodesPerSecond on USD export.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Clarisse 5.0 SP14 USD export header metadata"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    since: "4.0"
+    notes: >-
+      Clarisse imports and exports UsdGeomCamera prims with focalLength, fStop, horizontalAperture, verticalAperture,
+      and world transform matrices.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Clarisse 5.0 SP14 USD Camera export analysis"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: none
+    notes: >-
+      Clarisse uses its own physical light classes (such as LightPhysicalEnvironment and LightPhysicalArea) and its
+      native USD exporter silently omits all lights from the exported USD stage.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: none
+    notes: >-
+      Clarisse loads OpenVDB volumes directly via native VDB volume items rather than through UsdVol schemas.
+    sources:
+      - url: https://80.lv/articles/clarisse-ifx-4-0-available
+        title: "80.lv — Clarisse iFX 4.0 Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  # ── Shading, Hydra & rendering ─────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: none
+    notes: >-
+      Clarisse's native USD exporter does not write UsdPreviewSurface or UsdShadeMaterial prims; studio pipelines
+      relied on external Python scripts (such as Djed) to generate UsdPreviewSurface look layers alongside Clarisse
+      projects.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/Michaelredaa/Djed/blob/master/hosts/clarisse/ix_utils.py
+        title: "Michaelredaa/Djed — Clarisse external USD material pipeline utility"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: none
+    notes: >-
+      Clarisse stores its native materials in .project files or shading layers and drops all materials when exporting
+      to USD.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: partial
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5 Early Access (Angie) added native MaterialX support for importing and rendering MaterialX shading
+      networks bound to referenced USD stages, compiling MaterialX node graphs to OSL for CPU and NVIDIA OptiX GPU
+      rendering.
+    gaps:
+      - Only available in the Clarisse 5.5 Early Access Angie renderer, not in the legacy Clarisse 5.0 CPU renderer.
+      - Does not export UsdMtlx networks to USD.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 14–25)"
+        kind: talk
+        accessed: 2026-11-04
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.hydra.host
+    level: none
+    notes: >-
+      Clarisse uses its own 3D viewport and progressive CPU/GPU raytracers rather than hosting a Hydra viewport.
+    sources:
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.hydra.delegate
+    level: none
+    notes: >-
+      Isotropix never released a Hydra render delegate for Clarisse's legacy CPU renderer or Angie renderer.
+    sources:
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: none
+    notes: >-
+      Clarisse's native USD exporter does not write UsdRenderSettings or AOV declarations.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+        title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5 (Angie) natively imports .mtlx documents, dynamically creating corresponding Clarisse texture/shader
+      nodes and node graphs from the MaterialX standard library definitions so artists can inspect, edit, or override
+      imported MaterialX networks inside Clarisse's Material Editor.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 16–19)"
+        kind: talk
+        accessed: 2026-11-04
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: none
+    notes: >-
+      Clarisse 5.5 imports and renders MaterialX networks in Angie, but saves edits in Clarisse .project files rather
+      than exporting standalone .mtlx documents.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 16–25)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    since: "5.0"
+    notes: >-
+      Clarisse 5.0 introduced native Autodesk Standard Surface support (MaterialPhysicalAutodeskStandardSurface) in the
+      legacy CPU renderer, and Clarisse 5.5 (Angie) renders MaterialX standard_surface networks on both CPU and OptiX
+      GPU via OSL closures.
+    sources:
+      - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
+        title: "Elephorm — Clarisse 5 Autodesk Standard Surface support"
+        kind: blog
+        accessed: 2026-11-04
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 16–21)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: none
+    notes: >-
+      Clarisse was discontinued prior to the introduction of OpenPBR Surface.
+    sources:
+      - url: https://github.com/romainguerif/tropix/blob/main/README.md
+        title: "romainguerif/tropix — Isotropix shutdown and Clarisse 5 status"
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: native
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5 (Angie) dynamically registers all MaterialX standard library nodes as Clarisse texture/material
+      items, allowing artists to author and edit MaterialX node graphs directly inside Clarisse's Material Editor.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 16–20)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5's hybrid CPU/GPU Angie renderer natively renders MaterialX shading networks via OSL on both CPU and
+      NVIDIA OptiX GPU.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 14–25)"
+        kind: talk
+        accessed: 2026-11-04
+      - url: https://www.awn.com/news/isotropix-clarisse-55-now-available
+        title: "Animation World Network — Isotropix Clarisse 5.5 Now Available"
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: native
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5's Angie renderer is built entirely on Open Shading Language (CPU and NVIDIA OptiX GPU) and uses
+      MaterialX's OSL ShaderGen with custom Angie OSL closure mappings to compile and execute arbitrary MaterialX
+      shader graphs at render time.
+    gaps:
+      - MaterialX's default OSL ShaderGen compiled an entire shading group into a single monolithic OSL shader and required custom closure overrides for Angie compatibility.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 15–24)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.preview_surface
+    level: partial
+    since: "5.5"
+    notes: >-
+      Clarisse 5.5 (Angie) loads all node definitions from the MaterialX standard library (including UsdPreviewSurface)
+      through its dynamic MaterialX-to-OSL node loader, whereas Clarisse 5.0's legacy renderer does not support
+      MaterialX UsdPreviewSurface.
+    sources:
+      - url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+        title: "ASWF Open Source Days 2022 — MaterialX in Isotropix's Clarisse Angie (Slides 17–21)"
+        kind: talk
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "Native USD exporter in Clarisse 5.0 silently drops materials, lights, textures, and scatterers"
+    url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+    capability: usd.export
+    status: wontfix
+    affects: "5.0–5.0 SP14"
+    severity: blocker
+    verified: 2026-11-04
+
+  - title: "Exported USD meshes write default UVs as primvars:parametric instead of primvars:st"
+    url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
+    capability: usd.geom.meshes
+    status: wontfix
+    affects: "5.0–5.0 SP14"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "MaterialX OSL ShaderGen closures required custom overrides and monolithic shader compilation in Angie"
+    url: https://materialx.org/assets/ASWF_OSD2022_MaterialX_OSL_Final.pdf
+    capability: mtlx.shadergen
+    status: wontfix
+    affects: "5.5"
+    severity: minor
+    verified: 2026-11-04

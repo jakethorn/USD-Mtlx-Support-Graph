@@ -135,12 +135,12 @@ support:
     level: native
     since: "18.0"
     notes: >-
-      The USD Zip render node packages a USD file and its dependencies (sublayers, textures, volumes) into a .usdz,
+      The USD Zip render node packages a USD file and its dependencies (sublayers, textures) into a .usdz,
       with an optional ARKit-compatible mode. The resulting .usdz loads into Houdini like any other USD file.
     gaps:
       - Only the usdzip "asset" and "ARKit asset" modes are exposed, not every usdzip option.
       - ARKit mode applies Apple's stricter constraints and can drop data such as variant sets.
-      - SideFX notes .usdz cannot hold volume files and is unsuited to most pipeline work.
+      - SideFX's Writing out USD guide notes that .usdz cannot hold volume files (though the USD Zip node docs list volumes among dependent files it attempts to bundle) and is unsuited to most pipeline work.
     sources:
       - url: https://www.sidefx.com/docs/houdini/nodes/out/usdzip.html
         title: Houdini docs — USD Zip render node
@@ -152,7 +152,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: SideFX pages disagree on volumes in USDZ. The USD Zip node says it bundles dependent volume files, while the Writing out USD page says USDZ cannot hold volume files.
 
   # ── Workflow ────────────────────────────────────────────────────────────
   - capability: usd.stage

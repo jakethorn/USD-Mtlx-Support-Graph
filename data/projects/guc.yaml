@@ -1,0 +1,15 @@
+name: guc (glTF to USD Converter)
+repo: pablode/guc
+tech: [usd, materialx]
+kind: converter
+description: >-
+  Command-line converter that translates glTF 2.0 assets and PBR extensions into OpenUSD stages with MaterialX shading
+  networks.
+license: Apache-2.0
+tags: [gltf, converter]
+sources:
+  - url: https://github.com/pablode/guc
+    title: pablode/guc README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

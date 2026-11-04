@@ -1,0 +1,15 @@
+name: ShadingLanguageX
+repo: jakethorn/ShadingLanguageX
+tech: [materialx]
+kind: tool
+description: >-
+  Open-source specification and compiler for authoring complex MaterialX node graphs using a text-based shading
+  language.
+license: Apache-2.0
+tags: [compiler, shading-language]
+sources:
+  - url: https://github.com/jakethorn/ShadingLanguageX
+    title: jakethorn/ShadingLanguageX README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

@@ -1,0 +1,15 @@
+name: openusd-rs
+repo: mxpv/openusd
+tech: [usd]
+kind: library
+description: >-
+  Pure-Rust implementation of OpenUSD file format parsers (.usda, .usdc, .usdz) and core scene description data
+  structures without C++ dependencies.
+license: MIT
+tags: [rust, parser]
+sources:
+  - url: https://github.com/mxpv/openusd
+    title: mxpv/openusd README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

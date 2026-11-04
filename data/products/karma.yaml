@@ -22,7 +22,6 @@ releases:
         title: What's new in Houdini 22 — Karma
         kind: release-notes
         accessed: 2026-11-04
-    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
 
   - version: "21.0"
     date: "2025-08"
@@ -38,7 +37,6 @@ releases:
         title: What's new in Houdini 21 — Karma
         kind: release-notes
         accessed: 2026-11-04
-    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
 
   - version: "20.5"
     date: "2024-07"
@@ -54,7 +52,6 @@ releases:
         title: What's new in Houdini 20.5 — Karma
         kind: release-notes
         accessed: 2026-11-04
-    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
 
   - version: "20.0"
     date: "2023-11"
@@ -70,7 +67,6 @@ releases:
         title: What's new in Houdini 20 — Karma
         kind: release-notes
         accessed: 2026-11-04
-    review: USD and MaterialX versions are Houdini's bundled library versions; Karma has no separate library table.
 
 support:
   # ── Rendering ───────────────────────────────────────────────────────────

@@ -1,0 +1,15 @@
+name: usdtweak
+repo: cpichard/usdtweak
+tech: [usd]
+kind: tool
+description: >-
+  Standalone Dear ImGui-based OpenUSD layer and stage editor for inspecting composition arcs, editing opinions and
+  previewing stages with Hydra.
+license: Apache-2.0
+tags: [editor, imgui, hydra]
+sources:
+  - url: https://github.com/cpichard/usdtweak
+    title: cpichard/usdtweak README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

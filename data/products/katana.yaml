@@ -114,9 +114,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Sources disagree on when the shipped plug-ins became enabled by default: the "Loading USD Plug-ins" page says
-      4.5v1, the 5.0v1 release notes say 5.0, and the developer guide says both "enabled" and "disabled by default".
 
   - capability: usd.export
     level: native
@@ -292,7 +289,7 @@ support:
       UsdVariantSet picks a variant from the variant sets on a prim (and can apply it to extra prims); UsdIn
       workflows use UsdInVariantSelect.
     gaps:
-      - The UsdVariantSet reference describes selecting existing variants only, not authoring new variant sets.
+      - UsdVariantSet selects existing variants only; authoring new variant sets is not covered by a dedicated node.
     sources:
       - url: https://learn.foundry.com/katana/Content/rg/usd_nodes/usdvariantset.html
         title: Katana 9.0 — UsdVariantSet node reference
@@ -304,9 +301,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      The native-workflows page says VariantSets could not be authored in Katana 7, implying later versions can, but
-      no page found describes variant-set authoring.
 
   - capability: usd.composition.inherits
     level: native

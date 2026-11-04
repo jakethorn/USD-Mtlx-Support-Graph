@@ -1,0 +1,16 @@
+name: hdOSPRay
+repo: ospray/hdospray
+tech: [usd]
+kind: plugin
+description: >-
+  Intel OSPRay Hydra render delegate for interactive CPU and GPU ray-traced rendering in usdview, Houdini Solaris and
+  other Hydra hosts.
+license: Apache-2.0
+hosts: [houdini]
+tags: [hydra-delegate, renderer]
+sources:
+  - url: https://github.com/ospray/hdospray
+    title: ospray/hdospray README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

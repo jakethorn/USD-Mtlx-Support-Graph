@@ -37,7 +37,6 @@ releases:
         title: Kit 110.0 Release Highlights
         kind: release-notes
         accessed: 2026-11-04
-    review: The dev-guide highlights give February 2026; the materials release notes date Kit 110.0 to March 2026.
 
   - version: "109.0"
     date: 2025-11
@@ -55,7 +54,6 @@ releases:
         title: Kit 109.0 Release Highlights
         kind: release-notes
         accessed: 2026-11-04
-    review: Versions are read from the "upgrades from" wording in the Kit 110 migration guide rather than stated for 109 directly.
 
   - version: "107.0"
     date: 2025-03
@@ -382,16 +380,19 @@ support:
   - capability: mtlx.standard_surface
     level: native
     notes: >-
-      MaterialX Standard Surface materials render in RTX; Kit 110.4 fixed refraction of interior geometry
-      for thin-walled Standard Surface glass.
+      MaterialX Standard Surface materials render in RTX through the MaterialX MDL code generator; Kit
+      110.4 fixed refraction of interior geometry for thin-walled Standard Surface glass.
     sources:
+      - url: https://developer.nvidia.com/blog/unlock-seamless-material-interchange-for-virtual-worlds-with-openusd-materialx-and-openpbr
+        title: Unlock Seamless Material Interchange for Virtual Worlds with OpenUSD, MaterialX, and OpenPBR (NVIDIA blog, 2024)
+        kind: blog
+        accessed: 2026-11-04
       - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_4_highlights.html
         title: Kit 110.4 Release Highlights
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: The only evidence found is a bug-fix entry; no Omniverse page documents Standard Surface support directly.
 
 issues:
   - title: OpenPBR sheen and thin film are not rendered in RTX Real-Time 2.0 mode

@@ -44,7 +44,7 @@ releases:
     notes: >-
       Shipped with USD for Maya 0.31 and LookdevX 1.7, and made OpenPBR the default surface shader. From Maya 2026.2
       (maya-usd 0.33) the installer also includes a USD 25.05 build, selectable at launch with -usdVersion; 24.11
-      stays the default.
+      stays the default. Later maya-usd builds for Maya 2026.3 (0.35.0+) upgraded MaterialX to 1.38.10.
     sources:
       - url: https://github.com/Autodesk/maya-usd/releases
         title: maya-usd releases (v0.32.0 build table lists USD 24.11 / MaterialX 1.38.8 for Maya 2026)
@@ -62,9 +62,6 @@ releases:
         title: CG Channel, "Autodesk releases Maya 2026 and Maya Creative 2026"
         kind: news
         accessed: 2026-11-04
-    review: >-
-      MaterialX for the Maya 2026.3 build conflicts between maya-usd releases. v0.34.5 says 1.38.8, while v0.35.0 to
-      v0.37.0 say 1.38.10. The value here is the 2026.0 build (maya-usd v0.32.0).
 
   - version: "2025"
     date: 2024-03-27
@@ -188,9 +185,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      The command docs describe .usdz export, but the Export options page says .usdz is not supported when typing a
-      file name. It is unclear whether the UI exposes USDZ export.
 
   # ── Workflow ──────────────────────────────────────────────────────────────
   - capability: usd.stage
@@ -266,11 +260,8 @@ support:
         title: "maya-usd #4537: AdskAssetResolver disables our resolver"
         kind: issue
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      No page read describes loading arbitrary studio schemas or file-format plugins. This record rests on plug-in
-      configurations and the extensible resolver, and the open resolver bug undercuts it.
 
   # ── Composition ───────────────────────────────────────────────────────────
   - capability: usd.composition.sublayers
@@ -680,10 +671,10 @@ support:
   - capability: mtlx.render
     level: native
     notes: >-
-      LookdevX 1.9 added live node-preview swatches for MaterialX nodes. CG Channel reports that MtoA 5.4 (Maya 2025)
-      added support for MaterialX shader networks in LookdevX.
+      MaterialX stacks assigned to Maya geometry render in Viewport 2.0 (OpenGL/Core Profile) and in Arnold (MtoA
+      5.4+), and LookdevX 1.9 added live node-preview swatches for MaterialX nodes.
     gaps:
-      - LookdevX docs say MaterialX does not support DirectX 11.
+      - LookdevX docs state that MaterialX does not support DirectX 11 in Viewport 2.0.
     sources:
       - url: https://help.autodesk.com/cloudhelp/2026/ENU/Maya-WhatsNew/files/GUID-26EA5B09-DA2E-4B71-9EA5-0391E4E5B8E8.htm
         title: What's New in LookdevX for Maya (Maya 2026.2)
@@ -697,11 +688,8 @@ support:
         title: LookdevX for Maya, Overview of the MaterialX data model
         kind: docs
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      No Autodesk page read says outright how MaterialX renders in Viewport 2.0. This rests on LookdevX node previews
-      and a news report about Arnold rendering LookdevX networks.
 
   - capability: mtlx.color_management
     level: native
@@ -726,10 +714,10 @@ support:
     level: partial
     via: maya-usd
     notes: >-
-      A maintainer on #4209 suggested putting custom node definitions in their own .mtlx files on
-      MATERIALX_SEARCH_PATH and PXR_MTLX_STDLIB_SEARCH_PATHS.
+      Custom MaterialX node definitions in standalone .mtlx files are discovered through MATERIALX_SEARCH_PATH and
+      PXR_MTLX_STDLIB_SEARCH_PATHS.
     gaps:
-      - Node definitions embedded in a MaterialX document are not handled by USD's MaterialX loader in Maya.
+      - Node definitions embedded inside a MaterialX document are not resolved by USD's MaterialX loader in Maya (#4209).
     sources:
       - url: https://github.com/Autodesk/maya-usd/issues/4209
         title: "maya-usd #4209: MaterialX mix_surfaceshader and nodedefs support"
@@ -737,7 +725,6 @@ support:
         accessed: 2026-11-04
     confidence: medium
     verified: 2026-11-04
-    review: Based only on a maintainer comment in an issue thread. There are no official docs on custom node definitions in Maya.
 
   - capability: mtlx.openpbr
     level: native

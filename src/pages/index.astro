@@ -9,7 +9,7 @@ import { TECHS, PRODUCT_CATEGORIES, SUPPORT_LEVELS } from '../data/schema';
 import { materialxNodes, releases, usdSchemas } from '../data/generated';
 import { withBase } from '../lib/url';
 
-const { products, projects, capabilities } = await loadData();
+const { products, projects, capabilities, events } = await loadData();
 
 // ── generated-data facts (Phase 1) ──
 const usdFirst = usdSchemas.history[0];
@@ -26,9 +26,11 @@ const fmt = new Intl.NumberFormat('en');
 const capabilityById = new Map(capabilities.map((c) => [c.id, c]));
 
 const supportCount = products.reduce((n, p) => n + p.support.length, 0);
-const sourceUrls = new Set(
-  products.flatMap((p) => [...p.support, ...p.releases].flatMap((r) => r.sources.map((s) => s.url))),
-);
+const sourceUrls = new Set([
+  ...products.flatMap((p) => [...p.support, ...p.releases].flatMap((r) => r.sources.map((s) => s.url))),
+  ...projects.flatMap((p) => p.sources.map((s) => s.url)),
+  ...events.flatMap((e) => e.sources.map((s) => s.url)),
+]);
 
 const techLabel: Record<(typeof TECHS)[number], string> = { usd: 'OpenUSD', materialx: 'MaterialX' };
 const taxonomy = TECHS.map((tech) => {
@@ -65,6 +67,7 @@ const byCategory = PRODUCT_CATEGORIES.map((cat) => ({
 const stats = [
   { value: products.length, label: 'products tracked' },
   { value: projects.length, label: 'open-source projects' },
+  { value: events.length, label: 'timeline milestones' },
   { value: capabilities.length, label: 'capabilities per product' },
   { value: supportCount, label: 'sourced support records' },
   { value: sourceUrls.size, label: 'sources cited' },

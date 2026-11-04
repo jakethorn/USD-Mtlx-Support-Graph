@@ -1,0 +1,14 @@
+name: hdMitsuba
+repo: google/hdmitsuba
+tech: [usd]
+kind: plugin
+description: >-
+  OpenUSD Hydra render delegate for the Mitsuba 3 differentiable and physically based renderer.
+license: Apache-2.0
+tags: [hydra-delegate, renderer]
+sources:
+  - url: https://github.com/google/hdmitsuba
+    title: google/hdmitsuba README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

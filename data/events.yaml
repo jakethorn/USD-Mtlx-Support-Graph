@@ -1,0 +1,412 @@
+# Major milestones in the history of OpenUSD, MaterialX, and OpenPBR.
+# Ordered chronologically from earliest to latest.
+
+- id: materialx-whitepaper-2012
+  date: "2012"
+  title: Lucasfilm introduces the MaterialX specification
+  tech: [materialx]
+  kind: spec
+  description: >-
+    Lucasfilm's Advanced Development Group and Industrial Light & Magic author the initial MaterialX specification to
+    represent rich look-development and shader networks across applications and renderers, first used in production on
+    Star Wars: The Force Awakens.
+  sources:
+    - url: https://www.aswf.io/blog/academy-software-foundation-deep-dive-materialx-origin-story/
+      title: "Academy Software Foundation Deep Dive: MaterialX Origin Story"
+      kind: blog
+      accessed: 2026-11-04
+    - url: https://www.aswf.io/news/materialx-joins-the-academy-software-foundation-as-a-hosted-project/
+      title: MaterialX Joins the Academy Software Foundation as a Hosted Project
+      kind: news
+      accessed: 2026-11-04
+
+- id: openusd-open-sourced
+  date: 2016-08-01
+  title: Pixar open-sources Universal Scene Description (USD 0.7.0)
+  tech: [usd]
+  kind: release
+  description: >-
+    Pixar Animation Studios releases Universal Scene Description (USD) as open-source software at SIGGRAPH 2016,
+    publishing the core composition engine, scene schemas, and Hydra imaging framework on GitHub.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.0
+      title: PixarAnimationStudios/OpenUSD — v0.7.0 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/CHANGELOG.md
+      title: OpenUSD CHANGELOG.md (0.7.0)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: materialx-open-sourced
+  date: 2017-07-03
+  title: Lucasfilm and ILM open-source the MaterialX SDK
+  tech: [materialx]
+  kind: release
+  description: >-
+    Industrial Light & Magic and Lucasfilm release the C++ and Python MaterialX library as open-source software ahead
+    of SIGGRAPH 2017 (v1.35.2), with standard node definitions and OSL shader implementations.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.35.2
+      title: AcademySoftwareFoundation/MaterialX — v1.35.2 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://www.aswf.io/blog/academy-software-foundation-deep-dive-materialx-origin-story/
+      title: "Academy Software Foundation Deep Dive: MaterialX Origin Story"
+      kind: blog
+      accessed: 2026-11-04
+
+- id: apple-pixar-usdz
+  date: 2018-06-04
+  title: Apple and Pixar unveil the USDZ file format with ARKit 2
+  tech: [usd]
+  kind: adoption
+  description: >-
+    At WWDC 2018, Apple and Pixar introduce USDZ, an uncompressed, zero-copy zip archive format for packaging USD scenes
+    and textures for AR Quick Look across iOS and macOS.
+  sources:
+    - url: https://www.apple.com/newsroom/2018/06/apple-unveils-arkit-2/
+      title: Apple unveils ARKit 2
+      kind: news
+      accessed: 2026-11-04
+
+- id: usd-18-09
+  date: 2018-08-07
+  title: USD 18.09 adds UsdPreviewSurface, USDZ, UsdSkel, and usdMtlx
+  tech: [usd, materialx]
+  kind: release
+  description: >-
+    USD switches to calendar-based versioning (YY.MM) and ships the UsdPreviewSurface shader specification, native
+    .usdz packaging, the UsdSkel skeletal animation schema, and the initial usdMtlx plugin for reading MaterialX files.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v18.09
+      title: PixarAnimationStudios/OpenUSD — v18.09 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/CHANGELOG.md
+      title: OpenUSD CHANGELOG.md (18.09)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: usd-18-11-usdvol
+  date: 2018-10-10
+  title: USD 18.11 introduces the UsdVol volume schema
+  tech: [usd]
+  kind: release
+  description: >-
+    USD 18.11 adds the UsdVol schema and Hydra imaging support for representing OpenVDB and Field3D volumetric assets on
+    a USD stage.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v18.11
+      title: PixarAnimationStudios/OpenUSD — v18.11 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/CHANGELOG.md
+      title: OpenUSD CHANGELOG.md (18.11)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: materialx-1-36-3-shadergen
+  date: 2019-08-02
+  title: MaterialX 1.36.3 merges ShaderX code generation and MaterialXView
+  tech: [materialx]
+  kind: release
+  description: >-
+    Autodesk's ShaderX extensions are merged into MaterialX, introducing MaterialXGenShader for GLSL and OSL code
+    generation, MaterialXRender, and the interactive MaterialXView viewport application.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.3
+      title: AcademySoftwareFoundation/MaterialX — v1.36.3 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/AcademySoftwareFoundation/MaterialX/main/CHANGELOG.md
+      title: MaterialX CHANGELOG.md (1.36.3)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: houdini-18-solaris
+  date: 2019-11-27
+  title: SideFX launches Solaris and Karma in Houdini 18
+  tech: [usd]
+  kind: adoption
+  description: >-
+    Houdini 18 introduces Solaris, a USD-native lookdev, layout, and lighting environment built on LOPs (Lighting
+    Operators) where every node authors directly onto a live USD stage, alongside the Karma Hydra render delegate.
+  sources:
+    - url: https://www.sidefx.com/docs/houdini/news/18/solaris.html
+      title: What's new in Solaris in Houdini 18
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: materialx-1-38-0-mdl
+  date: 2021-03-02
+  title: MaterialX 1.38 adds NVIDIA MDL shader generation and generalized layering
+  tech: [materialx]
+  kind: release
+  description: >-
+    MaterialX 1.38 updates the core specification, introduces generalized BSDF layering via the layer node, and adds an
+    MDL shader code generator alongside GLSL and OSL.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.0
+      title: AcademySoftwareFoundation/MaterialX — v1.38.0 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/AcademySoftwareFoundation/MaterialX/main/CHANGELOG.md
+      title: MaterialX CHANGELOG.md (1.38.0)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: materialx-joins-aswf
+  date: 2021-07-14
+  title: MaterialX joins the Academy Software Foundation
+  tech: [materialx]
+  kind: organization
+  description: >-
+    The Academy Software Foundation (ASWF) accepts MaterialX as its seventh hosted open-source project, establishing a
+    vendor-neutral governance home alongside OpenColorIO, OpenShadingLanguage, and OpenVDB.
+  sources:
+    - url: https://www.aswf.io/news/materialx-joins-the-academy-software-foundation-as-a-hosted-project/
+      title: MaterialX Joins the Academy Software Foundation as a Hosted Project
+      kind: news
+      accessed: 2026-11-04
+
+- id: usd-21-08-physics-mtlx
+  date: 2021-07-15
+  title: USD 21.08 ships UsdPhysics, Ar 2.0, and Storm/RenderMan MaterialX support
+  tech: [usd, materialx]
+  kind: release
+  description: >-
+    USD 21.08 introduces the UsdPhysics rigid-body and collision schema domain, marks Asset Resolver 2.0
+    feature-complete, and adds MaterialX shading support in Hydra Storm, HdPrman, and USDZ archives.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v21.08
+      title: PixarAnimationStudios/OpenUSD — v21.08 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/CHANGELOG.md
+      title: OpenUSD CHANGELOG.md (21.08)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: usd-22-03-hydra2
+  date: 2022-02-18
+  title: USD 22.03 introduces the Hydra 2.0 Scene Index architecture
+  tech: [usd]
+  kind: release
+  description: >-
+    USD 22.03 lands the foundational HdSceneIndex and scene-index filtering APIs for Hydra 2.0, decoupling scene
+    transformation pipelines from UsdStage and individual render delegates.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.03
+      title: PixarAnimationStudios/OpenUSD — v22.03 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/PixarAnimationStudios/OpenUSD/release/CHANGELOG.md
+      title: OpenUSD CHANGELOG.md (22.03)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: materialx-1-38-7-msl-grapheditor
+  date: 2023-04-21
+  title: MaterialX 1.38.7 adds Metal Shading Language generation and the Graph Editor
+  tech: [materialx]
+  kind: release
+  description: >-
+    MaterialX 1.38.7 adds Metal Shading Language (MSL) shader generation for Apple platforms and ships the standalone
+    MaterialX Graph Editor application.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.7
+      title: AcademySoftwareFoundation/MaterialX — v1.38.7 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://www.aswf.io/blog/materialx1-38-7/
+      title: MaterialX v1.38.7 Now Publicly Available (ASWF blog)
+      kind: blog
+      accessed: 2026-11-04
+
+- id: aousd-formed
+  date: 2023-08-01
+  title: Pixar, Adobe, Apple, Autodesk, and NVIDIA form the Alliance for OpenUSD (AOUSD)
+  tech: [usd]
+  kind: organization
+  description: >-
+    Hosted by the Linux Foundation's Joint Development Foundation, the Alliance for OpenUSD (AOUSD) is launched to
+    formalize written specifications for OpenUSD and coordinate cross-industry standardization.
+  sources:
+    - url: https://aousd.org/news/pixar-adobe-apple-autodesk-and-nvidia-form-alliance-for-openusd-to-drive-open-standards-for-3d-content/
+      title: Pixar, Adobe, Apple, Autodesk, and NVIDIA Form Alliance for OpenUSD to Drive Open Standards for 3D Content
+      kind: news
+      accessed: 2026-11-04
+
+- id: openpbr-announced
+  date: 2023-08-02
+  title: Autodesk and Adobe announce OpenPBR as an ASWF MaterialX subproject
+  tech: [materialx]
+  kind: spec
+  description: >-
+    Developed jointly by Autodesk and Adobe and hosted as a subproject of MaterialX under the ASWF, OpenPBR is unveiled
+    as an open, artist-friendly surface shading specification to succeed Autodesk Standard Surface and Adobe Standard
+    Material.
+  sources:
+    - url: https://www.aswf.io/blog/academy-software-foundation-announces-openpbr-a-new-subproject-of-materialx/
+      title: Academy Software Foundation Announces OpenPBR, a New Subproject of MaterialX
+      kind: blog
+      accessed: 2026-11-04
+
+- id: openusd-academy-award
+  date: 2024-02-21
+  title: OpenUSD creators receive an Academy Scientific and Technical Award
+  tech: [usd]
+  kind: milestone
+  description: >-
+    The Academy of Motion Picture Arts and Sciences honors Pixar's OpenUSD architecture and engineering team with a
+    Scientific and Technical Achievement Award for its impact on motion picture pipelines.
+  sources:
+    - url: https://aousd.org/blog/openusd-wins-academy-award-for-scientific-and-technical-achievement/
+      title: OpenUSD Wins Academy Award for Scientific and Technical Achievement
+      kind: blog
+      accessed: 2026-11-04
+
+- id: openpbr-1-0-released
+  date: 2024-06-04
+  title: ASWF releases OpenPBR 1.0 specification, followed by MaterialX 1.39
+  tech: [materialx]
+  kind: spec
+  description: >-
+    OpenPBR 1.0 (and 1.1 on 28 June 2024) ships its production specification, and MaterialX 1.39.0 (5 July 2024)
+    integrates the canonical open_pbr_surface node definition and example materials.
+  sources:
+    - url: https://www.aswf.io/blog/academy-software-foundation-releases-openpbr-1-0/
+      title: Academy Software Foundation Releases OpenPBR 1.0
+      kind: blog
+      accessed: 2026-11-04
+    - url: https://github.com/AcademySoftwareFoundation/OpenPBR/releases/tag/v1.0
+      title: AcademySoftwareFoundation/OpenPBR — v1.0 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.0
+      title: AcademySoftwareFoundation/MaterialX — v1.39.0 release
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: openusd-24-11-boost-removal
+  date: 2024-10-25
+  title: OpenUSD 24.11 removes the external Boost dependency
+  tech: [usd]
+  kind: release
+  description: >-
+    OpenUSD 24.11 replaces boost::python with an internal pxr_boost::python library and eliminates the external Boost
+    requirement for core builds, simplifying host application integration.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v24.11
+      title: PixarAnimationStudios/OpenUSD — v24.11 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://aousd.org/blog/new-release-of-openusd-v24-11/
+      title: Announcing OpenUSD v24.11
+      kind: blog
+      accessed: 2026-11-04
+
+- id: openusd-25-05-splines-openexec
+  date: 2025-04-28
+  title: OpenUSD 25.05 advances animation splines, ColorSpaceAPI, and OpenExec
+  tech: [usd]
+  kind: release
+  description: >-
+    OpenUSD 25.05 expands the Ts animation spline system, introduces UsdColorSpaceAPI and UsdColorSpaceDefinitionAPI,
+    and continues the rollout of the OpenExec computation engine.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.05
+      title: PixarAnimationStudios/OpenUSD — v25.05 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://aousd.org/blog/announcing-openusd-v25-05-key-features-and-improvements/
+      title: "Announcing OpenUSD v25.05: Key Features and Improvements"
+      kind: blog
+      accessed: 2026-11-04
+
+- id: openpbr-volume-announced
+  date: 2025-08-05
+  title: ASWF announces the OpenPBR Volume initiative
+  tech: [materialx]
+  kind: spec
+  description: >-
+    The OpenPBR working group announces OpenPBR Volume to extend the surface shading specification to participating
+    media and volumetric materials across renderers.
+  sources:
+    - url: https://www.aswf.io/blog/openpbr-volume/
+      title: Announcing OpenPBR Volume! (ASWF blog)
+      kind: blog
+      accessed: 2026-11-04
+
+- id: materialx-1-39-4-wgsl
+  date: 2025-09-15
+  title: MaterialX 1.39.4 adds WebGPU Shading Language (WGSL) generation
+  tech: [materialx]
+  kind: release
+  description: >-
+    MaterialX 1.39.4 introduces a WGSL shader generator for WebGPU applications, alongside hex-tiled image nodes,
+    2D fractals, and NanoColor color space names.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.4
+      title: AcademySoftwareFoundation/MaterialX — v1.39.4 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://raw.githubusercontent.com/AcademySoftwareFoundation/MaterialX/main/CHANGELOG.md
+      title: MaterialX CHANGELOG.md (1.39.4)
+      kind: release-notes
+      accessed: 2026-11-04
+
+- id: aousd-core-spec-1-0
+  date: 2025-12-17
+  title: Alliance for OpenUSD ratifies the OpenUSD Core Specification 1.0
+  tech: [usd]
+  kind: spec
+  description: >-
+    AOUSD publishes Core Specification 1.0, formally specifying OpenUSD's foundational data types, document data model,
+    LIVERPS composition algorithm, stage population, value resolution, and USDA/USDC/USDZ file formats.
+  sources:
+    - url: https://aousd.org/news/core-spec-announcement/
+      title: "Alliance for OpenUSD Announces Core Specification 1.0: The Universal Language For Building 3D Worlds"
+      kind: news
+      accessed: 2026-11-04
+    - url: https://aousd.org/blog/foundations-of-open-3d-development-introducing-aousd-core-specification-1-0/
+      title: "OpenUSD Core Spec 1.0 is Here: Now We Need You"
+      kind: blog
+      accessed: 2026-11-04
+
+- id: materialx-1-39-5-slang
+  date: 2026-05-22
+  title: MaterialX 1.39.5 adds Slang shader generation and hardware VDFs
+  tech: [materialx]
+  kind: release
+  description: >-
+    MaterialX 1.39.5 adds Slang shader code generation and rendering with Python and JavaScript bindings, hardware
+    Volume Distribution Functions (VDFs), and hardware shader generation for compound material nodes such as LamaSurface.
+  sources:
+    - url: https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.5
+      title: AcademySoftwareFoundation/MaterialX — v1.39.5 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://www.aswf.io/blog/materialx-adds-support-for-slang-shader-generation/
+      title: MaterialX Adds Support for Slang Shader Generation (ASWF blog)
+      kind: blog
+      accessed: 2026-11-04
+
+- id: openusd-26-08-release
+  date: 2026-07-20
+  title: OpenUSD 26.08 expands OpenExec and Hydra 2.0 scene indices
+  tech: [usd]
+  kind: release
+  description: >-
+    OpenUSD 26.08 advances OpenExec computation, Hydra 2.0 scene index integrations, and core specification alignment,
+    followed by OpenUSD 26.11 in October 2026.
+  sources:
+    - url: https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v26.08
+      title: PixarAnimationStudios/OpenUSD — v26.08 release
+      kind: release-notes
+      accessed: 2026-11-04
+    - url: https://aousd.org/blog/announcing-openusd-v26-08-key-features-and-improvements/
+      title: "Announcing OpenUSD v26.08: Key Features and Improvements"
+      kind: blog
+      accessed: 2026-11-04

@@ -1,0 +1,608 @@
+name: MoonRay
+vendor: DreamWorks Animation
+categories: [renderer]
+industries: [film-tv, animation, vfx]
+license: open-source
+website: https://openmoonray.org/
+repo: OpenMoonRay/openmoonray
+tier: 2
+summary: >
+  DreamWorks Animation's open-source MCRT production renderer (OpenMoonRay) with
+  an hdMoonray Hydra render delegate for usdview, Houdini Solaris, and Maya,
+  native UsdGeometry/UsdInstanceGeometry procedurals, UsdPreviewSurface, and
+  experimental MaterialX map shader support.
+
+releases:
+  - version: "2026.29.1"
+    date: 2026-07-17
+    usd: "23.08"
+    notes: >
+      Patch release adding the hdMoonray MaterialX map shader bindings that were
+      omitted from 2026.29.0 and fixing a bug in the ND_unifiednoise3d_float
+      shader.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.1
+        title: "OpenMoonRay Release v2026.29.1"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/v2026.29.1/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay v2026.29.1 Rocky9 CMakeLists.txt (USD 23.08 build recipe)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2026.29.0"
+    date: 2026-07-17
+    usd: "23.08"
+    notes: >
+      First release under the YYYY.WW.PATCH calendar versioning scheme. Added
+      work-in-progress MaterialX map shader rendering via the new
+      materialx_shaders repository (enabled with -DBUILD_MATERIALX_SHADERS=ON),
+      motion blur support for RDL geometry DSOs, and handling for USD's Vulkan
+      dependency in USD 25.05+.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.0
+        title: "OpenMoonRay Release v2026.29.0"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/v2026.29.0/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay v2026.29.0 Rocky9 CMakeLists.txt (USD 23.08 build recipe)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "3.6.0.1"
+    date: 2026-04-24
+    usd: "23.08"
+    notes: >
+      Added Material AOVs on secondary rays, rotational camera motion blur in
+      LocalMotionBlur, filtering of arbitrary user data by requested attributes,
+      and moonray_dcc_plugins updates.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-3.6.0.1
+        title: "OpenMoonRay Release 3.6.0.1"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/openmoonray-3.6.0.1/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay 3.6.0.1 Rocky9 CMakeLists.txt (USD 23.08 build recipe)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2.40.0.1"
+    date: 2026-02-05
+    usd: "23.08"
+    notes: >
+      Added prototype ImGui-based moonray_gui_v2, fixed an hdMoonray crash caused
+      by a Hydra behavior change in USD 25.05, fixed missing normals from
+      UsdGeomBasisCurves, fixed a bug preventing some primvars from being read,
+      and renamed GeometryLight adapter to MoonrayMeshLight.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-2.40.0.1
+        title: "OpenMoonRay Release 2.40.0.1"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2.34.0.1"
+    date: 2025-11-14
+    usd: "23.08"
+    notes: >
+      Added light path visualizer to moonray_gui, macOS Tahoe support, VFX
+      Reference Platform 2024 and 2025 code compatibility, USD compatibility
+      fixes, and updated the Rocky 9 dependency recipe from USD 22.11 to USD
+      23.08.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-2.34.0.1
+        title: "OpenMoonRay Release 2.34.0.1"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/openmoonray-2.34.0.1/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay 2.34.0.1 Rocky9 CMakeLists.txt (USD 23.08 build recipe)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "1.7.0.0"
+    date: 2024-12-19
+    usd: "22.11"
+    notes: >
+      Added Cryptomatte support to hdMoonRay, PortalLight, Rocky 9 and macOS
+      CMake presets for building hdMoonray for Houdini Solaris, and fixes for
+      XPU fallback on USD meshes and NaNs with UsdPreviewSurface.
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-1.7.0.0
+        title: "OpenMoonRay Release 1.7.0.0"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/openmoonray-1.7.0.0/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay 1.7.0.0 Rocky9 CMakeLists.txt (USD 22.11 build recipe)"
+        kind: repo
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini, maya]
+    notes: >
+      The hdMoonray render delegate plugin (hdMoonray.so) translates Hydra scene
+      data into MoonRay RDL2 objects and runs in usdview, Houdini Solaris, Maya,
+      and standalone CLI tools (hd_render, hd_usd2rdl). By default it launches
+      out-of-process Arras local or distributed render sessions, with an
+      in-process debug mode (hd_moonray_debug) available. Includes
+      moonrayShaderDiscovery and moonrayShaderParser Sdr plugins plus Houdini
+      Solaris HDAs and parameter interfaces via moonray_dcc_plugins.
+    gaps:
+      - "All textures in USD scenes must be tiled and mipmapped (.tx), or pre-converted with usd_mipmap_images."
+      - "Hydra 2.0 client support for Houdini 21+ and Maya 2026 is still in an unmerged PR (OpenMoonRay/hdMoonray#14)."
+      - "In-process debug mode can freeze the Houdini GUI due to TBB thread contention."
+      - "Light Filters and RenderVars UI are listed as not yet available in the Houdini integration guide."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/
+        title: "OpenMoonRay Documentation — MoonRay Hydra Plugin (hdMoonray)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-setup/
+        title: "OpenMoonRay Documentation — Setting up hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-houdini/
+        title: "OpenMoonRay Documentation — Running hdMoonray in Houdini"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/render-settings/
+        title: "OpenMoonRay Documentation — Render Settings in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/pull/14
+        title: "OpenMoonRay/hdMoonray PR #14 — Support Hydra 2.0 clients (Houdini 21, Maya 2026)"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [houdini, maya]
+    notes: >
+      hdMoonray exposes render delegate settings (Arras host count, remote hosts,
+      log level, max FPS, debug mode, RDL output file, double-sided, OptiX/OIDN
+      denoising, execution mode) in usdview, Houdini Solaris, and Maya, and maps
+      any USD render setting prefixed with moonray:sceneVariable: (or
+      sceneVariable_ in Houdini) to MoonRay RDL2 SceneVariables. Cryptomatte AOV
+      support in hdMoonray was added in 1.7.0.0.
+    gaps:
+      - "Houdini Solaris integration docs note that a dedicated RenderVars UI is not yet available."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/render-settings/
+        title: "OpenMoonRay Documentation — Render Settings in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-houdini/
+        title: "OpenMoonRay Documentation — Running hdMoonray in Houdini"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/RenderSettings.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/RenderSettings.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-1.7.0.0
+        title: "OpenMoonRay Release 1.7.0.0 (Cryptomatte support in hdMoonRay)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.import
+    level: native
+    notes: >
+      Supported through two native paths: (1) hd_render and hd_usd2rdl CLI tools
+      in hdMoonray, which render a USD stage directly or translate it to MoonRay
+      RDL2 (.rdla/.rdlb) via Hydra; and (2) UsdGeometry and UsdInstanceGeometry
+      procedural geometry DSOs in moonshine_usd, which load USD stages and prim
+      hierarchies directly inside RDL2 scenes with optional UsdUtilsStageCache
+      sharing or stage population masking.
+    gaps:
+      - "All textures referenced by USD scenes must be tiled and mipmapped (the bundled usd_mipmap_images tool converts textures to mipmapped EXR/TX and updates USD asset paths)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/commands/
+        title: "OpenMoonRay Documentation — Command-line tools in hdMoonray (hd_render, hd_usd2rdl)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/scene-objects/geometry/UsdGeometry/
+        title: "OpenMoonRay Documentation — UsdGeometry Procedural DSO"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/scene-objects/geometry/UsdInstanceGeometry/
+        title: "OpenMoonRay Documentation — UsdInstanceGeometry Procedural DSO"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/usd_mipmap_images/
+        title: "OpenMoonRay Documentation — usd_mipmap_images Tool"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/dso/geometry/Usd/UsdGeometry.cc
+        title: "OpenMoonRay/moonshine_usd — dso/geometry/Usd/UsdGeometry.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    notes: >
+      Both hdMoonray (RdlMeshGeometry) and the UsdGeometry procedural support
+      polygon meshes, Catmull-Clark and Bilinear subdivision schemes,
+      GeomSubsets (mapped to MoonRay face parts for per-subset material and
+      light assignment), normals, UVs (st/uv), and arbitrary primvars mapped to
+      MoonRay UserData.
+    gaps:
+      - "Loop subdivision is not supported and falls back to Catmull-Clark."
+      - "Subdivision holeIndices and the smooth triangleSubdivisionRule are ignored."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Mesh.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Mesh.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/lib/geometry/usd/Mesh.cc
+        title: "OpenMoonRay/moonshine_usd — lib/geometry/usd/Mesh.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: >
+      hdMoonray (RdlCurveGeometry) and UsdGeometry support UsdGeomBasisCurves
+      with linear, bspline, and bezier curve types, widths (converted to radius),
+      normals (fixed in 2.40.0.1), UVs, and arbitrary primvars.
+    gaps:
+      - "Catmull-Rom basis, curve indices, and periodic or pinned curve wrap modes are not supported in hdMoonray (UsdGeometry detects pinned curves via repeated endpoint vertices for width interpolation)."
+      - "GeomSubsets cannot be applied to curves."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/BasisCurves.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/BasisCurves.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/lib/geometry/usd/Curves.cc
+        title: "OpenMoonRay/moonshine_usd — lib/geometry/usd/Curves.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    notes: >
+      hdMoonray (RdlPointGeometry) and UsdGeometry render UsdGeomPoints with
+      per-point widths (converted to radius_list) or pscale, normals, UVs,
+      surface derivatives (dPds, dPdt), velocity/acceleration motion blur, and
+      arbitrary primvars.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Points.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Points.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/lib/geometry/usd/Points.cc
+        title: "OpenMoonRay/moonshine_usd — lib/geometry/usd/Points.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >
+      hdMoonray translates Hydra volume Rprims and openvdbAsset Bprims into
+      MoonRay VdbGeometry objects, binds density and velocity grids from the
+      OpenVDB file path, and attaches MoonRay volume shaders (BaseVolume,
+      CutoutVolume, VdbVolume).
+    gaps:
+      - "All fields on a volume prim in hdMoonray must reference the same .vdb file path."
+      - "Volume.cc only binds density and velocity grid names directly on VdbGeometry."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Volume.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Volume.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Material.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Material.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >
+      hdMoonray supports both USD native scenegraph instancing and
+      UsdGeomPointInstancer, including nested multi-level instancing, inactiveIds
+      masking, and per-instance primvars. In standalone RDL2 scenes,
+      UsdInstanceGeometry instances geometry onto a USD PointInstancer prim and
+      UsdGeometry traverses USD instance proxies.
+    gaps:
+      - "MoonRay does not support different light links per instance in the same instancer (the first instance's light linking is applied to all instances)."
+      - "Hydra does not support light linking to prims inside an instance prototype graph."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/scene-objects/geometry/UsdInstanceGeometry/
+        title: "OpenMoonRay Documentation — UsdInstanceGeometry Procedural DSO"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Instancer.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Instancer.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >
+      hdMoonray and UsdGeometry support time-sampled transformation and
+      deformation motion blur across camera shutter intervals, as well as
+      velocity, acceleration, and automatic motion blur modes on meshes, curves,
+      points, and instancers.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/scene-objects/geometry/UsdGeometry/
+        title: "OpenMoonRay Documentation — UsdGeometry Procedural DSO"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/dso/geometry/Usd/UsdGeometry.cc
+        title: "OpenMoonRay/moonshine_usd — dso/geometry/Usd/UsdGeometry.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    notes: >
+      hdMoonray supports Hydra extComputation Sprims for usdSkelImaging skinning
+      (tested in hats/geometry/geometry_skel.usd), and moonshine_usd directly
+      evaluates UsdSkelRoot, UsdSkelCache, UsdSkelSkeletonQuery, and
+      UsdSkelSkinningQuery to deform skinned meshes, curves, and points.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/RenderDelegate.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/RenderDelegate.cc (extComputation support)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/hats/geometry/geometry_skel.usd
+        title: "OpenMoonRay/hdMoonray — hats/geometry/geometry_skel.usd UsdSkel test"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/lib/geometry/usd/Mesh.cc
+        title: "OpenMoonRay/moonshine_usd — lib/geometry/usd/Mesh.cc (UsdSkelSkinningQuery evaluation)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >
+      hdMoonray supports UsdLux CylinderLight, DiskLight, DistantLight,
+      DomeLight, RectLight, SphereLight, GeometryLight (via
+      MoonrayMeshLightAdapter), PortalLight (added in 1.7.0.0), and LightFilters
+      (via MoonrayLightFilterAdapter), along with UsdLux light, shadow, and
+      light-filter linking collections and moonray:<attr> attribute overrides.
+      Lights with shaping:coneAngle < 90 are automatically converted to MoonRay
+      SpotLights.
+    gaps:
+      - "ShapingAPI cone angle conversion only matches accurately on DiskLight (and approximates area on RectLight)."
+      - "Per-instance light linking is not supported."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Light.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Light.cc"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-1.7.0.0
+        title: "OpenMoonRay Release 1.7.0.0 (PortalLight support)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >
+      hdMoonray translates Hydra cameras into MoonRay PerspectiveCamera or
+      OrthographicCamera with depth of field, near/far clipping planes, shutter
+      intervals, and camera motion blur, and supports selecting specialty
+      cameras (FisheyeCamera, SphericalCamera, BakeCamera) via moonray:class and
+      moonray:<attr> prim attributes.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Camera.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Camera.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >
+      MoonRay provides native RDL2 implementations of UsdPreviewSurface,
+      UsdUVTexture, UsdPrimvarReader (float, float2, float3, float4, int,
+      normal, point, vector), and UsdTransform2d, and hdMoonray uses
+      UsdPreviewSurface bound to displayColor and displayOpacity as the fallback
+      material for geometry without an assigned material.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/scene-objects/materials/UsdPreviewSurface/
+        title: "OpenMoonRay Documentation — UsdPreviewSurface Material"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-houdini/
+        title: "OpenMoonRay Documentation — Running hdMoonray in Houdini (UsdPreviewSurface support)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/RenderDelegate.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/RenderDelegate.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >
+      All MoonRay material, map, displacement, and volume shaders can be
+      authored as UsdShade networks and are registered with USD's Sdr registry
+      via the moonrayShaderDiscovery and moonrayShaderParser plugins using JSON
+      shader definitions exported by rdl2_json_exporter.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-features/
+        title: "OpenMoonRay Documentation — Supported Features in hdMoonray"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.openmoonray.org/user-reference/tools/hydra/hdmoonray-setup/
+        title: "OpenMoonRay Documentation — Setting up hdMoonray (Sdr shader plugins)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/hdMoonray/blob/main/lib/hydramoonray/Material.cc
+        title: "OpenMoonRay/hdMoonray — lib/hydramoonray/Material.cc"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: experimental
+    since: "2026.29.0"
+    notes: >
+      OpenMoonRay 2026.29.0 and 2026.29.1 introduced work-in-progress support for
+      translating and rendering MaterialX map shader nodes in hdMoonray via the
+      materialx_shaders repository (when compiled with
+      -DBUILD_MATERIALX_SHADERS=ON).
+    gaps:
+      - "MaterialX BSDF, EDF, VDF, and SurfaceShader nodes (such as ND_standard_surface_surfaceshader) are not yet included in releases (#318)."
+      - "Multiple-output MaterialX shaders are not yet supported by scene_rdl2 and hdMoonray (#319)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.0
+        title: "OpenMoonRay Release v2026.29.0"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.1
+        title: "OpenMoonRay Release v2026.29.1"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/issues/318
+        title: "OpenMoonRay Issue #318 — Support for MaterialX standard_surface"
+        kind: issue
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/issues/319
+        title: "OpenMoonRay Issue #319 — Support for multiple-output shaders in Scene_RDL2 and hdMoonray"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: mtlx.render
+    level: experimental
+    since: "2026.29.0"
+    notes: >
+      OpenMoonRay 2026.29.0 added the materialx_shaders repository containing
+      native C++/ISPC RDL2 map shaders generated for standard MaterialX pattern
+      and procedural nodes (ND_*), opt-in at build time via
+      -DBUILD_MATERIALX_SHADERS=ON.
+    gaps:
+      - "Only MaterialX map shaders are shipped in 2026.29.x; BSDF, EDF, VDF, and SurfaceShader scene objects (Mtlx_Surface, Mtlx_Standard_Surface_Surfaceshader) are still in development on internal branches (#310, #311, #318)."
+      - "Multi-output node connections are not yet supported in scene_rdl2 (#296, #302, #319)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.0
+        title: "OpenMoonRay Release v2026.29.0"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/materialx_shaders
+        title: "OpenMoonRay/materialx_shaders Repository"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/issues/318
+        title: "OpenMoonRay Issue #318 — Support for MaterialX standard_surface"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: planned
+    notes: >
+      Issue #318 tracks active internal development of
+      Mtlx_Standard_Surface_Surfaceshader and its underlying MaterialX BSDF
+      components for a future OpenMoonRay release.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/issues/318
+        title: "OpenMoonRay Issue #318 — Support for MaterialX standard_surface"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: planned
+    notes: >
+      Issue #313 tracks planned OpenPBR compatibility and energy conservation
+      enhancements building on the MaterialX BSDF/EDF/VDF implementation.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://github.com/OpenMoonRay/openmoonray/issues/313
+        title: "OpenMoonRay Issue #313 — Energy Conservation and OpenPBR compatibility"
+        kind: issue
+        accessed: 2026-11-04
+
+issues:
+  - title: "usdrecord keeps waiting after its Arras render worker exits"
+    url: https://github.com/OpenMoonRay/openmoonray/issues/309
+    capability: usd.hydra.delegate
+    status: open
+    affects: "2026.29.1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "MaterialX BSDF, EDF, VDF, and SurfaceShader nodes are not yet included in releases"
+    url: https://github.com/OpenMoonRay/openmoonray/issues/318
+    capability: mtlx.render
+    status: open
+    affects: "2026.29.0–2026.29.1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "Scene_RDL2 and hdMoonray do not yet support multiple-output MaterialX shaders"
+    url: https://github.com/OpenMoonRay/openmoonray/issues/319
+    capability: usd.shade.materialx
+    status: open
+    affects: "2026.29.0–2026.29.1"
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "USD 26.03+ breaks HdRendererPlugin::IsSupported() compilation in hdMoonray"
+    url: https://github.com/OpenMoonRay/hdMoonray/pull/20
+    capability: usd.hydra.delegate
+    status: open
+    affects: "2026.29.1"
+    severity: minor
+    verified: 2026-11-04

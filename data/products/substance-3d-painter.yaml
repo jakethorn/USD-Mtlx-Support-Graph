@@ -229,7 +229,7 @@ support:
         title: SP USD Creator — User Guide
         kind: docs
         accessed: 2026-11-04
-    confidence: low
+    confidence: medium
     verified: 2026-11-04
 
   # ── MaterialX shading models ───────────────────────────────────────────────
@@ -262,14 +262,6 @@ issues:
     affects: "9.1.0–11.1.1 (listed as a known issue)"
     severity: major
     verified: 2026-11-04
-
-  - title: Exported USD with an opacity map renders fully transparent in Arnold
-    url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-2
-    capability: usd.export
-    status: unknown
-    affects: "12.2.0"
-    verified: 2026-11-04
-    review: The 12.2.0 notes list this under "Added" rather than "Fixed", so it is unclear whether it is resolved.
 
   - title: Exported USD geometry is split along UV borders
     url: https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-2

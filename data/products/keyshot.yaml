@@ -1,0 +1,177 @@
+name: KeyShot Studio
+vendor: KeyShot (Luxion)
+categories: [renderer, lookdev]
+industries: [product-design, automotive, manufacturing]
+license: commercial
+website: https://www.keyshot.com/
+tier: 2
+summary: >-
+  Standalone 3D rendering and animation software for product design and CAD visualization. Supports Smart Export of
+  .usd, .usda, .usdc, and .usdz with baked PBR textures (since KeyShot 10.0), USD import (since 10.1), and OpenPBR
+  material mapping in the USD importer (2026.1).
+
+releases:
+  - version: "2026.1"
+    notes: >-
+      Updates the USD importer to use OpenPBR for imported materials (KEYS-36364), adds OpenPBR materials to the
+      library (KEYS-37313), and fixes rough diffuse OpenPBR environment lighting in GPU product mode (KEYS-36974).
+    sources:
+      - url: https://manuals.keyshot.com/kss2026/en-us/manual/Release-Notes-2026.1.htm
+        title: KeyShot Studio 2026.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "10.1"
+    notes: >-
+      Adds support for importing USD files, adds an AR package export function, and fixes incorrect texture mappings on
+      exported USDZ files.
+    sources:
+      - url: https://manual.keyshot.com/manual/whats-new/release-notes-2/keyshot-10-1-release-notes/
+        title: KeyShot 10.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "10.0"
+    date: 2020-11-17
+    notes: >-
+      Introduces Smart Export to USD (.usd, .usda, .usdc) and USDZ (.usdz) with UV unwrapping and texture baking for
+      AR/Apple ARKit workflows.
+    sources:
+      - url: https://www.keyshot.com/it/blog/luxion-releases-keyshot-10/
+        title: Luxion Releases KeyShot 10
+        kind: blog
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.import
+    level: native
+    since: "10.1"
+    notes: >-
+      Imports USD files into KeyShot (introduced in KeyShot 10.1); in KeyShot Studio 2026.1 (KEYS-36364), the USD
+      importer maps incoming USD materials using OpenPBR.
+    sources:
+      - url: https://manual.keyshot.com/manual/whats-new/release-notes-2/keyshot-10-1-release-notes/
+        title: KeyShot 10.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://manuals.keyshot.com/kss2026/en-us/manual/Release-Notes-2026.1.htm
+        title: KeyShot Studio 2026.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    since: "10.0"
+    notes: >-
+      KeyShot Pro exports .usd, .usda, .usdc, and .usdz via File > Export > USD using Smart Export, which exports
+      meshes with normals, UVs, and a baked PNG texture combining diffuse/color, roughness, normal map, metalness, and
+      ambient occlusion.
+    gaps:
+      - According to the Export format feature support table, USD export does not export cameras, animation, fuzz, or curve geometry.
+      - Procedural shader graphs are baked into textures rather than exported as native shading networks.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "10.0"
+    notes: >-
+      Exports packaged .usdz archives containing baked textures via File > Export > USD or File > Export > AR (.usdz,
+      .glb) for Apple iOS/macOS AR viewers.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://manual.keyshot.com/manual/export/best-practices-for-sharing-and-embedding-usdz-and-glb-files/
+        title: Best Practices for Sharing and Embedding USDz and GLB Files (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    since: "10.0"
+    notes: >-
+      Imports and exports polygonal meshes with normals and UVs in USD/USDZ formats, including optional geometry nodes
+      (bubbles, flakes, displacement) baked on export.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: none
+    notes: >-
+      KeyShot's Smart Export documentation explicitly lists curve geometry and fuzz under unsupported limitations for
+      USD export.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: none
+    notes: >-
+      KeyShot's Export format feature support table lists Animation as "No" for USD export.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: none
+    notes: >-
+      KeyShot's Export format feature support table lists Cameras as "No" for USD export.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: medium
+    verified: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: partial
+    since: "10.0"
+    notes: >-
+      Smart Export bakes KeyShot material graphs into PBR texture channels (color/diffuse, roughness, normal map,
+      metalness, ambient occlusion) for USD and USDZ output.
+    sources:
+      - url: https://manual.keyshot.com/manual/export/export-formats/
+        title: Export formats (KeyShot Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: partial
+    since: "2026.1"
+    notes: >-
+      KeyShot Studio 2026.1 supports the OpenPBR shading model in CPU and GPU rendering modes, includes OpenPBR
+      materials in the library (KEYS-37313), and maps materials via OpenPBR in the USD importer (KEYS-36364).
+    sources:
+      - url: https://manuals.keyshot.com/kss2026/en-us/manual/Release-Notes-2026.1.htm
+        title: KeyShot Studio 2026.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

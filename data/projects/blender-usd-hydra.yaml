@@ -1,0 +1,16 @@
+name: Blender USD Hydra Add-on
+repo: GPUOpen-LibrariesAndSDKs/BlenderUSDHydraAddon
+tech: [usd, materialx]
+kind: plugin
+description: >-
+  AMD GPUOpen add-on for assembling USD scenes alongside Blender data, authoring MaterialX shader networks and
+  rendering through Hydra render delegates.
+license: Apache-2.0
+hosts: [blender]
+tags: [dcc-plugin, hydra]
+sources:
+  - url: https://github.com/GPUOpen-LibrariesAndSDKs/BlenderUSDHydraAddon
+    title: GPUOpen-LibrariesAndSDKs/BlenderUSDHydraAddon README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

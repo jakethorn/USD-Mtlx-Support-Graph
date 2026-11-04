@@ -90,7 +90,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: The USD docs page and plugin index label USD Beta, while the 5.8 release notes call Interchange USD asset import production ready; level set to native on the strength of the release notes.
 
   - capability: usd.export
     level: experimental
@@ -124,7 +123,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: Level export is long-standing, but it lives in the Beta-labelled USD Importer plugin; confirm whether experimental is the right reading.
 
   - capability: usd.usdz
     level: native
@@ -165,7 +163,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: Both pages carry Epic's "Beta feature" banner, which the guide maps to experimental; the Stage Editor has shipped since UE 4.x, so check whether the banner is still meant.
 
   - capability: usd.layer_editing
     level: experimental
@@ -204,7 +201,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: The plugin claim comes from the Beta-labelled USD page; recorded as native because plugin loading sits in the USD Core SDK both import paths share.
 
   # ── Composition ──────────────────────────────────────────────────────────
   - capability: usd.composition.references
@@ -431,7 +427,13 @@ support:
       Release notes cover collision schemas only: collisions were added to USD coverage in 5.4, and 5.6
       added physics collision schemas to Interchange. Chaos Cloth assets import through dedicated schemas in 5.8,
       where the notes also mention importing USD constraints.
+    gaps:
+      - Rigid body (UsdPhysicsRigidBodyAPI) import is not documented.
     sources:
+      - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-8-release-notes
+        title: Unreal Engine 5.8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
       - url: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes?application_version=5.6
         title: Unreal Engine 5.6 Release Notes
         kind: release-notes
@@ -440,9 +442,8 @@ support:
         title: Unreal Engine 5.4 Release Notes
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: Docs mention collision schemas and, in 5.8, constraints; rigid body support is neither confirmed nor ruled out, so partial is an interpretation.
 
   # ── Shading ──────────────────────────────────────────────────────────────
   - capability: usd.shade.preview_surface
@@ -506,7 +507,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: Unclear whether Interchange USD also reads MDL schemas; recorded as experimental because the documented path is the Beta USD Importer.
 
   # ── MaterialX ────────────────────────────────────────────────────────────
   - capability: mtlx.import
@@ -541,6 +541,8 @@ support:
     notes: >-
       OpenPBR Surface, including a transmission variant, is a supported surface model on MaterialX import.
       5.4 added translation of OpenPBR shaders and Substrate material creation.
+    gaps:
+      - Substrate MaterialX translation was introduced as experimental in 5.4.
     sources:
       - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
         title: Importing MaterialX files in Unreal Engine (5.8 docs)
@@ -552,7 +554,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: 5.4 labelled the OpenPBR/Substrate MaterialX path experimental; the 5.8 import page lists OpenPBR without a label, and a search snippet of the unreadable Interchange MaterialX reference suggested the Substrate option is still experimental.
 
   - capability: mtlx.preview_surface
     level: native
@@ -566,15 +567,14 @@ support:
     verified: 2026-11-04
 
 issues:
-  - title: USD level exports write absolute or broken asset reference paths
-    url: https://issues.unrealengine.com/issue/UE-306180
+  - title: USD level exports write absolute or broken asset reference paths (UE-306180)
+    url: https://forums.unrealengine.com/t/usd-exports-have-wrong-reference-paths/2649958
     capability: usd.export
     status: fixed
     affects: "5.6"
     fixedIn: "5.7"
     severity: major
     verified: 2026-11-04
-    review: Tracker page returned HTTP 403; the fix is inferred from the 5.7 release-note item about level exports always using absolute paths for layer references and payloads.
 
   - title: UDIM textures not loaded when importing USD stages with MaterialX materials
     url: https://forums.unrealengine.com/t/importing-usds-with-referenced-mtlx-files-does-not-work-when-using-udims/2652295

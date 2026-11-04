@@ -1,0 +1,14 @@
+name: OpenPBR Shader Playground
+repo: DigitalProductionExampleLibrary/OpenPBRShaderPlayground
+tech: [usd, materialx]
+kind: sample-assets
+description: >-
+  ASWF Digital Production Example Library asset contributed by Adobe demonstrating OpenPBR Surface look-development in
+  OpenUSD and MaterialX.
+tags: [openpbr, dpel, assets]
+sources:
+  - url: https://github.com/DigitalProductionExampleLibrary/OpenPBRShaderPlayground
+    title: DigitalProductionExampleLibrary/OpenPBRShaderPlayground README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

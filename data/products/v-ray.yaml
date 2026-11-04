@@ -121,13 +121,13 @@ support:
   # ── Rendering ─────────────────────────────────────────────────────────────
   - capability: usd.hydra.delegate
     level: native
-    hosts: [houdini]
+    hosts: [houdini, katana, nuke]
     notes: >-
       The V-Ray Hydra delegate ships with V-Ray for Houdini, with no extra plugin needed. It renders in the Solaris
       viewport (IPR) and in batch through husk (HdVRayRendererPlugin). Solaris support was added in build 5.10.20,
       Linux and macOS delegates in 5.20.02, and Apple Silicon builds in 7.00.10. Initial Hydra 2 support came in
-      7.20.10. The 7.40.30 release notes also list delegate support for usdview and usdrecord and for the latest
-      Nuke and Katana versions, but no Chaos page documenting those hosts was found.
+      7.20.10, and the 7.40.30 release notes add delegate support for usdview, usdrecord, and the latest Nuke and
+      Katana versions.
     gaps:
       - V-Ray Fur, V-Ray Plane and V-Ray Enmesh are not supported in Solaris.
       - V-Ray supports only 32-bit precision for floating-point attributes.
@@ -155,9 +155,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      The 7.40.30 notes say the V-Ray delegate supports the latest Nuke and Katana, plus usdview. No host-specific
-      docs were found, so katana and nuke are not in hosts. Should they be added?
 
   - capability: usd.render_settings
     level: native
@@ -210,6 +207,8 @@ support:
     hosts: [3ds-max]
     since: "7.3"
     notes: The 7.30.02 release notes add export of V-Ray render settings to USD.
+    gaps:
+      - The general 3ds Max USD help page still carries an older note listing render settings export as a temporary limitation.
     sources:
       - url: https://documentation.chaos.com/space/VMAX/707559558/7.30.02
         title: V-Ray for 3ds Max release notes, 7.30.02
@@ -219,11 +218,8 @@ support:
         title: V-Ray for 3ds Max, USD
         kind: docs
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      Sources conflict. The 3ds Max USD docs page still lists render settings as not exported to USD (temporary
-      limitation), but the 7.30.02 release notes add render settings export.
 
   # ── Interchange ───────────────────────────────────────────────────────────
   - capability: usd.import

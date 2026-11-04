@@ -1,0 +1,15 @@
+name: Gatling
+repo: pablode/gatling
+tech: [usd, materialx]
+kind: renderer
+description: >-
+  Vulkan hardware-accelerated GPU path tracer implemented as an OpenUSD Hydra render delegate, with MaterialX and MDL
+  shading support.
+license: GPL-3.0
+tags: [hydra-delegate, renderer, vulkan]
+sources:
+  - url: https://github.com/pablode/gatling
+    title: pablode/gatling README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

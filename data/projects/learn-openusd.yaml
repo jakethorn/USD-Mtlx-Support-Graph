@@ -1,0 +1,15 @@
+name: Learn OpenUSD
+repo: NVIDIA-Omniverse/LearnOpenUSD
+tech: [usd]
+kind: learning
+description: >-
+  NVIDIA's open-source curriculum, code samples and interactive notebooks for learning OpenUSD stage composition,
+  schemas and asset structure.
+license: Apache-2.0
+tags: [learning, tutorials]
+sources:
+  - url: https://github.com/NVIDIA-Omniverse/LearnOpenUSD
+    title: NVIDIA-Omniverse/LearnOpenUSD README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

@@ -1,0 +1,15 @@
+name: QuiltiX
+repo: PrismPipeline/QuiltiX
+tech: [materialx]
+kind: tool
+description: >-
+  Standalone and DCC-embeddable Qt/Python graphical node editor for authoring and editing MaterialX shaders, with a
+  Hydra-powered viewport preview.
+license: Apache-2.0
+tags: [materialx-editor, lookdev, qt]
+sources:
+  - url: https://github.com/PrismPipeline/QuiltiX
+    title: PrismPipeline/QuiltiX README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

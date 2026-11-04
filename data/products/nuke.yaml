@@ -67,7 +67,6 @@ releases:
         title: Release Notes for Nuke and Hiero 16.1v1
         kind: release-notes
         accessed: 2026-11-04
-    review: MaterialX left blank because the 17.0 library table gives different versions per platform (1.38.8 Linux, 1.39.3 macOS/Windows).
 
   - version: "17.1"
     date: 2026-08-20
@@ -85,9 +84,6 @@ releases:
         title: Nuke — Third Party Libraries (current docs)
         kind: docs
         accessed: 2026-11-04
-    review: >-
-      USD and MaterialX versions come from the current (unversioned) library table linked from the 17.1v2 docs, which
-      states VFX Reference Platform 2025 but does not name the Nuke version itself; the 17.1v1 notes give no versions.
 
 support:
   # ── Workflow ───────────────────────────────────────────────────────────────
@@ -123,13 +119,14 @@ support:
     verified: 2026-11-04
 
   - capability: usd.layer_editing
-    level: native
+    level: partial
     since: "17.1"
     notes: >-
       GeoBreakLayer (or GeoImport's Act as Layer Break option) marks where the exported layer starts, so GeoExport's
       Flatten Sublayers, Keep References mode writes only the downstream changes as overs in a sublayer that other
       departments can layer over the original asset.
     gaps:
+      - Nuke has no interactive layer-stack editor; layer control is limited to setting layer breaks for export.
       - Layer breaks have no effect with the Flatten All export method.
       - GeoBreakLayer does not work with GeoMerge set to duplicate prims in place (known issue 622876).
       - TimeOffset nodes ignore Layer Break nodes (known issue 618961).
@@ -144,9 +141,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Nuke has no layer-stack editor; the record rests on routing edits to an exported override layer, which only
-      partly matches "choose which layer receives edits".
 
   - capability: usd.plugins
     level: native
@@ -460,10 +454,12 @@ support:
     verified: 2026-11-04
 
   - capability: mtlx.import
-    level: native
+    level: partial
     notes: >-
       The 17.1 GeoImport reference lists a MaterialX extension among supported formats, and Foundry's ASWF post says
       imported MaterialX shaders can be bound to meshes in Nuke.
+    gaps:
+      - Nuke 17.0/17.1's initial MaterialX implementation is focused on MtlXStandardSurface rather than arbitrary MaterialX graphs, and the GeoImport reference lists the extension as .mltx (typo for .mtlx).
     sources:
       - url: https://learn.foundry.com/nuke/17.1/content/reference_guide/3dnew_nodes/geoimport.html
         title: Nuke 17.1 — GeoImport node reference
@@ -475,9 +471,6 @@ support:
         accessed: 2026-11-04
     confidence: medium
     verified: 2026-11-04
-    review: >-
-      The GeoImport page spells the extension ".mltx" (likely a typo for .mtlx), no release note describes .mtlx
-      import, and it is unclear whether arbitrary MaterialX graphs or only Standard Surface shaders come through.
 
 issues:
   - title: Two RenderMan Hydra delegates in one scene can crash Nuke (ID 624310)

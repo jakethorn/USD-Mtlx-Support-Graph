@@ -1,0 +1,188 @@
+name: ZBrush
+vendor: Maxon
+categories: [dcc]
+industries: [film-tv, vfx, games, animation, product-design]
+license: commercial
+website: https://www.maxon.net/en/zbrush
+tier: 2
+summary: >-
+  Digital sculpting and painting tool. Ships with the USD Format plugin (Zplugin > USD Format, added in 2021.6) for
+  importing and exporting meshes—plus USDZ since 2025.0—rather than complete scenes.
+
+releases:
+  - version: "2027.0"
+    date: 2026-10-15
+    notes: Adds a native UV Editor built on Cinema 4D technology and Selection Sets; the What's New guide lists no USD changes.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2026/10/maxon-releases-zbrush-2027-0-and-zbrush-for-ipad-2027-0/
+        title: Maxon releases ZBrush 2027.0 and ZBrush for iPad 2027.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2026.1"
+    date: 2025-12-04
+    notes: Updates the IMM viewer, moves user content to profile directories and adds manual retopology tools; no USD changes are listed.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/12/maxon-releases-zbrush-2026-1-and-zbrush-for-ipad-2026-1/
+        title: Maxon releases ZBrush 2026.1 and ZBrush for iPad 2026.1 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2026.0"
+    date: 2025-09-10
+    notes: Adds Python scripting alongside ZScript and ZModeler creasing and interaction updates; no USD changes are listed.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/09/maxon-releases-zbrush-2026-0-and-zbrush-for-ipad-2026-0/
+        title: Maxon releases ZBrush 2026.0 and ZBrush for iPad 2026.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2025.2"
+    date: 2025-04-02
+    notes: Aligns ZBrush Redshift material parameters with Cinema 4D's Redshift Standard Material and adds 20 Redshift Preset Color Materials; no USD changes are listed.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/04/maxon-releases-zbrush-2025-2/
+        title: Maxon releases ZBrush 2025.2 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2025.0"
+    date: 2024-09-10
+    notes: Adds USDZ format support to the bundled USD Format plugin and desktop-to-iPad GoZ project sharing.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/09/maxon-releases-zbrush-2025/
+        title: Maxon releases ZBrush 2025 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: partial
+    since: "2021.6"
+    notes: >-
+      The bundled USD Format plugin (Zplugin > USD Format > Load and ReLoad) opens a USD file tree and imports a
+      selected Mesh prim or the immediate parent of a Mesh, with ReLoad reloading the last loaded selection from the
+      same file.
+    gaps:
+      - Imports meshes only rather than whole scenes; items in the USD file tree that are not a Mesh or the immediate parent of a Mesh cannot be selected.
+      - The macOS version requires macOS 10.12 or later.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/zbr/en-us/Content/html/reference-guide/release-notes/zbrush-2021-6/zbrush-2021-6.html
+        title: ZBrush 2021.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    since: "2021.6"
+    notes: >-
+      The bundled USD Format plugin (Zplugin > USD Format > Save and ReSave) exports the Selected SubTool, Visible
+      SubTools or All SubTools of the active tool to a USD file, and ReSave overwrites the previously saved file.
+    gaps:
+      - Exports meshes only rather than whole scenes.
+      - The documentation does not describe exporting materials, textures, lights or cameras through the USD Format plugin.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/main-features/import-export/import-export.html
+        title: Import & Export (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/zbr/en-us/Content/html/reference-guide/release-notes/zbrush-2021-6/zbrush-2021-6.html
+        title: ZBrush 2021.6 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: partial
+    since: "2025.0"
+    notes: >-
+      ZBrush 2025.0 added USDZ format support to the USD Format plugin.
+    gaps:
+      - Subject to the USD Format plugin's mesh-only scope rather than full scene interchange.
+      - The 2025.0 What's New notes state "Support for USDZ format added to the USD plugin" without detailing separate Load vs Save options.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/features/whats-new-in-zbrush/zbrush-whats-new.html
+        title: "ZBrush: What's New Guide (2025.0)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    since: "2021.6"
+    notes: >-
+      Imports Mesh prims (or the immediate parent of a Mesh) from a USD file tree and exports Selected, Visible or All
+      SubTools as meshes to a USD file.
+    gaps:
+      - The USD Format documentation does not state whether subdivision levels, Crease levels, Polypaint vertex colours, PolyGroups or UV maps are preserved on import or export.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: none
+    notes: >-
+      The USD Format plugin documentation states that the plugin only imports and exports meshes rather than whole
+      scenes, and on import only allows selecting a Mesh or the immediate parent of a Mesh.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: none
+    notes: >-
+      The USD Format plugin documentation states that the plugin only imports and exports meshes rather than whole
+      scenes, and on import only allows selecting a Mesh or the immediate parent of a Mesh.
+    sources:
+      - url: https://help.maxon.net/zbr/en-us/Content/html/user-guide/zbrush-other-programs/usd-format/usd-format.html
+        title: USD format (ZBrush User Guide)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

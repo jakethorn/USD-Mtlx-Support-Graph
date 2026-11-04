@@ -1,0 +1,598 @@
+name: Mari
+vendor: Foundry
+categories: [texturing, lookdev]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.foundry.com/products/mari
+tier: 2
+summary: >-
+  High-resolution 3D texture painting and lookdev application from Foundry. Ships with the open-source MariUsdPlugins
+  integration for importing OpenUSD mesh hierarchies, variants, payloads, and cameras, and exporting UDIM textures with
+  USD Lookfiles and Assembly stages.
+
+releases:
+  - version: "6.0v1"
+    date: 2022-12-13
+    usd: "22.05"
+    notes: >-
+      Upgraded to VFX Reference Platform CY2022 and OpenUSD 22.05. Introduced the multi-material USD Look Exporter with
+      UsdGeomSubset face-set material bindings, Lookfile and Assembly stage output, and built-in UsdShade exporters for
+      UsdPreviewSurface, Arnold Standard Surface, RenderMan PxrSurface, and Principled BRDF (PxrDisney).
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/6.x/Mari_6.0v1_ReleaseNotes.html
+        title: Foundry Mari 6.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.0v1"
+    date: 2023-12-04
+    usd: "23.05"
+    notes: >-
+      Upgraded to VFX Reference Platform CY2023 and OpenUSD 23.05. Overhauled the USD Importer with a hierarchical
+      scene graph tree view, per-prim variant set dropdowns, and wildcard path expression selection, added the
+      standalone Autodesk Standard Surface (1.0.2.x) shader, and updated the PRMan USD Look Exporter to use
+      PxrBumpMixer.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.0v1_ReleaseNotes.html
+        title: Foundry Mari 7.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.1v1"
+    date: 2024-12-09
+    usd: "23.05"
+    notes: >-
+      Updated the USD Look Exporter to apply the UsdShadeMaterialBindingAPI schema on bound prims for OpenUSD 22.08+
+      compliance (ID 583692), fixed subdivided USD geometry normal inversion for leftHanded orientation (ID 573557), and
+      resolved shader compilation clashes with MaterialX library function names (ID 576661).
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.1v1_ReleaseNotes.html
+        title: Foundry Mari 7.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "7.5v1"
+    date: 2025-12-03
+    usd: "23.05"
+    notes: >-
+      Added Multi-Painting workflow across multiple objects and fixed the Keep Centered USD importer option (ID 549771)
+      and USD Object Version subdivision settings on multi-entity projects (ID 580452).
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.5v1_ReleaseNotes.html
+        title: Foundry Mari 7.5v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "8.0v1"
+    date: 2026-10-14
+    usd: "25.08"
+    materialx: "1.39.2"
+    notes: >-
+      Upgraded to VFX Reference Platform CY2025 with OpenUSD 25.08 and MaterialX 1.39.2. Added read-only USD camera
+      import as Mari Projectors, Alembic payload loading on custom USD prims, and fixed Merge Models performance on
+      large USD assets.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+        title: Foundry Mari 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/mari/Content/user_guide/appendix_c/third_party_licenses.html
+        title: Foundry Mari 8.0 Third-Party Licenses
+        kind: docs
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      Mari ships with the open-source MariUsdPlugins CAPI and Python plugin enabled by default, importing .usd, .usda,
+      .usdc, and .usdz stages with a hierarchical prim tree view, wildcard path expressions, UV set selection, Ptex
+      fallback, and per-mesh Face Selection Group creation.
+    gaps:
+      - Only UsdGeomMesh and UsdGeomCamera prims are imported; materials, lights, curves, points, and volumes are ignored.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/reference_guide/new_project_dialog.html
+        title: Foundry Mari Documentation — New Project Dialog USD Tab
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/UsdReader.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — UsdReader implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    since: "6.0v1"
+    notes: >-
+      Mari's USD Look Exporter (usdShadeExport.py) exports flattened UDIM textures alongside a USD Lookfile stage
+      containing UsdShadeMaterial networks and UsdShadeMaterialBindingAPI overrides/UsdGeomSubsets, plus an optional
+      USD Assembly stage that payloads the source geometry and references the Lookfile.
+    gaps:
+      - Mari only exports USD look/material layers and Assembly wrappers; it does not export mesh geometry to USD.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/user_guide/exporting_importing_textures/usd_mat_assign.html
+        title: Foundry Mari Documentation — Exporting USD Looks
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport.py Lookfile and Assembly exporter
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: partial
+    notes: >-
+      MariUsdPlugins registers .usdz for importing mesh and camera prims.
+    gaps:
+      - The USD Look Exporter only writes .usd, .usda, or .usdc Lookfile/Assembly stages alongside external texture files rather than packaged .usdz archives.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/pxrMariUsdReaderPlugin.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — pxrMariUsdReaderPlugin .usdz extension support
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport.py supported export formats
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.stage
+    level: none
+    notes: >-
+      Mari opens a UsdStage transiently during import to extract mesh and camera data into Mari's internal project
+      format and creates a fresh UsdStage during Lookfile export; it does not maintain a live in-memory USD stage.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/UsdReader.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — UsdReader stage lifecycle
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: none
+    notes: >-
+      Mari has no USD layer-stack editor or non-destructive USD edit targets; the USD Look Exporter generates
+      standalone Lookfile and Assembly USD files on disk.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport.py
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      Mari bundles OpenUSD with Python bindings under the fnpxr namespace, exposes a Load USD Plugin toggle in Edit >
+      Preferences > USD so studios can replace the shipped CAPI/Python plugin with a custom build of MariUsdPlugins,
+      and provides registerRendererExportPlugin for custom UsdShade look exporters.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/user_guide/configuring_user_interface/configuring_usd.html
+        title: Foundry Mari Documentation — Configuring USD Preferences
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/README.md
+        title: TheFoundryVisionmongers/MariUsdPlugins — Repository README and build instructions
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: partial
+    notes: >-
+      UsdReader evaluates sublayers when opening a USD stage for import.
+    gaps:
+      - Mari does not author subLayerPaths on export.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/UsdReader.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — UsdReader stage loading
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: partial
+    notes: >-
+      UsdReader resolves USD references on import, and the USD Look Exporter authors a USD reference arc to the
+      exported Lookfile when writing an Assembly stage.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport.py Assembly Reference authoring
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: partial
+    notes: >-
+      The USD Importer loads USD payloads (including Alembic .abc payloads on custom USD prims in Mari 8.0v1) and
+      allows selective prim loading via the scene graph tree, and the USD Look Exporter authors a payload arc to the
+      source geometry stage when exporting an Assembly file.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+        title: Foundry Mari 8.0v1 Release Notes — Alembic payload loading and USD updates
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport.py Assembly Payload authoring
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: partial
+    since: "7.0v1"
+    notes: >-
+      The USD Importer tree view exposes per-prim dropdown menus to select geometry VariantSets prior to loading or
+      adding object versions.
+    gaps:
+      - Shading VariantSets are not imported and variant sets cannot be authored on export.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/reference_guide/new_project_dialog.html
+        title: Foundry Mari Documentation — New Project Dialog USD Variant Selection
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdLoaderTab.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdLoaderTab.py VariantSets UI
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.inherits
+    level: partial
+    notes: >-
+      UsdReader resolves USD inherits and specializes arcs when evaluating composed mesh and camera prims on import.
+    gaps:
+      - Inherit and specialize arcs are not authored on export.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/UsdReader.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — UsdReader stage traversal
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Geometry & scene schemas ───────────────────────────────────────────────
+  - capability: usd.instancing
+    level: none
+    notes: >-
+      UsdReader iterates stage->Traverse() without UsdTraverseInstanceProxies and does not expand
+      UsdGeomPointInstancer prims or scenegraph instance proxies.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/UsdReader.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — UsdReader stage->Traverse()
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      GeoData imports UsdGeomMesh topology, UDIM UV sets (texCoord2f[] and float2[]), vertex and face-varying normals,
+      orientation (rightHanded and leftHanded), and OpenSubdiv attributes (catmullClark, loop, bilinear,
+      boundary/face-varying interpolation rules, triangle subdivision rules, creases, corners, and hole indices). On
+      export, usdShadeExport writes Mari Face Selection Groups as UsdGeomSubset prims with materialBind family.
+    gaps:
+      - Existing UsdGeomSubset face sets on imported USD files are not yet converted into Mari Face Selection Groups.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/GeoData.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — GeoData UsdGeomMesh and OpenSubdiv import
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport UsdGeomSubset export
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: none
+    notes: >-
+      MariUsdPlugins only accepts UsdGeomMesh and UsdGeomCamera prims; curve prims are ignored during USD import.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdLoaderTab.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdLoaderTab._is_prim_supported
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: none
+    notes: >-
+      Point cloud prims (UsdGeomPoints) are ignored by the Mari USD importer.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdLoaderTab.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdLoaderTab._is_prim_supported
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    notes: >-
+      GeoData imports animated vertex positions and UsdGeomXformCache world transforms across user-specified Frame
+      Numbers on UsdGeomMesh prims.
+    gaps:
+      - Mesh topology, UVs, and normals are read at EarliestTime() only.
+      - Imported USD cameras are evaluated at frame 0 only.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/GeoData.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — GeoData animated frame sample loading
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/CameraData.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — CameraData static frame 0 evaluation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: none
+    notes: >-
+      UsdSkel skeletons, skinning, and blend shapes are not evaluated by MariUsdPlugins.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdLoaderTab.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdLoaderTab._is_prim_supported
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: partial
+    since: "8.0v1"
+    notes: >-
+      Mari 8.0v1 added read-only UsdGeomCamera import during New Project creation, translating perspective/orthographic
+      projection, focalLength, horizontal/vertical aperture, clippingRange, and world transform into Mari Projectors.
+    gaps:
+      - USD cameras cannot yet be imported into an existing project via the Objects palette (TP-611795) or exported to USD.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+        title: Foundry Mari 8.0v1 Release Notes — USD Camera Import
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/plugins/fnUsdMeshImport/CameraData.cpp
+        title: TheFoundryVisionmongers/MariUsdPlugins — CameraData UsdGeomCamera importer
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: none
+    notes: >-
+      UsdLux light prims are not imported or exported by MariUsdPlugins.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/5.x/Mari_5.0v1_ReleaseNotes.html
+        title: Foundry Mari 5.0v1 Release Notes — USD Importer scope
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: none
+    notes: >-
+      UsdVol volume prims are not supported in Mari.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdLoaderTab.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdLoaderTab._is_prim_supported
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading, Hydra & rendering ─────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: partial
+    notes: >-
+      Mari provides a built-in USD Preview Surface viewport shader and exports UsdPreviewSurface, UsdUVTexture (with
+      <UDIM> token paths and OCIO colorspace conversion), and UsdPrimvarReader_float2 shading networks to USD
+      Lookfiles via usdShadeExport_UsdPreview.py.
+    gaps:
+      - Mari does not import UsdShade materials from USD stages.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport_UsdPreview.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport_UsdPreview.py
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/mari/Content/user_guide/exporting_importing_textures/usd_mat_assign.html
+        title: Foundry Mari Documentation — Exporting USD Looks
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: partial
+    since: "6.0v1"
+    notes: >-
+      MariUsdPlugins includes built-in USD Look Exporters for Arnold (arnold:standard_surface, arnold:image,
+      arnold:bump2d, arnold:normal_map on the arnold:surface terminal with optional maketx .tx conversion) and
+      RenderMan (PxrSurface, PxrDisney, PxrTexture, PxrBump, PxrNormalMap, PxrBumpMixer, PxrDispTransform on
+      ri:surface/ri:displacement terminals with optional txmake .tex conversion).
+    gaps:
+      - Renderer-specific UsdShade networks are export-only and cannot be imported into Mari.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport_Arnold.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport_Arnold.py
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport_PRMan.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport_PRMan.py
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: none
+    notes: >-
+      Although Mari 8.0v1 bundles MaterialX 1.39.2 as a third-party dependency, MariUsdPlugins does not import or
+      export UsdMtlx / ND_* UsdShade shader networks.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/user_guide/appendix_c/third_party_licenses.html
+        title: Foundry Mari 8.0 Third-Party Licenses — MaterialX 1.39.2 and USD 25.08
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/tree/main/python
+        title: TheFoundryVisionmongers/MariUsdPlugins — Shipped USD Shade Export plugins
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.hydra.host
+    level: none
+    notes: >-
+      Mari uses its own OpenGL canvas renderer rather than a Hydra viewport.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+        title: Foundry Mari 8.0v1 Release Notes — System Requirements and Canvas
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: none
+    notes: >-
+      Mari is a texture painting application and does not read or write UsdRenderSettings schemas.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/tree/main/python
+        title: TheFoundryVisionmongers/MariUsdPlugins — Python exporter modules
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: none
+    notes: >-
+      Mari does not natively import .mtlx lookdev documents.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/user_guide/appendix_c/third_party_licenses.html
+        title: Foundry Mari 8.0 Third-Party Licenses
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: none
+    notes: >-
+      Mari exports looks as USD stages (.usd, .usda, .usdc) or flattened UDIM texture maps rather than standalone
+      .mtlx documents.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/user_guide/exporting_importing_textures/usd_mat_assign.html
+        title: Foundry Mari Documentation — Exporting USD Looks
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: partial
+    since: "7.0v1"
+    notes: >-
+      Mari provides built-in Arnold Standard Surface and standalone Autodesk Standard Surface (1.0.2.x) viewport
+      shaders and exports Standard Surface channels to USD Lookfiles via usdShadeExport_Arnold.py.
+    gaps:
+      - Exports arnold:standard_surface UsdShade nodes rather than MaterialX ND_standard_surface_surfaceshader nodes or .mtlx files.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.0v1_ReleaseNotes.html
+        title: Foundry Mari 7.0v1 Release Notes — Autodesk Standard Surface (1.0.2.x) shader
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport_Arnold.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport_Arnold.py
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: none
+    notes: >-
+      Mari does not yet ship an OpenPBR Surface shader or USD Look Exporter plugin.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+        title: Foundry Mari 8.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.preview_surface
+    level: partial
+    notes: >-
+      Mari ships a USD Preview Surface viewport shader and exports UsdPreviewSurface networks to USD Lookfiles via
+      usdShadeExport_UsdPreview.py.
+    gaps:
+      - Exports UsdShade UsdPreviewSurface networks rather than MaterialX .mtlx documents.
+    sources:
+      - url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/blob/main/python/usdShadeExport_UsdPreview.py
+        title: TheFoundryVisionmongers/MariUsdPlugins — usdShadeExport_UsdPreview.py
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: none
+    notes: >-
+      Mari's viewport canvas evaluates its own GLSL surface shaders (USD Preview Surface, Autodesk Standard Surface,
+      Arnold Standard Surface, PxrSurface, Principled BRDF) rather than MaterialX node graphs.
+    sources:
+      - url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.1v1_ReleaseNotes.html
+        title: Foundry Mari 7.1v1 Release Notes — GLSL shader compilation notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "ID 583692 — USD Look Exporter prior to Mari 7.1v1 did not apply UsdShadeMaterialBindingAPI schema"
+    url: https://learn.foundry.com/mari/Content/release_notes/7.x/Mari_7.1v1_ReleaseNotes.html
+    capability: usd.export
+    status: fixed
+    affects: "6.0v1–7.0v2"
+    fixedIn: "7.1v1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "TP-611795 — USD cameras can only be imported during New Project creation and not via the Objects palette"
+    url: https://learn.foundry.com/mari/Content/release_notes/8.x/Mari_8.0v1_ReleaseNotes.html
+    capability: usd.cameras
+    status: open
+    affects: "8.0v1"
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "Existing UsdGeomSubset face sets on USD meshes are not imported as Mari Face Selection Groups"
+    url: https://github.com/TheFoundryVisionmongers/MariUsdPlugins/pull/4
+    capability: usd.geom.meshes
+    status: open
+    affects: "5.0v1–8.0v1"
+    severity: minor
+    verified: 2026-11-04

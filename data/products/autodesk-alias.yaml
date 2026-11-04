@@ -1,0 +1,252 @@
+name: Autodesk Alias
+vendor: Autodesk
+categories: [cad]
+industries: [automotive, product-design, manufacturing]
+license: commercial
+website: https://www.autodesk.com/products/alias/overview
+tier: 2
+summary: >-
+  Class-A NURBS surfacing and subdivision modeling software for automotive and industrial design. Alias 2025 added USD
+  import/export (.usd, .usda, .usdc, .usdz), and Alias 2026 integrated the VRED viewport renderer with MaterialX 1.39.1,
+  OpenPBR, and MDL support.
+
+releases:
+  - version: "2027.0"
+    notes: >-
+      Transitions CAD data translation fully to the New Data Translator toolkit and replaces legacy VR options with View
+      in VRED VR alongside VRED viewport rendering and USD file import/export.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-WhatsNew/files/wn-whatsnewinalias2027.html
+        title: What's New in Alias 2027
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2026.0"
+    materialx: "1.39.1"
+    notes: >-
+      Introduces VRED Rendering in the Alias viewport with support for assigning and editing MaterialX (MaterialX SDK
+      1.39.1 with OpenPBR support) and VRED Truelight materials, plus loading NVIDIA MDL materials.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinalias2026/wn-alias-vred-renderer-2026.html
+        title: VRED Rendering in Alias (2026)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-One-Viewport/files/Truelight-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: MaterialX and MDL (Alias 2026 Help)
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "2025.1"
+    notes: >-
+      Fixes ALS-28982 where tessellation was off by a factor of 10 when exporting NURBS geometry to USD.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-ReleaseNotes/files/rn_Alias_previous_releases/Alias_ReleaseNotes_rn_Alias_2025_1_html.html
+        title: Alias 2025.1 Update Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.0"
+    notes: >-
+      Introduces USD (.usd, .usda, .usdc, .usdz) file import and export, preserving object names and group hierarchy,
+      importing/exporting perspective and orthographic cameras, importing common lights, and tessellating NURBS and
+      subdivision geometry on export.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.import
+    level: native
+    since: "2025.0"
+    notes: >-
+      Imports .usd, .usda, .usdc, and .usdz files via File > Import, preserving object names, group hierarchy, and
+      shader names (with Replace Shader by Name support to reassign shaders from the user library), plus cameras and
+      common light types. Includes a Split Periodic option for dividing closed or periodic NURBS surfaces.
+    gaps:
+      - Dome and disk lights cannot be imported from USD files.
+      - Incoming USD materials are mapped to Diffuse Color unless replaced by name from a user shader library.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-Reference/files/File-menu/File-Import/GUID-02418A35-E4D8-4340-A082-37A116E15520.html
+        title: Import File — USD Options (Alias 2027 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "2025.0"
+    notes: >-
+      Exports .wire models to .usd, .usda, .usdc, and .usdz via File > Export, automatically converting NURBS and
+      subdivision geometry to mesh data using the Alias Hardware Shade tessellator (Fast or Accurate mode with
+      configurable Tessellation Tolerance) while preserving object names, group hierarchy, and optional cameras.
+    gaps:
+      - NURBS and subdivision surfaces are tessellated to polygon meshes on export rather than written as NURBS prims.
+      - Direct .wire-to-USD export transfers only the material's Diffuse Color.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-Reference/files/File-menu/File-Export/GUID-1B42A2EC-DA3C-4030-AEBB-05C77980E8B7.html
+        title: Export Active As — USD Options (Alias 2027 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "2025.0"
+    notes: >-
+      Supports importing and exporting uncompressed .usdz archives alongside .usd, .usda, and .usdc variants.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-Reference/files/File-menu/File-Export/GUID-1B42A2EC-DA3C-4030-AEBB-05C77980E8B7.html
+        title: Export Active As — USD Options (Alias 2027 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    since: "2025.0"
+    notes: >-
+      Imports USD meshes (with a Split Periodic option to divide closed or periodic NURBS surfaces) and exports NURBS
+      and subdivision geometry as tessellated polygonal meshes using the Alias Hardware Shade tessellator.
+    gaps:
+      - On USD export, NURBS and subdivision surfaces are tessellated to polygon meshes rather than exported as NURBS prims.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-Reference/files/File-menu/File-Import/GUID-02418A35-E4D8-4340-A082-37A116E15520.html
+        title: Import File — USD Options (Alias 2027 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    since: "2025.0"
+    notes: >-
+      Supports importing and exporting perspective and orthographic cameras in USD files.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-Reference/files/File-menu/File-Export/GUID-1B42A2EC-DA3C-4030-AEBB-05C77980E8B7.html
+        title: Export Active As — USD Options (Alias 2027 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: partial
+    since: "2025.0"
+    notes: >-
+      Imports ambient, spot, area, directional, and point lights from USD files.
+    gaps:
+      - Dome and disk lights cannot be imported.
+      - USD Export Options do not include a light export toggle.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: partial
+    since: "2025.0"
+    notes: >-
+      Direct USD import/export translates only Diffuse Color and preserves shader names (which can be remapped on
+      import via Replace Shader by Name).
+    gaps:
+      - Textured or metallic materials only transfer their Diffuse Color in direct .wire-to-USD export.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinaliasprevious/wn-whatsnewinalias2025/wn-alias-usd-support-2025.html
+        title: Universal Scene Description (USD) File Format Support (2025)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: partial
+    since: "2026.0"
+    notes: >-
+      With VRED Rendering in Alias (introduced in Alias 2026), users can load .mtlx MaterialX documents (such as the
+      AMD GPUOpen MaterialX Library) in the Material Editor and edit exposed MaterialX attributes.
+    gaps:
+      - Cannot author new MaterialX node graphs from scratch or edit node graphs in a node-based material editor.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinalias2026/wn-alias-vred-renderer-2026.html
+        title: VRED Rendering in Alias (2026)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-One-Viewport/files/Truelight-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: MaterialX and MDL (Alias 2026 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "2026.0"
+    notes: >-
+      VRED Rendering in Alias 2026 incorporates VRED 2025.3's MaterialX SDK 1.39.1 integration with support for the
+      OpenPBR shading model.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-One-Viewport/files/Truelight-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: MaterialX and MDL (Alias 2026 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    since: "2026.0"
+    notes: >-
+      Alias 2026's integrated VRED viewport renderer evaluates assigned MaterialX, MDL, and VRED Truelight materials
+      directly in the Alias viewport with visual parity to Autodesk VRED.
+    gaps:
+      - MDL material attributes cannot be edited in Alias (unlike MaterialX attributes, which are editable).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-WhatsNew/files/wn-whatsnewinalias2026/wn-alias-vred-renderer-2026.html
+        title: VRED Rendering in Alias (2026)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/Alias-One-Viewport/files/Truelight-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: MaterialX and MDL (Alias 2026 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "ALS-28982: Tessellation off by a factor of 10 when exporting NURBS to USD"
+    url: https://help.autodesk.com/cloudhelp/2027/ENU/Alias-ReleaseNotes/files/rn_Alias_previous_releases/Alias_ReleaseNotes_rn_Alias_2025_1_html.html
+    capability: usd.export
+    status: fixed
+    affects: "2025.0"
+    fixedIn: "2025.1"
+    severity: major
+    verified: 2026-11-04

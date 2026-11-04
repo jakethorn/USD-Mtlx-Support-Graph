@@ -1,0 +1,14 @@
+name: AYON USD Addon
+repo: ynput/ayon-usd
+tech: [usd]
+kind: plugin
+description: >-
+  Ynput's OpenUSD pipeline integration addon for the open-source AYON production tracking and publishing platform.
+license: Apache-2.0
+tags: [pipeline, ayon]
+sources:
+  - url: https://github.com/ynput/ayon-usd
+    title: ynput/ayon-usd README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

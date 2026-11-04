@@ -1,0 +1,324 @@
+name: Three.js
+vendor: Three.js Authors
+categories: [xr-web, library]
+industries: [web, xr, games, product-design]
+license: open-source
+website: https://threejs.org
+repo: mrdoob/three.js
+tier: 2
+summary: >-
+  Open-source JavaScript 3D library for the web. Ships pure-JavaScript USDLoader (.usd, .usda, .usdc, .usdz),
+  USDZExporter, and a WebGPURenderer/TSL MaterialXLoader supporting Standard Surface, OpenPBR Surface, and glTF PBR.
+
+releases:
+  - version: "r179"
+    date: 2025-07
+    notes: >-
+      Replaced USDZLoader (now deprecated) with the expanded USDLoader supporting ASCII (.usda) and binary Crate (.usdc)
+      layers as well as .usdz packages through USDAParser, USDCParser, and USDComposer.
+    sources:
+      - url: https://raw.githubusercontent.com/wiki/mrdoob/three.js/Migration-Guide.md
+        title: Three.js Migration Guide (178 → 179)
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/USDZLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/USDZLoader.js
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "r187"
+    date: 2026-10-30
+    notes: >-
+      Includes the expanded USDComposer (references, variants, UsdSkel, cameras, lights, UsdPreviewSurface and
+      arnold:openpbr_surface) and the WebGPURenderer MaterialXLoader with Standard Surface, OpenPBR Surface, glTF PBR,
+      surface_unlit, displacement, and .mtlx.zip archive support.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/USDLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/USDLoader.js
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/MaterialXLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/MaterialXLoader.js
+        kind: repo
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: partial
+    since: "r179"
+    notes: >-
+      USDLoader (in three/addons/loaders/USDLoader.js) parses ASCII (.usda), binary Crate (.usdc), and .usdz packages
+      directly in JavaScript via USDAParser, USDCParser, and USDComposer, without requiring a WebAssembly build of
+      Pixar's C++ OpenUSD library.
+    gaps:
+      - Implemented as a standalone JavaScript parser/composer rather than the full OpenUSD C++ composition engine.
+      - External file references are resolved only when packaged inside the same USDZ archive or pre-loaded into the assets dictionary.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/USDLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/USDLoader.js
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: partial
+    notes: >-
+      USDZExporter (in three/addons/exporters/USDZExporter.js) serializes a Three.js Object3D hierarchy into an ASCII
+      .usda root stage packaged with PNG/JPEG textures inside a .usdz archive, or outputs the .usda text via parse().
+    gaps:
+      - Exports only UsdPreviewSurface materials (MeshStandardMaterial / MeshPhysicalMaterial), meshes, transforms, cameras, and basic transform animation tracks.
+      - Does not write binary .usdc Crate files.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      USDLoader unpacks .usdz archives containing either .usda or .usdc layers and embedded textures using fflate;
+      USDZExporter writes self-contained .usdz archives for Apple AR Quick Look and web viewers.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/USDLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/USDLoader.js
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.references
+    level: partial
+    notes: >-
+      USDComposer resolves internal prim references and file references to other .usda/.usdc layers packed within the
+      same USDZ archive.
+    gaps:
+      - Does not fetch arbitrary external network URLs for referenced USD layers unless provided in the parsed assets map.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_resolveReference)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: partial
+    notes: >-
+      USDComposer resolves variant sets authored on prims (local variant selections as well as external variant
+      selection maps passed to compose()).
+    gaps:
+      - No built-in UI for switching variants after composition without re-running compose().
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_getVariantPaths, _getLocalVariantSelections)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      USDComposer imports polygonal meshes (including n-gon triangulation with holes, GeomSubsets for multi-material
+      meshes, two UV sets, vertex normals, and vertex colors) as well as Cube, Sphere, Cylinder, Cone, and Capsule
+      implicit primitives; USDZExporter writes Mesh prims.
+    gaps:
+      - Subdivision surface evaluation (Catmull-Clark) is not performed by USDComposer.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildMesh, _buildGeomPrimitive)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    notes: >-
+      USDComposer converts time-sampled xformOp transform attributes into Three.js AnimationClip tracks
+      (VectorKeyframeTrack and QuaternionKeyframeTrack), and USDZExporter writes time-sampled translation, rotation, and
+      scale tracks from AnimationClips.
+    gaps:
+      - Time-sampled mesh point deformations (vertex caches) andUSD spline (Ts) tangents are not evaluated.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildTransformAnimations)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js (buildAnimationTracks)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: partial
+    notes: >-
+      USDComposer parses Skeleton and SkelAnimation prims, binds SkinnedMesh instances with up to four joint weights per
+      vertex, and builds keyframe AnimationClips from time-sampled joint translations, rotations, and scales.
+    gaps:
+      - Blend shapes (UsdSkelBlendShape) are not imported, and USDZExporter does not export UsdSkel hierarchies.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildSkeleton, _bindSkeletons, _buildAnimations)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      USDComposer builds PerspectiveCamera and OrthographicCamera instances from UsdGeomCamera prims (converting focal
+      length, apertures, and clipping range), and USDZExporter exports Three.js cameras to USD Camera prims.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildCamera)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js (buildCamera)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: partial
+    notes: >-
+      USDComposer converts DistantLight, SphereLight, RectLight, and DiskLight prims into Three.js DirectionalLight,
+      PointLight, SpotLight (when shaping:cone:angle is present), and RectAreaLight objects, including color temperature.
+    gaps:
+      - DomeLight environment lighting is not constructed by USDComposer, and USDZExporter does not export lights.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildLight)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ────────────────────────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      USDComposer maps UsdPreviewSurface (and ND_UsdPreviewSurface_surfaceshader) with UsdUVTexture and UsdTransform2d
+      onto MeshPhysicalMaterial; USDZExporter writes MeshStandardMaterial and MeshPhysicalMaterial properties (including
+      clearcoat, ior, specular, transmission, thickness, attenuation, sheen, iridescence, and anisotropy) as
+      UsdPreviewSurface networks.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_applyPreviewSurface)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/exporters/USDZExporter.js
+        title: mrdoob/three.js — examples/jsm/exporters/USDZExporter.js (buildMaterials)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    notes: >-
+      MaterialXLoader (in three/addons/loaders/MaterialXLoader.js) parses .mtlx documents and .mtlx.zip texture archives
+      and compiles their node graphs into Three.js Shading Language (TSL) NodeMaterials for WebGPURenderer.
+    gaps:
+      - Materials loaded by MaterialXLoader require WebGPURenderer and cannot be used with the legacy WebGLRenderer.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/MaterialXLoader.js
+        title: mrdoob/three.js — examples/jsm/loaders/MaterialXLoader.js
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXDocument.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXDocument.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    notes: >-
+      WebGPURenderer renders MaterialX node graphs compiled into TSL (Three.js Shading Language) nodes across WebGPU and
+      WebGL 2 backends, including procedural noise, math, color, hex-tiling, and scalar/vector displacement nodes.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXNodeLibrary.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXNodeLibrary.js
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    notes: >-
+      MaterialXSurfaceMappings maps standard_surface (base, specular, anisotropy, transmission, thin film/iridescence,
+      sheen, coat, normal, opacity, and emission) onto MeshPhysicalNodeMaterial.
+    gaps:
+      - Subsurface scattering inputs on standard_surface are not mapped and emit an IGNORED_SURFACE_INPUT warning.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js (applyStandardSurface)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    notes: >-
+      MaterialXSurfaceMappings maps open_pbr_surface (base, specular, anisotropy, coat with IOR normalization, fuzz,
+      transmission with dispersion and thin-walled handling, thin film in micrometers, emission, and opacity) onto
+      MeshPhysicalNodeMaterial. USDComposer also parses arnold:openpbr_surface shaders inside USD files.
+    gaps:
+      - Subsurface scattering inputs on open_pbr_surface are not mapped in MaterialXSurfaceMappings.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js (applyOpenPbrSurface)
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
+        title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_applyOpenPBRSurface)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.gltf_pbr
+    level: native
+    notes: >-
+      MaterialXSurfaceMappings maps gltf_pbr (including alpha_mode, transmission, clearcoat, sheen, iridescence,
+      thickness, dispersion, and anisotropy) onto MeshPhysicalNodeMaterial.
+    sources:
+      - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js
+        title: mrdoob/three.js — examples/jsm/loaders/materialx/MaterialXSurfaceMappings.js (applyGltfPbrSurface)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

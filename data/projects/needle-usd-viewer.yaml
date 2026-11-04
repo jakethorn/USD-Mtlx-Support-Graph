@@ -1,0 +1,13 @@
+name: Needle USD Web Viewer
+repo: needle-tools/usd-viewer
+tech: [usd]
+kind: viewer
+description: >-
+  Browser-based OpenUSD viewer built on Autodesk's WebAssembly USD bindings and a Three.js Hydra render delegate.
+tags: [web, wasm, three-js, hydra]
+sources:
+  - url: https://github.com/needle-tools/usd-viewer
+    title: needle-tools/usd-viewer README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

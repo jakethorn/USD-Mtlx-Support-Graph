@@ -205,49 +205,6 @@ support:
     confidence: high
     verified: 2026-11-04
 
-  - capability: usd.shade.native
-    level: plugin
-    via: usd-fileformat-plugins
-    notes: >-
-      Adobe's open-source SBSAR file-format plugin lets USD applications reference Designer's published .sbsar
-      materials directly, exposing each as UsdPreviewSurface and Adobe Standard Material (ASM) networks. Presets and
-      output resolution are variant selections, and inputs are procedural_sbsar attributes; textures are generated on
-      demand by the Substance engine.
-    gaps:
-      - The plugin is off by default, needs the Substance 3D Materials SDK, and is not tested in the project's CI.
-      - OpenPBR and MaterialX output are not mentioned for SBSAR.
-    sources:
-      - url: https://github.com/adobe/USD-Fileformat-plugins/blob/main/sbsar/README.md
-        title: adobe/USD-Fileformat-plugins — SBSAR plugin README
-        kind: repo
-        accessed: 2026-11-04
-      - url: https://github.com/adobe/USD-Fileformat-plugins
-        title: adobe/USD-Fileformat-plugins README
-        kind: repo
-        accessed: 2026-11-04
-    confidence: high
-    verified: 2026-11-04
-    review: >-
-      Capability fit is interpretive: the plugin runs inside USD host applications (it is not part of Designer) and
-      carries Designer's published materials into UsdShade.
-
-  # ── Rendering ──────────────────────────────────────────────────────────────
-  - capability: usd.hydra.host
-    level: planned
-    notes: >-
-      In 2023 Adobe said in a livestream that Designer would get a Hydra-based viewport able to use its own renderer
-      or third-party delegates such as RenderMan, expected in 2024.
-    sources:
-      - url: https://80.lv/articles/substance-3d-designer-will-get-new-hydra-viewport-native-materialx-support/
-        title: 80 Level — Substance 3D Designer will get new Hydra viewport, native MaterialX support (2023)
-        kind: news
-        accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: >-
-      The announcement is from September 2023 and its 2024 target passed; 15.0 shipped a new rasterizer/path-tracer
-      renderer, and none of the 15.0 or 16.0 notes read mention Hydra, so the plan may have changed.
-
   # ── MaterialX ──────────────────────────────────────────────────────────────
   - capability: mtlx.render
     level: native
@@ -273,9 +230,13 @@ support:
     level: planned
     notes: >-
       Adobe has said Designer will let users author MaterialX directly (2023 livestream) and that future updates will
-      add MaterialX support (2025, per CG Channel). The 16.0 notes say Designer is moving away from MDL in favour of
-      MaterialX, without a timeframe.
+      add MaterialX support (2025, per CG Channel). The 16.0 release notes state that Designer is moving away from MDL
+      in favour of MaterialX, without a timeframe.
     sources:
+      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
+        title: Substance 3D Designer — Version 16.0
+        kind: release-notes
+        accessed: 2026-11-04
       - url: https://80.lv/articles/substance-3d-designer-will-get-new-hydra-viewport-native-materialx-support/
         title: 80 Level — Substance 3D Designer will get new Hydra viewport, native MaterialX support (2023)
         kind: news
@@ -284,15 +245,8 @@ support:
         title: CG Channel — Adobe releases Substance 3D Designer 15.0
         kind: news
         accessed: 2026-11-04
-      - url: https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/version-16-0
-        title: Substance 3D Designer — Version 16.0
-        kind: release-notes
-        accessed: 2026-11-04
-    confidence: low
+    confidence: medium
     verified: 2026-11-04
-    review: >-
-      The vendor statements come second-hand through news sites; the only first-party source (16.0 notes) states a
-      direction, not a planned feature.
 
   - capability: mtlx.openpbr
     level: native

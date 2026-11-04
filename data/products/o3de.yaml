@@ -1,0 +1,117 @@
+name: Open 3D Engine (O3DE)
+vendor: Open 3D Engine Project (Linux Foundation)
+categories: [game-engine]
+industries: [games, simulation, xr]
+license: open-source
+website: https://o3de.org/
+repo: o3de/o3de
+tier: 2
+summary: >-
+  Open-source, cross-platform 3D game and simulation engine under the Linux Foundation with the modular Atom PBR
+  renderer. O3DE 25.05.0 added Asset Processor support for non-compositional USD geometry and animation import; native
+  USD composition and MaterialX are not yet supported.
+
+releases:
+  - version: "26.05.0"
+    date: 2026-05-27
+    notes: >-
+      Adds a new interface between SceneAPI and AssImp to support additional asset import libraries ([o3de#18931]) and
+      updates Atom renderer tone mappers (AgX and Khronos PBR Neutral).
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/2605-0-release-notes/
+        title: Release Notes for Open 3D Engine 26.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "25.10.0"
+    date: 2025-10-15
+    notes: >-
+      Feature and stability release for the Atom renderer, SceneAPI, and mobile/XR workflows.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2510-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.10.0
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "25.05.0"
+    date: 2025-06-17
+    notes: >-
+      Adds support for importing non-compositional Universal Scene Description (USD) geometry and animation into O3DE.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.import
+    level: partial
+    since: "25.05.0"
+    notes: >-
+      O3DE 25.05.0 added SceneAPI/Asset Processor support for importing non-compositional USD geometry and animation
+      into native O3DE runtime assets.
+    gaps:
+      - Supports non-compositional USD geometry and animation only; composition arcs and live stage workflows are not supported.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: none
+    notes: >-
+      O3DE 25.05.0's USD importer explicitly supports only non-compositional USD geometry and animation rather than
+      full USD composition arcs.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: partial
+    since: "25.05.0"
+    notes: >-
+      Supports importing non-compositional USD mesh geometry into O3DE.
+    gaps:
+      - Import only; non-compositional USD files only.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    since: "25.05.0"
+    notes: >-
+      Supports importing non-compositional USD animation into O3DE.
+    gaps:
+      - Import only; non-compositional USD files only.
+    sources:
+      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
+        title: Release Notes for Open 3D Engine 25.05.0
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.import
+    level: none
+    notes: >-
+      O3DE's Atom renderer uses its own .material and .materialtype JSON formats; MaterialX integration is tracked as
+      an open community feature request (Issue #18873) and is not implemented in O3DE 26.05.0.
+    sources:
+      - url: https://github.com/o3de/o3de/issues/18873
+        title: "o3de/o3de Issue #18873 — Implementation of MaterialX"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04

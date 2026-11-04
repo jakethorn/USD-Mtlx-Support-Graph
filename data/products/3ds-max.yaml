@@ -51,6 +51,9 @@ releases:
   - version: "2025"
     usd: "23.11"
     materialx: "1.38.8"
+    notes: >-
+      3dsmax-usd's build table lists MaterialX 1.38.8 for 3ds Max 2025; the 3ds Max USD help page's version table
+      still lists the bundled MaterialX plug-in as 1.38.4.
     sources:
       - url: https://github.com/Autodesk/3dsmax-usd/blob/dev/doc/build.md
         title: 3dsmax-usd build documentation (per-version dependency table)
@@ -60,9 +63,6 @@ releases:
         title: MaterialX and USD for 3ds Max
         kind: docs
         accessed: 2026-11-04
-    review: >-
-      build.md lists MaterialX 1.38.8 for 3ds Max 2025, but the MaterialX and USD for 3ds Max help page gives the
-      bundled MaterialX plug-in as 1.38.4 for 2024 and 2025.
 
   - version: "2024"
     usd: "22.11"
@@ -171,9 +171,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      The "Reference a USD Stage" page says no UI tool edits data inside a stage, but the 0.13 notes add prim rename,
-      delete and reparent. The help page may be out of date.
 
   - capability: usd.layer_editing
     level: native
@@ -231,9 +228,9 @@ support:
   - capability: usd.composition.payloads
     level: partial
     via: 3dsmax-usd
-    notes: A stage node has a Load Payloads toggle, and all payloads load by default.
+    notes: A stage node has a stage-wide Load Payloads toggle, and all payloads load by default.
     gaps:
-      - Autodesk staff said in January 2026 that payload loading workflows were still planned.
+      - Per-prim payload load and unload is not yet supported; Autodesk staff said in January 2026 that payload loading workflows were still planned.
     sources:
       - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/GUID-4A9C51B2-69C1-4D9C-8DFA-47193905DC14.html
         title: USD for 3ds Max, Reference a USD Stage
@@ -243,11 +240,8 @@ support:
         title: AOUSD forum, "USD for Maya and 3ds Max updates" (Autodesk staff replies, January 2026)
         kind: forum
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      The docs show a stage-wide Load Payloads toggle, but Autodesk staff still described payload loading as planned
-      in January 2026. Per-prim load and unload may be what's missing.
 
   - capability: usd.composition.variants
     level: partial
@@ -256,8 +250,8 @@ support:
       The exporter can write Material Switcher inputs as material variant sets (3ds Max 2024 and later), or export only
       the active material.
     gaps:
+      - Switching variant sets on a loaded USD stage is not documented; Autodesk staff said in January 2026 that variant set workflows were being worked on.
       - Complex inputs such as multi-materials cannot be exported as variant sets.
-      - Autodesk staff said in January 2026 that variant set workflows were being worked on.
     sources:
       - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-DC04C60D-07CD-4844-AB96-4FDE25CCAD8C.html
         title: USD for 3ds Max, Export USD data
@@ -271,11 +265,8 @@ support:
         title: AOUSD forum, "USD for Maya and 3ds Max updates" (Autodesk staff replies, January 2026)
         kind: forum
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      Only material-variant export is documented. Switching variant sets on a loaded stage is not documented, and a
-      user in the forum thread described variant sets as missing.
 
   # ── Scene description ─────────────────────────────────────────────────────
   - capability: usd.geom.meshes

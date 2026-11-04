@@ -1,0 +1,364 @@
+name: Modo
+vendor: Foundry
+categories: [dcc]
+industries: [games, product-design, film-tv, animation]
+license: commercial
+website: https://www.foundry.com/products/modo
+tier: 2
+status: discontinued
+summary: >-
+  Foundry's modelling, animation and rendering package, discontinued after Modo 17.1 in November 2024. Ships with the
+  UsdModo plug-in (built on USD 20.02) for importing and exporting .usd, .usda, .usdc and .usdz files.
+
+releases:
+  - version: "17.1"
+    date: 2024-11-26
+    usd: "20.02"
+    notes: >-
+      Final feature release of Modo following Foundry's 7 November 2024 announcement winding down Modo development. The
+      17.1v1 documentation states that Modo ships with the 20.02 release of the USD plug-in.
+    sources:
+      - url: https://learn.foundry.com/modo/content/release_notes/17/modo_17.1v1_releasenotes.html
+        title: Modo 17.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.foundry.com/news-and-awards/foundry-winds-down-modo-development
+        title: Foundry announces strategic decision to wind down development of Modo
+        kind: news
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "17.0"
+    date: 2024-03-01
+    notes: >-
+      Rewrote viewport drawing around Mesh View Objects, bundled OctaneRender Prime and added a native macOS ARM build;
+      17.0v8 (30 July 2024) fixed a USD importer crash when encountering instances with incorrect encoding (ID 562531).
+    sources:
+      - url: https://learn.foundry.com/modo/content/release_notes/17/modo_17.0v1_releasenotes.html
+        title: Modo 17.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/17/modo_17.0v8_releasenotes.html
+        title: Modo 17.0v8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "16.1"
+    date: 2023-02-15
+    notes: >-
+      Added the Decal workflow, Mesh Paint and Advanced Viewport improvements; 16.1v3 (24 April 2023) fixed a crash
+      when exporting USD files with a Clear Coat effect applied in an image layer (ID 535422).
+    sources:
+      - url: https://learn.foundry.com/modo/content/release_notes/16/modo_16.1v1_releasenotes.html
+        title: Modo 16.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/16/modo_16.1v3_releasenotes.html
+        title: Modo 16.1v3 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "16.0"
+    date: 2022-04-27
+    notes: Fixed a crash when loading scenes referencing .usd files (ID 485946).
+    sources:
+      - url: https://learn.foundry.com/modo/content/release_notes/16/modo_16.0_releasenotes.html
+        title: Modo 16.0v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "15.1"
+    date: 2021-07-22
+    notes: >-
+      Added USD import and export support for UV tiling and Real World Size values in the Texture Locator, alongside
+      several USD normal, Shader Tree displacement and procedural mesh export fixes.
+    sources:
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.1v1_releasenotes.html
+        title: Modo 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/help/pages/welcome_modo/whats_new_summary_modo15_1.html
+        title: What's New in Modo 15.1
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "14.1"
+    notes: >-
+      The bundled UsdModo plug-in opens (File > Open) or merges (File > Import) .usd, .usda, .usdc and .usdz files,
+      bringing in geometry, curves, lights, cameras, materials, textures (including UV tiling and Real World Size since
+      15.1) and animation. Incoming scenes with a different up-axis are automatically transformed to match Modo's up-axis
+      (logged in the Event Log), and distance units are converted from the file's metersPerUnit metadata unless disabled
+      in Preferences > File I/O > USD I/O. Modo-specific custom data authored on Actor, Blob, Camera, Curve, Light,
+      Mask, Material, Texture, Texture Locator, Locator and Mesh prims is preserved when round-tripping.
+    gaps:
+      - Modo ships with the 20.02 release of the USD plug-in and does not expose USD Python bindings to users.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/help/pages/preferences/pref_fileio.html
+        title: File I/O Preferences (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.1v1_releasenotes.html
+        title: Modo 14.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "14.2"
+    notes: >-
+      Saves (File > Save As) or exports (File > Export As, or right-clicking in the Item List and choosing Export
+      Selected Layers) to .usd, .usda, .usdc and .usdz. Exports cameras, group locators, instances, meshes, replicators,
+      curves, lights (except Portal and Mesh lights), the Principled material type, Blob volumes and joint-based
+      animations, and writes Modo-specific item data as custom data on the corresponding USD prims.
+    gaps:
+      - Hidden items in the Items list are still exported to the .usd file unless removed from the Items or Scenes list.
+      - Modo ships with USD 20.02 and does not expose USD Python bindings to users.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.2v1_releasenotes.html
+        title: Modo 14.2v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "14.1"
+    notes: >-
+      Opens, imports, saves and exports .usdz zip-compressed archives containing .usd, image and audio files (.usdz
+      import shipped with UsdModo in 14.1 and export in 14.2).
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.1v1_releasenotes.html
+        title: Modo 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ──────────────────────────────────────────────────────────
+  - capability: usd.instancing
+    level: native
+    since: "14.2"
+    notes: >-
+      Exports and imports Modo instances and replicators via USD; 17.0v8 fixed an importer crash when encountering
+      instances with incorrect encoding (ID 562531).
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/17/modo_17.0v8_releasenotes.html
+        title: Modo 17.0v8 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    since: "14.1"
+    notes: >-
+      Imports and exports meshes with UVs (including UV tiling and Real World Size information in the Texture Locator
+      since 15.1) and preserves Modo Mesh custom data on round-trip. 15.1v1 fixed procedural meshes requiring freezing
+      before USD export (ID 480685) and normals errors on export (ID 466604).
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.1v1_releasenotes.html
+        title: Modo 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    since: "14.1"
+    notes: >-
+      Imports and exports curves and preserves Modo Curve item custom data on the USD primitive.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.1v1_releasenotes.html
+        title: Modo 14.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.2v1_releasenotes.html
+        title: Modo 14.2v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    since: "14.1"
+    notes: >-
+      Imports and exports animated items and joint-based animations via USD.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.1v1_releasenotes.html
+        title: Modo 14.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/14/modo_14.2v1_releasenotes.html
+        title: Modo 14.2v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    since: "14.2"
+    notes: >-
+      Exports and imports joint-based skeletal animations, preserving Actor item custom data when round-tripping in
+      Modo. 15.2v1 fixed animated .usd files not exporting skinning correctly unless exported in Setup mode (ID 487984).
+    gaps:
+      - Exporting a USD skeleton and animation for external applications requires an Actor containing the joint hierarchy, an Action with keyframes across the entire timeline, General Influences for joints affecting a mesh, and General Influences ordered by hierarchy in the Normalizing folder matching the Actor group order.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.2v1_releasenotes.html
+        title: Modo 15.2v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    since: "14.1"
+    notes: >-
+      Imports and exports cameras and preserves Modo Camera custom data on round-trip; 15.2v1 fixed camera attributes
+      being scaled incorrectly on USD export (ID 490841).
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.2v1_releasenotes.html
+        title: Modo 15.2v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    since: "14.1"
+    notes: >-
+      Imports and exports Modo light types, with optional light intensity scaling on import (Convert Light Intensity and
+      Light Intensity Scale Factor in Preferences > File I/O > USD I/O).
+    gaps:
+      - Portal and Mesh lights are not supported on USD export.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/help/pages/preferences/pref_fileio.html
+        title: File I/O Preferences (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: partial
+    since: "14.2"
+    notes: >-
+      Exports and round-trips Modo Blob volume items via USD, storing Blob custom data on the primitive.
+    gaps:
+      - Only Modo Blob volumes are listed on the USD I/O page; OpenVDB UsdVol volume interchange is not documented.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading ──────────────────────────────────────────────────────────────
+  - capability: usd.shade.native
+    level: partial
+    since: "14.1"
+    notes: >-
+      Exports and imports Modo's Principled material type and preserves Mask, Material, Texture and Texture Locator
+      items (including UV tiling and Real World Size since 15.1) as custom data on their USD prims for round-tripping.
+    gaps:
+      - Only the Principled material type is listed as supported on USD export, and the documentation does not state whether materials are also written as UsdPreviewSurface for external tools.
+    sources:
+      - url: https://learn.foundry.com/modo/content/help/pages/system_files/import_export.html
+        title: Importing and Exporting File Formats (Modo 17.1v1 Help)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.1v1_releasenotes.html
+        title: Modo 15.1v1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: USD importer crashed when encountering instances with incorrect encoding (ID 562531)
+    url: https://learn.foundry.com/modo/content/release_notes/17/modo_17.0v8_releasenotes.html
+    capability: usd.instancing
+    status: fixed
+    fixedIn: "17.0v8"
+    severity: major
+    verified: 2026-11-04
+
+  - title: Exporting USD files with a Clear Coat effect applied in an image layer caused Modo to crash (ID 535422)
+    url: https://learn.foundry.com/modo/content/release_notes/16/modo_16.1v3_releasenotes.html
+    capability: usd.export
+    status: fixed
+    fixedIn: "16.1v3"
+    severity: major
+    verified: 2026-11-04
+
+  - title: Loading a scene referencing .usd files caused Modo to crash (ID 485946)
+    url: https://learn.foundry.com/modo/content/release_notes/16/modo_16.0_releasenotes.html
+    capability: usd.import
+    status: fixed
+    fixedIn: "16.0v1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: Animated .usd files did not export skinning correctly unless exported in Setup mode (ID 487984)
+    url: https://learn.foundry.com/modo/content/release_notes/15/modo_15.2v1_releasenotes.html
+    capability: usd.skel
+    status: fixed
+    fixedIn: "15.2v1"
+    verified: 2026-11-04

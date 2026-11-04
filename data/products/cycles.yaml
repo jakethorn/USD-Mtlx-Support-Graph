@@ -97,10 +97,11 @@ support:
 
   # ── Interchange ──────────────────────────────────────────────────────────
   - capability: usd.import
-    level: native
+    level: partial
     notes: >-
       When built with USD (on by default), the standalone Cycles application treats any non-XML scene file as USD,
-      opens it as a stage and renders it through its Hydra scene reader.
+      opens it as a stage and renders it through its Hydra scene reader. Inside Blender, USD scenes are imported by
+      Blender rather than Cycles.
     sources:
       - url: https://github.com/blender/cycles/blob/main/src/app/cycles_standalone.cpp
         title: Cycles standalone application source
@@ -116,9 +117,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Based on source code only; the standalone app is mostly a developer and testing tool, and inside Blender scenes
-      reach Cycles through Blender rather than USD.
 
   # ── Shading ──────────────────────────────────────────────────────────────
   - capability: usd.shade.preview_surface
@@ -195,11 +193,8 @@ support:
         title: Blender 4.4 release notes — Cycles
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      "None" rests on a developer design task's status chart and the delegate source, not a formal documentation
-      statement.
 
   - capability: mtlx.openpbr
     level: planned

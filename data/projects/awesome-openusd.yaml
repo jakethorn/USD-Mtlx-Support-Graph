@@ -1,0 +1,14 @@
+name: Awesome OpenUSD
+repo: matiascodesal/awesome-openusd
+tech: [usd]
+kind: learning
+description: >-
+  Community-curated index of OpenUSD tutorials, books, presentations, tools, plugins, render delegates and sample
+  datasets.
+tags: [learning, awesome-list]
+sources:
+  - url: https://github.com/matiascodesal/awesome-openusd
+    title: matiascodesal/awesome-openusd README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

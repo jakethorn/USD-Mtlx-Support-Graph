@@ -1,0 +1,342 @@
+name: Marvelous Designer
+vendor: CLO Virtual Fashion
+categories: [dcc]
+industries: [games, film-tv, vfx, animation]
+license: commercial
+website: https://www.marvelousdesigner.com
+tier: 2
+summary: >-
+  3D garment design and cloth simulation tool. Imports and exports USD since 12.1 (meshes, textures, garment animation
+  caches, skeletal and blend-shape avatar animation, fur strands, and Unreal Engine Chaos Cloth simulation data), with a
+  USD Layer window and Omniverse Connector.
+
+releases:
+  - version: "2026.1"
+    date: 2026-08-24
+    notes: Adds Blend Shape animation keyframing and import/export via USD (alongside FBX, glTF/GLB and Alembic).
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/59743730927129
+        title: Marvelous Designer 2026.1 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/55654243482649
+        title: Blend Shape Avatar (Marvelous Designer Manual)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2026/08/clo-virtual-fashion-releases-marvelous-designer-2026-1/
+        title: CLO Virtual Fashion releases Marvelous Designer 2026.1 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2026.0"
+    date: 2026-04-20
+    notes: Adds Blend Shape avatar import and the option to merge vertices on turned sewing lines during USD export.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/55837641308313
+        title: Marvelous Designer 2026.0 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358305803673
+        title: 3D File (USD) Import/Export (Marvelous Designer Manual)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2026/04/clo-virtual-fashion-releases-marvelous-designer-2026-0/
+        title: CLO Virtual Fashion releases Marvelous Designer 2026.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2025.2"
+    date: 2025-11-17
+    notes: Adds MetaHuman DNA Importer alongside USD garment integration workflows for Unreal Engine MetaHumans.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358120307353
+        title: Marvelous Designer 2025.0/ 2025.1/ 2025.2 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/52699135975705
+        title: "Marvelous Designer to MetaHuman: USD Garment Integration Workflow"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/11/clo-virtual-fashion-releases-marvelous-designer-2025-2/
+        title: CLO Virtual Fashion releases Marvelous Designer 2025.2 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2025.0"
+    date: 2025-04-30
+    notes: >-
+      Adds USDZ file support, beta Fur Strand rendering in the 3D window with an option to include fur strand data on
+      USD export, and the built-in Omniverse Connector window (Window > Omniverse Connector).
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358120307353
+        title: Marvelous Designer 2025.0/ 2025.1/ 2025.2 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358127687193
+        title: "[Beta] Fur Rendering in 3D Window (ver. 2025.0)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358361874329
+        title: Omniverse Connector (Marvelous Designer Manual)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/04/clo-virtual-fashion-releases-marvelous-designer-2025-0/
+        title: CLO Virtual Fashion releases Marvelous Designer 2025.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2024.2"
+    date: 2024-10-21
+    notes: >-
+      Adds cached avatar animation export to USD, axis conversion options on USD import/export, and thin/thick mesh and
+      garment simulation data options when exporting to a USD layer.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358170563481
+        title: Marvelous Designer 2024.0/2024.1/2024.2 New Feature Lists
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/10/clo-virtual-fashion-releases-marvelous-designer-2024-2/
+        title: CLO Virtual Fashion releases Marvelous Designer 2024.2 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+  - version: "2024.1"
+    date: 2024-06-17
+    notes: Adds USD animation import and export (pattern cache animation for garments and SkelAnimation joint animation for avatars).
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358170563481
+        title: Marvelous Designer 2024.0/2024.1/2024.2 New Feature Lists
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2024/06/clo-virtual-fashion-releases-marvelous-designer-2024-1/
+        title: CLO Virtual Fashion releases Marvelous Designer 2024.1 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ──────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "12.1"
+    notes: >-
+      Imports USD files (File > Import > USD, File > Import (Add) > USD, the USD Layer window or drag-and-drop) in Open
+      or Add mode as an Avatar, Trim or Scenes & Props object, with scale, axis conversion (X/Y/Z up, added in 2024.1),
+      ground alignment, automatic fitting-suit creation and transition-animation options. USD files on an Omniverse
+      Nucleus server can also be opened through the Omniverse Connector.
+    gaps:
+      - Objects imported as Trim or Scenes & Props have no cloth collision by default (collision must be toggled on in the Property Editor).
+      - Native Marvelous Designer motion files (.mtn) cannot be applied to an avatar imported from USD.
+      - Changes made to a USD file in Omniverse USD Composer are not reflected live in Marvelous Designer and must be merged and re-imported.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358305803673
+        title: 3D File (USD) Import/Export
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358241113625
+        title: Marvelous Designer 12/ 12.1/ 12.2 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "12.1"
+    notes: >-
+      Exports garment patterns, avatars, graphics, topstitches and trims via File > Export > USD or Export to USD Layer.
+      Options include custom Mesh and Material prim paths (saving baked textures to a sibling Texture folder), single or
+      multiple objects (2024.0), welded or unwelded seam vertices (including turned sewing lines in 2026.0), thin or
+      thick geometry, unified 0–1 UV coordinates (12.2) with configurable image size (100–10,000 px) and seam dilation,
+      scale, axis conversion (2024.2), and an Include Garment Simulation Data toggle (added in 2024.0.173) for Unreal
+      Engine 5.4+ Chaos Cloth.
+    gaps:
+      - The manual does not specify which USD shader schema (such as UsdPreviewSurface or OmniPBR) is written under the Material prim path.
+      - When exporting a pattern and an avatar together, the avatar must be selected before the patterns.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358305803673
+        title: 3D File (USD) Import/Export
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358334956953
+        title: "USD Export: Garment Simulation Data Option (2024.0.173)"
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: partial
+    since: "2025.0"
+    notes: >-
+      Added in 2025.0. In the USD Layer window, right-clicking a layer provides Export USDZ from Layer to write a
+      read-only .usdz package; imported .usdz layers are treated as read-only and cannot be set as the Authoring Layer
+      or re-exported as USDZ.
+    gaps:
+      - Imported .usdz layers are read-only and cannot be set as the Authoring Layer or exported again.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358199862553
+        title: Compatible File Format
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358120307353
+        title: Marvelous Designer 2025.0/ 2025.1/ 2025.2 New Feature List
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Workflow ─────────────────────────────────────────────────────────────
+  - capability: usd.stage
+    level: partial
+    since: "12.1"
+    via: omniverse
+    notes: >-
+      Through the USD Layer window and the Omniverse Connector (beta in 12.1, integrated under Window > Omniverse
+      Connector in 2025.0), users can open a USD file from an Omniverse Nucleus server, join an active Omniverse USD
+      Composer live session, and push selected clothing or trims with Export to USD Layer (appending new prims or
+      overwriting matching prim paths). Imported USD layer references are saved inside .zprj project files.
+    gaps:
+      - Marvelous Designer cannot create an Omniverse live session; the session must be created in Omniverse USD Composer first.
+      - Edits made in Omniverse USD Composer are not reflected live in Marvelous Designer and require merging and re-importing the USD file.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358361874329
+        title: Omniverse Connector
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: partial
+    since: "12.1"
+    notes: >-
+      The USD Layer window lists the layers of an imported USD file, lets users create a new USD file as the Authoring
+      Layer, double-click or right-click a layer to set it as the active Authoring Layer (including an Omniverse Live
+      Session layer), delete non-authoring layers, and write selected garments or trims to the Authoring Layer via
+      Export to USD Layer.
+    gaps:
+      - Read-only .usdz layers and missing layers cannot be set as the Authoring Layer, and the active Authoring Layer cannot be deleted.
+      - The manual advises not renaming the Animation Layer when importing or exporting animated USD files.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358361874329
+        title: Omniverse Connector
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    since: "12.1"
+    notes: >-
+      Imports and exports garment pattern meshes, avatars, trims and props, with options for single or multiple mesh
+      objects (2024.0), welded or unwelded seam vertices (including turned sewing lines in 2026.0), thin or thick
+      geometry (also in Export to USD Layer from 2024.2), and unified 0–1 UV coordinates (12.2).
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358305803673
+        title: 3D File (USD) Import/Export
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: experimental
+    since: "2025.0"
+    notes: >-
+      The beta Fur Strand feature (2025.0) generates procedural hair and fur strands on garments and trims and provides
+      an option to include fur strand data when exporting to USD.
+    gaps:
+      - Fur Strand is labelled Beta, cannot be applied to Avatars or Stitches, and is supported on Windows only (not macOS).
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358127687193
+        title: "[Beta] Fur Rendering in 3D Window (ver. 2025.0)"
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.cgchannel.com/2025/04/clo-virtual-fashion-releases-marvelous-designer-2025-0/
+        title: CLO Virtual Fashion releases Marvelous Designer 2025.0 (CG Channel)
+        kind: news
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    since: "2024.1"
+    notes: >-
+      Imports and exports cloth and avatar animations (2024.1). Garment animation exports as a pattern cache directly on
+      the mesh prims (for either the entire recorded region or the play region only), and 2024.2 added cached avatar
+      animation export (Avatar Animation > Cache).
+    gaps:
+      - The manual recommends not renaming the Animation Layer when importing or exporting animated USD files.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358305803673
+        title: 3D File (USD) Import/Export
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358170563481
+        title: Marvelous Designer 2024.0/2024.1/2024.2 New Feature Lists
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: native
+    since: "2024.1"
+    notes: >-
+      Imports and exports skeletal avatar animations (Avatar Animation > Joint writes a SkelAnimation prim under
+      SkelRoot). 2026.0 added Blend Shape avatar import and 2026.1 added USD import and export of keyframed Blend Shape
+      animations on avatars.
+    gaps:
+      - Native Marvelous Designer motion files (.mtn) cannot be applied to an avatar imported from USD because it is not the default Marvelous Designer skeletal avatar type.
+      - When multiple SkelAnimation prims are loaded into the Animation window, only the uppermost animation plays in the 3D viewport.
+    sources:
+      - url: https://www.marvelousdesigner.com/manuals/articles/47358343098777
+        title: USD file Compatibility (ver. 12.1)
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://www.marvelousdesigner.com/manuals/articles/55654243482649
+        title: Blend Shape Avatar (Marvelous Designer Manual)
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+

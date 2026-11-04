@@ -1,0 +1,654 @@
+name: Gaffer
+vendor: Image Engine / Cinesite
+categories: [dcc, lookdev]
+industries: [film-tv, vfx, animation]
+license: open-source
+website: https://www.gafferhq.org/
+repo: GafferHQ/gaffer
+tier: 2
+summary: >-
+  Open-source, node-based VFX lookdev, lighting, and automation application developed at Image Engine. Reads and writes
+  OpenUSD scenes via Cortex's IECoreUSD library, authors sparse USD override layers with USDLayerWriter, and renders
+  across Arnold, RenderMan, Cycles, and 3Delight.
+
+releases:
+  - version: "1.3.0.0"
+    date: 2023-07-13
+    usd: "23.05"
+    materialx: "1.38.4"
+    notes: >-
+      Upgraded to OpenUSD 23.05 and introduced MaterialX 1.38.4 in GafferHQ/dependencies 7.0.0 alongside OpenColorIO
+      2.2.1 with the ACES Studio 1.3 config, VolumeScatter, and LightTool.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.3.0.0
+        title: Gaffer 1.3.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/dependencies/releases/tag/7.0.0
+        title: GafferHQ/dependencies 7.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "1.4.0.0"
+    date: 2024-04-15
+    usd: "23.11"
+    materialx: "1.38.8"
+    notes: >-
+      Upgraded to OpenUSD 23.11 and MaterialX 1.38.8 (via GafferHQ/dependencies 8.0.0). Added USD Kind selection mode
+      (usd:kind) to SelectionTool, unified Render and InteractiveRender nodes, sdrOsl shader discovery, and removed the
+      legacy Embree Hydra delegate.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.4.0.0
+        title: Gaffer 1.4.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/dependencies/releases/tag/8.0.0
+        title: GafferHQ/dependencies 8.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "1.5.0.0"
+    date: 2024-10-28
+    usd: "24.08"
+    materialx: "1.38.10"
+    notes: >-
+      Upgraded to OpenUSD 24.08 and MaterialX 1.38.10. Added AttributeEditor, SceneReader support for
+      UsdGeomPointInstancer invisibleIds and inactiveIds, native adaptor shaders in SceneWriter for component-level
+      shader connections in Arnold and Cycles USD exports, and Windows support for bundled usdview.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.5.0.0
+        title: Gaffer 1.5.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "1.6.0.0"
+    date: 2025-08-28
+    usd: "25.05.01"
+    materialx: "1.39.3"
+    notes: >-
+      Upgraded to OpenUSD 25.05.01 and MaterialX 1.39.3 (via GafferHQ/dependencies 9.1.0). Added redesigned
+      SceneInspector with EditScope support, ImageSelectionTool with USD instancer ID picking, automatic RenderMan
+      extension loading when RMANTREE is set, and fixed SceneReader/SceneWriter camera shutter attribute handling.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.6.0.0
+        title: Gaffer 1.6.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/dependencies/releases/tag/9.1.0
+        title: GafferHQ/dependencies 9.1.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "1.7.0.0"
+    date: 2026-08-13
+    usd: "26.05"
+    materialx: "1.39.4"
+    notes: >-
+      Upgraded to OpenUSD 26.05 and MaterialX 1.39.4 (via GafferHQ/dependencies 10.0.0). Added PointInstancer node with
+      USD export, pinned UsdGeomBasisCurves support in SceneReader and SceneWriter, hdPrman-compatible RenderMan
+      attributes and OSL shaders in SceneWriter, LightLinkingEditor, and LightEditor fallback values for USD lights.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.7.0.0
+        title: Gaffer 1.7.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/dependencies/releases/tag/10.0.0
+        title: GafferHQ/dependencies 10.0.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    notes: >-
+      SceneReader natively loads .usd, .usda, .usdc, and .usdz files on demand via Cortex's IECoreUSD::USDScene
+      backend, translating hierarchy, bounds, transforms, sets, collections, purposeful visibility, attributes, lights,
+      cameras, materials, and geometry into Gaffer's procedural scene graph.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    notes: >-
+      SceneWriter bakes Gaffer scenes to .usd, .usda, .usdc, and .usdz files via IECoreUSD::USDScene, while
+      GafferUSD.USDLayerWriter diffs two scene inputs (base and layer) to author minimal sparse USD override layers.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDLayerWriter.cpp
+        title: GafferHQ/gaffer — GafferUSD::USDLayerWriter implementation
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    notes: >-
+      IECoreUSD::USDScene registers the .usdz extension alongside .usd, .usda, and .usdc for both SceneReader and
+      SceneWriter.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — USDScene registered extensions (.usd, .usda, .usdc, .usdz)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.stage
+    level: none
+    notes: >-
+      Gaffer evaluates its own procedural, pull-based GafferScene hierarchy rather than operating directly on an
+      in-memory UsdStage; USD stages are opened inside IECoreUSD::USDScene (including optional lookup from
+      UsdUtilsStageCache via stageCache:{id}.usd paths) and converted into Gaffer scene locations on demand.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene stage loading and stageCache support
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.layer_editing
+    level: partial
+    notes: >-
+      GafferUSD.USDLayerWriter compares a base scene and a modified layer scene by writing temporary .usdc stages and
+      authoring a sparse USD layer with only the authored overrides for downstream sublayering.
+    gaps:
+      - Gaffer does not provide an interactive USD layer-stack editor or live USD edit targets.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/python/GafferUSDUI/USDLayerWriterUI.py
+        title: GafferHQ/gaffer — USDLayerWriterUI node documentation
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDLayerWriter.cpp
+        title: GafferHQ/gaffer — USDLayerWriter diff implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.plugins
+    level: native
+    notes: >-
+      Gaffer's launcher configures PXR_PLUGINPATH_NAME to load Cortex's SceneCacheFileFormat (.scc) USD plugin,
+      Arnold's usdArnold schemas, RenderMan's usdRiPxr schemas, and custom studio USD plugins, as well as
+      PXR_MTLX_STDLIB_SEARCH_PATHS for MaterialX standard libraries.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/bin/__private/_gaffer.py
+        title: GafferHQ/gaffer — _gaffer.py USD and MaterialX environment configuration
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Composition ────────────────────────────────────────────────────────────
+  - capability: usd.composition.sublayers
+    level: partial
+    notes: >-
+      SceneReader evaluates all USD sublayers via UsdStage::Open and USDLayerWriter outputs sparse override layers
+      designed to be sublayered in USD.
+    gaps:
+      - Gaffer does not expose a node to author subLayerPaths arrays directly on USD stages.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDLayerWriter.cpp
+        title: GafferHQ/gaffer — USDLayerWriter sparse override layer authoring
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.references
+    level: partial
+    notes: >-
+      SceneReader resolves all USD references when opening a stage via IECoreUSD::USDScene.
+    gaps:
+      - SceneWriter bakes composed scene hierarchy rather than authoring USD reference arcs on output prims.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.payloads
+    level: partial
+    notes: >-
+      SceneReader opens stages with default payload loading and evaluates lazy hierarchy traversal per location, and
+      USDAttributes can author usd:kind metadata.
+    gaps:
+      - Gaffer does not expose per-prim USD payload load/unload rules or author USD payload arcs on export.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/blob/main/python/GafferSceneUI/USDAttributesUI.py
+        title: GafferHQ/gaffer — USDAttributesUI (usd:purpose and usd:kind)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.variants
+    level: partial
+    notes: >-
+      SceneReader evaluates active variant selections in the opened USD stage.
+    gaps:
+      - Gaffer does not currently expose a built-in node to switch or author USD VariantSets on a stage without pre-composing via UsdUtilsStageCache.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.composition.inherits
+    level: partial
+    notes: >-
+      SceneReader resolves USD inherits and specializes arcs when evaluating composed prims.
+    gaps:
+      - SceneWriter does not author USD inherit or specialize arcs on export.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Geometry & scene schemas ───────────────────────────────────────────────
+  - capability: usd.instancing
+    level: native
+    since: "1.7.0.0"
+    notes: >-
+      IECoreUSD::USDScene preserves scenegraph instance sharing via prototype hashing and reads/writes
+      UsdGeomPointInstancer (including invisibleIds, inactiveIds, velocities, angularVelocities, and primvars). Gaffer
+      provides PromotePointInstances to expand point instances and added the PointInstancer node with USD export in
+      1.7.0.0.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/PointInstancerAlgo.cpp
+        title: ImageEngine/cortex — PointInstancerAlgo UsdGeomPointInstancer read/write
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.7.0.0
+        title: Gaffer 1.7.0.0 Release Notes — PointInstancer node with USD export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    notes: >-
+      MeshAlgo reads and writes UsdGeomMesh topology, subdivisionScheme, interpolateBoundary,
+      faceVaryingLinearInterpolation, triangleSubdivisionRule, corners, creases, winding orientation, UsdGeomSubset
+      face sets, and indexed primvars.
+    gaps:
+      - Creases with varying sharpness per edge within a single crease are skipped on import.
+      - UsdGeomSubset material bindings are not mapped to per-face shader assignments in Gaffer's scene graph.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/MeshAlgo.cpp
+        title: ImageEngine/cortex — MeshAlgo UsdGeomMesh read/write
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: >-
+      CurvesAlgo reads and writes UsdGeomBasisCurves with linear, bezier, bspline, and catmullRom bases and
+      nonperiodic, periodic, and pinned (added in Gaffer 1.7.0.0) wrap modes, and approximates UsdGeomNurbsCurves on
+      import.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/CurvesAlgo.cpp
+        title: ImageEngine/cortex — CurvesAlgo UsdGeomBasisCurves read/write
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.7.0.0
+        title: Gaffer 1.7.0.0 Release Notes — Pinned UsdGeomBasisCurves support
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    notes: >-
+      PointsAlgo reads and writes UsdGeomPoints with positions, widths, ids, and arbitrary primvars, and
+      GaussianSplatAlgo reads UsdVolParticleField3DGaussianSplat prims on OpenUSD 26.05+.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/PointsAlgo.cpp
+        title: ImageEngine/cortex — PointsAlgo UsdGeomPoints read/write
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/GaussianSplatAlgo.cpp
+        title: ImageEngine/cortex — GaussianSplatAlgo UsdVolParticleField3DGaussianSplat reader
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >-
+      IECoreUSD::USDScene reads and writes time-sampled transforms, bounding boxes, visibility, primvars, shader
+      parameters, and deforming geometry at arbitrary sample times, supporting motion blur in downstream renderers.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — IECoreUSD::USDScene time-sampled evaluation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.skel
+    level: partial
+    notes: >-
+      PrimitiveAlgo evaluates UsdSkelRoot, UsdSkelSkeletonQuery, UsdSkelSkinningQuery, and UsdSkelBlendShapeQuery on
+      import to bake skinned vertex positions, normals, and blend shape offsets directly onto mesh primitives.
+    gaps:
+      - Skeleton joints are not exposed as scene hierarchy locations in Gaffer.
+      - SceneWriter does not export UsdSkel schemas.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/PrimitiveAlgo.cpp
+        title: ImageEngine/cortex — PrimitiveAlgo UsdSkel skinning and blend shape evaluation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >-
+      CameraAlgo reads and writes UsdGeomCamera with perspective and orthographic projections, focalLength,
+      horizontal/vertical aperture and offsets, clippingRange, fStop, focusDistance, and relative shutter open/close
+      times.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/CameraAlgo.cpp
+        title: ImageEngine/cortex — CameraAlgo UsdGeomCamera read/write
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >-
+      GafferUSD.USDLight and USDMeshLight author UsdLux light schemas (CylinderLight, DiskLight, DistantLight,
+      DomeLight, PortalLight, RectLight, SphereLight, MeshLightAPI, ShapingAPI, ShadowAPI), and IECoreUSD::ShaderAlgo
+      reads and writes UsdLux lights and light links with translation to Arnold, Cycles, RenderMan, and 3Delight.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDLight.cpp
+        title: GafferHQ/gaffer — GafferUSD::USDLight UsdLux schema loader
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/ShaderAlgo.cpp
+        title: ImageEngine/cortex — ShaderAlgo UsdLux light read/write
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >-
+      VolumeAlgo reads and writes UsdVolVolume prims and UsdVolOpenVDBAsset fields backed by .vdb files on disk.
+    gaps:
+      - UsdVolVolume prims referencing multiple .vdb files only load grids from the first file.
+      - SceneWriter only exports VDBObject primitives backed by unmodified .vdb files on disk.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/VolumeAlgo.cpp
+        title: ImageEngine/cortex — VolumeAlgo UsdVolVolume and UsdVolOpenVDBAsset read/write
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Shading, Hydra & rendering ─────────────────────────────────────────────
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >-
+      GafferUSD.USDShader authors UsdPreviewSurface, UsdUVTexture, UsdTransform2d, and UsdPrimvarReader_* shading
+      networks discovered from SdrRegistry, IECoreUSD::ShaderAlgo reads and writes UsdShade networks, and Gaffer's
+      OpenGL viewport, Arnold, Cycles, RenderMan, and 3Delight backends translate UsdPreviewSurface networks for
+      rendering.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDShader.cpp
+        title: GafferHQ/gaffer — GafferUSD::USDShader implementation
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo UsdPreviewSurface translation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >-
+      IECoreUSD::ShaderAlgo reads and writes renderer-specific UsdShade materials and displacement terminals (including
+      arnold:, ri:, cycles:, dl:, and osl: contexts) and inserts adaptor shaders when exporting component-level
+      connections or ramp closures to USD.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/ShaderAlgo.cpp
+        title: ImageEngine/cortex — ShaderAlgo multi-renderer UsdShade read/write
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.5.0.0
+        title: Gaffer 1.5.0.0 Release Notes — SceneWriter native USD shader adaptors
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: partial
+    notes: >-
+      IECoreUSD::ShaderAlgo imports and exports mtlx UsdShade networks (ND_* nodes via UsdMtlx discovery), and
+      IECoreArnold::ShaderNetworkAlgo translates MaterialX UsdShade networks into Arnold standard_surface and OSL
+      MaterialX nodes for rendering.
+    gaps:
+      - Renderer backends other than Arnold (Cycles, RenderMan, 3Delight, OpenGL) do not translate UsdMtlx networks.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo MaterialX network conversion
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/ShaderAlgo.cpp
+        title: ImageEngine/cortex — ShaderAlgo UsdShade shader network translation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.hydra.host
+    level: none
+    notes: >-
+      Gaffer's 3D Viewer uses its own IECoreGL OpenGL renderer alongside Gaffer's native InteractiveRender backends
+      (Arnold, Cycles, RenderMan, 3Delight) rather than hosting a Hydra viewport, though Gaffer bundles standalone
+      usdview.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/releases/tag/1.4.0.0
+        title: Gaffer 1.4.0.0 Release Notes — Removal of unused Embree Hydra delegate
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.render_settings
+    level: partial
+    notes: >-
+      USDAttributes authors usd:purpose and IECoreUSD::USDScene has preliminary write-only support for exporting
+      option:ai:* render globals to an ArnoldOptions prim at /options.
+    gaps:
+      - Gaffer does not read or write standard UsdRenderSettings, UsdRenderProduct, or UsdRenderVar prims.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/USDScene.cpp
+        title: ImageEngine/cortex — USDScene writeGlobals /options support
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/issues/6162
+        title: "GafferHQ/gaffer #6162 — Writing /options prim when saving USD from Gaffer"
+        kind: issue
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: none
+    notes: >-
+      Gaffer does not provide a standalone .mtlx document reader or LookFile loader; MaterialX networks are ingested
+      when referenced inside USD stages via OpenUSD's UsdMtlx plugin or authored with bundled MaterialX OSL shader
+      nodes.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/bin/__private/_gaffer.py
+        title: GafferHQ/gaffer — _gaffer.py PXR_MTLX_STDLIB_SEARCH_PATHS setup
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.export
+    level: none
+    notes: >-
+      Gaffer does not export standalone .mtlx XML files; shader networks are exported inside USD files as UsdShade
+      prims via SceneWriter and USDLayerWriter.
+    sources:
+      - url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/ShaderAlgo.cpp
+        title: ImageEngine/cortex — ShaderAlgo UsdShade export
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: partial
+    notes: >-
+      Gaffer's OSLShader node exposes MaterialX pattern and procedural nodes compiled to OSL under shaders/MaterialX/,
+      allowing artists to build MaterialX pattern networks inside Gaffer's node graph.
+    gaps:
+      - Gaffer does not author native MaterialX nodedef/nodegraph documents or MaterialX surface shaders directly in the UI.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/startup/GafferOSL/shaderNameCompatibility.py
+        title: GafferHQ/gaffer — GafferOSL MaterialX shader compatibility startup config
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: partial
+    notes: >-
+      IECoreArnold::ShaderNetworkAlgo renders USD MaterialX shading networks in Arnold by translating
+      ND_standard_surface_surfaceshader to Arnold standard_surface and executing MaterialX ND_* pattern nodes via
+      Arnold OSL shaders.
+    gaps:
+      - Cycles, RenderMan, 3Delight, and the OpenGL viewport do not yet translate USD MaterialX networks in Gaffer.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo MaterialX network conversion
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: partial
+    notes: >-
+      GafferHQ/dependencies uses MaterialX's OSL shader generator at build time to compile MaterialX standard library
+      pattern nodes into .oso shaders shipped with Gaffer under shaders/MaterialX/.
+    gaps:
+      - Gaffer does not run MaterialX ShaderGen dynamically on arbitrary user .mtlx graphs at render time.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo MaterialX-to-OSL conversion
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://github.com/GafferHQ/gaffer/blob/main/startup/GafferOSL/shaderNameCompatibility.py
+        title: GafferHQ/gaffer — GafferOSL MaterialX shader compatibility startup config
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: partial
+    notes: >-
+      IECoreArnold::ShaderNetworkAlgo converts MaterialX ND_standard_surface_surfaceshader nodes from USD into Arnold
+      standard_surface shaders (including coat, sheen, transmission, thin_walled, and subsurface parameters), and
+      ArnoldShader authors native Arnold standard_surface.
+    gaps:
+      - Gaffer does not author or export MaterialX standard_surface documents directly.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo convertUSDMaterialXSurface
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: none
+    notes: >-
+      Although Gaffer 1.6+ bundles MaterialX 1.39.x standard libraries with OpenPBR definitions,
+      IECoreArnold::ShaderNetworkAlgo and Gaffer's shader menus do not yet translate or expose MaterialX
+      open_pbr_surface.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/IECoreArnold/ShaderNetworkAlgo.cpp
+        title: GafferHQ/gaffer — IECoreArnold::ShaderNetworkAlgo surface shader converters
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.preview_surface
+    level: native
+    notes: >-
+      GafferUSD.USDShader and IECoreUSD::ShaderAlgo provide full authoring, import, export, and multi-renderer
+      translation for UsdPreviewSurface, UsdUVTexture, UsdTransform2d, and UsdPrimvarReader_* nodes.
+    sources:
+      - url: https://github.com/GafferHQ/gaffer/blob/main/src/GafferUSD/USDShader.cpp
+        title: GafferHQ/gaffer — GafferUSD::USDShader implementation
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: "UsdGeomSubset per-face material bindings are not translated on import or export"
+    url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/MeshAlgo.cpp
+    capability: usd.geom.meshes
+    status: open
+    affects: "1.3+"
+    severity: major
+    verified: 2026-11-04
+
+  - title: "UsdVolVolume only loads grids from the first OpenVDB file and only exports disk-backed VDBs"
+    url: https://github.com/ImageEngine/cortex/blob/main/contrib/IECoreUSD/src/IECoreUSD/VolumeAlgo.cpp
+    capability: usd.volumes
+    status: open
+    affects: "1.3+"
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "SceneReader and SceneWriter do not read or write UsdRenderSettings schemas"
+    url: https://github.com/GafferHQ/gaffer/issues/6162
+    capability: usd.render_settings
+    status: open
+    affects: "1.3+"
+    severity: minor
+    verified: 2026-11-04

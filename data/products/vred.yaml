@@ -1,0 +1,351 @@
+name: VRED
+vendor: Autodesk
+categories: [lookdev, cad, renderer]
+industries: [automotive, product-design, manufacturing]
+license: commercial
+website: https://www.autodesk.com/products/vred/overview
+tier: 2
+summary: >-
+  Autodesk's automotive 3D visualization and virtual prototyping software. Supports MaterialX (including OpenPBR Surface
+  and Standard Surface) and MDL materials since 2024, and imports and exports USD (.usd, .usda, .usdc, .usdz) scenes
+  since 2025.
+
+releases:
+  - version: "2024.0"
+    date: 2023-03
+    notes: Added MaterialX (.mtlx) and NVIDIA MDL material import and rendering in the Material Editor.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "2024.1"
+    date: 2023-09
+    notes: Added displacement mapping and procedural noise support for MaterialX and MDL across OpenGL, CPU raytracing, and GPU raytracing.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2024/wn-20241/mdlmatx-vred-20241.html
+        title: VRED 2024.1 What's New — MDL and MaterialX Updates
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.0"
+    date: 2024-03
+    notes: Added scene import and export for .usd, .usda, .usdc, and .usdz via ATF (Automated Translation Framework), including tessellated meshes, cameras, lights, and linear keyframe animation.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2025.1"
+    date: 2024-08
+    materialx: "1.38.9"
+    notes: >-
+      Bundled MaterialX 1.38.9 and MDL 2023.1.4. Added vertex cache animation export to USD, multiple UV sets on USD
+      polygon meshes, improved Glass/Chrome/Brushed Metal USD conversion, and non-ASCII (CHS/JPN/KOR) filename support.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20251/usd-vred-20251.html
+        title: VRED 2025.1 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "2026.1"
+    date: 2025-09
+    materialx: "1.39.3"
+    notes: Upgraded the MaterialX SDK to 1.39.3 (adding OpenPBR Surface support) and the MDL SDK to 2024.1.1.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+
+  - version: "2027.1"
+    date: 2026-09
+    notes: >-
+      Added MaterialX Thin Film and Fuzz support in Vulkan and precomputed ray tracing, MaterialX NPR nodes
+      (viewdirection, facingratio, gooch_shade), geompropvalue and time node support, cutout transparency, and
+      per-material raytracing compilation optimization modes.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/whatsnew-vred-2027/wn-20271/mdlmatx-vred-20271.html
+        title: VRED 2027.1 What's New — MaterialX & MDL Improvements
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-ReleaseNotes/files/VRED_ReleaseNotes_rn_VRED_2027_1_html.html
+        title: VRED 2027.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
+
+support:
+  # ── Interchange ────────────────────────────────────────────────────────────
+  - capability: usd.import
+    level: native
+    since: "2025.0"
+    notes: >-
+      Imports .usd, .usda, .usdc, and .usdz files via Autodesk's ATF translator, preserving scene graph structure,
+      node names, metadata, meshes, surfaces (tessellated on import), curves/polylines, cameras, lights, image textures,
+      and keyframe/vertex-cache animations.
+    gaps:
+      - Geometry is imported as tessellated meshes rather than retaining editable NURBS CAD data in USD.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/Preferences/FileIO-Preferences/VRED_Preferences_FileIO_Preferences_USD_Preferences.html
+        title: VRED Help — USD Preferences
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.export
+    level: native
+    since: "2025.0"
+    notes: >-
+      Exports VRED scenes to .usd, .usda, .usdc, and .usdz, writing tessellated geometry, graph hierarchy, metadata,
+      cameras, lights, image textures, and linear or vertex-cache animations (2025.1+).
+    gaps:
+      - Initial 2025.0 USD material export was limited to diffuse colors and image textures, expanded in 2025.1 with conversions for Glass, Chrome, and Brushed Metal.
+      - Only tessellated geometry is exported to USD.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20251/usd-vred-20251.html
+        title: VRED 2025.1 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.usdz
+    level: native
+    since: "2025.0"
+    notes: .usdz archives are supported for both scene import and export alongside .usd, .usda, and .usdc.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── Scene description ──────────────────────────────────────────────────────
+  - capability: usd.geom.meshes
+    level: native
+    since: "2025.0"
+    notes: >-
+      Imports and exports tessellated polygon meshes with UV mappings; 2025.1 added support for importing multiple UV
+      sets (such as material and lightmap UVs) on polygon meshes.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20251/usd-vred-20251.html
+        title: VRED 2025.1 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: partial
+    since: "2025.0"
+    notes: >-
+      The USD Import Preferences include a Curves and Polygon Lines option (Import none, Import visible, or Import all).
+    gaps:
+      - NURBS surfaces are tessellated according to Chord Deviation and Normal Tolerance settings on import.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/Preferences/FileIO-Preferences/VRED_Preferences_FileIO_Preferences_USD_Preferences.html
+        title: VRED Help — USD Preferences
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.animation
+    level: partial
+    since: "2025.0"
+    notes: >-
+      Supports linear animation curve interpolation and polygon mesh keyframe animation on import and export; 2025.1
+      added vertex cache animation import/export and a Reduce Constant Keyframes import option.
+    gaps:
+      - Animation curve support is documented for basic linear interpolation rather than general spline tangents.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20251/usd-vred-20251.html
+        title: VRED 2025.1 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.cameras
+    level: partial
+    since: "2025.0"
+    notes: >-
+      Imports and exports camera transform, f-stop, near/far clipping planes, perspective/orthographic projection,
+      sensor size, horizontal field of view, focal length, and principal point offset.
+    gaps:
+      - Only horizontal field of view mode is supported for USD cameras, and camera constraints are not taken into account.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    since: "2025.0"
+    notes: >-
+      Imports and exports point, spherical, spot (with cone angle and penumbra), directional, disk, and rectangular
+      lights, including intensity, color, color temperature, and shadow intensity.
+    gaps:
+      - Shadow intensity may vary slightly from the original, and dome lights are not listed among supported USD light types in 2025.0.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+        title: VRED 2025 What's New — USD Import and Export
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  # ── MaterialX ──────────────────────────────────────────────────────────────
+  - capability: mtlx.import
+    level: native
+    since: "2024.0"
+    notes: >-
+      MaterialX (.mtlx) definitions load directly into the Material Editor (Create Material > MaterialX) and expose
+      their editable attributes in the VRED UI and via the vrdMaterialXMaterial Python API.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: none
+    notes: >-
+      VRED's documentation explicitly states that it is not yet possible to create MaterialX or MDL materials from
+      scratch in VRED and that there is no node-based material editor; only exposed parameters of imported .mtlx
+      definitions can be edited.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    since: "2024.0"
+    notes: >-
+      Renders MaterialX materials across OpenGL, Vulkan (2026+), and CPU/GPU raytracing (both Precomputed Illumination
+      and Full GI modes), including procedural noises, heightmap displacement (2024.1+), geompropvalue and time nodes
+      (2027.1+), and NPR nodes (viewdirection, facingratio, gooch_shade in 2027.1+).
+    gaps:
+      - Only heightmap displacement is supported; vector displacement uses only the projection onto the surface normal, and displacement is evaluated in object space only.
+      - Thin Film and Fuzz are not supported in the OpenGL rasterizer (supported in Full GI raytracing, and in Vulkan and precomputed raytracing since 2027.1).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/whatsnew-vred-2027/wn-20271/mdlmatx-vred-20271.html
+        title: VRED 2027.1 What's New — MaterialX & MDL Improvements
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: native
+    since: "2024.0"
+    notes: >-
+      Compiles loaded MaterialX documents into GPU/CPU raytracing shaders and distilled shaders for Vulkan and OpenGL.
+      2027.1 adds a per-material Optimize for setting in raytracing to choose between Render Performance (instance
+      compilation) and Editing Attributes (class compilation).
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/whatsnew-vred-2027/wn-20271/mdlmatx-vred-20271.html
+        title: VRED 2027.1 What's New — MaterialX & MDL Improvements
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.standard_surface
+    level: native
+    since: "2024.0"
+    notes: >-
+      MaterialX Standard Surface materials are supported in VRED; 2027.1 extended Thin Film and Fuzz support on
+      Standard Surface from Full GI raytracing to Vulkan and precomputed raytracing.
+    gaps:
+      - Thin Film and Fuzz on Standard Surface are unavailable in the OpenGL render mode.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/whatsnew-vred-2027/wn-20271/mdlmatx-vred-20271.html
+        title: VRED 2027.1 What's New — MaterialX & MDL Improvements
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+  - capability: mtlx.openpbr
+    level: native
+    since: "2026.1"
+    notes: >-
+      VRED 2026.1 upgraded to MaterialX 1.39.3 and added OpenPBR Surface support; 2027.1 added Thin Film and Fuzz
+      support for OpenPBR Surface in Vulkan and precomputed raytracing in addition to Full GI raytracing.
+    gaps:
+      - Thin Film and Fuzz on OpenPBR Surface are unavailable in the OpenGL render mode.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+        title: VRED Help — MaterialX and MDL
+        kind: docs
+        accessed: 2026-11-04
+      - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/whatsnew-vred-2027/wn-20271/mdlmatx-vred-20271.html
+        title: VRED 2027.1 What's New — MaterialX & MDL Improvements
+        kind: release-notes
+        accessed: 2026-11-04
+    confidence: high
+    verified: 2026-11-04
+
+issues:
+  - title: Importing a USD file without UVs but with UV-mapped MaterialX materials caused rendering artifacts on geometry
+    url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20251/usd-vred-20251.html
+    capability: usd.import
+    status: fixed
+    affects: "2025.0"
+    fixedIn: "2025.1"
+    verified: 2026-11-04
+
+  - title: Non-ASCII (CHS/JPN/KOR) characters in node, material, texture, or MaterialX filenames prevented USD export
+    url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-WhatsNew/files/wn-whatsnewinvredprevious/whatsnew-vred-2025/wn-20250/usd-vred-2025.html
+    capability: usd.export
+    status: fixed
+    affects: "2025.0"
+    fixedIn: "2025.1"
+    severity: major
+    verified: 2026-11-04
+
+  - title: MaterialX displacement mapping on transparent materials shows visible artifacts in OpenGL mode
+    url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/VRED-Editors-and-Modules/Materials/VRED-Materials-Reference/VRED_Truelight_Materials_MaterialX.html
+    capability: mtlx.render
+    status: open
+    affects: "2024.1–2027.1"
+    severity: minor
+    verified: 2026-11-04

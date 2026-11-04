@@ -1,0 +1,574 @@
+name: 3Delight
+vendor: Illumination Research
+categories: [renderer]
+industries: [film-tv, vfx, animation]
+license: commercial
+website: https://www.3delight.com/
+tier: 2
+summary: >
+  Path-tracing production renderer built on the Nodal Scene Interface (NSI) and
+  Open Shading Language (OSL), with the open-source HydraNSI (hdNSI) Hydra
+  render delegate for Houdini Solaris, Katana, and usdview, plus native
+  UsdPreviewSurface and MaterialX network rendering.
+
+releases:
+  - version: "2.9.208"
+    date: 2026-08-12
+    notes: >
+      Added attributes to control caustics in Houdini Solaris and 3Delight for
+      Katana, fixed rendering of complex scenes with multiple levels of
+      instancing, and fixed a potential performance issue with OpenVDB
+      particles.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.208)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfK/Changelog
+        title: "3Delight for Katana — Changelog (2.9.208)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2.9.207"
+    date: 2026-07-14
+    notes: >
+      Improved UsdPreviewSurface (adding opacityMode and opacityThreshold
+      support) and UsdUVTexture (fixing scale/bias, default alpha fallback, and
+      channel replication) OSL shaders in hdNSI.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.207)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/osl/UsdPreviewSurface.osl
+        title: "3Delight/HydraNSI — hdNSI/osl/UsdPreviewSurface.osl"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2.9.200"
+    date: 2026-06-02
+    notes: >
+      Fixed motion blur sampling in Solaris with Houdini 21.0 and updated hdNSI
+      to use streamlined Cryptomatte ID output in 3Delight.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.200)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderPass.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderPass.cpp"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2.9.195"
+    date: 2026-03-23
+    notes: >
+      Added support for rendering MaterialX shading networks in 3Delight Core
+      and exporting MaterialX networks in hdNSI.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.195)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (MaterialX network export)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2.9.194"
+    date: 2026-03-09
+    notes: >
+      Added support for radiance environment textures packaged inside USDZ
+      archives.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.194)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2.9.192"
+    date: 2026-02-03
+    notes: >
+      Added support for rendering OpenVDB points (vdbparticles) in 3Delight
+      Core, Houdini, and hdNSI.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.192)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/volume.cpp
+        title: "3Delight/HydraNSI — hdNSI/volume.cpp (vdbparticles support)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - version: "2.9.187"
+    date: 2025-11-09
+    usd: "25.05"
+    notes: >
+      Added Houdini 21.0 (USD 25.05) support, removed Houdini 19.5 support, and
+      fixed OpenVDB velocity blur for centered and non-centered shutter modes.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.187)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - version: "2.9.145"
+    date: 2025-01-31
+    notes: >
+      Added support for PNG and JPEG textures embedded inside USDZ archives,
+      automatically extracting and converting them with tdlmake.
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.145)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (AnnotateUSDZ)"
+        kind: repo
+        accessed: 2026-11-04
+
+support:
+  - capability: usd.hydra.delegate
+    level: native
+    hosts: [houdini, katana, maya]
+    notes: >
+      3Delight's open-source HydraNSI (hdNSI) render delegate translates Hydra
+      scene primitives into Nodal Scene Interface (NSI) API calls for
+      interactive and batch rendering in Houdini Solaris (viewport and husk),
+      usdview, Katana (built with FindKatanaUSD.cmake), and Maya via Multiverse
+      USD. Supports NSI stream export (nsi:apistream / HDNSI_TRACE), 3Delight
+      Display output, and multi-frame 3Delight Cloud sequence contexts. Built
+      against USD 19.11 through 26.08+.
+    gaps:
+      - "Katana Hydra integration is marked experimental in the HydraNSI documentation."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/README.md
+        title: "3Delight/HydraNSI — README.md"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderDelegate.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderDelegate.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/cmake/modules/FindKatanaUSD.cmake
+        title: "3Delight/HydraNSI — cmake/modules/FindKatanaUSD.cmake"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.render_settings
+    level: native
+    hosts: [houdini, katana]
+    notes: >
+      hdNSI implements HdRenderSettings Bprims and HdNSIRenderSettingsPlugin
+      (registering HdsiRenderSettingsFilteringSceneIndex), plus global NSI
+      settings (shading, pixel, volume, and caustic samples; max diffuse,
+      reflection, refraction, and hair ray depths; clamping; IPR denoising;
+      DoF; sky light) and custom render products (nsi:exr, nsi:deepexr,
+      nsi:deepalphaexr, nsi:dwaaexr, nsi:display, nsi:apistream). Supports
+      custom AOVs, LPEs, and Cryptomatte ID output (updated in May–June 2026).
+    gaps:
+      - "Changing sample counts in live render triggers a full re-render from scratch (#22)."
+      - "Cryptomatte AOV setup in Solaris requires matching render var data type and layer configuration (#47)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderSettings.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderSettings.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderSettingsPlugin.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderSettingsPlugin.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderPass.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderPass.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/work_items/22
+        title: "3Delight/HydraNSI Issue #22 — Updating render settings triggers a full re-render"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: usd.geom.meshes
+    level: native
+    notes: >
+      HdNSIMesh supports polygon meshes, Catmull-Clark subdivision surfaces with
+      corner and crease sharpness tags, GeomSubsets face-set material
+      assignments, smooth normal generation, left/right-handed winding order,
+      face culling (added Oct 2026), arbitrary primvars, and nsi:object:*
+      visibility, caustics, matte, and prelit object attributes.
+    gaps:
+      - "Only the catmull-clark subdivision scheme is enabled on NSI meshes; bilinear and loop schemes are treated as unsubdivided polygon meshes."
+      - "Subdivision holeIndices are not exported in HdNSIMesh."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/mesh.cpp
+        title: "3Delight/HydraNSI — hdNSI/mesh.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/rprimBase.cpp
+        title: "3Delight/HydraNSI — hdNSI/rprimBase.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/primvars.cpp
+        title: "3Delight/HydraNSI — hdNSI/primvars.cpp"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.geom.curves
+    level: native
+    notes: >
+      HdNSICurves translates UsdGeomBasisCurves into NSI curves primitives with
+      linear, catmull-rom, and b-spline bases, per-point widths, normals,
+      displayColor, and arbitrary primvars.
+    gaps:
+      - "Bezier basis curves are not directly supported in HdNSICurves and fall back to the catmull-rom basis."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/curves.cpp
+        title: "3Delight/HydraNSI — hdNSI/curves.cpp"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.geom.points
+    level: native
+    notes: >
+      HdNSIPointCloud translates UsdGeomPoints into NSI particles primitives
+      with per-point widths, normals, displayColor, time-sampled motion blur,
+      and arbitrary primvars. OpenVDB points grids are also supported via
+      vdbparticles nodes since 2.9.192.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/pointcloud.cpp
+        title: "3Delight/HydraNSI — hdNSI/pointcloud.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.192 OpenVDB points)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.volumes
+    level: native
+    notes: >
+      HdNSIVolume translates Hydra volume Rprims and openvdbAsset fields into
+      NSI volume nodes (binding density, color, temperature, emission,
+      emissionintensity, and velocity grids plus velocityscale) and
+      automatically separates OpenVDB points grids into NSI vdbparticles
+      primitives (since 2.9.192). Primvar export on volume objects was added in
+      September 2026.
+    gaps:
+      - "HdNSIVolume only supports a single OpenVDB file path per volume primitive; fields referencing a second file path on the same prim are skipped."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/volume.cpp
+        title: "3Delight/HydraNSI — hdNSI/volume.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.192)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.instancing
+    level: native
+    notes: >
+      HdNSIPointInstancer and HdNSIRprimBase support both USD native scenegraph
+      instancing and UsdGeomPointInstancer, including nested instancers,
+      multiple prototypes, time-sampled instance transforms, instanceId AOV
+      attributes, and per-instance primvars.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/pointInstancer.cpp
+        title: "3Delight/HydraNSI — hdNSI/pointInstancer.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.208 instancing fixes)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.animation
+    level: native
+    notes: >
+      hdNSI exports time-sampled transform matrices, deforming vertex/primvar
+      samples (via SamplePrimvar across camera shutter intervals), and
+      time-sampled PointInstancer transforms into NSI SetAttributeAtTime calls,
+      plus optional quadratic acceleration blur via HdNSIAccelerationBlurPlugin.
+      (Note: the top-level README.md still lists Motion Blur under Missing
+      Features from 2020, but full time-sampled transform, primvar, instancer,
+      and volume velocity blur are implemented in rprimBase.cpp, primvars.cpp,
+      and pointInstancer.cpp.)
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/rprimBase.cpp
+        title: "3Delight/HydraNSI — hdNSI/rprimBase.cpp (ExportTransform time sampling)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/primvars.cpp
+        title: "3Delight/HydraNSI — hdNSI/primvars.cpp (SamplePrimvar motion blur)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/accelerationBlurPlugin.cpp
+        title: "3Delight/HydraNSI — hdNSI/accelerationBlurPlugin.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.200 Solaris motion blur fix)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.skel
+    level: partial
+    notes: >
+      hdNSI registers extComputation Sprims in HdNSIRenderDelegate and evaluates
+      HdExtComputationUtils::GetComputedPrimvarValues in HdNSIPrimvars::Sync,
+      allowing Hydra's usdSkelImaging skinning computations to deform meshes in
+      Solaris and usdview.
+    gaps:
+      - "The HydraNSI README lists native UsdSkel handling as a missing feature; skinning relies on Hydra's CPU extComputation primvar evaluation rather than native NSI skeletal deformation."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/renderDelegate.cpp
+        title: "3Delight/HydraNSI — hdNSI/renderDelegate.cpp (extComputation Sprim)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/primvars.cpp
+        title: "3Delight/HydraNSI — hdNSI/primvars.cpp (GetComputedPrimvarValues)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/README.md
+        title: "3Delight/HydraNSI — README.md"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.lights
+    level: native
+    notes: >
+      HdNSILight supports CylinderLight, DiskLight, DistantLight, DomeLight
+      (including domeOffset, custom dome shaders, and USDZ textures),
+      RectLight, SphereLight, SpotLights (via shapingConeAngle), and
+      LightFilters (HdNSILightFilter), along with UsdLux color temperature,
+      shaping focus, IES profiles (shaping:ies:file, angleScale, normalize),
+      Houdini barndoors, light linking categories, LPE tags, and nsi:light:*
+      ray contribution and caustics attributes.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/light.cpp
+        title: "3Delight/HydraNSI — hdNSI/light.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/lightFilter.cpp
+        title: "3Delight/HydraNSI — hdNSI/lightFilter.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/osl/UsdLuxLight.osl
+        title: "3Delight/HydraNSI — hdNSI/osl/UsdLuxLight.osl"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.cameras
+    level: native
+    notes: >
+      HdNSICamera and HdNSICameraData translate perspective and orthographic
+      USD cameras with depth of field (focalLength, fStop, focusDistance),
+      clipping range, shutter intervals, time-sampled camera motion blur, and
+      custom 3Delight camera extensions (shutter efficiency, lens squeeze,
+      aperture blades/rotation, and dlLensDistortion shader).
+    gaps:
+      - "Stage metersPerUnit does not scale camera focalLength, horizontalAperture, or verticalAperture in hdNSI (#34)."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/camera.cpp
+        title: "3Delight/HydraNSI — hdNSI/camera.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/cameraData.cpp
+        title: "3Delight/HydraNSI — hdNSI/cameraData.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/work_items/34
+        title: "3Delight/HydraNSI Issue #34 — Camera settings are not respecting Meters Per Unit"
+        kind: issue
+        accessed: 2026-11-04
+
+  - capability: usd.shade.preview_surface
+    level: native
+    notes: >
+      hdNSI includes native OSL implementations of UsdPreviewSurface (supporting
+      metallic and specular workflows, clearcoat, ior, opacity, opacityMode,
+      opacityThreshold, normal maps, and connected downstream surface outputs),
+      UsdUVTexture (with UDIM and USDZ package path support), UsdTransform2d,
+      and UsdPrimvarReader (float, float2, float3, int, normal, point, string,
+      vector).
+    gaps:
+      - "UsdPreviewSurface displacement and occlusion inputs are declared on the OSL shader but not evaluated."
+      - "Normal map tangent basis calculation in UsdPreviewSurface.osl assumes the UV attribute is named st."
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/osl/UsdPreviewSurface.osl
+        title: "3Delight/HydraNSI — hdNSI/osl/UsdPreviewSurface.osl"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/osl/UsdUVTexture.osl
+        title: "3Delight/HydraNSI — hdNSI/osl/UsdUVTexture.osl"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.207 UsdPreviewSurface improvements)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: usd.shade.native
+    level: native
+    notes: >
+      3Delight registers all compiled OSL shaders (.oso) with USD's Sdr registry
+      via HdNSIDiscoveryPlugin and HdNSIOsoParserPlugin (and Omniverse MDL
+      OmniPBR/OmniGlass shaders via HdNSIMdlParserPlugin), and exports surface,
+      displacement, volume, and lightFilter UsdShade networks to NSI shader
+      nodes.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/discoveryPlugin.cpp
+        title: "3Delight/HydraNSI — hdNSI/discoveryPlugin.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/osoParserPlugin.cpp
+        title: "3Delight/HydraNSI — hdNSI/osoParserPlugin.cpp"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.shade.materialx
+    level: native
+    since: "2.9.195"
+    notes: >
+      Added in 3Delight 2.9.195 (March 2026). HdNSIMaterial detects MaterialX
+      UsdShade networks via the mtlx:version network configuration or USD's Sdr
+      registry (mtlx source type) and exports each node to NSI with
+      materialxversion and materialxnodedef attributes, remapping colorSpace:*
+      metadata and UDIM/USDZ texture paths.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.195 MaterialX networks)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (ExportNetworks & ExportNode)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: usd.usdz
+    level: partial
+    since: "2.9.145"
+    notes: >
+      Since 3Delight 2.9.145 and 2.9.194, hdNSI annotates package-relative asset
+      paths inside .usdz files (using SdfZipFile / UsdZipFile offsets) and
+      3Delight Core automatically extracts and converts embedded PNG, JPEG, and
+      radiance environment textures with tdlmake.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.145 & 2.9.194 USDZ texture support)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (AnnotateUSDZ)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: mtlx.render
+    level: native
+    since: "2.9.195"
+    notes: >
+      3Delight 2.9.195 added native support for rendering MaterialX shading
+      networks in 3Delight Core, accepting NSI shader nodes parameterized with
+      materialxversion (1.38 and 1.39+) and materialxnodedef identifiers and
+      compiling them through 3Delight's OSL shading pipeline.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.195 MaterialX networks)"
+        kind: release-notes
+        accessed: 2026-11-04
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (materialxversion & materialxnodedef)"
+        kind: repo
+        accessed: 2026-11-04
+
+  - capability: mtlx.shadergen
+    level: native
+    since: "2.9.195"
+    notes: >
+      3Delight NSI uses OSL exclusively for all shading and evaluates MaterialX
+      node definitions (materialxnodedef) through OSL shader generation at
+      render time.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/README.md
+        title: "3Delight/HydraNSI — README.md (NSI & OSL architecture)"
+        kind: repo
+        accessed: 2026-11-04
+      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
+        title: "3Delight for Houdini — Changelog (2.9.195 MaterialX networks)"
+        kind: release-notes
+        accessed: 2026-11-04
+
+  - capability: mtlx.color_management
+    level: native
+    since: "2.9.195"
+    notes: >
+      HdNSIMaterial inspects USD colorSpace:* metadata on MaterialX shader
+      parameters and forwards them to 3Delight NSI as parameter.meta.colorspace
+      string attributes.
+    confidence: high
+    verified: 2026-11-04
+    sources:
+      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
+        title: "3Delight/HydraNSI — hdNSI/material.cpp (FindColorSpace & meta.colorspace)"
+        kind: repo
+        accessed: 2026-11-04
+
+issues:
+  - title: "Cryptomatte AOVs in Solaris default to float data type and lack Nuke metadata"
+    url: https://gitlab.com/3Delight/HydraNSI/-/work_items/47
+    capability: usd.render_settings
+    status: open
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "Camera focalLength and aperture settings in hdNSI do not respect stage metersPerUnit"
+    url: https://gitlab.com/3Delight/HydraNSI/-/work_items/34
+    capability: usd.cameras
+    status: open
+    severity: minor
+    verified: 2026-11-04
+
+  - title: "Updating render settings (such as sample counts) triggers a full re-render from scratch"
+    url: https://gitlab.com/3Delight/HydraNSI/-/work_items/22
+    capability: usd.render_settings
+    status: open
+    severity: minor
+    verified: 2026-11-04

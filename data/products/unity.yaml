@@ -260,23 +260,3 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-
-  # ── MaterialX ────────────────────────────────────────────────────────────
-  - capability: mtlx.export
-    level: partial
-    notes: >-
-      Unity's PolySpatial package for visionOS converts Shader Graph materials to MaterialX so they can
-      be displayed on Apple Vision Pro and in its simulator. It is a separately installed package, and the
-      conversion is internal rather than a general .mtlx file export.
-    gaps:
-      - Only Shader Graphs with the Universal or Built-In target convert.
-      - Unsupported nodes are flagged with a # symbol in the editor and do not convert.
-      - Texture sampler settings are ignored, so filtering and wrapping need a Sampler State node.
-    sources:
-      - url: https://docs.unity3d.com/Packages/com.unity.polyspatial.visionos@3.3/manual/ShaderGraph.html
-        title: PolySpatial visionOS 3.3 — Shader Graph support
-        kind: docs
-        accessed: 2026-11-04
-    confidence: high
-    verified: 2026-11-04
-    review: Mapping PolySpatial's internal Shader Graph-to-MaterialX conversion to mtlx.export is an interpretation; Unity documents no other MaterialX import or export.

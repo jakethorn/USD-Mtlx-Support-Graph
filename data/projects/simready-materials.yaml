@@ -1,0 +1,14 @@
+name: Physical AI SimReady Materials
+repo: NVIDIA-Omniverse/PhysicalAI-SimReady-Materials
+tech: [usd, materialx]
+kind: sample-assets
+description: >-
+  NVIDIA's open-source library of calibrated OpenUSD and MaterialX materials and textures for physical AI and simulation
+  workflows.
+tags: [materials, simulation, assets]
+sources:
+  - url: https://github.com/NVIDIA-Omniverse/PhysicalAI-SimReady-Materials
+    title: NVIDIA-Omniverse/PhysicalAI-SimReady-Materials README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

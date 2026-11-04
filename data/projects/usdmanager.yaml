@@ -1,0 +1,15 @@
+name: USD Manager
+repo: dreamworksanimation/usdmanager
+tech: [usd]
+kind: tool
+description: >-
+  DreamWorks Animation's Qt-based text browser and editor for navigating, inspecting and editing interconnected
+  human-readable USD (.usda) files.
+license: Apache-2.0
+tags: [editor, browser, qt]
+sources:
+  - url: https://github.com/dreamworksanimation/usdmanager
+    title: dreamworksanimation/usdmanager README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

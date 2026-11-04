@@ -195,10 +195,11 @@ support:
   - capability: usd.composition.references
     level: partial
     notes: >-
-      With the experimental Instancing export option, collection and object instances are written as references to
-      the original prim (meshes, curves and point clouds).
+      With the experimental Instancing export option, collection and object instances are written as internal
+      references to the original prim (meshes, curves and point clouds). On import, OpenUSD composes referenced
+      layers into the stage before Blender converts the prims into Blender objects.
     gaps:
-      - The manual says the importer does not yet handle references as a composition concept.
+      - The importer flattens referenced prims into Blender objects rather than preserving references as linked assets.
       - Reference authoring on export depends on an experimental option.
     sources:
       - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
@@ -207,13 +208,12 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Import-side wording ("does not yet handle ... references") is ambiguous; the level reflects export behaviour and
-      the manual's statement only.
 
   - capability: usd.composition.variants
     level: none
-    notes: The manual states that Blender does not (yet) export variants.
+    notes: >-
+      The manual states that Blender does not export variants, and the importer provides no UI to switch variant
+      sets (importing the stage's default variant selections).
     sources:
       - url: https://docs.blender.org/manual/en/latest/files/import_export/usd.html
         title: Blender 5.2 LTS Manual — Universal Scene Description
@@ -221,7 +221,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: The source only covers export; no documentation of variant selection on import was found.
 
   - capability: usd.instancing
     level: native
@@ -315,15 +314,16 @@ support:
         title: Blender 5.2 LTS Manual — Universal Scene Description
         kind: docs
         accessed: 2026-11-04
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.2-release/source/blender/io/usd/intern/usd_reader_nurbs.cc
+        title: usd_reader_nurbs.cc (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-04
       - url: https://projects.blender.org/blender/blender/issues/162342
         title: Materials bound to USD Curves get disconnected from geometry on import (#162342)
         kind: issue
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Sources conflict: the 5.2 manual says UsdGeomNurbsCurves import as meshes, while the 5.0 release notes say they
-      are now kept as Curves.
 
   - capability: usd.geom.points
     level: native
@@ -593,9 +593,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Interpretation: MaterialX here is an intermediate format for Hydra delegates, not general MaterialX rendering;
-      check whether "partial" is the right level.
 
   - capability: mtlx.openpbr
     level: partial
@@ -625,18 +622,19 @@ support:
     level: deprecated
     until: "4.5"
     notes: >-
-      MaterialX export wrote Principled BSDF as Standard Surface until 4.5, when it switched to OpenPBR Surface as the
-      closer match.
+      MaterialX export wrote Principled BSDF as Standard Surface until 4.5, when the exporter switched entirely to
+      OpenPBR Surface.
     sources:
       - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
         title: Blender 4.5 LTS release notes — Pipeline & I/O
         kind: release-notes
         accessed: 2026-11-04
-    confidence: medium
+      - url: https://projects.blender.org/blender/blender/src/branch/blender-v5.2-release/source/blender/nodes/shader/nodes/node_shader_bsdf_principled.cc
+        title: node_shader_bsdf_principled.cc (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-04
+    confidence: high
     verified: 2026-11-04
-    review: >-
-      Inferred from 4.5 release-note wording ("than the previous Standard Surface"); unclear whether Standard Surface is
-      still written in any case.
 
   # ── Rendering ────────────────────────────────────────────────────────────
   - capability: usd.hydra.host

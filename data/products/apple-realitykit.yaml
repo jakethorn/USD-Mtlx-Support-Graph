@@ -34,10 +34,11 @@ support:
     level: native
     notes: >-
       RealityKit loads .usd, .usda, .usdc and .usdz into entity hierarchies (Entity.load and the async
-      Entity initialisers). Reality Composer Pro imports USD files as read-only entity assets and compiles
-      projects to .reality files for apps.
+      Entity initialisers). Reality Composer Pro stores its own authored scenes as USDA inside its project
+      bundle, imports external USD files as read-only entity assets, and compiles projects to .reality files
+      for apps.
     gaps:
-      - Reality Composer Pro does not write edits back to the imported .usd source file, though it offers options to export changes back.
+      - Reality Composer Pro does not write edits back to an imported .usd asset automatically, though it offers options to export changes back.
       - USDKit's newer RealityKit backend does not support Apple's interactive behaviours.
     sources:
       - url: https://developer.apple.com/documentation/realitykit/loading-entities-from-a-file
@@ -54,7 +55,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: Apple's USD guide says Reality Composer Pro uses USDA as its native scene format, but the Reality Composer Pro 3 docs say projects don't use .usd as their file type; check which applies to version 3.
 
   - capability: usd.export
     level: native
@@ -183,10 +183,10 @@ support:
   - capability: usd.composition.payloads
     level: partial
     notes: >-
-      Apple's support table marks deferred payload loading as unsupported in RealityKit, while USDKit's
-      stage API takes a payload load rule when opening a stage.
+      USDKit's USDStage API (since version 27) accepts a payload load rule when opening a stage, whereas
+      Apple's support table marks deferred payload loading as unsupported when loading USD directly into RealityKit.
     gaps:
-      - RealityKit cannot defer payload loading.
+      - Direct RealityKit loading cannot defer payload loading.
     sources:
       - url: https://developer.apple.com/documentation/usd/validating-usd-files
         title: Validating feature support for USD files
@@ -196,9 +196,8 @@ support:
         title: USDKit — USDStage
         kind: docs
         accessed: 2026-11-04
-    confidence: medium
+    confidence: high
     verified: 2026-11-04
-    review: The support table and the USDKit payload load rule point different ways; unclear whether payloads left unloaded in USDKit stay unloaded when rendered by RealityKit.
 
   - capability: usd.instancing
     level: partial
@@ -454,9 +453,12 @@ support:
 
   - capability: mtlx.openpbr
     level: native
+    since: "27"
     notes: >-
-      Apple's WWDC26 USD session says the RealityKit, Storm and Raytracer renderers offered in Preview and
-      Quick Look all support OpenPBR.
+      Apple's WWDC26 USD session states that the RealityKit, Storm and Raytracer renderers in version 27
+      all support OpenPBR.
+    gaps:
+      - The Shader Graph documentation still references MaterialX 1.38 conventions and does not yet document OpenPBR authoring in Reality Composer Pro.
     sources:
       - url: https://developer.apple.com/videos/play/wwdc2026/285/
         title: Discover USDKit and what's new in OpenUSD (WWDC26)
@@ -464,14 +466,12 @@ support:
         accessed: 2026-11-04
     confidence: medium
     verified: 2026-11-04
-    review: Only a WWDC talk says this; the Shader Graph docs still cite MaterialX 1.38 conventions (OpenPBR arrived with MaterialX 1.39), so check whether OpenPBR reaches RealityKit apps and Reality Composer Pro or only the USDKit path.
 
 issues:
   - title: Shader graph of an imported asset fails on normal maps in Reality Composer Pro 3 (184117276)
     url: https://developer.apple.com/documentation/realitycomposerpro/reality-composer-pro-3-release-notes
     capability: usd.shade.materialx
     status: unknown
-    affects: "Reality Composer Pro 3"
+    affects: "Reality Composer Pro 3.0"
     severity: major
     verified: 2026-11-04
-    review: Listed as a known issue for Reality Composer Pro 3; the 3.1 notes no longer list it but don't say it was fixed.

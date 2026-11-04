@@ -1,0 +1,15 @@
+name: USD Shell Extension
+repo: Activision/USDShellExtension
+tech: [usd]
+kind: tool
+description: >-
+  Activision's Windows Explorer shell extension for inspecting, previewing, diffing and converting USD files from the
+  desktop context menu.
+license: Apache-2.0
+tags: [windows, shell, inspection]
+sources:
+  - url: https://github.com/Activision/USDShellExtension
+    title: Activision/USDShellExtension README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

@@ -1,0 +1,14 @@
+name: OpenUSD Proposals
+repo: PixarAnimationStudios/OpenUSD-proposals
+tech: [usd]
+kind: spec
+description: >-
+  Pixar and community design proposals for upcoming OpenUSD schemas, composition features, Hydra architectures and
+  specification changes.
+tags: [rfcs, specification]
+sources:
+  - url: https://github.com/PixarAnimationStudios/OpenUSD-proposals
+    title: PixarAnimationStudios/OpenUSD-proposals README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04

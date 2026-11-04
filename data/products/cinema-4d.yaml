@@ -165,9 +165,6 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
-    review: >-
-      Interpretation: the bridge converts USD into Cinema 4D objects but keeps a write-back link; the docs don't say
-      whether edits are authored as sparse USD opinions.
 
   - capability: usd.layer_editing
     level: partial
@@ -344,9 +341,6 @@ support:
         accessed: 2026-11-04
     confidence: medium
     verified: 2026-11-04
-    review: >-
-      Neither source names the exported shader schema; UsdPreviewSurface export is inferred from the channel list.
-      Import evidence is an undated staff forum reply.
 
   - capability: usd.shade.native
     level: partial
@@ -360,7 +354,6 @@ support:
         accessed: 2026-11-04
     confidence: medium
     verified: 2026-11-04
-    review: The staff reply is undated and may be outdated; the shipping help pages do not cover this.
 
   - capability: mtlx.openpbr
     level: native

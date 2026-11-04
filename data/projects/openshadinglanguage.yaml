@@ -1,0 +1,15 @@
+name: Open Shading Language (OSL)
+repo: AcademySoftwareFoundation/OpenShadingLanguage
+tech: [materialx]
+kind: library
+description: >-
+  ASWF's production shading language and compiler for physically based renderers, serving as a primary code-generation
+  target and closure execution backend for MaterialX.
+license: BSD-3-Clause
+tags: [aswf, shading-language, osl]
+sources:
+  - url: https://github.com/AcademySoftwareFoundation/OpenShadingLanguage
+    title: AcademySoftwareFoundation/OpenShadingLanguage README
+    kind: repo
+    accessed: 2026-11-04
+verified: 2026-11-04
