@@ -1,0 +1,7 @@
+name: USD from glTF
+repo: google/usd_from_gltf
+tech: [usd]
+kind: converter
+description: Google's library and command-line tool for converting glTF models to USDZ for AR Quick Look on iOS. The repository is archived.
+tags: [gltf, usdz, ar]
+verified: 2026-11-04

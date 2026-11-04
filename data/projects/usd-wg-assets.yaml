@@ -1,0 +1,7 @@
+name: USD Working Group assets
+repo: usd-wg/assets
+tech: [usd]
+kind: sample-assets
+description: Sample and test assets from the USD Working Group, useful for checking how applications handle specific USD features.
+tags: [test-assets]
+verified: 2026-11-04

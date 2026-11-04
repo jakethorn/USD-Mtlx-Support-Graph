@@ -10,7 +10,12 @@
     "preview": "astro preview",
     "check": "astro check",
     "validate": "tsx scripts/validate-data.ts",
-    "review": "tsx scripts/validate-data.ts --review"
+    "review": "tsx scripts/validate-data.ts --review",
+    "ingest": "python -I scripts/ingest/run_all.py",
+    "ingest:materialx": "python -I scripts/ingest/materialx_nodes.py",
+    "ingest:usd": "python -I scripts/ingest/usd_schemas.py",
+    "ingest:releases": "python -I scripts/ingest/releases.py",
+    "ingest:github": "python -I scripts/ingest/github_stats.py"
   },
   "dependencies": {
     "@astrojs/svelte": "^9.1.2",

@@ -1,15 +1,21 @@
 import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { capabilitySchema, productSchema } from './data/schema';
+import { capabilitySchema, productSchema, projectSchema } from './data/schema';
 import { parseDataYaml } from './data/yaml';
 
-// Collections for projects (data/projects/) and events (data/events.yaml) are added
-// once that data exists; their schemas already live in ./data/schema.ts.
+// The events collection (data/events.yaml) is added once that data exists; its schema
+// already lives in ./data/schema.ts. Machine-generated data (data/generated/*.json) is
+// imported directly via ./data/generated.ts rather than through collections.
 
 const products = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './data/products' }),
   schema: productSchema,
+});
+
+const projects = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './data/projects' }),
+  schema: projectSchema,
 });
 
 // The content store sorts entries by id, so record the file order (= display order).
@@ -20,4 +26,4 @@ const capabilities = defineCollection({
   schema: capabilitySchema.extend({ order: z.number().int() }),
 });
 
-export const collections = { products, capabilities };
+export const collections = { products, projects, capabilities };

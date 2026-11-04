@@ -1,0 +1,7 @@
+name: Radeon ProRender USD
+repo: GPUOpen-LibrariesAndSDKs/RadeonProRenderUSD
+tech: [usd]
+kind: plugin
+description: AMD's Radeon ProRender Hydra render delegate, bringing GPU- or CPU-accelerated rendering to USD applications.
+tags: [hydra-delegate, renderer]
+verified: 2026-11-04

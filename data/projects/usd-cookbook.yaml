@@ -1,0 +1,7 @@
+name: USD Cookbook
+repo: ColinKennedy/USD-Cookbook
+tech: [usd]
+kind: learning
+description: A collection of small example projects demonstrating USD concepts and its C++ and Python APIs.
+tags: [examples]
+verified: 2026-11-04

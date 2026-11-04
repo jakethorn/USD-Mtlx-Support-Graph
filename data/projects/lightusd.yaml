@@ -1,0 +1,7 @@
+name: LightUSD
+repo: lighttransport/LightUSD
+tech: [usd]
+kind: library
+description: A dependency-free, lightweight C++17 USD library, formerly known as TinyUSDZ.
+tags: [lightweight, embedded, web]
+verified: 2026-11-04

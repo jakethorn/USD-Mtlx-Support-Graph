@@ -1,0 +1,7 @@
+name: Arnold USD
+repo: Autodesk/arnold-usd
+tech: [usd]
+kind: plugin
+description: Open-source components for using Arnold with USD, including a Hydra render delegate, an Arnold procedural for USD and schemas describing Arnold scenes in USD.
+tags: [hydra-delegate, renderer]
+verified: 2026-11-04

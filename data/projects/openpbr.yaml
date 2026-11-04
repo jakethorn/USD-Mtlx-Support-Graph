@@ -1,0 +1,7 @@
+name: OpenPBR
+repo: AcademySoftwareFoundation/OpenPBR
+tech: [materialx]
+kind: spec
+description: Specification and reference implementation of the OpenPBR Surface shading model.
+tags: [shading-model, aswf]
+verified: 2026-11-04

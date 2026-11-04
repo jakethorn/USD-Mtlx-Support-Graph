@@ -126,6 +126,31 @@ function loadDir<S extends z.ZodType>(dir: string, schema: S): Map<string, { fil
   return out;
 }
 
+/** data/generated/*.json, written by scripts/ingest. Missing files are an error: the site imports them. */
+function readGenerated<T>(name: string): T | undefined {
+  const file = join(DATA, 'generated', name);
+  if (!existsSync(file)) {
+    errors.push({ file: rel(file), where: '(file)', message: 'missing: run `npm run ingest`' });
+    return undefined;
+  }
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')) as T;
+  } catch (e) {
+    errors.push({ file: rel(file), where: '(parse)', message: (e as Error).message });
+    return undefined;
+  }
+}
+
+type ReleasesFile = Record<'usd' | 'materialx', { releases: { version: string }[] }>;
+const generated = {
+  releases: readGenerated<ReleasesFile>('releases.json'),
+  githubStats: readGenerated<{ repos: Record<string, unknown> }>('github-stats.json'),
+  materialxNodes: readGenerated<{ latest: string }>('materialx-nodes.json'),
+  usdSchemas: readGenerated<{ latest: string }>('usd-schemas.json'),
+};
+const knownUsdVersions = new Set(generated.releases?.usd.releases.map((r) => r.version));
+const knownMtlxVersions = new Set(generated.releases?.materialx.releases.map((r) => r.version));
+
 const capabilitiesFile = join(DATA, 'capabilities.yaml');
 const capabilities: Capability[] = loadList(capabilitiesFile, capabilitySchema);
 const products = loadDir(join(DATA, 'products'), productSchema) as Map<string, { file: string; data: Product }>;
@@ -168,6 +193,12 @@ for (const [productId, { file, data: p }] of products) {
     versions.add(r.version);
     checkDate(r.date, file, `${where}.date`);
     r.sources.forEach((s, j) => checkDate(s.accessed, file, `${where}.sources[${j}].accessed`));
+    if (r.usd && knownUsdVersions.size && !knownUsdVersions.has(r.usd)) {
+      warnings.push({ file, where: `${where}.usd`, message: `"${r.usd}" is not a known OpenUSD release (data/generated/releases.json)` });
+    }
+    if (r.materialx && knownMtlxVersions.size && !knownMtlxVersions.has(r.materialx)) {
+      warnings.push({ file, where: `${where}.materialx`, message: `"${r.materialx}" is not a known MaterialX release (data/generated/releases.json)` });
+    }
     sourceCount += r.sources.length;
     if (r.review) reviewItems.push({ file, what: `${p.name} ${r.version} release`, reason: r.review });
   });
@@ -204,7 +235,15 @@ for (const [productId, { file, data: p }] of products) {
   });
 }
 
+const missingStats = (repo: string | undefined, file: string) => {
+  if (repo && generated.githubStats && !(repo in generated.githubStats.repos)) {
+    warnings.push({ file, where: 'repo', message: `no GitHub stats for ${repo} yet: run \`npm run ingest:github\`` });
+  }
+};
+for (const [, { file, data: p }] of products) missingStats(p.repo, file);
+
 for (const [, { file, data: proj }] of projects) {
+  missingStats(proj.repo, file);
   knownProducts(proj.hosts, file, 'hosts');
   checkDate(proj.verified, file, 'verified', { stale: true });
   sourceCount += proj.sources.length;
@@ -242,6 +281,11 @@ console.log(
   `\n${capabilities.length} capabilities · ${products.size} products · ${supportCount} support records · ` +
     `${projects.size} projects · ${events.length} events · ${sourceCount} sources · ` +
     `${reviewItems.length} flagged for review`,
+);
+console.log(
+  `generated: OpenUSD ${generated.usdSchemas?.latest ?? '?'} schemas · MaterialX ${generated.materialxNodes?.latest ?? '?'} nodes · ` +
+    `${knownUsdVersions.size} USD / ${knownMtlxVersions.size} MaterialX releases · ` +
+    `${Object.keys(generated.githubStats?.repos ?? {}).length} repos with GitHub stats`,
 );
 console.log(`${errors.length} error(s), ${warnings.length} warning(s)`);
 

@@ -1,0 +1,616 @@
+{
+  "usd": {
+    "name": "OpenUSD",
+    "repo": "PixarAnimationStudios/OpenUSD",
+    "releases": [
+      {
+        "version": "0.7.0",
+        "tag": "v0.7.0",
+        "date": "2016-08-08",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.0"
+      },
+      {
+        "version": "0.7.1",
+        "tag": "v0.7.1",
+        "date": "2016-09-23",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.1"
+      },
+      {
+        "version": "0.7.2",
+        "tag": "v0.7.2",
+        "date": "2016-12-10",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.2"
+      },
+      {
+        "version": "0.7.3",
+        "tag": "v0.7.3",
+        "date": "2017-02-09",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.3"
+      },
+      {
+        "version": "0.7.4",
+        "tag": "v0.7.4",
+        "date": "2017-03-07",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.4"
+      },
+      {
+        "version": "0.7.5",
+        "tag": "v0.7.5",
+        "date": "2017-05-02",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.5"
+      },
+      {
+        "version": "0.7.6",
+        "tag": "v0.7.6",
+        "date": "2017-07-01",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.7.6"
+      },
+      {
+        "version": "0.8.0",
+        "tag": "v0.8.0",
+        "date": "2017-08-01",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.0"
+      },
+      {
+        "version": "0.8.1",
+        "tag": "v0.8.1",
+        "date": "2017-10-03",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.1"
+      },
+      {
+        "version": "0.8.2",
+        "tag": "v0.8.2",
+        "date": "2017-12-08",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.2"
+      },
+      {
+        "version": "0.8.3",
+        "tag": "v0.8.3",
+        "date": "2018-02-06",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.3"
+      },
+      {
+        "version": "0.8.4",
+        "tag": "v0.8.4",
+        "date": "2018-03-07",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.4"
+      },
+      {
+        "version": "0.8.5",
+        "tag": "v0.8.5",
+        "date": "2018-05-12",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.5"
+      },
+      {
+        "version": "0.8.5a",
+        "tag": "v0.8.5a",
+        "date": "2018-05-23",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v0.8.5a"
+      },
+      {
+        "version": "18.09",
+        "tag": "v18.09",
+        "date": "2018-08-11",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v18.09"
+      },
+      {
+        "version": "18.11",
+        "tag": "v18.11",
+        "date": "2018-10-11",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v18.11"
+      },
+      {
+        "version": "19.01",
+        "tag": "v19.01",
+        "date": "2018-12-13",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v19.01"
+      },
+      {
+        "version": "19.03",
+        "tag": "v19.03",
+        "date": "2019-02-13",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v19.03"
+      },
+      {
+        "version": "19.05",
+        "tag": "v19.05",
+        "date": "2019-04-11",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v19.05"
+      },
+      {
+        "version": "19.07",
+        "tag": "v19.07",
+        "date": "2019-06-18",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v19.07"
+      },
+      {
+        "version": "19.11",
+        "tag": "v19.11",
+        "date": "2019-10-25",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v19.11"
+      },
+      {
+        "version": "20.02",
+        "tag": "v20.02",
+        "date": "2020-01-25",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v20.02"
+      },
+      {
+        "version": "20.05",
+        "tag": "v20.05",
+        "date": "2020-04-13",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v20.05"
+      },
+      {
+        "version": "20.08",
+        "tag": "v20.08",
+        "date": "2020-07-21",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v20.08"
+      },
+      {
+        "version": "20.11",
+        "tag": "v20.11",
+        "date": "2020-10-15",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v20.11"
+      },
+      {
+        "version": "21.02",
+        "tag": "v21.02",
+        "date": "2021-01-20",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v21.02"
+      },
+      {
+        "version": "21.05",
+        "tag": "v21.05",
+        "date": "2021-04-12",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v21.05"
+      },
+      {
+        "version": "21.08",
+        "tag": "v21.08",
+        "date": "2021-07-15",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v21.08"
+      },
+      {
+        "version": "21.11",
+        "tag": "v21.11",
+        "date": "2021-11-01",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v21.11"
+      },
+      {
+        "version": "22.03",
+        "tag": "v22.03",
+        "date": "2022-02-18",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.03"
+      },
+      {
+        "version": "22.05",
+        "tag": "v22.05",
+        "date": "2022-04-22",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.05"
+      },
+      {
+        "version": "22.05a",
+        "tag": "v22.05a",
+        "date": "2022-05-11",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.05a"
+      },
+      {
+        "version": "22.05b",
+        "tag": "v22.05b",
+        "date": "2022-06-15",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.05b"
+      },
+      {
+        "version": "22.08",
+        "tag": "v22.08",
+        "date": "2022-07-21",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.08"
+      },
+      {
+        "version": "22.11",
+        "tag": "v22.11",
+        "date": "2022-10-21",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v22.11"
+      },
+      {
+        "version": "23.02",
+        "tag": "v23.02",
+        "date": "2023-01-25",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v23.02"
+      },
+      {
+        "version": "23.05",
+        "tag": "v23.05",
+        "date": "2023-04-19",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v23.05"
+      },
+      {
+        "version": "23.08",
+        "tag": "v23.08",
+        "date": "2023-07-21",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v23.08"
+      },
+      {
+        "version": "23.11",
+        "tag": "v23.11",
+        "date": "2023-10-26",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v23.11"
+      },
+      {
+        "version": "24.03",
+        "tag": "v24.03",
+        "date": "2024-02-23",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v24.03"
+      },
+      {
+        "version": "24.05",
+        "tag": "v24.05",
+        "date": "2024-04-19",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v24.05"
+      },
+      {
+        "version": "24.08",
+        "tag": "v24.08",
+        "date": "2024-07-25",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v24.08"
+      },
+      {
+        "version": "24.11",
+        "tag": "v24.11",
+        "date": "2024-10-25",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v24.11"
+      },
+      {
+        "version": "25.02",
+        "tag": "v25.02",
+        "date": "2025-01-21",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.02"
+      },
+      {
+        "version": "25.02a",
+        "tag": "v25.02a",
+        "date": "2025-02-04",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.02a"
+      },
+      {
+        "version": "25.05",
+        "tag": "v25.05",
+        "date": "2025-04-28",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.05"
+      },
+      {
+        "version": "25.05.01",
+        "tag": "v25.05.01",
+        "date": "2025-05-20",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.05.01"
+      },
+      {
+        "version": "25.08",
+        "tag": "v25.08",
+        "date": "2025-07-31",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.08"
+      },
+      {
+        "version": "25.11",
+        "tag": "v25.11",
+        "date": "2025-10-24",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v25.11"
+      },
+      {
+        "version": "26.03",
+        "tag": "v26.03",
+        "date": "2026-02-24",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v26.03"
+      },
+      {
+        "version": "26.05",
+        "tag": "v26.05",
+        "date": "2026-04-24",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v26.05"
+      },
+      {
+        "version": "26.08",
+        "tag": "v26.08",
+        "date": "2026-07-20",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v26.08"
+      },
+      {
+        "version": "26.11.0",
+        "tag": "v26.11.0",
+        "date": "2026-10-20",
+        "kind": "major",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/tree/v26.11.0"
+      },
+      {
+        "version": "26.11.1",
+        "tag": "v26.11.1",
+        "date": "2026-10-21",
+        "kind": "patch",
+        "url": "https://github.com/PixarAnimationStudios/OpenUSD/releases/tag/v26.11.1"
+      }
+    ]
+  },
+  "materialx": {
+    "name": "MaterialX",
+    "repo": "AcademySoftwareFoundation/MaterialX",
+    "releases": [
+      {
+        "version": "1.35.2",
+        "tag": "v1.35.2",
+        "date": "2017-07-24",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.35.2"
+      },
+      {
+        "version": "1.35.3",
+        "tag": "v1.35.3",
+        "date": "2017-10-12",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.35.3"
+      },
+      {
+        "version": "1.35.4",
+        "tag": "v1.35.4",
+        "date": "2017-12-20",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.35.4"
+      },
+      {
+        "version": "1.35.5",
+        "tag": "v1.35.5",
+        "date": "2018-05-08",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.35.5"
+      },
+      {
+        "version": "1.36.0",
+        "tag": "v1.36.0",
+        "date": "2018-07-23",
+        "kind": "major",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.0"
+      },
+      {
+        "version": "1.36.1",
+        "tag": "v1.36.1",
+        "date": "2018-12-19",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.1"
+      },
+      {
+        "version": "1.36.2",
+        "tag": "v1.36.2",
+        "date": "2019-03-06",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.2"
+      },
+      {
+        "version": "1.36.3",
+        "tag": "v1.36.3",
+        "date": "2019-08-03",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.3"
+      },
+      {
+        "version": "1.36.4",
+        "tag": "v1.36.4",
+        "date": "2019-09-27",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.4"
+      },
+      {
+        "version": "1.36.5",
+        "tag": "v1.36.5",
+        "date": "2020-01-12",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.36.5"
+      },
+      {
+        "version": "1.37.0",
+        "tag": "v1.37.0",
+        "date": "2020-03-20",
+        "kind": "major",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.37.0"
+      },
+      {
+        "version": "1.37.1",
+        "tag": "v1.37.1",
+        "date": "2020-06-04",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.37.1"
+      },
+      {
+        "version": "1.37.2",
+        "tag": "v1.37.2",
+        "date": "2020-09-06",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.37.2"
+      },
+      {
+        "version": "1.37.3",
+        "tag": "v1.37.3",
+        "date": "2020-11-24",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.37.3"
+      },
+      {
+        "version": "1.37.4",
+        "tag": "v1.37.4",
+        "date": "2020-12-18",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.37.4"
+      },
+      {
+        "version": "1.38.0",
+        "tag": "v1.38.0",
+        "date": "2021-03-02",
+        "kind": "major",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.0"
+      },
+      {
+        "version": "1.38.1",
+        "tag": "v1.38.1",
+        "date": "2021-06-18",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.1"
+      },
+      {
+        "version": "1.38.2",
+        "tag": "v1.38.2",
+        "date": "2021-10-07",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.2"
+      },
+      {
+        "version": "1.38.3",
+        "tag": "v1.38.3",
+        "date": "2021-12-14",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.3"
+      },
+      {
+        "version": "1.38.4",
+        "tag": "v1.38.4",
+        "date": "2022-04-06",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.4"
+      },
+      {
+        "version": "1.38.5",
+        "tag": "v1.38.5",
+        "date": "2022-07-09",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.5"
+      },
+      {
+        "version": "1.38.6",
+        "tag": "v1.38.6",
+        "date": "2022-11-04",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.6"
+      },
+      {
+        "version": "1.38.7",
+        "tag": "v1.38.7",
+        "date": "2023-04-21",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.7"
+      },
+      {
+        "version": "1.38.8",
+        "tag": "v1.38.8",
+        "date": "2023-09-08",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.8"
+      },
+      {
+        "version": "1.38.9",
+        "tag": "v1.38.9",
+        "date": "2024-02-26",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.9"
+      },
+      {
+        "version": "1.38.10",
+        "tag": "v1.38.10",
+        "date": "2024-04-12",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.38.10"
+      },
+      {
+        "version": "1.39.0",
+        "tag": "v1.39.0",
+        "date": "2024-07-05",
+        "kind": "major",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.0"
+      },
+      {
+        "version": "1.39.1",
+        "tag": "v1.39.1",
+        "date": "2024-09-03",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.1"
+      },
+      {
+        "version": "1.39.2",
+        "tag": "v1.39.2",
+        "date": "2025-01-20",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.2"
+      },
+      {
+        "version": "1.39.3",
+        "tag": "v1.39.3",
+        "date": "2025-03-07",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.3"
+      },
+      {
+        "version": "1.39.4",
+        "tag": "v1.39.4",
+        "date": "2025-09-15",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.4"
+      },
+      {
+        "version": "1.39.5",
+        "tag": "v1.39.5",
+        "date": "2026-05-22",
+        "kind": "patch",
+        "url": "https://github.com/AcademySoftwareFoundation/MaterialX/releases/tag/v1.39.5"
+      }
+    ]
+  }
+}

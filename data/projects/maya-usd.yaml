@@ -1,0 +1,8 @@
+name: maya-usd
+repo: Autodesk/maya-usd
+tech: [usd]
+kind: plugin
+description: Autodesk's open-source USD plugin for Maya.
+hosts: [maya]
+tags: [dcc-plugin]
+verified: 2026-11-04

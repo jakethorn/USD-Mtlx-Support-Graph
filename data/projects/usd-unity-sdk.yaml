@@ -1,0 +1,7 @@
+name: USD Unity SDK
+repo: Unity-Technologies/usd-unity-sdk
+tech: [usd]
+kind: plugin
+description: Unity's original USD integration package. It was deprecated in November 2024 in favour of separate Unity USD importer, exporter and core packages.
+tags: [game-engine, deprecated]
+verified: 2026-11-04

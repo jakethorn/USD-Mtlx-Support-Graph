@@ -1,0 +1,8 @@
+name: OpenUSD
+repo: PixarAnimationStudios/OpenUSD
+url: https://openusd.org
+tech: [usd]
+kind: library
+description: Pixar's open-source framework for describing, composing and exchanging 3D scenes, and the reference implementation that every USD integration builds on.
+tags: [core, hydra, usdview]
+verified: 2026-11-04

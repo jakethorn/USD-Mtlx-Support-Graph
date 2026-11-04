@@ -6,8 +6,23 @@
 import Base from '../layouts/Base.astro';
 import { loadData } from '../lib/data';
 import { TECHS, PRODUCT_CATEGORIES } from '../data/schema';
+import { materialxNodes, releases, usdSchemas } from '../data/generated';
+import { withBase } from '../lib/url';
 
-const { products, capabilities } = await loadData();
+const { products, projects, capabilities } = await loadData();
+
+// ── generated-data facts (Phase 1) ──
+const usdFirst = usdSchemas.history[0];
+const usdLast = usdSchemas.history.at(-1)!;
+const usdReleases = releases.usd.releases;
+const usdMajors = usdReleases.filter((r) => r.kind === 'major');
+const mtlxLast = materialxNodes.history.at(-1)!;
+const mtlxFirst = materialxNodes.history[0];
+const mtlxLiveNodes = materialxNodes.nodes.filter((n) => !n.removedIn);
+const coverage = materialxNodes.targets
+  .filter((t) => t.id in mtlxLast.supported)
+  .map((t) => ({ ...t, pct: Math.round((100 * mtlxLast.supported[t.id]) / mtlxLast.nodedefs) }));
+const fmt = new Intl.NumberFormat('en');
 const capabilityById = new Map(capabilities.map((c) => [c.id, c]));
 
 const supportCount = products.reduce((n, p) => n + p.support.length, 0);
@@ -49,6 +64,7 @@ const byCategory = PRODUCT_CATEGORIES.map((cat) => ({
 
 const stats = [
   { value: products.length, label: 'products tracked' },
+  { value: projects.length, label: 'open-source projects' },
   { value: capabilities.length, label: 'capabilities per product' },
   { value: supportCount, label: 'sourced support records' },
   { value: sourceUrls.size, label: 'sources cited' },
@@ -98,6 +114,70 @@ const stats = [
                 </ul>
               </div>
             ))}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>Collected automatically</h2>
+    <p class="muted">Read straight from the upstream repositories and refreshed every week.</p>
+    <div class="facts">
+      <article class="fact-card usd">
+        <h3>OpenUSD {usdSchemas.latest}</h3>
+        <p class="big">{usdLast.schemas} <span>schemas</span></p>
+        <p class="muted">
+          {
+            `${usdLast.concrete} prim types and ${usdLast.api} API schemas across ${Object.keys(usdLast.byDomain).length} domains, ` +
+              `up from ${usdFirst.schemas} schemas in ${usdFirst.version}. ` +
+              `${usdReleases.length} releases since ${usdReleases[0].date.slice(0, 4)} (${usdMajors.length} scheduled).`
+          }
+        </p>
+        <a href={withBase('data/usd-schemas.json')}>usd-schemas.json</a>
+      </article>
+      <article class="fact-card materialx">
+        <h3>MaterialX {materialxNodes.latest}</h3>
+        <p class="big">{mtlxLiveNodes.length} <span>nodes</span></p>
+        <p class="muted">
+          {
+            `${fmt.format(mtlxLast.nodedefs)} type variants, up from ${fmt.format(mtlxFirst.nodedefs)} in ${mtlxFirst.version}. ` +
+              `Share supported by MaterialX's own code generators:`
+          }
+        </p>
+        <ul class="coverage" role="list">
+          {coverage.map((t) => (
+            <li>
+              <span>{t.label}</span>
+              <strong>{t.pct}%</strong>
+            </li>
+          ))}
+        </ul>
+        <a href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>Open-source ecosystem</h2>
+    <div class="projects">
+      {
+        projects.map((p) => (
+          <article class="project">
+            <header>
+              <a href={p.stats?.url ?? p.url} rel="noopener">
+                {p.name}
+              </a>
+              {p.stats && <span class="stars" title="GitHub stars">★ {fmt.format(p.stats.stars)}</span>}
+            </header>
+            <p class="muted">{p.description}</p>
+            <p class="meta">
+              <span class="kind">{p.kind}</span>
+              {p.tech.map((t) => (
+                <span class={`tech ${t}`}>{t === 'usd' ? 'USD' : 'MaterialX'}</span>
+              ))}
+              {p.stats?.archived && <span class="archived">archived</span>}
+            </p>
           </article>
         ))
       }
@@ -321,5 +401,117 @@ const stats = [
   .src {
     margin-left: auto;
     font-size: 0.8rem;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 16px;
+  }
+  .fact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--tech);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .fact-card.usd {
+    --tech: var(--usd);
+  }
+  .fact-card.materialx {
+    --tech: var(--mtlx);
+  }
+  .fact-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+  .big {
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 8px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .big span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  .fact-card a {
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+  }
+  .coverage {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 6px 16px;
+    padding: 0;
+    margin: 0 0 14px;
+    list-style: none;
+    font-size: 0.9rem;
+  }
+  .coverage li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed var(--border);
+  }
+  .coverage strong {
+    font-variant-numeric: tabular-nums;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 12px;
+  }
+  .project {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .project header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .project header a {
+    font-weight: 650;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .stars {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .project p {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+  }
+  .project .meta {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.75rem;
+  }
+  .meta span {
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+  }
+  .meta .tech.usd {
+    border-color: var(--usd);
+  }
+  .meta .tech.materialx {
+    border-color: var(--mtlx);
+  }
+  .meta .archived {
+    color: var(--level-none);
+    border-color: var(--level-none);
   }
 </style>

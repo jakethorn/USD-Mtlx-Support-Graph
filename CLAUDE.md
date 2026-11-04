@@ -8,6 +8,10 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 - `npm run validate` / `npm run review`: data checks (`scripts/validate-data.ts`). Run after every data edit.
 - `npm run check`: `astro check` type check.
 - `npm run build`: static build to `dist/`. CI (`.github/workflows/site.yml`) runs review → check → build → deploy.
+- `npm run ingest` (or `ingest:materialx|usd|releases|github`): Python stdlib scripts in `scripts/ingest/` that write
+  `data/generated/*.json`. Locally: `GITHUB_TOKEN="$("/c/Program Files/GitHub CLI/gh.exe" auth token)" npm run ingest`.
+  Output is deterministic, so an unchanged upstream gives no diff. `refresh-data.yml` runs it weekly and commits.
+- `gh` isn't on the Bash PATH. Use `"/c/Program Files/GitHub CLI/gh.exe"`.
 
 ## Layout
 
@@ -26,6 +30,19 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 - Absence of a record = unknown. Never add a record just to say "unknown".
 - Version strings are quoted. Product ids are kebab-case and match the file name.
 - Scope includes adjacent industries: AEC, product design/CAD, automotive, simulation, XR/web.
+
+## Ingestion quirks (scripts/ingest)
+
+- Upstream repos are blobless sparse clones in `.cache/repos/` (gitignored). Each tag is checked out with only the
+  parsed files. Don't `git grep` across tags in them: that lazily fetches every blob.
+- MaterialX: library XML is parsed raw (no version upgrade). `lenient_xml()` escapes the bare `&`/`<` in attribute
+  values that pugixml tolerates. Target resolution mirrors `NodeDef::getImplementation` (target-specific with
+  inheritance first, then untargeted node graph). `genoslnetwork` is excluded: its impls are generated at build time.
+  This is coverage of MaterialX's *own* generators, not of renderers.
+- USD: properties come from `generatedSchema.usda` (flattened). Parent type, doc and own-vs-inherited come from the
+  hand-written `schema.usda`. Class bodies open with `{` or `) {`. Doc strings contain code samples, so the
+  parser tracks triple-quote state. Versioned schemas (`Capsule_1`) get `versionOf`.
+- Python scripts force UTF-8 stdout (Windows cp1252 crashes on the log arrows).
 
 ## Toolchain notes
 

@@ -1,0 +1,7 @@
+name: USD Survival Guide
+repo: LucaScheller/VFX-UsdSurvivalGuide
+tech: [usd]
+kind: learning
+description: A practical onboarding guide to OpenUSD for software developers and pipeline TDs.
+tags: [guide, pipeline]
+verified: 2026-11-04

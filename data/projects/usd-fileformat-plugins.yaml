@@ -1,0 +1,7 @@
+name: USD File Format Plugins
+repo: adobe/USD-Fileformat-plugins
+tech: [usd]
+kind: plugin
+description: Adobe's USD file-format plugins that let any USD application read and write FBX, glTF, OBJ, PLY, SBSAR, SPZ and STL as if they were USD.
+tags: [file-format, interchange, gaussian-splats]
+verified: 2026-11-04

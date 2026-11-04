@@ -16,8 +16,22 @@ All data lives in [`data/`](data) as YAML and is validated against [`src/data/sc
 |---|---|
 | `data/capabilities.yaml` | The capability taxonomy: the columns of the support matrix (e.g. `usd.composition.variants`, `mtlx.openpbr`) |
 | `data/products/<id>.yaml` | One file per product: metadata, releases (with bundled USD/MaterialX versions), support records and known issues |
-| `data/projects/<id>.yaml` | Open-source ecosystem projects *(coming)* |
+| `data/projects/<id>.yaml` | Open-source ecosystem projects: libraries, plugins, render delegates, converters, learning resources |
 | `data/events.yaml` | Timeline events *(coming)* |
+| `data/generated/*.json` | **Machine-generated, never edit by hand.** Written by `scripts/ingest/` and refreshed weekly |
+
+The generated datasets are read straight from upstream:
+
+- **`materialx-nodes.json`**: every node in MaterialX's standard libraries since 1.38.0, with inputs, outputs and the
+  release it appeared in. For each of MaterialX's own code generators (GLSL, ESSL, Metal, OSL, MDL, Slang) it records
+  whether a node has a native implementation, works via a node graph, or is unsupported.
+- **`usd-schemas.json`**: every OpenUSD schema (prim types and API schemas) and property since 0.7.0, with the
+  release each first appeared in.
+- **`releases.json`**: OpenUSD and MaterialX release history.
+- **`github-stats.json`**: stars, activity, licences and latest releases for every repo in `data/projects` and
+  `data/products`.
+
+All of them are also served from the site as `/data/<name>.json`.
 
 The rules:
 
@@ -30,7 +44,7 @@ The rules:
 
 ## Development
 
-Requires Node 22.23 or newer.
+Requires Node 22.23 or newer. The ingestion scripts need Python 3.11 or newer (standard library only) and git.
 
 ```bash
 npm install
@@ -39,10 +53,16 @@ npm run validate   # schema, cross-reference and hygiene checks for /data
 npm run review     # same, plus the list of records needing human review
 npm run check      # type check
 npm run build      # static site → dist/
+npm run ingest     # refresh data/generated/ from upstream (set GITHUB_TOKEN for the GitHub API)
 ```
+
+Ingestion keeps blobless, sparse clones of OpenUSD and MaterialX in `.cache/repos/`, so scanning every release takes
+well under a minute.
 
 Built with [Astro](https://astro.build) and [Svelte](https://svelte.dev). Pushes to `main` are validated, built and
 deployed to GitHub Pages by [`.github/workflows/site.yml`](.github/workflows/site.yml).
+[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) re-runs ingestion every Monday, then
+commits and deploys any changes.
 
 ## Contributing
 

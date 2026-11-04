@@ -1,0 +1,7 @@
+name: OpenUSD Exchange SDK
+repo: NVIDIA-Omniverse/usd-exchange
+tech: [usd]
+kind: library
+description: NVIDIA's SDK of higher-level helpers for building USD import and export into applications, following OpenUSD best practices.
+tags: [interchange, sdk]
+verified: 2026-11-04

@@ -1,0 +1,7 @@
+name: Aurora
+repo: Autodesk/Aurora
+tech: [usd, materialx]
+kind: renderer
+description: Autodesk's real-time GPU path tracer. It renders MaterialX-defined Standard Surface materials and ships an OpenUSD Hydra render delegate (HdAurora).
+tags: [hydra-delegate, real-time, path-tracing]
+verified: 2026-11-04

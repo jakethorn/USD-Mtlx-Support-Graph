@@ -1,0 +1,8 @@
+name: MaterialX
+repo: AcademySoftwareFoundation/MaterialX
+url: https://materialx.org
+tech: [materialx]
+kind: library
+description: Open standard and reference implementation for exchanging materials and look-development content, with shader generators for GLSL, Metal, OSL, MDL and Slang.
+tags: [core, shadergen, aswf]
+verified: 2026-11-04
