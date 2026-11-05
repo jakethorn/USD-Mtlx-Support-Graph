@@ -15,6 +15,15 @@ const {
 } = Astro.props;
 const fullTitle = title ? `${title} · ${siteName}` : siteName;
 const builtOn = new Date().toISOString().slice(0, 10);
+const pathname = Astro.url.pathname;
+const nav = [
+  { href: withBase(), label: 'Overview', match: (p: string) => p === withBase() || p === withBase().replace(/\/$/, '') },
+  { href: withBase('matrix/'), label: 'Matrix', match: (p: string) => p.startsWith(withBase('matrix')) || p.startsWith(withBase('products/')) },
+  { href: withBase('timeline/'), label: 'Timeline', match: (p: string) => p.startsWith(withBase('timeline')) },
+  { href: withBase('ecosystem/'), label: 'Ecosystem', match: (p: string) => p.startsWith(withBase('ecosystem')) },
+  { href: withBase('schemas/'), label: 'Schemas & Nodes', match: (p: string) => p.startsWith(withBase('schemas')) },
+  { href: withBase('review/'), label: 'Review', match: (p: string) => p.startsWith(withBase('review')) },
+];
 ---
 
 <!doctype html>
@@ -40,6 +49,15 @@ const builtOn = new Date().toISOString().slice(0, 10);
           <span class="dot usd" aria-hidden="true"></span><span class="dot mtlx" aria-hidden="true"></span>
           {siteName}
         </a>
+        <nav class="site-nav" aria-label="Main navigation">
+          {
+            nav.map((item) => (
+              <a href={item.href} aria-current={item.match(pathname) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
         <div class="toggle-slot"><ThemeToggle client:only="svelte" /></div>
       </div>
     </header>
@@ -97,6 +115,30 @@ const builtOn = new Date().toISOString().slice(0, 10);
     margin-left: -9px;
     margin-right: 6px;
     opacity: 0.9;
+  }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .site-nav a {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+  }
+  .site-nav a:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .site-nav a[aria-current='page'] {
+    color: var(--text);
+    font-weight: 650;
+    background: var(--surface-2);
   }
   .toggle-slot {
     width: 36px;

@@ -108,6 +108,10 @@ support:
         title: Export formats (KeyShot Manual)
         kind: docs
         accessed: 2026-11-04
+      - url: https://manual.keyshot.com/manual/whats-new/release-notes-2/keyshot-10-1-release-notes/
+        title: KeyShot 10.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
 
@@ -166,8 +170,10 @@ support:
     level: partial
     since: "2026.1"
     notes: >-
-      KeyShot Studio 2026.1 supports the OpenPBR shading model in CPU and GPU rendering modes, includes OpenPBR
-      materials in the library (KEYS-37313), and maps materials via OpenPBR in the USD importer (KEYS-36364).
+      KeyShot Studio 2026.1 updates the USD importer to use OpenPBR for materials (KEYS-36364), adds OpenPBR materials
+      to the library (KEYS-37313), and supports OpenPBR in GPU product mode (KEYS-36974).
+    gaps:
+      - Standalone .mtlx document import or export is not documented in the release notes.
     sources:
       - url: https://manuals.keyshot.com/kss2026/en-us/manual/Release-Notes-2026.1.htm
         title: KeyShot Studio 2026.1 Release Notes

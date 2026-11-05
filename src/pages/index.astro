@@ -1,13 +1,10 @@
 ---
-/**
- * Phase 0 placeholder: proves data → schema → page end to end.
- * Replaced by the real landing view in Phase 4.
- */
 import Base from '../layouts/Base.astro';
 import { loadData } from '../lib/data';
-import { TECHS, PRODUCT_CATEGORIES, SUPPORT_LEVELS } from '../data/schema';
+import { TECHS, PRODUCT_CATEGORIES } from '../data/schema';
 import { materialxNodes, releases, usdSchemas } from '../data/generated';
 import { withBase } from '../lib/url';
+import { LEVEL_LABEL, LEVEL_ORDER, TECH_LABEL } from '../lib/view';
 
 const { products, projects, capabilities, events } = await loadData();
 
@@ -32,14 +29,13 @@ const sourceUrls = new Set([
   ...events.flatMap((e) => e.sources.map((s) => s.url)),
 ]);
 
-const techLabel: Record<(typeof TECHS)[number], string> = { usd: 'OpenUSD', materialx: 'MaterialX' };
 const taxonomy = TECHS.map((tech) => {
   const caps = capabilities.filter((c) => c.tech === tech);
   const groups = [...new Set(caps.map((c) => c.group))].map((group) => ({
     group,
     caps: caps.filter((c) => c.group === group),
   }));
-  return { tech, label: techLabel[tech], count: caps.length, groups };
+  return { tech, label: TECH_LABEL[tech], count: caps.length, groups };
 });
 
 const categoryLabel: Record<string, string> = {
@@ -64,19 +60,47 @@ const byCategory = PRODUCT_CATEGORIES.map((cat) => ({
   items: products.filter((p) => p.categories[0] === cat),
 })).filter((g) => g.items.length > 0);
 
+const recentEvents = [...events].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
+const topProjects = [...projects]
+  .sort((a, b) => (b.stats?.stars ?? 0) - (a.stats?.stars ?? 0))
+  .slice(0, 6);
+
 const stats = [
-  { value: products.length, label: 'products tracked' },
-  { value: projects.length, label: 'open-source projects' },
-  { value: events.length, label: 'timeline milestones' },
-  { value: capabilities.length, label: 'capabilities per product' },
-  { value: supportCount, label: 'sourced support records' },
-  { value: sourceUrls.size, label: 'sources cited' },
+  { value: products.length, label: 'products tracked', href: withBase('matrix/') },
+  { value: capabilities.length, label: 'capabilities per product', href: withBase('matrix/') },
+  { value: supportCount, label: 'sourced support records', href: withBase('matrix/') },
+  { value: sourceUrls.size, label: 'sources cited', href: withBase('review/') },
+  { value: projects.length, label: 'open-source projects', href: withBase('ecosystem/') },
+  { value: events.length, label: 'timeline milestones', href: withBase('timeline/') },
+];
+
+const views = [
+  {
+    href: withBase('matrix/'),
+    title: 'Support matrix',
+    desc: `${products.length} products × ${capabilities.length} capabilities with filterable rows, columns and source inspection.`,
+  },
+  {
+    href: withBase('timeline/'),
+    title: 'Adoption timeline',
+    desc: 'Spec milestones, upstream releases and product adoption from 2012 to today.',
+  },
+  {
+    href: withBase('ecosystem/'),
+    title: 'Open-source ecosystem',
+    desc: `${projects.length} libraries, Hydra delegates, DCC plugins and converters with weekly GitHub telemetry.`,
+  },
+  {
+    href: withBase('schemas/'),
+    title: 'Schemas & nodes',
+    desc: `Every OpenUSD schema (${usdLast.schemas}) and MaterialX node (${mtlxLiveNodes.length}), tracked across releases.`,
+  },
 ];
 ---
 
 <Base>
   <section class="hero container">
-    <p class="eyebrow">Early preview · data collection in progress</p>
+    <p class="eyebrow">OpenUSD {usdSchemas.latest} · MaterialX {materialxNodes.latest} · Sourced &amp; weekly-refreshed</p>
     <h1>Who supports <span class="usd">OpenUSD</span> and <span class="mtlx">MaterialX</span>, how well, and since when?</h1>
     <p class="lede muted">
       A living, sourced map of USD and MaterialX support across film, VFX, games, AEC, product design and the web,
@@ -86,26 +110,126 @@ const stats = [
       {
         stats.map((s) => (
           <li>
-            <strong>{s.value}</strong>
-            <span class="muted">{s.label}</span>
+            <a href={s.href}>
+              <strong>{fmt.format(s.value)}</strong>
+              <span class="muted">{s.label}</span>
+            </a>
           </li>
         ))
       }
     </ul>
+
+    <div class="view-cards">
+      {
+        views.map((v) => (
+          <a class="view-card" href={v.href}>
+            <span class="view-title">
+              {v.title} <span aria-hidden="true">→</span>
+            </span>
+            <span class="muted">{v.desc}</span>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
   <section class="container">
-    <h2>What we track</h2>
-    <p class="muted">
-      "Supports USD" can mean anything from a basic importer to a native USD stage. So every product is scored on each
-      of these capabilities separately.
-    </p>
+    <div class="sec-head">
+      <div>
+        <h2>Products tracked ({products.length})</h2>
+        <p class="muted">
+          Select any product for its full capability breakdown, release history, known issues and cited sources — or
+          compare them side by side in the <a href={withBase('matrix/')}>support matrix</a>.
+        </p>
+      </div>
+      <a class="cta-link" href={withBase('matrix/')}>Open interactive matrix →</a>
+    </div>
+    {
+      byCategory.map((g) => (
+        <div class="category">
+          <h3>{g.label}</h3>
+          <div class="products">
+            {g.items.map((p) => {
+              const latestUsd = p.releases.find((r) => r.usd)?.usd;
+              const latestMtlx = p.releases.find((r) => r.materialx)?.materialx;
+              const flags = p.support.filter((s) => s.review || s.confidence === 'low').length;
+              return (
+                <article class="product">
+                  <header>
+                    <div>
+                      <a class="prod-link" href={withBase(`products/${p.id}/`)}>{p.name}</a>
+                      <span class="muted vendor">{p.vendor}</span>
+                    </div>
+                    <div class="badges">
+                      {latestUsd && <span class="ver usd" title="Latest bundled OpenUSD">USD {latestUsd}</span>}
+                      {latestMtlx && <span class="ver materialx" title="Latest bundled MaterialX">MtlX {latestMtlx}</span>}
+                      <span class="tier">T{p.tier}</span>
+                    </div>
+                  </header>
+                  {p.support.length === 0 ? (
+                    <p class="muted pending">Research pending</p>
+                  ) : (
+                    <div class="bars">
+                      {TECHS.map((tech) => {
+                        const totalCaps = capabilities.filter((c) => c.tech === tech).length;
+                        const recs = p.support.filter((s) => capabilityById.get(s.capability)?.tech === tech);
+                        const segs = LEVEL_ORDER.map((lv) => ({
+                          lv,
+                          n: recs.filter((s) => s.level === lv).length,
+                        })).filter((x) => x.n > 0);
+                        const active = recs.filter((s) =>
+                          ['native', 'plugin', 'partial', 'experimental'].includes(s.level),
+                        ).length;
+                        return (
+                          <div class="bar-row">
+                            <span class={`tech-name ${tech}`}>{TECH_LABEL[tech]}</span>
+                            <div
+                              class="mini-bar"
+                              title={
+                                segs.map((s) => `${s.n} ${LEVEL_LABEL[s.lv].toLowerCase()}`).join(', ') || 'No records'
+                              }
+                            >
+                              {segs.map((s) => (
+                                <span
+                                  class={`seg lv-${s.lv}`}
+                                  style={`width:${(100 * s.n) / totalCaps}%`}
+                                />
+                              ))}
+                            </div>
+                            <span class="bar-num muted">
+                              {active}/{totalCaps}
+                            </span>
+                          </div>
+                        );
+                      })}
+                      {flags > 0 && <p class="muted flag-note">⚑ {flags} flagged for review</p>}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="container">
+    <div class="sec-head">
+      <div>
+        <h2>What we track</h2>
+        <p class="muted">
+          "Supports USD" can mean anything from a basic importer to a native USD stage. Every product is scored on each
+          of these {capabilities.length} capabilities separately.
+        </p>
+      </div>
+    </div>
     <div class="taxonomy">
       {
         taxonomy.map((t) => (
           <article class={`tech-card ${t.tech}`}>
             <h3>
-              {t.label} <span class="muted count">{t.count}</span>
+              {t.label} <span class="muted count">{t.count} capabilities</span>
             </h3>
             {t.groups.map((g) => (
               <div class="group">
@@ -124,8 +248,13 @@ const stats = [
   </section>
 
   <section class="container">
-    <h2>Collected automatically</h2>
-    <p class="muted">Read straight from the upstream repositories and refreshed every week.</p>
+    <div class="sec-head">
+      <div>
+        <h2>Collected automatically from upstream</h2>
+        <p class="muted">Read straight from the OpenUSD and MaterialX repositories and refreshed every week.</p>
+      </div>
+      <a class="cta-link" href={withBase('schemas/')}>Explore all schemas &amp; nodes →</a>
+    </div>
     <div class="facts">
       <article class="fact-card usd">
         <h3>OpenUSD {usdSchemas.latest}</h3>
@@ -137,7 +266,10 @@ const stats = [
               `${usdReleases.length} releases since ${usdReleases[0].date.slice(0, 4)} (${usdMajors.length} scheduled).`
           }
         </p>
-        <a href={withBase('data/usd-schemas.json')}>usd-schemas.json</a>
+        <div class="fact-links">
+          <a href={withBase('schemas/')}>Browse schemas →</a>
+          <a href={withBase('data/usd-schemas.json')}>usd-schemas.json</a>
+        </div>
       </article>
       <article class="fact-card materialx">
         <h3>MaterialX {materialxNodes.latest}</h3>
@@ -156,98 +288,73 @@ const stats = [
             </li>
           ))}
         </ul>
-        <a href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>
+        <div class="fact-links">
+          <a href={withBase('schemas/')}>Browse nodes →</a>
+          <a href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>
+        </div>
       </article>
     </div>
   </section>
 
-  <section class="container">
-    <h2>Open-source ecosystem</h2>
-    <div class="projects">
-      {
-        projects.map((p) => (
-          <article class="project">
-            <header>
-              <a href={p.stats?.url ?? p.url} rel="noopener">
-                {p.name}
-              </a>
-              {p.stats && <span class="stars" title="GitHub stars">★ {fmt.format(p.stats.stars)}</span>}
-            </header>
-            <p class="muted">{p.description}</p>
-            <p class="meta">
-              <span class="kind">{p.kind}</span>
-              {p.tech.map((t) => (
-                <span class={`tech ${t}`}>{t === 'usd' ? 'USD' : 'MaterialX'}</span>
-              ))}
-              {p.stats?.archived && <span class="archived">archived</span>}
-            </p>
-          </article>
-        ))
-      }
+  <section class="container two-col">
+    <div>
+      <div class="sec-head">
+        <h2>Recent milestones</h2>
+        <a class="cta-link" href={withBase('timeline/')}>Full timeline ({events.length}) →</a>
+      </div>
+      <ol class="milestones" role="list">
+        {
+          recentEvents.map((e) => (
+            <li>
+              <time class="mono muted">{e.date}</time>
+              <div>
+                <strong>{e.title}</strong>
+                {e.description && <p class="muted">{e.description}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
     </div>
-  </section>
 
-  <section class="container">
-    <h2>Products so far</h2>
-    <p class="muted">
-      Open a product to see every record and its sources. Records with conflicting or indirect evidence are collected on
-      the <a href={withBase('review/')}>Needs review</a> page.
-    </p>
-    {
-      byCategory.map((g) => (
-        <div class="category">
-          <h3>{g.label}</h3>
-          <div class="products">
-            {g.items.map((p) => (
-              <article class="product">
-                <header>
-                  <a href={withBase(`products/${p.id}/`)}>{p.name}</a>
-                  <span class="muted vendor">{p.vendor}</span>
-                </header>
-                {p.support.length === 0 ? (
-                  <p class="muted pending">Research pending</p>
-                ) : (
-                  <ul class="records" role="list">
-                    {TECHS.map((tech) => {
-                      const recs = p.support.filter((s) => capabilityById.get(s.capability)?.tech === tech);
-                      const byLevel = SUPPORT_LEVELS.map((l) => [l, recs.filter((s) => s.level === l).length] as const).filter(([, n]) => n > 0);
-                      return (
-                        recs.length > 0 && (
-                          <li>
-                            <span class="tech-name">{techLabel[tech]}</span>
-                            {byLevel.map(([l, n]) => (
-                              <span class={`level level-${l}`} title={`${n} ${l}`}>
-                                {n} {l}
-                              </span>
-                            ))}
-                          </li>
-                        )
-                      );
-                    })}
-                    {p.support.some((s) => s.review || s.confidence === 'low') && (
-                      <li class="muted flag-note">
-                        {p.support.filter((s) => s.review || s.confidence === 'low').length} flagged for review
-                      </li>
-                    )}
-                  </ul>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      ))
-    }
+    <div>
+      <div class="sec-head">
+        <h2>Open-source ecosystem</h2>
+        <a class="cta-link" href={withBase('ecosystem/')}>All {projects.length} projects →</a>
+      </div>
+      <div class="projects">
+        {
+          topProjects.map((p) => (
+            <article class="project">
+              <header>
+                <a href={p.stats?.url ?? p.url} rel="noopener">
+                  {p.name}
+                </a>
+                {p.stats && <span class="stars" title="GitHub stars">★ {fmt.format(p.stats.stars)}</span>}
+              </header>
+              <p class="muted">{p.description}</p>
+              <p class="meta">
+                <span class="kind">{p.kind}</span>
+                {p.tech.map((t) => (
+                  <span class={`tech ${t}`}>{t === 'usd' ? 'USD' : 'MaterialX'}</span>
+                ))}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
   </section>
 </Base>
 
 <style>
   .hero {
-    padding-top: clamp(40px, 8vw, 96px);
-    padding-bottom: 32px;
+    padding-top: clamp(36px, 6vw, 76px);
+    padding-bottom: 24px;
   }
   .eyebrow {
     display: inline-block;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -255,12 +362,12 @@ const stats = [
     border: 1px solid var(--border);
     border-radius: 999px;
     padding: 4px 12px;
-    margin: 0 0 20px;
+    margin: 0 0 18px;
   }
   h1 {
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    max-width: 20ch;
-    margin: 0 0 16px;
+    font-size: clamp(2rem, 5vw, 3.3rem);
+    max-width: 21ch;
+    margin: 0 0 14px;
   }
   .usd {
     color: var(--usd);
@@ -269,38 +376,214 @@ const stats = [
     color: var(--mtlx);
   }
   .lede {
-    font-size: 1.15rem;
-    max-width: 60ch;
-    margin: 0 0 32px;
+    font-size: 1.12rem;
+    max-width: 62ch;
+    margin: 0 0 28px;
   }
   .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
+    gap: 10px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 18px;
     list-style: none;
   }
-  .stats li {
+  .stats li a {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.12s;
+  }
+  .stats li a:hover {
+    border-color: var(--accent);
   }
   .stats strong {
-    font-size: 2rem;
+    font-size: 1.85rem;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
   .stats span {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-top: 6px;
   }
+
+  .view-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 10px;
+  }
+  .view-card {
+    background: color-mix(in srgb, var(--surface) 80%, var(--accent) 6%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.12s, transform 0.12s;
+  }
+  .view-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .view-title {
+    font-weight: 650;
+    font-size: 0.98rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .view-card .muted {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
   section + section {
     margin-top: 56px;
   }
+  .sec-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .sec-head h2 {
+    margin: 0;
+  }
+  .sec-head p {
+    margin: 4px 0 0;
+    max-width: 68ch;
+  }
+  .cta-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .category h3 {
+    font-size: 0.95rem;
+    margin: 22px 0 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 10px;
+  }
+  .product {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .product header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .prod-link {
+    font-weight: 650;
+    color: var(--text);
+    text-decoration: none;
+    margin-right: 6px;
+  }
+  .prod-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .vendor {
+    font-size: 0.8rem;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .ver {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .ver.usd {
+    border-color: color-mix(in srgb, var(--usd) 50%, var(--border));
+    color: var(--usd);
+  }
+  .ver.materialx {
+    border-color: color-mix(in srgb, var(--mtlx) 50%, var(--border));
+    color: var(--mtlx);
+  }
+  .tier {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .pending {
+    font-size: 0.85rem;
+    margin: 0;
+  }
+  .bars {
+    display: grid;
+    gap: 6px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 68px 1fr 42px;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+  }
+  .tech-name {
+    font-weight: 600;
+  }
+  .tech-name.usd {
+    color: var(--usd);
+  }
+  .tech-name.materialx {
+    color: var(--mtlx);
+  }
+  .mini-bar {
+    height: 8px;
+    background: color-mix(in srgb, var(--border) 60%, transparent);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+  }
+  .mini-bar .seg {
+    height: 100%;
+    background: var(--lv);
+  }
+  .bar-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .flag-note {
+    font-size: 0.74rem;
+    margin: 2px 0 0;
+  }
+
   .taxonomy {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
@@ -324,11 +607,11 @@ const stats = [
   }
   .count {
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
   .group h4 {
     margin: 14px 0 6px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
@@ -342,86 +625,14 @@ const stats = [
     list-style: none;
   }
   .chips li {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     padding: 3px 10px;
     border-radius: 999px;
     background: color-mix(in srgb, var(--tech) 14%, transparent);
     border: 1px solid color-mix(in srgb, var(--tech) 35%, transparent);
     cursor: help;
   }
-  .category h3 {
-    font-size: 1rem;
-    margin: 24px 0 10px;
-    color: var(--text-muted);
-  }
-  .products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-    gap: 12px;
-  }
-  .product {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-  }
-  .product header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .product header a {
-    font-weight: 650;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .vendor {
-    font-size: 0.85rem;
-  }
-  .pending {
-    font-size: 0.9rem;
-    margin: 8px 0 0;
-  }
-  .records {
-    padding: 0;
-    margin: 10px 0 0;
-    list-style: none;
-    display: grid;
-    gap: 6px;
-    font-size: 0.9rem;
-  }
-  .records li {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-  }
-  .level {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 1px 8px;
-    border-radius: 4px;
-    color: #fff;
-    background: var(--level-color);
-  }
-  .level-native { --level-color: var(--level-native); }
-  .level-plugin { --level-color: var(--level-plugin); }
-  .level-partial { --level-color: var(--level-partial); }
-  .level-experimental { --level-color: var(--level-experimental); }
-  .level-planned { --level-color: var(--level-planned); }
-  .level-deprecated { --level-color: var(--level-deprecated); }
-  .level-none { --level-color: var(--level-none); }
-  .tech-name {
-    min-width: 76px;
-    font-weight: 600;
-    font-size: 0.85rem;
-  }
-  .flag-note {
-    font-size: 0.8rem;
-  }
+
   .facts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
@@ -433,6 +644,8 @@ const stats = [
     border-top: 3px solid var(--tech);
     border-radius: var(--radius);
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
   .fact-card.usd {
     --tech: var(--usd);
@@ -446,7 +659,7 @@ const stats = [
     color: var(--text-muted);
   }
   .big {
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 700;
     line-height: 1.1;
     margin: 8px 0;
@@ -457,7 +670,11 @@ const stats = [
     font-weight: 500;
     color: var(--text-muted);
   }
-  .fact-card a {
+  .fact-links {
+    margin-top: auto;
+    padding-top: 12px;
+    display: flex;
+    gap: 16px;
     font-size: 0.85rem;
     font-family: var(--font-mono);
   }
@@ -466,9 +683,9 @@ const stats = [
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 6px 16px;
     padding: 0;
-    margin: 0 0 14px;
+    margin: 0 0 8px;
     list-style: none;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
   .coverage li {
     display: flex;
@@ -478,16 +695,47 @@ const stats = [
   .coverage strong {
     font-variant-numeric: tabular-nums;
   }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 28px;
+  }
+  .milestones {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .milestones li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 0.88rem;
+  }
+  .milestones time {
+    font-size: 0.78rem;
+  }
+  .milestones p {
+    margin: 4px 0 0;
+    font-size: 0.82rem;
+  }
   .projects {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 10px;
   }
   .project {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px 16px;
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
   }
@@ -500,27 +748,28 @@ const stats = [
     font-weight: 650;
     color: var(--text);
     text-decoration: none;
+    font-size: 0.92rem;
   }
   .stars {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
   .project p {
     margin: 6px 0 0;
-    font-size: 0.9rem;
+    font-size: 0.82rem;
   }
   .project .meta {
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: 8px;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    font-size: 0.75rem;
+    gap: 5px;
+    font-size: 0.72rem;
   }
   .meta span {
-    padding: 1px 8px;
+    padding: 1px 7px;
     border-radius: 999px;
     border: 1px solid var(--border);
   }
@@ -529,9 +778,5 @@ const stats = [
   }
   .meta .tech.materialx {
     border-color: var(--mtlx);
-  }
-  .meta .archived {
-    color: var(--level-none);
-    border-color: var(--level-none);
   }
 </style>

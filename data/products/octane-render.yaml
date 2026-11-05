@@ -13,7 +13,6 @@ summary: >
 releases:
   - version: "2026.6"
     date: 2026-10-14
-    materialx: "1.39.4"
     notes: >
       Added Standalone USD import for DistantLight, DomeLight_1, textured
       RectLights, and Blackbody light emission parity; fixed OpenPBR
@@ -34,7 +33,6 @@ releases:
 
   - version: "2026.5"
     date: 2026-09-13
-    materialx: "1.39.4"
     notes: >
       Added support for importing USD scenes with MaterialX image nodes using
       relative paths; fixed saving and loading USD materials in ORBX when
@@ -55,7 +53,6 @@ releases:
 
   - version: "2026.4"
     date: 2026-06-30
-    materialx: "1.39.4"
     notes: >
       Fixed an issue where imported USD geometry was not connected to its
       material in Standalone. Houdini Solaris 2026.4.0.0 added Hydra HioImage
@@ -74,7 +71,6 @@ releases:
 
   - version: "2026.3"
     date: 2026-04-22
-    materialx: "1.39.4"
     notes: >
       Added MaterialX import support for displacement shader subgraphs, float
       and color primvar import on USD curves, and point instance overrides in
@@ -90,7 +86,6 @@ releases:
 
   - version: "2026.2"
     date: 2026-02-08
-    materialx: "1.39.4"
     notes: >
       Aligned OpenPBR Coat Darkening, view-dependent Coat absorption, and
       Specular/Coat Anisotropy (0–1 range) with the OpenPBR Surface
@@ -136,7 +131,7 @@ releases:
         accessed: 2026-11-04
 
   - version: "2024.1"
-    date: 2024-11-12
+    date: 2024-09-09
     notes: >
       Introduced a redesigned geometry pipeline with reduced VRAM usage, ORBX
       referencing, Open Image Denoise AOV filter graphs, texture and OSL nodes
@@ -247,7 +242,7 @@ support:
         accessed: 2026-11-04
 
   - capability: usd.export
-    level: partial
+    level: experimental
     notes: >
       Octane 2027.1 Beta 1 added USD export support to the Geometry Exporter
       node in Octane Standalone; in Octane 2026.x Stable, the Geometry Exporter

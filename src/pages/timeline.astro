@@ -1,0 +1,114 @@
+---
+/** Timeline: milestones, upstream releases, product releases and when products first shipped support. */
+import Base from '../layouts/Base.astro';
+import Timeline from '../components/Timeline.svelte';
+import { loadData } from '../lib/data';
+import { releases } from '../data/generated';
+import { withBase } from '../lib/url';
+import { TECH_LABEL, type Tech, type TimelineItem } from '../lib/view';
+
+const { products, capabilities, events } = await loadData();
+const capById = new Map(capabilities.map((c) => [c.id, c]));
+const POSITIVE = new Set(['native', 'plugin', 'partial', 'experimental']);
+const src = (s: { url: string; title?: string }) => ({ url: s.url, title: s.title });
+
+const items: TimelineItem[] = [];
+
+for (const e of events) {
+  items.push({
+    date: e.date,
+    year: e.date.slice(0, 4),
+    kind: e.kind === 'adoption' ? 'adoption' : 'milestone',
+    subkind: e.kind,
+    tech: e.tech,
+    title: e.title,
+    description: e.description,
+    sources: e.sources.map(src),
+  });
+}
+
+for (const p of products) {
+  const href = withBase(`products/${p.id}/`);
+  const dated = new Map(p.releases.filter((r) => r.date).map((r) => [r.version, r]));
+
+  // Product releases that state which OpenUSD / MaterialX they ship.
+  for (const r of p.releases) {
+    if (!r.date || !(r.usd || r.materialx)) continue;
+    const parts = [r.usd && `OpenUSD ${r.usd}`, r.materialx && `MaterialX ${r.materialx}`].filter(Boolean);
+    items.push({
+      date: r.date,
+      year: r.date.slice(0, 4),
+      kind: 'release',
+      subkind: 'product-release',
+      tech: [...(r.usd ? (['usd'] as Tech[]) : []), ...(r.materialx ? (['materialx'] as Tech[]) : [])],
+      title: `${p.name} ${r.version} ships ${parts.join(' and ')}`,
+      href,
+      product: p.id,
+      sources: r.sources.map(src),
+    });
+  }
+
+  // First shipped support per technology, only where the `since` version maps to a dated release.
+  for (const tech of ['usd', 'materialx'] as Tech[]) {
+    const recs = p.support.filter(
+      (s) => POSITIVE.has(s.level) && s.since && dated.has(s.since) && capById.get(s.capability)?.tech === tech,
+    );
+    if (recs.length === 0) continue;
+    const firstDate = recs.map((s) => dated.get(s.since!)!.date!).sort()[0];
+    const first = recs.filter((s) => dated.get(s.since!)!.date === firstDate);
+    const version = first[0].since!;
+    const labels = first.map((s) => capById.get(s.capability)!.label);
+    items.push({
+      date: firstDate,
+      year: firstDate.slice(0, 4),
+      kind: 'adoption',
+      subkind: 'first-support',
+      tech: [tech],
+      title: `${p.name} ${version}: earliest recorded ${TECH_LABEL[tech]} support`,
+      description: `${labels.slice(0, 6).join(', ')}${labels.length > 6 ? ` and ${labels.length - 6} more` : ''}. Earliest version we have a dated, sourced record for; support may predate it.`,
+      href,
+      product: p.id,
+      sources: first.flatMap((s) => s.sources.slice(0, 1)).map(src).slice(0, 3),
+    });
+  }
+}
+
+// Upstream releases (machine-generated from the OpenUSD and MaterialX repos).
+for (const r of releases.usd.releases.filter((r) => r.kind === 'major')) {
+  items.push({
+    date: r.date,
+    year: r.date.slice(0, 4),
+    kind: 'release',
+    subkind: 'upstream',
+    tech: ['usd'],
+    title: `OpenUSD ${r.version}`,
+    sources: [{ url: r.url, title: r.tag }],
+  });
+}
+for (const r of releases.materialx.releases) {
+  items.push({
+    date: r.date,
+    year: r.date.slice(0, 4),
+    kind: 'release',
+    subkind: 'upstream',
+    tech: ['materialx'],
+    title: `MaterialX ${r.version}`,
+    sources: [{ url: r.url, title: r.tag }],
+  });
+}
+
+items.sort((a, b) => a.date.localeCompare(b.date));
+---
+
+<Base title="Timeline" description="When OpenUSD and MaterialX milestones happened and when products adopted them.">
+  <div class="container page-head">
+    <h1>Timeline</h1>
+    <p class="muted">
+      Milestones for OpenUSD, MaterialX and OpenPBR, plus when tracked products first shipped support and which
+      versions their releases bundle. Product entries only appear where the version maps to a dated, sourced release.
+    </p>
+  </div>
+  <div class="container">
+    <Timeline client:load items={items} />
+  </div>
+</Base>

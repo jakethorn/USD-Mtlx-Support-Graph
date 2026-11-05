@@ -26,7 +26,8 @@ releases:
   - version: "25.10.0"
     date: 2025-10-15
     notes: >-
-      Feature and stability release for the Atom renderer, SceneAPI, and mobile/XR workflows.
+      Reengineers the O3DE installer, adds C++20 compatibility, optimizes the Asset Processor for dependency detection,
+      and splits robotics simulation components out of the ROS2 gem.
     sources:
       - url: https://docs.o3de.org/docs/release-notes/archive/2510-0-release-notes/
         title: Release Notes for Open 3D Engine 25.10.0
@@ -52,19 +53,6 @@ support:
       into native O3DE runtime assets.
     gaps:
       - Supports non-compositional USD geometry and animation only; composition arcs and live stage workflows are not supported.
-    sources:
-      - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
-        title: Release Notes for Open 3D Engine 25.05.0
-        kind: release-notes
-        accessed: 2026-11-04
-    confidence: high
-    verified: 2026-11-04
-
-  - capability: usd.composition.references
-    level: none
-    notes: >-
-      O3DE 25.05.0's USD importer explicitly supports only non-compositional USD geometry and animation rather than
-      full USD composition arcs.
     sources:
       - url: https://docs.o3de.org/docs/release-notes/archive/2505-0-release-notes/
         title: Release Notes for Open 3D Engine 25.05.0

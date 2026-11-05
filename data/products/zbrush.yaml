@@ -141,8 +141,9 @@ support:
         title: USD format (ZBrush User Guide)
         kind: docs
         accessed: 2026-11-04
-    confidence: high
+    confidence: medium
     verified: 2026-11-04
+    review: "Unclear whether USDZ support in the desktop USD Format plugin is export-only (as reported by CG Channel and mirrored in ZBrush for iPad's export-only USDZ support) or includes Load; Maxon's What's New notes only state 'Support for USDZ format added to the USD plugin'."
 
   # ── Scene description ────────────────────────────────────────────────────
   - capability: usd.geom.meshes

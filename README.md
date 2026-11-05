@@ -6,7 +6,11 @@ renderers, game engines and the open-source tools around them.
 
 **Live site:** https://jakethorn.github.io/USD-Mtlx-Support-Graph/ (once Pages is enabled)
 
-> Early preview: the data model and site skeleton are in place, and data collection is under way.
+- **Support matrix (`/matrix/`):** Interactive product × capability matrix with technology, tier, category and industry filters and a sourced detail drawer.
+- **Adoption timeline (`/timeline/`):** Spec milestones, upstream OpenUSD & MaterialX releases, and product adoption history.
+- **Open-source ecosystem (`/ecosystem/`):** Libraries, Hydra delegates, DCC plugins and converters with weekly GitHub telemetry and 52-week commit sparklines.
+- **Schemas & nodes (`/schemas/`):** Searchable explorer of every OpenUSD schema since 0.7.0 and every MaterialX standard-library node since 1.38.0 with per-generator target coverage.
+- **Product detail pages (`/products/<id>/`):** Visual capability scorecards, bundled USD/MaterialX version history, ecosystem integrations, known issues and cited sources.
 
 ## How the data works
 
@@ -17,7 +21,7 @@ All data lives in [`data/`](data) as YAML and is validated against [`src/data/sc
 | `data/capabilities.yaml` | The capability taxonomy: the columns of the support matrix (e.g. `usd.composition.variants`, `mtlx.openpbr`) |
 | `data/products/<id>.yaml` | One file per product: metadata, releases (with bundled USD/MaterialX versions), support records and known issues |
 | `data/projects/<id>.yaml` | Open-source ecosystem projects: libraries, plugins, render delegates, converters, learning resources |
-| `data/events.yaml` | Timeline events *(coming)* |
+| `data/events.yaml` | Timeline milestones across OpenUSD, MaterialX, ASWF and AOUSD |
 | `data/generated/*.json` | **Machine-generated, never edit by hand.** Written by `scripts/ingest/` and refreshed weekly |
 
 The generated datasets are read straight from upstream:

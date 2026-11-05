@@ -12,7 +12,7 @@ summary: >-
 
 releases:
   - version: "r179"
-    date: 2025-07
+    date: 2025-08-02
     notes: >-
       Replaced USDZLoader (now deprecated) with the expanded USDLoader supporting ASCII (.usda) and binary Crate (.usdc)
       layers as well as .usdz packages through USDAParser, USDCParser, and USDComposer.
@@ -158,7 +158,7 @@ support:
       (VectorKeyframeTrack and QuaternionKeyframeTrack), and USDZExporter writes time-sampled translation, rotation, and
       scale tracks from AnimationClips.
     gaps:
-      - Time-sampled mesh point deformations (vertex caches) andUSD spline (Ts) tangents are not evaluated.
+      - Time-sampled mesh point deformations (vertex caches) and USD spline (Ts) tangents are not evaluated.
     sources:
       - url: https://github.com/mrdoob/three.js/blob/dev/examples/jsm/loaders/usd/USDComposer.js
         title: mrdoob/three.js — examples/jsm/loaders/usd/USDComposer.js (_buildTransformAnimations)

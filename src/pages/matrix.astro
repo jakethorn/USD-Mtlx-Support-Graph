@@ -1,0 +1,61 @@
+---
+/** The support matrix: every product against every capability. */
+import Base from '../layouts/Base.astro';
+import SupportMatrix from '../components/SupportMatrix.svelte';
+import { loadData } from '../lib/data';
+import { withBase } from '../lib/url';
+import { capAnchor, type MatrixCap, type MatrixRow } from '../lib/view';
+
+const { products, projects, capabilities } = await loadData();
+const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? projects.find((p) => p.id === id)?.name ?? id;
+
+const rows: MatrixRow[] = products
+  .filter((p) => p.support.length > 0)
+  .map((p) => ({
+    id: p.id,
+    name: p.name,
+    vendor: p.vendor,
+    href: withBase(`products/${p.id}/`),
+    categories: p.categories,
+    industries: p.industries,
+    tier: p.tier,
+    discontinued: p.status === 'discontinued',
+    cells: Object.fromEntries(
+      p.support.map((s) => [
+        s.capability,
+        {
+          level: s.level,
+          since: s.since,
+          via: s.via ? nameOf(s.via) : undefined,
+          confidence: s.confidence,
+          flagged: Boolean(s.review) || s.confidence === 'low',
+          notes: s.notes,
+          gaps: s.gaps,
+        },
+      ]),
+    ),
+  }));
+
+const caps: MatrixCap[] = capabilities.map((c) => ({ ...c, anchor: capAnchor(c.id) }));
+const recordCount = rows.reduce((n, r) => n + Object.keys(r.cells).length, 0);
+const unknownShare = Math.round(100 * (1 - recordCount / (rows.length * caps.length)));
+---
+
+<Base title="Support matrix" description="Every tracked product scored on every OpenUSD and MaterialX capability, with sources.">
+  <div class="container page-head">
+    <h1>Support matrix</h1>
+    <p class="muted">
+      {rows.length} products × {caps.length} capabilities. Each coloured cell is a sourced record; click one for the
+      details. Blank cells are <strong>unknown</strong>, not unsupported: {unknownShare}% of the grid has no record yet.
+    </p>
+  </div>
+  <div class="container wide">
+    <SupportMatrix client:load rows={rows} capabilities={caps} />
+  </div>
+</Base>
+
+<style>
+  .wide {
+    max-width: 1600px;
+  }
+</style>

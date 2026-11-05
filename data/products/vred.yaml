@@ -161,7 +161,7 @@ support:
     notes: >-
       The USD Import Preferences include a Curves and Polygon Lines option (Import none, Import visible, or Import all).
     gaps:
-      - NURBS surfaces are tessellated according to Chord Deviation and Normal Tolerance settings on import.
+      - Geometric curve export is not documented in the USD Export options (only animation curve export is provided).
     sources:
       - url: https://help.autodesk.com/cloudhelp/2027/ENU/VRED-Basics/files/Preferences/FileIO-Preferences/VRED_Preferences_FileIO_Preferences_USD_Preferences.html
         title: VRED Help — USD Preferences

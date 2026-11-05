@@ -1,0 +1,252 @@
+---
+/**
+ * Upstream OpenUSD schemas & MaterialX standard-library nodes: growth over releases
+ * and an interactive browser for every schema and node.
+ */
+import Base from '../layouts/Base.astro';
+import SchemaExplorer from '../components/SchemaExplorer.svelte';
+import { materialxNodes, usdSchemas } from '../data/generated';
+import { withBase } from '../lib/url';
+import type { ExplorerNode, ExplorerSchema } from '../lib/view';
+
+const fmt = new Intl.NumberFormat('en');
+const usdLast = usdSchemas.history.at(-1)!;
+const usdFirst = usdSchemas.history[0];
+const mtlxLast = materialxNodes.history.at(-1)!;
+const mtlxFirst = materialxNodes.history[0];
+
+const maxUsdSchemas = Math.max(...usdSchemas.history.map((h) => h.schemas));
+const usdStep = Math.max(1, Math.floor(usdSchemas.history.length / 18));
+const usdBars = usdSchemas.history.filter((_, i) => i % usdStep === 0 || i === usdSchemas.history.length - 1);
+
+const targetCoverage = materialxNodes.targets
+  .filter((t) => t.id in mtlxLast.supported)
+  .map((t) => ({
+    ...t,
+    supported: mtlxLast.supported[t.id],
+    pct: Math.round((100 * mtlxLast.supported[t.id]) / mtlxLast.nodedefs),
+  }));
+
+const schemas: ExplorerSchema[] = usdSchemas.schemas.map((s) => {
+  const own = s.properties.filter((p) => !p.inherited);
+  return {
+    name: s.name,
+    domain: s.domain,
+    kind: s.kind,
+    typeName: s.typeName,
+    inherits: s.inherits,
+    since: s.since,
+    removedIn: s.removedIn,
+    doc: s.doc ? s.doc.slice(0, 220) : null,
+    ownProps: own.length,
+    totalProps: s.properties.length,
+    sampleProps: own.slice(0, 6).map((p) => p.name),
+  };
+});
+
+const nodes: ExplorerNode[] = materialxNodes.nodes.map((n) => {
+  const targets: ExplorerNode['targets'] = {};
+  for (const t of materialxNodes.targets) {
+    const cov = n.coverage[t.id];
+    if (!cov || cov.total === 0) targets[t.id] = 'none';
+    else if (cov.native === cov.total) targets[t.id] = 'native';
+    else if (cov.native + cov.graph === cov.total) targets[t.id] = 'graph';
+    else if (cov.native + cov.graph > 0) targets[t.id] = 'partial';
+    else targets[t.id] = 'none';
+  }
+  return {
+    name: n.name,
+    library: n.library,
+    group: n.group,
+    doc: n.doc ? n.doc.slice(0, 180) : null,
+    since: n.since,
+    removedIn: n.removedIn,
+    nodedefs: n.nodedefs.length,
+    targets,
+  };
+});
+---
+
+<Base
+  title="Schemas & Nodes"
+  description="Machine-generated OpenUSD schema catalog and MaterialX standard-library node coverage across code generators."
+>
+  <div class="container page-head">
+    <h1>OpenUSD Schemas & MaterialX Nodes</h1>
+    <p class="muted">
+      Parsed directly from the upstream <a href="https://github.com/PixarAnimationStudios/OpenUSD">OpenUSD</a> and
+      <a href="https://github.com/AcademySoftwareFoundation/MaterialX">MaterialX</a> repositories across every release
+      and refreshed automatically every week.
+    </p>
+  </div>
+
+  <section class="container charts">
+    <article class="chart-card usd">
+      <header>
+        <div>
+          <h2>OpenUSD {usdSchemas.latest}</h2>
+          <p class="muted">
+            {usdLast.schemas} schemas ({usdLast.concrete} concrete prims, {usdLast.api} API schemas) and{' '}
+            {fmt.format(usdLast.properties)} properties, up from {usdFirst.schemas} in {usdFirst.version}.
+          </p>
+        </div>
+        <a class="dl" href={withBase('data/usd-schemas.json')}>usd-schemas.json</a>
+      </header>
+      <div class="bar-chart" role="img" aria-label="OpenUSD schema count from 0.7.0 to latest">
+        {
+          usdBars.map((h) => (
+            <div class="col" title={`${h.version}: ${h.schemas} schemas (${h.concrete} concrete, ${h.api} API)`}>
+              <div class="bar-wrap">
+                <div class="fill" style={`height:${Math.round((100 * h.schemas) / maxUsdSchemas)}%`} />
+              </div>
+              <span>{h.version}</span>
+            </div>
+          ))
+        }
+      </div>
+    </article>
+
+    <article class="chart-card mtlx">
+      <header>
+        <div>
+          <h2>MaterialX {materialxNodes.latest}</h2>
+          <p class="muted">
+            {nodes.filter((n) => !n.removedIn).length} active nodes ({fmt.format(mtlxLast.nodedefs)} typed nodedefs, up
+            from {fmt.format(mtlxFirst.nodedefs)} in {mtlxFirst.version}). Share supported by MaterialX's own code
+            generators:
+          </p>
+        </div>
+        <a class="dl" href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>
+      </header>
+      <ul class="target-bars" role="list">
+        {
+          targetCoverage.map((t) => (
+            <li>
+              <div class="label-row">
+                <strong>{t.label}</strong>
+                <span class="muted">
+                  {fmt.format(t.supported)} / {fmt.format(mtlxLast.nodedefs)} ({t.pct}%)
+                </span>
+              </div>
+              <div class="track">
+                <div class="fill" style={`width:${t.pct}%`} />
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </section>
+
+  <section class="container">
+    <SchemaExplorer
+      client:load
+      usdLatest={usdSchemas.latest}
+      mtlxLatest={materialxNodes.latest}
+      domains={usdSchemas.domains}
+      schemas={schemas}
+      targets={materialxNodes.targets.filter((t) => t.id in mtlxLast.supported)}
+      nodes={nodes}
+    />
+  </section>
+</Base>
+
+<style>
+  .charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--tc);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .chart-card.usd {
+    --tc: var(--usd);
+  }
+  .chart-card.mtlx {
+    --tc: var(--mtlx);
+  }
+  .chart-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .chart-card h2 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+  }
+  .chart-card p {
+    margin: 0;
+    font-size: 0.86rem;
+  }
+  .dl {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+  .bar-chart {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22px, 1fr));
+    gap: 4px;
+    height: 150px;
+    align-items: end;
+    padding-top: 8px;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    gap: 4px;
+  }
+  .bar-wrap {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-wrap .fill {
+    width: 100%;
+    background: var(--tc);
+    border-radius: 4px 4px 0 0;
+  }
+  .col span {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .target-bars {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.84rem;
+    margin-bottom: 3px;
+  }
+  .track {
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .track .fill {
+    height: 100%;
+    background: var(--tc);
+  }
+</style>

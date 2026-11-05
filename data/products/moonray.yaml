@@ -38,7 +38,7 @@ releases:
       work-in-progress MaterialX map shader rendering via the new
       materialx_shaders repository (enabled with -DBUILD_MATERIALX_SHADERS=ON),
       motion blur support for RDL geometry DSOs, and handling for USD's Vulkan
-      dependency in USD 25.05+.
+      dependency in USD 24.05+ / 0.25+.
     sources:
       - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.0
         title: "OpenMoonRay Release v2026.29.0"
@@ -78,6 +78,10 @@ releases:
       - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/openmoonray-2.40.0.1
         title: "OpenMoonRay Release 2.40.0.1"
         kind: release-notes
+        accessed: 2026-11-04
+      - url: https://github.com/OpenMoonRay/openmoonray/blob/openmoonray-2.40.0.1/building/Rocky9/CMakeLists.txt
+        title: "OpenMoonRay 2.40.0.1 Rocky9 CMakeLists.txt (USD 23.08 build recipe)"
+        kind: repo
         accessed: 2026-11-04
 
   - version: "2.34.0.1"
@@ -129,7 +133,7 @@ support:
       Solaris HDAs and parameter interfaces via moonray_dcc_plugins.
     gaps:
       - "All textures in USD scenes must be tiled and mipmapped (.tx), or pre-converted with usd_mipmap_images."
-      - "Hydra 2.0 client support for Houdini 21+ and Maya 2026 is still in an unmerged PR (OpenMoonRay/hdMoonray#14)."
+      - "Hydra 2.0 client support is tracked in an unmerged PR (OpenMoonRay/hdMoonray#14)."
       - "In-process debug mode can freeze the Houdini GUI due to TBB thread contention."
       - "Light Filters and RenderVars UI are listed as not yet available in the Houdini integration guide."
     confidence: high
@@ -152,7 +156,7 @@ support:
         kind: docs
         accessed: 2026-11-04
       - url: https://github.com/OpenMoonRay/hdMoonray/pull/14
-        title: "OpenMoonRay/hdMoonray PR #14 — Support Hydra 2.0 clients (Houdini 21, Maya 2026)"
+        title: "OpenMoonRay/hdMoonray PR #14 — Hydra 2.0 client support+"
         kind: issue
         accessed: 2026-11-04
 
@@ -374,9 +378,8 @@ support:
     level: native
     notes: >
       hdMoonray supports Hydra extComputation Sprims for usdSkelImaging skinning
-      (tested in hats/geometry/geometry_skel.usd), and moonshine_usd directly
-      evaluates UsdSkelRoot, UsdSkelCache, UsdSkelSkeletonQuery, and
-      UsdSkelSkinningQuery to deform skinned meshes, curves, and points.
+      (tested in hats/geometry/geometry_skel.usd), and moonshine_usd handles
+      UsdSkelRoot prim transforms in UsdGeometry.
     confidence: high
     verified: 2026-11-04
     sources:
@@ -388,8 +391,8 @@ support:
         title: "OpenMoonRay/hdMoonray — hats/geometry/geometry_skel.usd UsdSkel test"
         kind: repo
         accessed: 2026-11-04
-      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/lib/geometry/usd/Mesh.cc
-        title: "OpenMoonRay/moonshine_usd — lib/geometry/usd/Mesh.cc (UsdSkelSkinningQuery evaluation)"
+      - url: https://github.com/OpenMoonRay/moonshine_usd/blob/main/dso/geometry/Usd/UsdGeometry.cc
+        title: "OpenMoonRay/moonshine_usd — dso/geometry/Usd/UsdGeometry.cc (UsdSkelRoot transform handling)"
         kind: repo
         accessed: 2026-11-04
 
@@ -491,7 +494,7 @@ support:
 
   - capability: usd.shade.materialx
     level: experimental
-    since: "2026.29.0"
+    since: "2026.29.1"
     notes: >
       OpenMoonRay 2026.29.0 and 2026.29.1 introduced work-in-progress support for
       translating and rendering MaterialX map shader nodes in hdMoonray via the

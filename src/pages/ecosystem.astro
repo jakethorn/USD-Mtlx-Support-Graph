@@ -1,0 +1,206 @@
+---
+/** Open-source ecosystem: libraries, plugins, delegates, viewers and learning resources around USD and MaterialX. */
+import Base from '../layouts/Base.astro';
+import { loadData } from '../lib/data';
+import { withBase } from '../lib/url';
+import { PROJECT_KINDS } from '../data/schema';
+
+const { products, projects } = await loadData();
+const productName = new Map(products.map((p) => [p.id, p.name]));
+const fmt = new Intl.NumberFormat('en');
+const kinds = PROJECT_KINDS.filter((k) => projects.some((p) => p.kind === k));
+
+/** Weekly commits for the last year → SVG polyline points (viewBox 104×24). */
+function spark(weeks: number[] | null | undefined) {
+  if (!weeks?.length) return null;
+  const max = Math.max(...weeks, 1);
+  const step = 104 / Math.max(weeks.length - 1, 1);
+  return weeks.map((w, i) => `${(i * step).toFixed(1)},${(22 - (w / max) * 20).toFixed(1)}`).join(' ');
+}
+const commitsLastYear = (weeks: number[] | null | undefined) => weeks?.reduce((a, b) => a + b, 0);
+---
+
+<Base title="Ecosystem" description="Open-source projects in the OpenUSD and MaterialX ecosystem.">
+  <div class="container page-head">
+    <h1>Open-source ecosystem</h1>
+    <p class="muted">
+      {projects.length} open-source projects built on or around OpenUSD and MaterialX. Stars and activity are refreshed
+      weekly from GitHub; the sparkline shows commits per week over the past year.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="controls" id="eco-filters" hidden>
+      <div class="chip-row" role="group" aria-label="Technology">
+        <button class="chip" data-tech="" aria-pressed="true">Both</button>
+        <button class="chip" data-tech="usd" aria-pressed="false">OpenUSD</button>
+        <button class="chip" data-tech="materialx" aria-pressed="false">MaterialX</button>
+      </div>
+      <div class="chip-row" role="group" aria-label="Kind">
+        <button class="chip" data-kind="" aria-pressed="true">All kinds</button>
+        {kinds.map((k) => <button class="chip" data-kind={k} aria-pressed="false">{k}</button>)}
+      </div>
+    </div>
+
+    <div class="projects">
+      {
+        projects.map((p) => {
+          const points = spark(p.stats?.weeklyCommits);
+          const commits = commitsLastYear(p.stats?.weeklyCommits);
+          return (
+            <article class="project" data-kind={p.kind} data-tech={p.tech.join(' ')}>
+              <header>
+                <a href={p.stats?.url ?? p.url} rel="noopener">{p.name}</a>
+                {p.stats && <span class="stars" title="GitHub stars">★ {fmt.format(p.stats.stars)}</span>}
+              </header>
+              <p class="desc muted">{p.description}</p>
+              {p.hosts.length > 0 && (
+                <p class="hosts">
+                  For{' '}
+                  {p.hosts.map((h, i) => (
+                    <>
+                      {i > 0 && ', '}
+                      {productName.has(h) ? <a href={withBase(`products/${h}/`)}>{productName.get(h)}</a> : h}
+                    </>
+                  ))}
+                </p>
+              )}
+              <div class="foot">
+                <p class="meta">
+                  <span class="kind">{p.kind}</span>
+                  {p.tech.map((t) => <span class={`tech ${t}`}>{t === 'usd' ? 'USD' : 'MaterialX'}</span>)}
+                  {(p.license ?? p.stats?.license) && <span>{p.license ?? p.stats?.license}</span>}
+                  {p.stats?.archived && <span class="archived">archived</span>}
+                </p>
+                {points && (
+                  <svg class="spark" viewBox="0 0 104 24" role="img" aria-label={`${commits} commits in the past year`}>
+                    <title>{`${commits} commits in the past year${p.stats?.pushedAt ? `, last push ${p.stats.pushedAt}` : ''}`}</title>
+                    <polyline points={points} />
+                  </svg>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+    <p class="muted empty" hidden>Nothing matches these filters.</p>
+  </div>
+</Base>
+
+<script>
+  // Progressive enhancement: the full list renders without JS; filters appear when JS runs.
+  const root = document.getElementById('eco-filters');
+  if (root) {
+    root.hidden = false;
+    let tech = '';
+    let kind = '';
+    const cards = [...document.querySelectorAll<HTMLElement>('.project')];
+    const empty = document.querySelector<HTMLElement>('.empty');
+    const apply = () => {
+      let shown = 0;
+      for (const c of cards) {
+        const ok = (!tech || c.dataset.tech!.split(' ').includes(tech)) && (!kind || c.dataset.kind === kind);
+        c.hidden = !ok;
+        if (ok) shown++;
+      }
+      if (empty) empty.hidden = shown > 0;
+    };
+    root.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('button');
+      if (!b) return;
+      const attr = 'tech' in b.dataset ? 'tech' : 'kind';
+      for (const sib of b.parentElement!.querySelectorAll('button')) sib.setAttribute('aria-pressed', String(sib === b));
+      if (attr === 'tech') tech = b.dataset.tech!;
+      else kind = b.dataset.kind!;
+      apply();
+    });
+  }
+</script>
+
+<style>
+  .controls {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 16px;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 12px;
+  }
+  .project {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .project[hidden] {
+    display: none;
+  }
+  .project header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .project header a {
+    font-weight: 650;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .stars {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .project p {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+  }
+  .hosts {
+    font-size: 0.82rem !important;
+  }
+  .foot {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.75rem !important;
+  }
+  .meta span {
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+  }
+  .meta .tech.usd {
+    border-color: var(--usd);
+  }
+  .meta .tech.materialx {
+    border-color: var(--mtlx);
+  }
+  .meta .archived {
+    color: var(--level-none);
+    border-color: var(--level-none);
+  }
+  .spark {
+    width: 104px;
+    height: 24px;
+    flex: none;
+  }
+  .spark polyline {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+</style>

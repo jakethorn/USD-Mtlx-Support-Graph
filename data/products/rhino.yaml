@@ -93,15 +93,3 @@ support:
     confidence: high
     verified: 2026-11-04
 
-  - capability: usd.shade.preview_surface
-    level: partial
-    since: "8.0"
-    notes: >-
-      Rhino 8 exports object materials and referenced texture assets into USD and USDZ packages.
-    sources:
-      - url: https://docs.mcneel.com/rhino/8/help/en-us/fileio/usd_import_export.htm
-        title: Universal Scene Description export (Rhino 8 Help)
-        kind: docs
-        accessed: 2026-11-04
-    confidence: medium
-    verified: 2026-11-04

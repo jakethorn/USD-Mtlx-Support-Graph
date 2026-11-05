@@ -1,13 +1,23 @@
 ---
 /**
- * Plain product detail page: every record with its evidence. Interim view used to read and
- * review the research; the designed product page replaces it in Phase 4.
+ * Designed product detail page (Phase 4): capability scorecard, release version history,
+ * ecosystem integrations, every sourced capability record (deep-linkable via #cap-*) and known issues.
  */
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import LevelBadge from '../../components/LevelBadge.astro';
 import { loadData, type ProductEntry } from '../../lib/data';
 import { withBase } from '../../lib/url';
+import {
+  CATEGORY_LABEL,
+  INDUSTRY_LABEL,
+  LEVEL_LABEL,
+  LEVEL_ORDER,
+  TECH_LABEL,
+  capAnchor,
+  type Level,
+  type Tech,
+} from '../../lib/view';
 
 export const getStaticPaths = (async () => {
   const { products } = await loadData();
@@ -16,33 +26,191 @@ export const getStaticPaths = (async () => {
 
 const { products, projects, capabilities } = await loadData();
 const product = products.find((p) => p.id === Astro.params.id) as ProductEntry;
+const fmt = new Intl.NumberFormat('en');
+
 const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? projects.find((p) => p.id === id)?.name ?? id;
 const linkOf = (id: string) =>
-  products.some((p) => p.id === id) ? withBase(`products/${id}/`) : projects.find((p) => p.id === id)?.stats?.url;
+  products.some((p) => p.id === id) ? withBase(`products/${id}/`) : projects.find((p) => p.id === id)?.stats?.url ?? projects.find((p) => p.id === id)?.url;
 
 const capIndex = new Map(capabilities.map((c, i) => [c.id, i]));
 const capById = new Map(capabilities.map((c) => [c.id, c]));
-const techLabel = { usd: 'OpenUSD', materialx: 'MaterialX' } as const;
+const recordByCap = new Map(product.support.map((s) => [s.capability, s]));
 
-const sections = (['usd', 'materialx'] as const)
+const scorecards = (['usd', 'materialx'] as Tech[]).map((tech) => {
+  const techCaps = capabilities.filter((c) => c.tech === tech);
+  const counts = Object.fromEntries(
+    LEVEL_ORDER.map((l) => [l, techCaps.filter((c) => recordByCap.get(c.id)?.level === l).length]),
+  ) as Record<Level, number>;
+  const recorded = techCaps.filter((c) => recordByCap.has(c.id)).length;
+  const unknown = techCaps.length - recorded;
+  return { tech, label: TECH_LABEL[tech], total: techCaps.length, recorded, unknown, counts, caps: techCaps };
+});
+
+const sections = (['usd', 'materialx'] as Tech[])
   .map((tech) => {
     const records = product.support
       .filter((s) => capById.get(s.capability)?.tech === tech)
       .sort((a, b) => (capIndex.get(a.capability) ?? 0) - (capIndex.get(b.capability) ?? 0));
     const groups = [...new Set(records.map((r) => capById.get(r.capability)!.group))];
-    return { tech, label: techLabel[tech], groups: groups.map((g) => ({ g, records: records.filter((r) => capById.get(r.capability)!.group === g) })) };
+    return {
+      tech,
+      label: TECH_LABEL[tech],
+      groups: groups.map((g) => ({ g, records: records.filter((r) => capById.get(r.capability)!.group === g) })),
+    };
   })
   .filter((s) => s.groups.length > 0);
+
+// Open-source projects targeting this product + other products (e.g. Hydra render delegates) hosted in it.
+const ecosystemProjects = projects.filter((proj) => proj.hosts.includes(product.id));
+const hostedProducts = products.filter(
+  (other) =>
+    other.id !== product.id &&
+    other.support.some((s) => s.hosts?.includes(product.id) || s.via === product.id),
+);
+
+const latestUsd = product.releases.find((r) => r.usd)?.usd;
+const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
 ---
 
-<Base title={product.name}>
+<Base title={product.name} description={product.summary}>
   <div class="container page">
-    <p class="crumbs"><a href={withBase()}>All products</a></p>
-    <h1>{product.name}</h1>
-    <p class="muted">
-      {product.vendor} · {product.categories.join(', ')} · {product.license} · <a href={product.website} rel="noopener">website</a>
-    </p>
-    {product.summary && <p>{product.summary}</p>}
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href={withBase('matrix/')}>← Support matrix</a>
+      <span class="muted">·</span>
+      <a href={withBase()}>Overview</a>
+    </nav>
+
+    <header class="hero-card">
+      <div class="title-row">
+        <div>
+          <div class="badges">
+            <span class="pill tier">Tier {product.tier}</span>
+            {product.status === 'discontinued' && <span class="pill discontinued">Discontinued</span>}
+            {product.categories.map((c) => <span class="pill">{CATEGORY_LABEL[c] ?? c}</span>)}
+            <span class="pill muted">{product.license}</span>
+          </div>
+          <h1>{product.name}</h1>
+          <p class="vendor muted">by {product.vendor}</p>
+        </div>
+        <div class="links">
+          <a class="btn" href={product.website} rel="noopener">Official website ↗</a>
+          {
+            product.stats && (
+              <a class="btn" href={product.stats.url} rel="noopener">
+                GitHub · ★ {fmt.format(product.stats.stars)}
+              </a>
+            )
+          }
+          {(latestUsd || latestMtlx) && (
+            <div class="bundled">
+              {latestUsd && <span class="ver usd">Bundles OpenUSD {latestUsd}</span>}
+              {latestMtlx && <span class="ver mtlx">Bundles MaterialX {latestMtlx}</span>}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {product.summary && <p class="summary">{product.summary}</p>}
+
+      <p class="industries muted">
+        <strong>Industries:</strong>{' '}
+        {product.industries.map((i) => INDUSTRY_LABEL[i] ?? i).join(' · ')}
+      </p>
+    </header>
+
+    <section class="scorecards" aria-label="Capability overview">
+      {
+        scorecards.map((sc) => (
+          <article class={`scorecard tech-${sc.tech}`}>
+            <header>
+              <h2>{sc.label}</h2>
+              <span class="muted">
+                {sc.recorded} of {sc.total} capabilities documented
+              </span>
+            </header>
+            <div class="bar" role="img" aria-label={`${sc.label} support distribution`}>
+              {LEVEL_ORDER.map(
+                (l) =>
+                  sc.counts[l] > 0 && (
+                    <span
+                      class={`seg lv-${l}`}
+                      style={`flex:${sc.counts[l]}`}
+                      title={`${LEVEL_LABEL[l]}: ${sc.counts[l]}`}
+                    />
+                  ),
+              )}
+              {sc.unknown > 0 && (
+                <span class="seg unknown" style={`flex:${sc.unknown}`} title={`Unknown: ${sc.unknown}`} />
+              )}
+            </div>
+            <ul class="counts" role="list">
+              {LEVEL_ORDER.filter((l) => sc.counts[l] > 0).map((l) => (
+                <li>
+                  <span class={`dot lv-${l}`} />
+                  <strong>{sc.counts[l]}</strong> {LEVEL_LABEL[l].toLowerCase()}
+                </li>
+              ))}
+              {sc.unknown > 0 && (
+                <li class="muted">
+                  <span class="dot unknown" />
+                  {sc.unknown} unknown
+                </li>
+              )}
+            </ul>
+            <ul class="cap-grid" role="list">
+              {sc.caps.map((c) => {
+                const rec = recordByCap.get(c.id);
+                return (
+                  <li>
+                    {rec ? (
+                      <a
+                        href={`#${capAnchor(c.id)}`}
+                        class={`cap-chip lv-${rec.level}`}
+                        title={`${c.label}: ${LEVEL_LABEL[rec.level]}${rec.since ? ` (since ${rec.since})` : ''}`}
+                      >
+                        <span class="dot" />
+                        {c.label}
+                      </a>
+                    ) : (
+                      <span class="cap-chip unknown" title={`${c.label}: unknown (no sourced record)`}>
+                        {c.label}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </article>
+        ))
+      }
+    </section>
+
+    {
+      (ecosystemProjects.length > 0 || hostedProducts.length > 0) && (
+        <section>
+          <h2>Ecosystem & integrations</h2>
+          <div class="eco-grid">
+            {hostedProducts.map((hp) => {
+              const del = hp.support.find((s) => s.hosts?.includes(product.id) || s.via === product.id);
+              return (
+                <a class="eco-card" href={withBase(`products/${hp.id}/`)}>
+                  <strong>{hp.name}</strong>
+                  <span class="muted">{hp.vendor} · {del ? capById.get(del.capability)?.label : 'Integration'}</span>
+                </a>
+              );
+            })}
+            {ecosystemProjects.map((ep) => (
+              <a class="eco-card" href={ep.stats?.url ?? ep.url} rel="noopener">
+                <strong>
+                  {ep.name} {ep.stats && <span class="muted">★ {fmt.format(ep.stats.stars)}</span>}
+                </strong>
+                <span class="muted">{ep.kind} · {ep.description}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     {
       product.releases.length > 0 && (
@@ -51,17 +219,35 @@ const sections = (['usd', 'materialx'] as const)
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Version</th><th>Date</th><th>OpenUSD</th><th>MaterialX</th><th>Notes</th><th>Source</th></tr>
+                <tr>
+                  <th>Version</th>
+                  <th>Date</th>
+                  <th>OpenUSD</th>
+                  <th>MaterialX</th>
+                  <th>Notes</th>
+                  <th>Source</th>
+                </tr>
               </thead>
               <tbody>
                 {product.releases.map((r) => (
                   <tr class={r.review ? 'flagged' : ''}>
-                    <td><strong>{r.version}</strong></td>
-                    <td>{r.date ?? '—'}</td>
-                    <td>{r.usd ?? '—'}</td>
-                    <td>{r.materialx ?? '—'}</td>
-                    <td>{r.notes}{r.review && <p class="review">Review: {r.review}</p>}</td>
-                    <td>{r.sources.map((s, i) => <a href={s.url} rel="noopener" title={s.title}>[{i + 1}]</a>)}</td>
+                    <td>
+                      <strong>{r.version}</strong>
+                    </td>
+                    <td class="nowrap">{r.date ?? '—'}</td>
+                    <td>{r.usd ? <code class="ver-tag usd">{r.usd}</code> : '—'}</td>
+                    <td>{r.materialx ? <code class="ver-tag mtlx">{r.materialx}</code> : '—'}</td>
+                    <td>
+                      {r.notes}
+                      {r.review && <p class="review">Review: {r.review}</p>}
+                    </td>
+                    <td class="nowrap">
+                      {r.sources.map((s, i) => (
+                        <a href={s.url} rel="noopener" title={s.title}>
+                          [{i + 1}]
+                        </a>
+                      ))}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -74,16 +260,19 @@ const sections = (['usd', 'materialx'] as const)
     {
       sections.map((sec) => (
         <section>
-          <h2>{sec.label}</h2>
+          <h2>{sec.label} capabilities</h2>
           {sec.groups.map(({ g, records }) => (
             <>
               <h3>{g}</h3>
               <ul class="records" role="list">
                 {records.map((s) => (
-                  <li class={s.review || s.confidence === 'low' ? 'flagged' : ''}>
+                  <li id={capAnchor(s.capability)} class={s.review || s.confidence === 'low' ? 'flagged' : ''}>
                     <div class="head">
                       <LevelBadge level={s.level} />
-                      <strong title={capById.get(s.capability)?.description}>{capById.get(s.capability)?.label}</strong>
+                      <strong title={capById.get(s.capability)?.description}>
+                        {capById.get(s.capability)?.label}
+                      </strong>
+                      <code class="cap-id muted">{s.capability}</code>
                       {s.since && <span class="muted">since {s.since}</span>}
                       {s.until && <span class="muted">until {s.until}</span>}
                       {s.via && (
@@ -91,19 +280,35 @@ const sections = (['usd', 'materialx'] as const)
                           via <a href={linkOf(s.via)}>{nameOf(s.via)}</a>
                         </span>
                       )}
-                      {s.hosts && <span class="muted">in {s.hosts.map(nameOf).join(', ')}</span>}
-                      <span class={`conf conf-${s.confidence}`}>{s.confidence} confidence</span>
+                      {s.hosts && (
+                        <span class="muted">
+                          in{' '}
+                          {s.hosts.map((h, i) => (
+                            <>
+                              {i > 0 && ', '}
+                              {linkOf(h) ? <a href={linkOf(h)}>{nameOf(h)}</a> : nameOf(h)}
+                            </>
+                          ))}
+                        </span>
+                      )}
+                      <span class={`conf conf-${s.confidence}`}>
+                        {s.confidence} confidence · verified {s.verified}
+                      </span>
                     </div>
                     {s.notes && <p>{s.notes}</p>}
                     {s.gaps.length > 0 && (
                       <ul class="gaps">
-                        {s.gaps.map((gap) => <li>{gap}</li>)}
+                        {s.gaps.map((gap) => (
+                          <li>{gap}</li>
+                        ))}
                       </ul>
                     )}
                     {s.review && <p class="review">Review: {s.review}</p>}
                     <p class="sources">
                       {s.sources.map((src) => (
-                        <a href={src.url} rel="noopener">{src.title ?? new URL(src.url).hostname}</a>
+                        <a href={src.url} rel="noopener">
+                          {src.title ?? new URL(src.url).hostname}
+                        </a>
                       ))}
                     </p>
                   </li>
@@ -118,18 +323,25 @@ const sections = (['usd', 'materialx'] as const)
     {
       product.issues.length > 0 && (
         <section>
-          <h2>Known issues</h2>
+          <h2>Known issues ({product.issues.length})</h2>
           <ul class="records" role="list">
             {product.issues.map((i) => (
               <li class={i.review ? 'flagged' : ''}>
                 <div class="head">
                   <span class={`status status-${i.status}`}>{i.status}</span>
-                  <a href={i.url} rel="noopener"><strong>{i.title}</strong></a>
+                  <a href={i.url} rel="noopener">
+                    <strong>{i.title}</strong>
+                  </a>
                   {i.severity && <span class="muted">{i.severity}</span>}
                   {i.affects && <span class="muted">affects {i.affects}</span>}
                   {i.fixedIn && <span class="muted">fixed in {i.fixedIn}</span>}
                 </div>
-                {i.capability && <p class="muted">{capById.get(i.capability)?.label}</p>}
+                {i.capability && (
+                  <p class="muted">
+                    Capability:{' '}
+                    <a href={`#${capAnchor(i.capability)}`}>{capById.get(i.capability)?.label ?? i.capability}</a>
+                  </p>
+                )}
                 {i.review && <p class="review">Review: {i.review}</p>}
               </li>
             ))}
@@ -144,16 +356,238 @@ const sections = (['usd', 'materialx'] as const)
 
 <style>
   .page {
-    padding-top: 32px;
+    padding-top: 28px;
   }
   .crumbs {
-    font-size: 0.9rem;
+    display: flex;
+    gap: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .title-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .pill {
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .pill.tier {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: transparent;
+  }
+  .pill.discontinued {
+    border-color: var(--level-none);
+    color: var(--level-none);
+    background: transparent;
   }
   h1 {
-    margin: 4px 0;
+    margin: 0;
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
   }
+  .vendor {
+    margin: 2px 0 0;
+    font-size: 0.95rem;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .btn {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .btn:hover {
+    border-color: var(--text-muted);
+  }
+  .bundled {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .ver {
+    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--c);
+    color: var(--c);
+  }
+  .ver.usd,
+  .ver-tag.usd {
+    --c: var(--usd);
+  }
+  .ver.mtlx,
+  .ver-tag.mtlx {
+    --c: var(--mtlx);
+  }
+  .ver-tag {
+    color: var(--c);
+    font-weight: 600;
+  }
+  .summary {
+    margin: 14px 0 8px;
+    max-width: 78ch;
+  }
+  .industries {
+    margin: 8px 0 0;
+    font-size: 0.86rem;
+  }
+
+  .scorecards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .scorecard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--tc);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .scorecard.tech-usd {
+    --tc: var(--usd);
+  }
+  .scorecard.tech-materialx {
+    --tc: var(--mtlx);
+  }
+  .scorecard header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .scorecard h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .scorecard header span {
+    font-size: 0.82rem;
+  }
+  .bar {
+    display: flex;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--surface-2);
+    gap: 1px;
+  }
+  .seg {
+    background: var(--lv);
+  }
+  .seg.unknown {
+    background: transparent;
+  }
+  .counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 12px;
+    font-size: 0.8rem;
+  }
+  .counts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lv);
+    display: inline-block;
+  }
+  .dot.unknown {
+    background: transparent;
+    border: 1px dashed var(--text-muted);
+  }
+  .cap-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cap-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.76rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .cap-chip:hover {
+    border-color: var(--text-muted);
+  }
+  .cap-chip.unknown {
+    background: transparent;
+    border-style: dashed;
+    color: var(--text-muted);
+  }
+
+  .eco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 10px;
+  }
+  .eco-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+  }
+  .eco-card:hover {
+    border-color: var(--text-muted);
+  }
+
   section {
-    margin-top: 40px;
+    margin-top: 36px;
   }
   h3 {
     font-size: 0.8rem;
@@ -164,22 +598,31 @@ const sections = (['usd', 'materialx'] as const)
   }
   .scroll {
     overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
   }
   table {
     border-collapse: collapse;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
   th,
   td {
     text-align: left;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border-bottom: 1px solid var(--border);
     vertical-align: top;
+  }
+  tbody tr:last-child td {
+    border-bottom: 0;
   }
   th {
     color: var(--text-muted);
     font-weight: 600;
+  }
+  .nowrap {
+    white-space: nowrap;
   }
   td a + a {
     margin-left: 4px;
@@ -196,6 +639,11 @@ const sections = (['usd', 'materialx'] as const)
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 12px 14px;
+    scroll-margin-top: 80px;
+  }
+  .records > li:target {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
   }
   .records > li.flagged,
   tr.flagged {
@@ -207,6 +655,9 @@ const sections = (['usd', 'materialx'] as const)
     align-items: center;
     gap: 6px 10px;
   }
+  .cap-id {
+    font-size: 0.76rem;
+  }
   .records p {
     margin: 6px 0 0;
     font-size: 0.92rem;
@@ -214,7 +665,7 @@ const sections = (['usd', 'materialx'] as const)
   .gaps {
     margin: 6px 0 0;
     padding-left: 20px;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: var(--text-muted);
   }
   .review {

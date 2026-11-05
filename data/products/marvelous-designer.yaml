@@ -202,8 +202,9 @@ support:
         title: Marvelous Designer 2025.0/ 2025.1/ 2025.2 New Feature List
         kind: release-notes
         accessed: 2026-11-04
-    confidence: high
+    confidence: medium
     verified: 2026-11-04
+    review: "The Compatible File Format table lists .usdz as Import: X / Export: O, but the USD file Compatibility page states 'Once an USDZ is imported, it cannot be exported again' and describes USDZ layers as read-only, indicating conflicting documentation on whether USDZ import is supported."
 
   # ── Workflow ─────────────────────────────────────────────────────────────
   - capability: usd.stage

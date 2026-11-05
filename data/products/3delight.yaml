@@ -103,10 +103,9 @@ releases:
 
   - version: "2.9.187"
     date: 2025-11-09
-    usd: "25.05"
     notes: >
-      Added Houdini 21.0 (USD 25.05) support, removed Houdini 19.5 support, and
-      fixed OpenVDB velocity blur for centered and non-centered shutter modes.
+      Added Houdini 21.0 support, removed Houdini 19.5 support, and changed
+      default volume velocityreferencetime.
     sources:
       - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
         title: "3Delight for Houdini — Changelog (2.9.187)"
@@ -138,8 +137,8 @@ support:
       interactive and batch rendering in Houdini Solaris (viewport and husk),
       usdview, Katana (built with FindKatanaUSD.cmake), and Maya via Multiverse
       USD. Supports NSI stream export (nsi:apistream / HDNSI_TRACE), 3Delight
-      Display output, and multi-frame 3Delight Cloud sequence contexts. Built
-      against USD 19.11 through 26.08+.
+      Display output, and multi-frame 3Delight Cloud sequence contexts. Supports
+      USD 19.11 or later.
     gaps:
       - "Katana Hydra integration is marked experimental in the HydraNSI documentation."
     confidence: high
@@ -515,25 +514,6 @@ support:
       - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/hdNSI/material.cpp
         title: "3Delight/HydraNSI — hdNSI/material.cpp (materialxversion & materialxnodedef)"
         kind: repo
-        accessed: 2026-11-04
-
-  - capability: mtlx.shadergen
-    level: native
-    since: "2.9.195"
-    notes: >
-      3Delight NSI uses OSL exclusively for all shading and evaluates MaterialX
-      node definitions (materialxnodedef) through OSL shader generation at
-      render time.
-    confidence: high
-    verified: 2026-11-04
-    sources:
-      - url: https://gitlab.com/3Delight/HydraNSI/-/blob/master/README.md
-        title: "3Delight/HydraNSI — README.md (NSI & OSL architecture)"
-        kind: repo
-        accessed: 2026-11-04
-      - url: https://documentation.3delightcloud.com/display/3DfH/Changelog
-        title: "3Delight for Houdini — Changelog (2.9.195 MaterialX networks)"
-        kind: release-notes
         accessed: 2026-11-04
 
   - capability: mtlx.color_management

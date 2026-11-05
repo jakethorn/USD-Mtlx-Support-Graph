@@ -26,20 +26,25 @@ releases:
   - version: "6.1.0"
     date: 2026-09-10
     notes: >-
-      Updates robot policy examples, RTX sensor simulation, and OpenUSD asset pipelines.
+      Updates to Kit SDK 110.3.0 and Newton 1.5.0 (adding VBD and XPBD solvers and hydroelastic contacts), adds UI
+      workflows for authoring robots with MuJoCo and Newton USD schemas, and expands PhysX/Newton tensor API parity.
     sources:
-      - url: https://docs.isaacsim.omniverse.nvidia.com/latest/overview/release_notes.html
-        title: Isaac Sim Release Notes
+      - url: https://docs.isaacsim.omniverse.nvidia.com/6.1.0/overview/release_notes.html
+        title: Isaac Sim 6.1.0 GA Release Notes
         kind: release-notes
         accessed: 2026-11-04
 
   - version: "6.0.0"
     date: 2026-06-04
     notes: >-
-      Introduces Newton physics integration alongside PhysX, updates URDF and MJCF importers (URDFImporter,
-      MJCFImporter) to author Newton schemas (NewtonMimicAPI) alongside UsdPhysics and PhysxSchema, and updates RTX
-      camera, depth, lidar, and radar sensor pipelines.
+      Updates to Kit 110.1.1, adds experimental Newton physics integration alongside PhysX, updates URDF and MJCF
+      importers (URDFImporter, MJCFImporter) to apply Newton schemas (NewtonMimicAPI) alongside UsdPhysics and
+      PhysxSchema, and adds multitick camera and RTX Lidar sensor scheduling.
     sources:
+      - url: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/release_notes.html
+        title: Isaac Sim 6.0.0 GA Release Notes
+        kind: release-notes
+        accessed: 2026-11-04
       - url: https://docs.isaacsim.omniverse.nvidia.com/latest/migration_guides/isaac_sim_6_0/urdf_mjcf_importer_exporter_pipeline.html
         title: URDF, MJCF, and Robot Asset Pipeline Changes (Isaac Sim 6.0)
         kind: docs
@@ -48,10 +53,11 @@ releases:
   - version: "5.1.0"
     date: 2025-10-21
     notes: >-
-      Open-source Isaac Sim 5.1 release on NVIDIA Omniverse and OpenUSD.
+      Updates to Kit 107.3.3, adds DGX Spark support, improves articulation gripper contact solving, and updates
+      Omniverse CAD/DGN/HOOPS/JT USD converters and Replicator extensions.
     sources:
-      - url: https://github.com/isaac-sim/IsaacSim/releases
-        title: isaac-sim/IsaacSim Releases
+      - url: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/overview/release_notes.html
+        title: Isaac Sim 5.1.0 Release Notes
         kind: release-notes
         accessed: 2026-11-04
 
@@ -60,8 +66,8 @@ releases:
     notes: >-
       Initial open-source release of NVIDIA Isaac Sim under Apache-2.0.
     sources:
-      - url: https://github.com/isaac-sim/IsaacSim/releases
-        title: isaac-sim/IsaacSim Releases
+      - url: https://github.com/isaac-sim/IsaacSim/releases/tag/v5.0.0
+        title: Isaac Sim 5.0.0 GA Release
         kind: release-notes
         accessed: 2026-11-04
 
@@ -87,16 +93,16 @@ support:
   - capability: usd.export
     level: native
     notes: >-
-      Saves and exports authored simulation stages, articulated robots, and merged meshes directly as .usd, .usda,
-      .usdc, and .usdz assets, and provides a USD-to-URDF exporter.
+      Saves authored OpenUSD simulation stages and converted robot assets (via URDFImporter and MJCFImporter usd_path
+      outputs and omni.kit.tool.asset_exporter), and provides a USD-to-URDF exporter.
     sources:
       - url: https://docs.isaacsim.omniverse.nvidia.com/latest/migration_guides/isaac_sim_6_0/urdf_mjcf_importer_exporter_pipeline.html
         title: URDF, MJCF, and Robot Asset Pipeline Changes (Isaac Sim 6.0)
         kind: docs
         accessed: 2026-11-04
-      - url: https://raw.githubusercontent.com/isaac-sim/IsaacSim/main/README.md
-        title: isaac-sim/IsaacSim README
-        kind: repo
+      - url: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/overview/release_notes.html
+        title: Isaac Sim 5.1.0 Release Notes
+        kind: release-notes
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
@@ -121,8 +127,7 @@ support:
   - capability: usd.composition.references
     level: native
     notes: >-
-      Full OpenUSD reference and payload composition arc support across the 240+ SimReady robot and sensor asset
-      catalog.
+      Composes modular robot, sensor, and environment USD assets across the 240+ SimReady robot and sensor catalog.
     sources:
       - url: https://docs.isaacsim.omniverse.nvidia.com/latest/assets/usd_assets_overview.html
         title: Isaac Sim Assets Overview
@@ -135,35 +140,11 @@ support:
     confidence: high
     verified: 2026-11-04
 
-  - capability: usd.composition.payloads
-    level: native
-    notes: >-
-      Supports OpenUSD payloads across modular robot, sensor, and large environment stages.
-    sources:
-      - url: https://docs.isaacsim.omniverse.nvidia.com/latest/assets/usd_assets_overview.html
-        title: Isaac Sim Assets Overview
-        kind: docs
-        accessed: 2026-11-04
-    confidence: high
-    verified: 2026-11-04
-
-  - capability: usd.layer_editing
-    level: native
-    notes: >-
-      Supports authoring and editing USD layers via Omniverse Kit SDK and Isaac Sim asset transformation workflows.
-    sources:
-      - url: https://docs.isaacsim.omniverse.nvidia.com/latest/overview/release_notes.html
-        title: Isaac Sim Release Notes
-        kind: release-notes
-        accessed: 2026-11-04
-    confidence: high
-    verified: 2026-11-04
-
   - capability: usd.composition.variants
     level: native
     notes: >-
-      Uses USD variant sets across robot and sensor asset families (wheeled, manipulator, humanoid, quadruped, camera,
-      depth, RTX lidar, RTX radar) to select hardware configurations and meshes.
+      Uses USD variant sets (and bundles omni.kit.variant.editor) across robot and sensor asset families (wheeled,
+      manipulator, humanoid, quadruped, camera, depth, RTX lidar, RTX radar) to select hardware configurations.
     sources:
       - url: https://docs.isaacsim.omniverse.nvidia.com/latest/assets/usd_assets_robots.html
         title: Robot Assets (Isaac Sim Documentation)
@@ -172,6 +153,10 @@ support:
       - url: https://docs.isaacsim.omniverse.nvidia.com/latest/assets/usd_assets_sensors.html
         title: Sensor Assets (Isaac Sim Documentation)
         kind: docs
+        accessed: 2026-11-04
+      - url: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/overview/release_notes.html
+        title: Isaac Sim 5.1.0 Release Notes
+        kind: release-notes
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
