@@ -260,3 +260,24 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
+
+  # ── MaterialX ────────────────────────────────────────────────────────────
+  - capability: mtlx.export
+    level: partial
+    notes: >-
+      The PolySpatial visionOS package converts Shader Graph materials to MaterialX for display in the visionOS
+      simulator and on device. Shader Graph nodes with no MaterialX equivalent are flagged in the editor.
+    gaps:
+      - Only applies to the PolySpatial visionOS workflow, not a general-purpose MaterialX export.
+      - Custom Function nodes need a separate MaterialX path when their HLSL goes beyond what the MaterialX exporter supports.
+      - Some Shader Graph nodes have no MaterialX analogue.
+    review: >-
+      The PolySpatial page doesn't say whether the output is standalone .mtlx files or MaterialX embedded in a
+      RealityKit/USD asset, so this is recorded as partial and may not match the "Writes .mtlx" definition.
+    sources:
+      - url: https://docs.unity3d.com/Packages/com.unity.polyspatial.visionos@2.4/manual/ShaderGraph.html
+        title: PolySpatial visionOS 2.4 — Shader Graph support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
