@@ -19,9 +19,11 @@ const pathname = Astro.url.pathname;
 const nav = [
   { href: withBase(), label: 'Overview', match: (p: string) => p === withBase() || p === withBase().replace(/\/$/, '') },
   { href: withBase('matrix/'), label: 'Matrix', match: (p: string) => p.startsWith(withBase('matrix')) || p.startsWith(withBase('products/')) },
+  { href: withBase('versions/'), label: 'Versions', match: (p: string) => p.startsWith(withBase('versions')) },
   { href: withBase('timeline/'), label: 'Timeline', match: (p: string) => p.startsWith(withBase('timeline')) },
   { href: withBase('ecosystem/'), label: 'Ecosystem', match: (p: string) => p.startsWith(withBase('ecosystem')) },
-  { href: withBase('schemas/'), label: 'Schemas & Nodes', match: (p: string) => p.startsWith(withBase('schemas')) },
+  { href: withBase('schemas/'), label: 'Schemas', match: (p: string) => p.startsWith(withBase('schemas')) },
+  { href: withBase('nodes/'), label: 'Nodes', match: (p: string) => p.startsWith(withBase('nodes')) },
   { href: withBase('review/'), label: 'Review', match: (p: string) => p.startsWith(withBase('review')) },
 ];
 ---
@@ -120,15 +122,15 @@ const nav = [
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     margin-left: auto;
   }
   .site-nav a {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     font-weight: 500;
     color: var(--text-muted);
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 5px 8px;
     border-radius: 6px;
   }
   .site-nav a:hover {
@@ -143,6 +145,36 @@ const nav = [
   .toggle-slot {
     width: 36px;
     height: 36px;
+  }
+  .brand .dot {
+    flex: none;
+  }
+  /* Small screens: brand and theme toggle share the first row, the nav gets a full-width row below. */
+  @media (max-width: 720px) {
+    .bar {
+      flex-wrap: wrap;
+      row-gap: 0;
+      min-height: 0;
+      padding-top: 8px;
+      padding-bottom: 6px;
+    }
+    .brand {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    .toggle-slot {
+      order: 2;
+    }
+    .site-nav {
+      order: 3;
+      width: 100%;
+      margin: 4px 0 0 -8px;
+      gap: 0;
+    }
+    .site-nav a {
+      font-size: 0.84rem;
+      padding: 4px 8px;
+    }
   }
   main {
     min-height: 70vh;

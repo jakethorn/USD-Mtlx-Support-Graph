@@ -22,12 +22,17 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 - `src/content.config.ts`: collections. `src/lib/data.ts` → `loadData()` for pages and endpoints.
 - `src/lib/url.ts`: `withBase()`. Every internal link and asset URL must go through it (Pages base path).
 - `src/styles/global.css`: design tokens (light + dark via `prefers-color-scheme` and `[data-theme]`), plus shared
-  `.lv-<level>` colour hooks and `.chip` filter styles.
+  `.lv-<level>` colour hooks and `.chip` filter styles. The chart tokens (`--lag-*`, `--cov-*`, `--cmp-*`) were
+  checked with the `dataviz` skill's `validate_palette.js` against `--surface` in each mode. Re-run it if you change
+  them.
 - `src/lib/view.ts`: labels, orderings and island prop types shared by the views.
-- Views: `/` (home), `/matrix/` (`SupportMatrix.svelte`), `/timeline/` (`Timeline.svelte`), `/ecosystem/`, `/schemas/`
-  (`SchemaExplorer.svelte`), `/products/<id>/`, `/review/`. Data downloads: `/data.json` and `/data/<name>.json`.
-- Keep island props small. Long text or large datasets go in a `/data/*.json` endpoint and are fetched on demand.
-  For example, the matrix fetches `/data/matrix-details.json` (notes and gaps) when a cell is first opened.
+- `src/lib/lag.ts`: version-lag maths for `/versions/`, served as `/data/version-lag.json`.
+- Views: `/` (home), `/matrix/` (`SupportMatrix.svelte`), `/versions/` (`VersionLag.svelte`), `/nodes/`
+  (`NodeTable.svelte`), `/timeline/` (`Timeline.svelte`), `/ecosystem/`, `/schemas/` (`SchemaExplorer.svelte`),
+  `/products/<id>/`, `/review/`. Data downloads: `/data.json` and `/data/<name>.json`.
+- Keep island props small. Long text or large datasets go in a `/data/*.json` endpoint and are fetched on demand:
+  the matrix fetches `/data/matrix-details.json` when a cell is first opened, `/versions/` fetches
+  `/data/version-lag.json` and `/nodes/` fetches `/data/materialx-nodes.json`.
 
 ## Data rules (do not relax)
 
