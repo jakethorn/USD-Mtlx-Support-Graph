@@ -298,6 +298,26 @@ support:
     confidence: high
     verified: 2026-11-04
 
+  - capability: mtlx.authoring
+    level: native
+    hosts: [houdini]
+    notes: >-
+      Artists build MaterialX materials in Solaris, inside a Material Library using nodes such as mtlxStandard, and render them with RIS or XPU.
+    gaps:
+      - The docs describe only Houdini Solaris workflows.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/RFH27/544640862.md
+        title: "RenderMan for Houdini 27 — Solaris & MaterialX"
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: "RenderMan 27 — MaterialX"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Authoring is a Houdini Solaris capability that the RenderMan docs describe; no standalone RenderMan authoring is documented."
+
 issues:
   - title: Crash in the PRMan render delegate (hdPrman) when used through Maya Hydra
     url: https://github.com/PixarAnimationStudios/OpenUSD/issues/3964

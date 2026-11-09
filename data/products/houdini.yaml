@@ -658,6 +658,40 @@ support:
     confidence: high
     verified: 2026-11-04
 
+  - capability: mtlx.color_management
+    level: partial
+    notes: >-
+      MtlX colour-correction nodes (Color Correct, Contrast, HSV Adjust, Range, Saturate) and colour-space conversion nodes are available in Houdini.
+    gaps:
+      - The MaterialX Color Space parameter is metadata that USD's Hydra interface does not currently pass to the render delegate.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: "Houdini docs — MaterialX"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Mirrors the karma record; only the MaterialX page was checked; it does not describe OCIO handling, which the karma record cites from the colour-management guide."
+
+  - capability: mtlx.texture_baking
+    level: native
+    notes: >-
+      The Karma Texture Baker LOP bakes the connected inputs of MtlX Standard Surface and MtlX OpenPBR Surface shaders to textures.
+    gaps:
+      - The baker is for Karma CPU only.
+      - The docs do not say which OpenPBR inputs can be baked.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/support/karma_texture_baker.html
+        title: "Houdini docs — Karma Texture Baker"
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: "What's new in Houdini 22 — Karma"
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
 issues:
   - title: HoudiniUsdBridge Windows build and installation issues when building against a custom USD
     url: https://github.com/sideeffects/HoudiniUsdBridge/issues/27

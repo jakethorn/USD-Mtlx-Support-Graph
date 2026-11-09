@@ -495,6 +495,22 @@ support:
     confidence: high
     verified: 2026-11-04
 
+  - capability: mtlx.export
+    level: partial
+    via: 3dsmax-usd
+    notes: >-
+      The MtlxIOUtil utility (Utilities > More) exports the materials of selected objects to a .mtlx file, with options to copy textures and use relative paths.
+    gaps:
+      - Only Physical Materials built from the OSL maps under MaterialX, or BitmapTexture, can be exported.
+      - The docs warn that parameters can be lost when exporting a MaterialX material.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/3dsMax-USD/files/USD-for-3ds-Max/Import-and-export-USD-data-in-Max/GUID-CC8C2874-1F7C-45A3-B21A-6F8FE85516D5.html
+        title: "MaterialX and USD for 3ds Max"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
 issues:
   - title: OpenPBR and OSL bitmap materials lose roughness, normals and colour space when written to USD
     url: https://github.com/Autodesk/3dsmax-usd/issues/32

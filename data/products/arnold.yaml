@@ -566,6 +566,25 @@ support:
     confidence: high
     verified: 2026-11-04
 
+  - capability: mtlx.shadergen
+    level: partial
+    notes: >-
+      The Arnold API can generate OSL shader code from a MaterialX node definition (AiMaterialxGetOslShaderCode), and arnold-usd uses it for nodedefs that have no native Arnold shader.
+    gaps:
+      - The docs do not say whether the OSL comes from MaterialX's own OslShaderGenerator; native Arnold shaders cover many nodes without generation.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: "Arnold API reference, MaterialX"
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/libs/common/materials_utils.cpp
+        title: "arnold-usd materials_utils.cpp"
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Level is interpretive: the API generates OSL from nodedefs, but no source names MaterialX's shader generator."
+
 issues:
   - title: USDLux shaping parameters (spotlights, IES) do nothing in Solaris unless the Arnold USDLux version is changed
     url: https://github.com/Autodesk/arnold-usd/issues/2734

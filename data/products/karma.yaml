@@ -346,3 +346,33 @@ support:
         accessed: 2026-11-04
     confidence: high
     verified: 2026-11-04
+
+  - capability: mtlx.authoring
+    level: native
+    hosts: [houdini]
+    notes: >-
+      The Karma Material Builder limits the node menu to compatible Karma, USD Preview and MaterialX nodes, and the USD MaterialX Builder is used for pure MaterialX shaders.
+    gaps:
+      - Authoring happens in Houdini's Solaris Material Library rather than in the renderer itself.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: "Karma User Guide — Materials"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - capability: mtlx.preview_surface
+    level: native
+    notes: >-
+      Karma XPU lists the MtlX USD Preview Surface VOP as supported.
+    gaps:
+      - The XPU page notes the Occlusion parameter is ignored on the USD Preview Surface VOP.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: "Houdini docs — Karma XPU"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The page does not say whether the MtlX USD Preview Surface VOP maps to MaterialX's UsdPreviewSurface nodedef, and describes XPU only; Karma CPU is not covered."

@@ -772,6 +772,21 @@ support:
     confidence: medium
     verified: 2026-11-04
 
+  - capability: mtlx.preview_surface
+    level: native
+    notes: >-
+      LookdevX's MaterialX BXDF library lists USD Preview Surface among its ready-made material definitions, alongside Standard Surface.
+    gaps:
+      - The page is a node-library description; it does not document rendering behaviour or limits of the node in Maya.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/2026/ENU/LookdevX/files/LookdevX_for_Maya/LookdevX_LookdevX_for_Maya_LookdevX_Node_Libraries_html.html
+        title: "LookdevX Node Libraries"
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Based on a node-library listing only; it is not stated whether this is the MaterialX UsdPreviewSurface nodedef or LookdevX's USD-native shader, and the page was read in the Chinese-locale copy of the help site."
+
 issues:
   - title: Autodesk Asset Resolver stops studio asset resolvers from loading
     url: https://github.com/Autodesk/maya-usd/issues/4537

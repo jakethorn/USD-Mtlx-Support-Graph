@@ -702,6 +702,21 @@ support:
     confidence: high
     verified: 2026-11-04
 
+  - capability: mtlx.authoring
+    level: native
+    hosts: [maya]
+    notes: >-
+      Chaos's Maya MaterialX page says MaterialX shaders can be created and edited in LookDevX with interactive IPR
+      updates, and that V-Ray shading networks can also be built there.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111740125/MaterialX
+        title: V-Ray for Maya, MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Authoring happens in Maya's LookDevX; unclear whether this counts as V-Ray capability. Only the Maya integration is documented."
+
   - capability: mtlx.standard_surface
     level: native
     hosts: [houdini, maya]
