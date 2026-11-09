@@ -116,6 +116,9 @@ const items = products.flatMap((p) => [
     border-left: 3px solid var(--level-partial);
     border-radius: var(--radius);
     padding: 12px 14px;
+    min-width: 0;
+    /* Node-support flags quote long identifiers (ND_…, node lists) that must wrap on phones. */
+    overflow-wrap: anywhere;
   }
   .head {
     display: flex;

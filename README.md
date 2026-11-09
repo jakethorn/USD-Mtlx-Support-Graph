@@ -7,6 +7,8 @@ renderers, game engines and the open-source tools around them.
 **Live site:** https://jakethorn.github.io/USD-Mtlx-Support-Graph/
 
 - **Support matrix (`/matrix/`):** Interactive product × capability matrix with technology, tier, category and industry filters and a sourced detail drawer.
+- **Version lag (`/versions/`):** How far each product's bundled OpenUSD and MaterialX versions trail the upstream releases over time.
+- **MaterialX node table (`/nodes/`):** Every standard-library node as a tile, coloured by code-generator coverage, with a two-target compare mode and a release slider.
 - **Adoption timeline (`/timeline/`):** Spec milestones, upstream OpenUSD & MaterialX releases, and product adoption history.
 - **Open-source ecosystem (`/ecosystem/`):** Libraries, Hydra delegates, DCC plugins and converters with weekly GitHub telemetry and 52-week commit sparklines.
 - **Schemas & nodes (`/schemas/`):** Searchable explorer of every OpenUSD schema since 0.7.0 and every MaterialX standard-library node since 1.38.0 with per-generator target coverage.
