@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.svelte';
+import SearchPalette from '../components/SearchPalette.svelte';
 import { withBase } from '../lib/url';
 import { REPO_URL, correctionUrl, trackProductUrl } from '../lib/feedback';
 
@@ -61,6 +62,9 @@ const nav = [
             ))
           }
         </nav>
+        <div class="search-slot">
+          <SearchPalette client:load indexUrl={withBase('data/search-index.json')} />
+        </div>
         <div class="toggle-slot"><ThemeToggle client:only="svelte" /></div>
       </div>
     </header>
@@ -165,8 +169,13 @@ const nav = [
       flex: 1;
       font-size: 0.95rem;
     }
+    .search-slot {
+      order: 1;
+      margin-left: 8px;
+    }
     .toggle-slot {
       order: 2;
+      margin-left: 6px;
     }
     .site-nav {
       order: 3;

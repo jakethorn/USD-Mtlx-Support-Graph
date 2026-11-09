@@ -79,6 +79,17 @@ export interface MatrixDetail {
   gaps: string[];
 }
 
+/** One result in the Ctrl+K search palette (`/data/search-index.json`). */
+export interface SearchEntry {
+  kind: 'page' | 'product' | 'capability' | 'project' | 'schema' | 'node';
+  title: string;
+  sub?: string;
+  href: string;
+  external?: boolean;
+  /** Lower-cased text the query is matched against. */
+  terms: string;
+}
+
 /** Key into the matrix details file. */
 export const matrixDetailKey = (productId: string, capId: string) => `${productId}|${capId}`;
 
