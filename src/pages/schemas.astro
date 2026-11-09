@@ -113,7 +113,7 @@ const nodes: ExplorerNode[] = materialxNodes.nodes.map((n) => {
           <p class="muted">
             {nodes.filter((n) => !n.removedIn).length} active nodes ({fmt.format(mtlxLast.nodedefs)} typed nodedefs, up
             from {fmt.format(mtlxFirst.nodedefs)} in {mtlxFirst.version}). Share supported by MaterialX's own code
-            generators:
+            generators (explore node by node in the <a href={withBase('nodes/')}>node table</a>):
           </p>
         </div>
         <a class="dl" href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>

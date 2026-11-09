@@ -25,6 +25,29 @@
   --level-deprecated: #9c6b4e;
   --level-none: #c94a4a;
 
+  /*
+   * Chart palette. Every ramp below was checked with the dataviz skill's validator
+   * (validate_palette.js: --ordinal for ramps, adjacent pairs for the compare pair) against
+   * --surface in this mode. Dark mode steps are re-selected for the dark surface, not inverted.
+   */
+  --grid: #e8e8e3;
+  /* version lag: releases behind at ship, 0 → 4+ (ordinal, one hue) */
+  --lag-0: #86b6ef;
+  --lag-1: #3987e5;
+  --lag-2: #1c5cab;
+  --lag-3: #0d366b;
+  /* MaterialX generator coverage, strongest last (ordinal, the MaterialX hue) */
+  --cov-partial: #50c3b8;
+  --cov-graph: #01948a;
+  --cov-native: #00645b;
+  --cov-partial-ink: #0b0b0b;
+  --cov-graph-ink: #ffffff;
+  --cov-native-ink: #ffffff;
+  /* two-target compare (categorical slots 1 and 2) */
+  --cmp-a: #2a78d6;
+  --cmp-b: #eb6834;
+  --cmp-ink: #ffffff;
+
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
   --radius: 10px;
@@ -44,6 +67,20 @@
     --accent: #7d97ff;
     --usd: #f0904a;
     --mtlx: #3cc2b6;
+    --grid: #23262e;
+    --lag-0: #184f95;
+    --lag-1: #2a78d6;
+    --lag-2: #6da7ec;
+    --lag-3: #b7d3f6;
+    --cov-partial: #005e57;
+    --cov-graph: #27837a;
+    --cov-native: #53a9a0;
+    --cov-partial-ink: #ffffff;
+    --cov-graph-ink: #ffffff;
+    --cov-native-ink: #0b0b0b;
+    --cmp-a: #3987e5;
+    --cmp-b: #d95926;
+    --cmp-ink: #ffffff;
   }
 }
 
@@ -58,6 +95,20 @@
   --accent: #7d97ff;
   --usd: #f0904a;
   --mtlx: #3cc2b6;
+  --grid: #23262e;
+  --lag-0: #184f95;
+  --lag-1: #2a78d6;
+  --lag-2: #6da7ec;
+  --lag-3: #b7d3f6;
+  --cov-partial: #005e57;
+  --cov-graph: #27837a;
+  --cov-native: #53a9a0;
+  --cov-partial-ink: #ffffff;
+  --cov-graph-ink: #ffffff;
+  --cov-native-ink: #0b0b0b;
+  --cmp-a: #3987e5;
+  --cmp-b: #d95926;
+  --cmp-ink: #ffffff;
 }
 
 *,

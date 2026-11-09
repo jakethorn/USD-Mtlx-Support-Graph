@@ -1,0 +1,87 @@
+---
+/**
+ * Version lag: every product release that states its bundled OpenUSD / MaterialX version, plotted
+ * against the upstream release it bundles (lag ribbons).
+ */
+import Base from '../layouts/Base.astro';
+import VersionLag from '../components/VersionLag.svelte';
+import { loadData } from '../lib/data';
+import { PRODUCT_CATEGORIES } from '../data/schema';
+import { withBase } from '../lib/url';
+
+const { products } = await loadData();
+const categories = PRODUCT_CATEGORIES.filter((c) => products.some((p) => p.categories.includes(c)));
+const today = new Date().toISOString().slice(0, 10);
+const withUsd = products.filter((p) => p.releases.some((r) => r.usd)).length;
+const withMtlx = products.filter((p) => p.releases.some((r) => r.materialx)).length;
+---
+
+<Base
+  title="Version lag"
+  description="How far each product release trails the OpenUSD and MaterialX release it bundles, release by release."
+>
+  <div class="container page-head">
+    <h1>Version lag</h1>
+    <p class="muted">
+      Each arc runs from the day an <span class="usd">OpenUSD</span> or <span class="mtlx">MaterialX</span> version
+      was tagged upstream to the day a product shipped with it. The longer the arc, the older the bundled version was
+      at release. {withUsd} products state their OpenUSD version and {withMtlx} their MaterialX version in at least one
+      sourced release.
+    </p>
+  </div>
+
+  <section class="container">
+    <VersionLag client:load dataUrl={withBase('data/version-lag.json')} today={today} categories={categories} />
+
+    <details class="method">
+      <summary>How lag is measured</summary>
+      <ul>
+        <li>
+          <strong>Months behind</strong> is the product's release date minus the date the bundled version was tagged on
+          GitHub (<a href={withBase('data/releases.json')}>releases.json</a>). Releases dated only to the month are
+          placed on the 15th and shown with a "~". The whole dataset is in
+          <a href={withBase('data/version-lag.json')}>version-lag.json</a>.
+        </li>
+        <li>
+          <strong>Newer releases out</strong> counts upstream releases newer than the bundled one that were already
+          tagged on the product's release date. For OpenUSD only YY.MM releases count, not hotfixes such as 25.05.01.
+          MaterialX adds nodes in patch releases, so every tag counts.
+        </li>
+        <li>
+          "Bundles" means the version the vendor says the release ships with or is built against. Products that build
+          against several versions, or let you bring your own, may show the default only. Open a point for its source.
+        </li>
+      </ul>
+    </details>
+  </section>
+</Base>
+
+<style>
+  .usd {
+    color: var(--text);
+    border-bottom: 2px solid var(--usd);
+  }
+  .mtlx {
+    color: var(--text);
+    border-bottom: 2px solid var(--mtlx);
+  }
+  .method {
+    margin-top: 28px;
+    font-size: 0.9rem;
+    max-width: 80ch;
+  }
+  .method summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .method ul {
+    padding-left: 20px;
+    color: var(--text-muted);
+  }
+  .method li {
+    margin: 6px 0;
+  }
+  .method strong {
+    color: var(--text);
+  }
+</style>

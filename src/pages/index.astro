@@ -23,6 +23,7 @@ const fmt = new Intl.NumberFormat('en');
 const capabilityById = new Map(capabilities.map((c) => [c.id, c]));
 
 const supportCount = products.reduce((n, p) => n + p.support.length, 0);
+const versionLagReleases = products.reduce((n, p) => n + p.releases.filter((r) => r.usd || r.materialx).length, 0);
 const sourceUrls = new Set([
   ...products.flatMap((p) => [...p.support, ...p.releases].flatMap((r) => r.sources.map((s) => s.url))),
   ...projects.flatMap((p) => p.sources.map((s) => s.url)),
@@ -81,6 +82,11 @@ const views = [
     desc: `${products.length} products × ${capabilities.length} capabilities with filterable rows, columns and source inspection.`,
   },
   {
+    href: withBase('versions/'),
+    title: 'Version lag',
+    desc: `How many months each product release trails the OpenUSD or MaterialX version it bundles, across ${versionLagReleases} releases.`,
+  },
+  {
     href: withBase('timeline/'),
     title: 'Adoption timeline',
     desc: 'Spec milestones, upstream releases and product adoption from 2012 to today.',
@@ -94,6 +100,11 @@ const views = [
     href: withBase('schemas/'),
     title: 'Schemas & nodes',
     desc: `Every OpenUSD schema (${usdLast.schemas}) and MaterialX node (${mtlxLiveNodes.length}), tracked across releases.`,
+  },
+  {
+    href: withBase('nodes/'),
+    title: 'MaterialX node table',
+    desc: `All ${mtlxLiveNodes.length} MaterialX nodes as a periodic table, coloured by what each of MaterialX's own code generators supports.`,
   },
 ];
 ---

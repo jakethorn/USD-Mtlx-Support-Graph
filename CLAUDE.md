@@ -20,7 +20,11 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 - `src/data/yaml.ts`: YAML parsing with the same options as Astro's loader. Use it for any script reading `data/`.
 - `src/content.config.ts`: collections. `src/lib/data.ts` → `loadData()` for pages and endpoints.
 - `src/lib/url.ts`: `withBase()`. Every internal link and asset URL must go through it (Pages base path).
-- `src/styles/global.css`: design tokens (light + dark via `prefers-color-scheme` and `[data-theme]`).
+- `src/styles/global.css`: design tokens (light + dark via `prefers-color-scheme` and `[data-theme]`). The chart
+  tokens (`--lag-*`, `--cov-*`, `--cmp-*`) were checked with the `dataviz` skill's `validate_palette.js` against
+  `--surface` in each mode. Re-run it if you change them.
+- `src/lib/lag.ts`: version-lag maths for `/versions/`, served as `/data/version-lag.json` and fetched client-side.
+  `/nodes/` fetches `/data/materialx-nodes.json` the same way. Keep big datasets out of island props.
 
 ## Data rules (do not relax)
 

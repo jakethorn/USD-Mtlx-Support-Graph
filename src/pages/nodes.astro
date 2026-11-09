@@ -1,0 +1,66 @@
+---
+/**
+ * MaterialX node table: every live standard-library node, coloured by MaterialX's own code-generator coverage.
+ * The dataset (~1 MB) is fetched client-side by the island.
+ */
+import Base from '../layouts/Base.astro';
+import NodeTable from '../components/NodeTable.svelte';
+import { materialxNodes } from '../data/generated';
+import { withBase } from '../lib/url';
+
+const liveCount = materialxNodes.nodes.filter((n) => !n.removedIn).length;
+---
+
+<Base
+  title="MaterialX node table"
+  description={`All ${liveCount} MaterialX standard-library nodes, coloured by what each of MaterialX's own shader code generators supports.`}
+>
+  <div class="container page-head">
+    <h1>MaterialX node table</h1>
+    <p class="muted">
+      All {liveCount} nodes in MaterialX {materialxNodes.latest}'s data libraries, grouped by library and node group.
+      Pick a code generator to colour the table, compare two, or slide back to a release to see what's been added
+      since. Select a node for its type variants and inputs.
+    </p>
+    <aside class="callout" aria-label="What this shows">
+      <strong>Generator coverage, not renderer support.</strong>
+      This is what MaterialX's own shader code generators (GLSL, ESSL, MSL, OSL, MDL and Slang) can translate, read
+      from the implementations shipped in the MaterialX repository. Renderers may use one of these generators, their
+      own implementation, or neither, so a node supported here isn't necessarily supported in a given renderer. For
+      that, see the <a href={withBase('matrix/')}>support matrix</a>.
+    </aside>
+  </div>
+
+  <section class="container">
+    <NodeTable client:load dataUrl={withBase('data/materialx-nodes.json')} nodeCount={liveCount} />
+    <p class="muted foot">
+      Source: <a href={withBase('data/materialx-nodes.json')}>materialx-nodes.json</a>, parsed from the
+      <a href="https://github.com/AcademySoftwareFoundation/MaterialX">MaterialX repository</a> for every release from
+      {materialxNodes.versions[0]} to {materialxNodes.latest} and refreshed weekly. "Via node graph" means the
+      node is implemented as a graph of other nodes, all of which the generator supports. A list view of the same
+      nodes is on the <a href={withBase('schemas/')}>schemas page</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .callout {
+    margin-top: 16px;
+    max-width: 78ch;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: color-mix(in srgb, var(--mtlx) 10%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--mtlx) 45%, var(--border));
+    border-radius: var(--radius);
+    padding: 12px 16px;
+  }
+  .callout strong {
+    display: block;
+    margin-bottom: 2px;
+  }
+  .foot {
+    margin-top: 32px;
+    font-size: 0.86rem;
+    max-width: 80ch;
+  }
+</style>
