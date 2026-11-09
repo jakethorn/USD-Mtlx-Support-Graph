@@ -1,0 +1,160 @@
+summary: >-
+  Arnold renders MaterialX standard-library nodes alongside its own shaders. Each nodedef becomes either a native
+  Arnold shader or OSL code that Arnold generates from the definition. Release notes add the OpenPBR and NPR nodes,
+  and MtoA's MaterialX export writes Arnold nodes rather than standard-library ones.
+scopes:
+  - id: arnold
+    label: Arnold
+    context: render
+    notes: >-
+      Arnold core, used by every plugin (HtoA, MtoA, KtoA) and by arnold-usd's Hydra delegate and USD procedural.
+  - id: mtoa-export
+    label: Arnold for Maya, Export Selection to MaterialX
+    context: export
+    hosts: [maya]
+
+records:
+  - scopes: [arnold]
+    libraries: [stdlib]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      The Arnold for Solaris MaterialX page lists "Standard Library nodes" among the MaterialX nodes Arnold supports.
+      Arnold 7.3.0.0 added rendering of node graphs that mix Arnold nodes with standard-library nodes. arnold-usd
+      gives each ND_ nodedef to Arnold, which returns a native shader or generates OSL code from the definition
+      (AiMaterialxGetOslShaderCode). Arnold 7.5.2.0 moved to MaterialX 1.39.5 and illustrates the upgrade with
+      flake and hex-tiled renders. No standard-library node is documented as unsupported.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Houdini/files/solaris/ah-materials/arnold_for_houdini_solaris_ah_solaris_mtlx_html.html
+        title: Arnold for Houdini, Solaris MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7300_html.html
+        title: Arnold 7.3.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7520_html.html
+        title: Arnold 7.5.2.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/libs/common/materials_utils.cpp
+        title: arnold-usd materials_utils.cpp (MaterialX shader translation)
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://help.autodesk.com/cloudhelp/ENU/Arnold-API-REF/group__ai__materialx.html
+        title: Arnold API reference, MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The 'Standard Library nodes' claim comes from the Arnold for Houdini (HtoA) Solaris page, which gives no version and names no nodes. Applying it to every Arnold plugin rests on the 7.3.0.0 core notes and the arnold-usd code."
+
+  - scopes: [arnold]
+    libraries: [nprlib]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      Arnold 7.4.0.0 moved to MaterialX 1.38.10-OpenPBR. The release notes say the upgrade brings new nodes "such
+      as the NPR nodes".
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7400_html.html
+        title: Arnold 7.4.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-whats-new-cards/ac_wn_7400_materialx_html.html
+        title: Arnold 7.4 what's new, Improved MaterialX support
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The 7.4.0.0 notes mention 'the NPR nodes' without naming any. This record reads that as the whole nprlib library."
+
+  - scopes: [arnold]
+    nodes: [open_pbr_surface]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      Arnold 7.4.0.0 notes say the MaterialX upgrade brings support for the OpenPBR MaterialX node. An earlier
+      7.3.4.1 bug fix (ARNOLD-15437) reads "open_pbr_surface was not supported in arnold MaterialX implementation",
+      so no start version is given here.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7400_html.html
+        title: Arnold 7.4.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7341_html.html
+        title: Arnold 7.3.4.1 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [arnold]
+    nodes: [LamaDielectric, LamaDiffuse]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      Arnold 7.4.0.0 cites improved Lama support. It fixes layering a Lama dielectric node over a Lama diffuse node
+      in MaterialX by improving Arnold's OSL layering. Only these two Lama nodes are named. The layering node itself
+      is not named, so LamaLayer is not claimed here.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Core/files/ac-release-notes/ac-rn-7x/arnold_core_7400_html.html
+        title: Arnold 7.4.0.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [arnold]
+    nodedefs:
+      - ND_standard_surface_surfaceshader
+      - ND_surface
+      - ND_oren_nayar_diffuse_bsdf
+      - ND_uniform_edf
+      - ND_displacement_float
+      - ND_displacement_vector3
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      arnold-usd's regression tests render these nodedefs from USD and compare the results with reference images.
+      Examples are test_1438 ("Surface models from PBR nodes"), test_1366 (MaterialX displacement), and test_1447 and
+      others (standard_surface). None of the tests is in the testsuite's ignore group.
+    sources:
+      - url: https://github.com/Autodesk/arnold-usd/tree/master/testsuite/test_1438
+        title: arnold-usd test_1438, Surface models from PBR nodes
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/tree/master/testsuite/test_1366
+        title: arnold-usd test_1366, Read MaterialX displacement
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/tree/master/testsuite/test_1468.2
+        title: arnold-usd test_1468.2, Use ND_displacement_float MaterialX shading node
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/tree/master/testsuite/test_1447
+        title: arnold-usd test_1447, MaterialX triplanar shader
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://github.com/Autodesk/arnold-usd/blob/master/testsuite/groups
+        title: arnold-usd testsuite groups (ignored tests)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [mtoa-export]
+    libraries: [stdlib]
+    materialx: "1.39.5"
+    level: none
+    notes: >-
+      The MtoA Export Selection to MaterialX page lists "Support for the MaterialX standard library" as unsupported.
+      Exports use Arnold's own closure type and the node definitions that ship with Arnold.
+    sources:
+      - url: https://help.autodesk.com/cloudhelp/ENU/AR-Maya/files/am-Arnold_for_Maya_User_Guide/utils/arnold_for_maya_utils_am_Export_Selection_to_Material_X_html.html
+        title: Arnold for Maya user guide, Export Selection to Material X
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The page has no date or version. It may predate Arnold 7.3's mixed standard-library graphs, so confirm it still applies to MtoA 5.6."

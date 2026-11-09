@@ -1,0 +1,273 @@
+summary: >-
+  Karma reads MaterialX networks from USD and builds its own materials, without MaterialX code generation. Karma XPU
+  supports every standard-library node but no MaterialX PBR (BSDF/EDF/VDF) nodes, so materials end in Standard Surface,
+  OpenPBR, Surface Unlit or USD Preview Surface. SideFX documents Karma CPU less precisely.
+scopes:
+  - id: cpu
+    label: Karma CPU
+    context: render
+  - id: xpu
+    label: Karma XPU
+    context: render
+records:
+  # ── Karma XPU ───────────────────────────────────────────────────────────
+  - scopes: [xpu]
+    libraries: [stdlib]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      The XPU page says XPU supports all standard-library nodes and all compound/supplementary nodes. Named coordinate
+      systems work in the position, normal, tangent, bitangent and transform point/normal/vector nodes. The page also
+      lists MtlX Array Append and MtlX Curve Adjust as unimplemented. MaterialX itself removed those two nodes (1.39.0
+      and 1.39.2), so the 1.39.5 library this record covers doesn't include them.
+    except:
+      - nodes: [geomcolor, tangent, bitangent]
+        level: partial
+        notes: The XPU page says these nodes ignore their index input.
+        gaps:
+          - The index input is ignored.
+      - nodedefs:
+          - ND_add_bsdf
+          - ND_add_edf
+          - ND_add_vdf
+          - ND_multiply_bsdfC
+          - ND_multiply_bsdfF
+          - ND_multiply_edfC
+          - ND_multiply_edfF
+          - ND_multiply_vdfC
+          - ND_multiply_vdfF
+          - ND_mix_bsdf
+          - ND_mix_edf
+          - ND_mix_vdf
+        level: none
+        notes: >-
+          The BSDF/EDF/VDF variants of add, multiply and mix. MaterialX's PBR spec documents them as PBR utility nodes,
+          and the XPU page says XPU supports no MaterialX PBR nodes.
+        review: >-
+          Interpretation: the XPU page says "all standard library nodes" and also "no MaterialX PBR nodes"; these
+          closure variants sit in stdlib in the node index but are PBR nodes in MaterialX's spec.
+      - nodedefs: [ND_mix_surfaceshader]
+        level: partial
+        notes: The XPU page says XPU blends up to 16 MtlX Standard Surface or MtlX OpenPBR Surface shaders through MtlX Mix (two before Houdini 21.0).
+        gaps:
+          - Only blends Standard Surface or OpenPBR Surface shaders, up to 16.
+          - Mixing SSS or transmission depth/absorption properties is not supported.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini 22.0 docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    libraries: [pbrlib]
+    materialx: "1.39.5"
+    level: none
+    notes: >-
+      The XPU page says XPU does not support MaterialX PBR nodes. Its supported terminal shaders on meshes, curves and
+      points are MtlX Standard Surface, MtlX OpenPBR Surface, MtlX Surface Unlit and USD Preview Surface. (The Karma User
+      Guide lists Uniform EDF among Karma's emissive shaders without naming an engine; it's recorded for CPU only.)
+    except:
+      - nodedefs: [ND_displacement_float]
+        level: partial
+        notes: >-
+          The XPU page's Displacement Style property works with Standard Surface and OpenPBR Surface using float (scalar)
+          displacement, which is read here as the float displacement node.
+        gaps:
+          - Only works with Standard Surface or OpenPBR Surface.
+        review: >-
+          Inferred from the Displacement Style render property. The same page says XPU supports no MaterialX PBR nodes,
+          and displacement is one.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini 22.0 docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes: [standard_surface, open_pbr_surface]
+    materialx: "1.39.5"
+    level: partial
+    notes: >-
+      Both are supported terminal shaders in XPU (OpenPBR Surface since Houdini 21.0). SideFX notes that Thin Walled
+      works as expected in XPU, unlike the MaterialX standard.
+    gaps:
+      - Transmission Scatter and Transmission Scatter Anisotropy are ignored.
+      - SSS only works on Mesh/Polygon and Points prims.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini 22.0 docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes: [UsdPreviewSurface, surface_unlit]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      The XPU page lists the MtlX USD Preview Surface VOP and the MtlX Surface Unlit VOP as supported. Its note that
+      Occlusion is ignored applies to the USD Preview Surface VOP (UsdShade's shader), not MaterialX's node.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/karma_xpu.html
+        title: Houdini 22.0 docs — Karma XPU
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  # ── Karma CPU ───────────────────────────────────────────────────────────
+  - scopes: [cpu]
+    nodes: [standard_surface, open_pbr_surface, surface_unlit, uniform_edf]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      The Karma User Guide lists Unlit Surface, Standard Surface, OpenPBR Surface and Uniform EDF (surfaces and volumes)
+      as the MaterialX shaders that support emission. The Houdini 21 notes say the MtlX OpenPBR Surface VOP works with
+      Karma CPU and XPU. The XPU page says XPU supports no MaterialX PBR nodes (Uniform EDF is one), so this record is CPU only.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Houdini 22.0 docs — Karma User Guide, Materials
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://www.sidefx.com/docs/houdini/news/21/karma.html
+        title: What's new in Houdini 21 — Karma
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [cpu]
+    nodes:
+      - surfacematerial
+      - surface
+      - displacement
+      - volume
+      - layer
+      - add
+      - multiply
+      - conductor_bsdf
+      - image
+      - tiledimage
+      - triplanarprojection
+      - normalmap
+      - geomcolor
+      - normal
+      - texcoord
+      - colorcorrect
+      - contrast
+      - hsvadjust
+      - range
+      - saturate
+      - rgbtohsv
+      - hsvtorgb
+      - separate2
+      - sin
+      - ceil
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      Nodes SideFX's "Using MaterialX in Solaris" guide names for building Karma materials: surface, displacement and
+      volume shaders, layer/add/multiply/mix to combine BSDFs, a conductor BSDF how-to, texture, primvar and
+      colour-correction nodes, and the math nodes of its procedural stripe example. The guide says Karma only supports
+      volume materials on VDB volume prims.
+    review: >-
+      The guide describes how to use these nodes with "Karma" generally; it isn't a support list and doesn't name an
+      engine. CPU support is inferred because the XPU page rules out the PBR nodes among them for XPU. The non-PBR
+      nodes (image, math, colour) are covered for XPU by the stdlib record. Drop this record if the user prefers
+      explicit statements only.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini 22.0 docs — Using MaterialX in Solaris
+        kind: docs
+        accessed: 2026-11-09
+    confidence: medium
+    verified: 2026-11-09
+
+  - scopes: [cpu]
+    nodes: [flake2d, flake3d, fractal2d, gltf_anisotropy_image, hextiledimage, hextilednormalmap, latlongimage]
+    materialx: "1.39.5"
+    level: native
+    since: "22.0"
+    notes: >-
+      Listed as new MtlX VOPs on the Houdini 22 Karma what's-new page, which says MaterialX 1.39.5 is now part of
+      Houdini. The page also lists a new "MtlX glTF Material", which is left out because it's unclear which MaterialX
+      node it maps to. For XPU, all but gltf_anisotropy_image are covered by the stdlib record.
+    review: >-
+      The what's-new page lists these as new MtlX VOPs on the Karma page but doesn't say which Karma engine renders
+      them.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/news/22/karma.html
+        title: What's new in Houdini 22 — Karma
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  # ── Both engines ────────────────────────────────────────────────────────
+  - nodes: [geompropvalue, geompropvalueuniform]
+    materialx: "1.39.5"
+    level: native
+    notes: >-
+      The Karma User Guide lists MtlX Geometry Property Value and MtlX Geometry Property Uniform Value as the MaterialX
+      primvar readers and says MaterialX and USD Preview nodes work in both Karma CPU and XPU. File-path primvars need
+      the uniform variant. In Karma CPU only, Geompropvalue can also import global VEX variables.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/kug/materials.html
+        title: Houdini 22.0 docs — Karma User Guide, Materials
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini 22.0 docs — Using MaterialX in Solaris
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - libraries: [lights]
+    nodes: [light]
+    materialx: "1.39.5"
+    level: none
+    notes: >-
+      SideFX's MaterialX page says Karma does not currently support MaterialX light shaders. The pbrlib light node
+      (the light-shader constructor) is included as one.
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini 22.0 docs — Using MaterialX in Solaris
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - groups: [stdlib:compositing]
+    materialx: "1.39.5"
+    level: none
+    notes: SideFX's MaterialX page says the compositing nodes are not supported by Karma.
+    except:
+      - nodes: [mix]
+        level: native
+        notes: >-
+          Mix is in MaterialX's compositing group, but the same page uses MtlX Mix to combine BSDFs and in its procedural
+          stripe example, and the XPU page blends surface shaders with it, so it's read as outside the limitation.
+    review: >-
+      The XPU page says XPU supports all standard-library nodes, which conflicts with this limitation for the
+      compositing group. Mix is carved out by interpretation; check which nodes SideFX means by "Compositing nodes".
+    sources:
+      - url: https://www.sidefx.com/docs/houdini/solaris/materialx.html
+        title: Houdini 22.0 docs — Using MaterialX in Solaris
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09

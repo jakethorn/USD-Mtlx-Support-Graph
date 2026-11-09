@@ -22,6 +22,7 @@ All data lives in [`data/`](data) as YAML and is validated against [`src/data/sc
 | `data/capabilities.yaml` | The capability taxonomy: the columns of the support matrix (e.g. `usd.composition.variants`, `mtlx.openpbr`) |
 | `data/products/<id>.yaml` | One file per product: metadata, releases (with bundled USD/MaterialX versions), support records and known issues |
 | `data/projects/<id>.yaml` | Open-source ecosystem projects: libraries, plugins, render delegates, converters, learning resources |
+| `data/node-support/<id>.yaml` | Renderer-level MaterialX node support per product: which nodes each engine or import/export path handles, as sourced records over libraries, groups or nodes with exceptions |
 | `data/events.yaml` | Timeline milestones across OpenUSD, MaterialX, ASWF and AOUSD |
 | `data/generated/*.json` | **Machine-generated, never edit by hand.** Written by `scripts/ingest/` and refreshed weekly |
 

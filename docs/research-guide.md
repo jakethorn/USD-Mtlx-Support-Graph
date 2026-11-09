@@ -77,6 +77,45 @@ Work through the capability groups in `data/capabilities.yaml`. The most valuabl
 Aim for depth on what's documented rather than a record for every capability. A typical Tier 1 product ends up with
 roughly 12 to 30 records.
 
+## MaterialX node support
+
+Which MaterialX nodes a product renders, imports or exports goes in `data/node-support/<product-id>.yaml`, separate
+from the product file. The schema is `nodeSupportSchema` in `src/data/schema.ts`, and the resolver
+(`src/data/node-support.ts`) turns it into one cell per node per scope. Node, nodedef, group and library names must
+exist in `data/generated/materialx-nodes.json` (MaterialX's own libraries). Write a file only for products whose docs,
+release notes or source code describe coverage at node, group or library level. "Supports MaterialX" is not enough:
+that belongs in the product's `mtlx.render` record.
+
+- **`scopes`** are the columns of a node table: one per engine, mode or direction the docs treat differently (Karma
+  CPU and Karma XPU; RenderMan RIS and XPU; "Blender export"). `context` is `render`, `import` (translated into the
+  product's own materials, e.g. Unreal Interchange) or `export` (nodes the product writes). Use one scope when the docs
+  don't distinguish.
+- **`records`** say what a source says, in the source's own terms. Select nodes with `libraries` (`stdlib`, `pbrlib`,
+  `bxdf`, `bxdf/lama`, `cmlib`, `lights`, `nprlib`), `groups` (`procedural2d`, or `stdlib:texture2d` to pin the
+  library), `nodes` (`standard_surface`) or `nodedefs` (`ND_image_color3`). Lists are unioned. Omit `scopes` when the
+  record applies to every scope.
+- **`except`** carves nodes out of a record: "every stdlib node except blur and heighttonormal" is one `stdlib`
+  record with one exception at level `none`. Exceptions inherit the record's sources, confidence and verified date;
+  give them only when the exception comes from a different source.
+- **`materialx`**: the MaterialX release the product version is built against, taken from a source (the product's
+  `releases:` entries usually have it). Library and group selectors expand to the nodes of that release, so a
+  "whole stdlib" record doesn't claim nodes added later. The validator warns when it's missing.
+- **`generator`**: for products that compile MaterialX with one of MaterialX's own generators (pattern nodes through
+  `genosl`, everything through `genmdl`), add it to keep only the nodedefs that generator implements.
+- **Levels** are the same as for capabilities. `native` = implemented or translated out of the box. `partial` = the
+  docs list limits (say which in `gaps`). `none` only when a source names the node (or its group or library) as
+  unsupported. Nodes no record covers stay unknown, and that's fine.
+- **Specificity:** a nodedef selector beats a node selector, which beats a group, which beats a library. Two records
+  that select the same nodedef at the same specificity with different levels are an error, so use `except` or a
+  more specific selector.
+- Node tables in docs often use display names ("Hex Tiled Image", "Unified Noise 2D") or nodedef ids (`ND_mix_color3`).
+  Map them to node names from `materialx-nodes.json` and say in `notes` if the mapping took interpretation; flag
+  doubtful mappings with `review`. A product node with no MaterialX counterpart (a vendor-specific node) is out of
+  scope.
+
+Example: `data/node-support/karma.yaml` shows two scopes, library records with exceptions and per-node records.
+`npm run review` prints each scope's resolved coverage.
+
 ## Tier 1 product ids
 
 Use these ids for `hosts` and `via` references (all of them will exist):

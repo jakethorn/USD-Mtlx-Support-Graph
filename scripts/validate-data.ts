@@ -16,13 +16,25 @@ import {
   capabilitySchema,
   eventSchema,
   idSchema,
+  nodeSupportSchema,
   productSchema,
   projectSchema,
+  SUPPORT_LEVELS,
   type Capability,
+  type NodeSupport,
   type Product,
   type Project,
   type TimelineEvent,
 } from '../src/data/schema.ts';
+import type { MaterialXNodes } from '../src/data/generated.ts';
+import {
+  compareMtlxVersions,
+  existsAt,
+  indexNodes,
+  resolveNodeSupport,
+  selectNodedefs,
+  type NodeSupportRef,
+} from '../src/data/node-support.ts';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DATA = join(ROOT, 'data');
@@ -145,7 +157,7 @@ type ReleasesFile = Record<'usd' | 'materialx', { releases: { version: string }[
 const generated = {
   releases: readGenerated<ReleasesFile>('releases.json'),
   githubStats: readGenerated<{ repos: Record<string, unknown> }>('github-stats.json'),
-  materialxNodes: readGenerated<{ latest: string }>('materialx-nodes.json'),
+  materialxNodes: readGenerated<MaterialXNodes>('materialx-nodes.json'),
   usdSchemas: readGenerated<{ latest: string }>('usd-schemas.json'),
 };
 const knownUsdVersions = new Set(generated.releases?.usd.releases.map((r) => r.version));
@@ -156,6 +168,7 @@ const capabilities: Capability[] = loadList(capabilitiesFile, capabilitySchema);
 const products = loadDir(join(DATA, 'products'), productSchema) as Map<string, { file: string; data: Product }>;
 const projects = loadDir(join(DATA, 'projects'), projectSchema) as Map<string, { file: string; data: Project }>;
 const events: TimelineEvent[] = loadList(join(DATA, 'events.yaml'), eventSchema);
+const nodeSupport = loadDir(join(DATA, 'node-support'), nodeSupportSchema) as Map<string, { file: string; data: NodeSupport }>;
 
 // ---------------------------------------------------------------------------
 // Cross-reference & hygiene checks
@@ -261,6 +274,141 @@ for (const e of events) {
 }
 
 // ---------------------------------------------------------------------------
+// MaterialX node support (data/node-support/<product-id>.yaml)
+// ---------------------------------------------------------------------------
+
+let nodeRecordCount = 0;
+const nodeCoverage: string[] = [];
+const nodeIndex = generated.materialxNodes ? indexNodes(generated.materialxNodes) : undefined;
+const earliestMtlx = generated.materialxNodes?.versions[0];
+const describeRef = (ref: NodeSupportRef) =>
+  `records[${ref.record}]` + (ref.exception === undefined ? '' : `.except[${ref.exception}]`);
+const selectorLabel = (s: { libraries?: string[]; groups?: string[]; nodes?: string[]; nodedefs?: string[] }) => {
+  const names = [...(s.libraries ?? []), ...(s.groups ?? []), ...(s.nodes ?? []), ...(s.nodedefs ?? [])];
+  return names.slice(0, 4).join(', ') + (names.length > 4 ? ` +${names.length - 4}` : '');
+};
+
+for (const [productId, { file, data: ns }] of nodeSupport) {
+  const productName = products.get(productId)?.data.name ?? productId;
+  if (!products.has(productId)) {
+    errors.push({ file, where: '(file name)', message: `"${productId}" is not a product id (data/products/${productId}.yaml)` });
+  }
+
+  const scopeIds = new Set<string>();
+  ns.scopes.forEach((scope, i) => {
+    if (scopeIds.has(scope.id)) errors.push({ file, where: `scopes[${i}]`, message: `duplicate scope id "${scope.id}"` });
+    scopeIds.add(scope.id);
+    knownProducts(scope.hosts, file, `scopes[${i}].hosts`);
+  });
+
+  ns.records.forEach((r, i) => {
+    const where = `records[${i}]`;
+    const label = `${productName} · MaterialX nodes${r.scopes ? ` (${r.scopes.join(', ')})` : ''} · ${selectorLabel(r)}`;
+    nodeRecordCount++;
+    sourceCount += r.sources.length;
+
+    for (const id of r.scopes ?? []) {
+      if (!scopeIds.has(id)) errors.push({ file, where: `${where}.scopes`, message: `unknown scope "${id}" (define it under scopes:)` });
+    }
+    if (r.materialx) {
+      if (knownMtlxVersions.size && !knownMtlxVersions.has(r.materialx)) {
+        warnings.push({ file, where: `${where}.materialx`, message: `"${r.materialx}" is not a known MaterialX release` });
+      }
+      if (earliestMtlx && compareMtlxVersions(r.materialx, earliestMtlx) < 0) {
+        warnings.push({
+          file,
+          where: `${where}.materialx`,
+          message: `older than the earliest tracked release (${earliestMtlx}), so nodes removed before it are missing`,
+        });
+      }
+    } else if (r.libraries || r.groups) {
+      warnings.push({
+        file,
+        where,
+        message: `library/group selector without \`materialx\` expands against the latest release (${nodeIndex?.latest ?? '?'})`,
+      });
+    }
+
+    checkDate(r.verified, file, `${where}.verified`, { stale: true });
+    r.sources.forEach((src, j) => checkDate(src.accessed, file, `${where}.sources[${j}].accessed`));
+    if (r.review) reviewItems.push({ file, what: label, reason: r.review });
+    else if (r.confidence === 'low') reviewItems.push({ file, what: label, reason: 'low confidence' });
+
+    if (nodeIndex) {
+      const version = r.materialx ?? nodeIndex.latest;
+      const sel = selectNodedefs(r, nodeIndex, { version, generator: r.generator });
+      for (const u of sel.unknown) errors.push({ file, where, message: `unknown MaterialX ${u} (not in data/generated/materialx-nodes.json)` });
+      if (sel.unknown.length === 0 && sel.defs.size === 0) {
+        errors.push({ file, where, message: `selects no nodedefs in MaterialX ${version}${r.generator ? ` with generator ${r.generator}` : ''}` });
+      }
+      const missingAt = (names: string[] | undefined, w: string) => {
+        for (const name of names ?? []) {
+          const node = nodeIndex.byName.get(name);
+          if (node && !node.nodedefs.some((d) => existsAt(d, version))) {
+            warnings.push({ file, where: w, message: `node "${name}" is not in MaterialX ${version}, so this selects nothing for it` });
+          }
+        }
+      };
+      missingAt(r.nodes, `${where}.nodes`);
+      // Exceptions should carve nodes out of their record (ignoring the generator filter).
+      const parentDefs = selectNodedefs(r, nodeIndex, { version }).defs;
+      r.except.forEach((e, j) => {
+        missingAt(e.nodes, `${where}.except[${j}].nodes`);
+        const esel = selectNodedefs(e, nodeIndex, { version });
+        for (const u of esel.unknown) {
+          errors.push({ file, where: `${where}.except[${j}]`, message: `unknown MaterialX ${u} (not in data/generated/materialx-nodes.json)` });
+        }
+        if (esel.unknown.length === 0 && ![...esel.defs.keys()].some((d) => parentDefs.has(d))) {
+          warnings.push({ file, where: `${where}.except[${j}]`, message: 'exception selects no nodes that its record covers' });
+        }
+      });
+    }
+
+    r.except.forEach((e, j) => {
+      const ewhere = `${where}.except[${j}]`;
+      if (e.level === r.level && !e.notes && e.gaps.length === 0) {
+        warnings.push({ file, where: ewhere, message: "exception has its record's level and no notes: drop it or say how it differs" });
+      }
+      checkDate(e.verified, file, `${ewhere}.verified`, { stale: true });
+      e.sources?.forEach((src, k) => checkDate(src.accessed, file, `${ewhere}.sources[${k}].accessed`));
+      sourceCount += e.sources?.length ?? 0;
+      const ename = `${productName} · MaterialX nodes${r.scopes ? ` (${r.scopes.join(', ')})` : ''} · except ${selectorLabel(e)}`;
+      if (e.review) reviewItems.push({ file, what: ename, reason: e.review });
+      else if (e.confidence === 'low' && !r.review) reviewItems.push({ file, what: ename, reason: 'low confidence' });
+    });
+  });
+
+  // Overlapping records at the same specificity must agree; otherwise the file order decides silently.
+  if (nodeIndex && ns.records.every((r) => (r.scopes ?? []).every((id) => scopeIds.has(id)))) {
+    const grouped = new Map<string, { first: NodeSupportRef; second: NodeSupportRef; scope: string; levels: string[]; defs: string[] }>();
+    const resolved = resolveNodeSupport(ns, nodeIndex);
+    for (const s of resolved.scopes) {
+      const parts = SUPPORT_LEVELS.filter((level) => s.counts[level]).map((level) => `${s.counts[level]} ${level}`);
+      nodeCoverage.push(
+        `- **${productName} · ${s.label}** (${s.context}): ${parts.join(' · ') || 'nothing'} · ` +
+          `${s.counts.unknown ?? 0} unknown, of ${s.total} nodes in MaterialX ${resolved.latest}`,
+      );
+    }
+    for (const c of resolved.conflicts) {
+      const key = `${c.scope}|${describeRef(c.first)}|${describeRef(c.second)}`;
+      const g = grouped.get(key) ?? { first: c.first, second: c.second, scope: c.scope, levels: c.levels, defs: [] };
+      g.defs.push(c.nodedef);
+      grouped.set(key, g);
+    }
+    for (const g of grouped.values()) {
+      const more = g.defs.length > 1 ? ` and ${g.defs.length - 1} more` : '';
+      errors.push({
+        file,
+        where: describeRef(g.second),
+        message:
+          `conflicts with ${describeRef(g.first)} in scope "${g.scope}" (${g.levels[0]} vs ${g.levels[1]}) ` +
+          `for ${g.defs[0]}${more}: make one selector more specific or use an exception`,
+      });
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
 
@@ -271,6 +419,11 @@ const print = (label: string, list: Problem[]) => {
 print('✖', errors);
 print('⚠', warnings);
 
+if (REVIEW_MODE && nodeCoverage.length > 0) {
+  console.log(`\n## MaterialX node coverage (${nodeCoverage.length} scopes)\n`);
+  for (const line of nodeCoverage) console.log(line);
+}
+
 if (REVIEW_MODE) {
   console.log(`\n## Needs review (${reviewItems.length})\n`);
   if (reviewItems.length === 0) console.log('Nothing flagged.');
@@ -279,7 +432,8 @@ if (REVIEW_MODE) {
 
 console.log(
   `\n${capabilities.length} capabilities · ${products.size} products · ${supportCount} support records · ` +
-    `${projects.size} projects · ${events.length} events · ${sourceCount} sources · ` +
+    `${projects.size} projects · ${nodeSupport.size} node-support files (${nodeRecordCount} records) · ` +
+    `${events.length} events · ${sourceCount} sources · ` +
     `${reviewItems.length} flagged for review`,
 );
 console.log(

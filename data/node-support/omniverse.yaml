@@ -1,0 +1,79 @@
+summary: >-
+  Omniverse's RTX renderer translates MaterialX to MDL with MaterialX's own MDL code generator, so node coverage is
+  what that generator implements. NVIDIA publishes no per-node table; the only documented limits are OpenPBR features in
+  the Real-Time 2.0 mode.
+scopes:
+  - id: interactive
+    label: RTX Interactive (Path Tracing)
+    context: render
+  - id: realtime
+    label: RTX Real-Time 2.0
+    context: render
+records:
+  - libraries: [stdlib, pbrlib, bxdf]
+    generator: genmdl
+    materialx: "1.39.3"
+    level: native
+    notes: >-
+      NVIDIA's MaterialX/OpenPBR blog says MaterialX is supported natively in Omniverse through the MDL backend, and
+      the OpenPBR page says the OpenPBR reference implementation is translated to MDL with the MaterialX SDK's code
+      generator. Kit 110.0 notes say the MaterialX MDL modules use the version USD is built against (1.39.3); 110.2 notes
+      mention MDL modules generated from MaterialX. Coverage is therefore taken as the nodedefs genmdl implements; no
+      page lists nodes individually.
+    sources:
+      - url: https://developer.nvidia.com/blog/unlock-seamless-material-interchange-for-virtual-worlds-with-openusd-materialx-and-openpbr
+        title: Unlock Seamless Material Interchange for Virtual Worlds with OpenUSD, MaterialX, and OpenPBR
+        kind: blog
+        accessed: 2026-11-09
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/templates/OpenPBR.html
+        title: OpenPBR material template
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_0.html
+        title: Kit 110.0 Release Notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://docs.omniverse.nvidia.com/dev-guide/latest/release-notes/110_2.html
+        title: Kit 110.2 Release Notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: medium
+    verified: 2026-11-09
+    review: >-
+      Inference: only the blog states generally that MaterialX goes through the MDL backend; the docs'
+      "MaterialX SDK code generator" wording is about the OpenPBR reference implementation. Which libraries or nodes
+      Omniverse exercises is not stated, so stdlib/pbrlib/bxdf filtered by genmdl is an interpretation, applied to both
+      scopes (no page distinguishes them except for OpenPBR). 1.39.3 is from the Kit 110.0 notes (USD 25.11); 110.4, the
+      newest release, targets the same 25.11 build but does not restate the MaterialX version.
+
+  - scopes: [interactive]
+    nodes: [open_pbr_surface]
+    materialx: "1.39.3"
+    level: native
+    notes: The OpenPBR page says Interactive (Path Tracing) mode supports the full OpenPBR Surface model.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/templates/OpenPBR.html
+        title: OpenPBR material template
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [realtime]
+    nodes: [open_pbr_surface]
+    materialx: "1.39.3"
+    level: partial
+    notes: >-
+      The OpenPBR page lists limits in RTX Real-Time 2.0: sheen and thin film are not supported, subsurface scattering
+      must be enabled in the mode's settings, and refractive materials may need a higher Max Ray Bounces.
+    gaps:
+      - Sheen is not supported.
+      - Thin film is not supported.
+      - Subsurface scattering needs to be enabled in the Real-Time 2.0 settings.
+    sources:
+      - url: https://docs.omniverse.nvidia.com/materials-and-rendering/latest/templates/OpenPBR.html
+        title: OpenPBR material template
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09

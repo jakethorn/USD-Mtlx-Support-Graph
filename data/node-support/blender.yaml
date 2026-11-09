@@ -1,0 +1,111 @@
+summary: >-
+  Blender's USD exporter converts shader nodes to MaterialX in C++, one block per shader node. This file covers the
+  shading model, BSDF/EDF, texture, normal and the main math nodes. Coverage is partial: many nodes have an empty or
+  unfinished block.
+scopes:
+  - id: export
+    label: Blender MaterialX export
+    context: export
+
+records:
+  - scopes: [export]
+    nodes: [open_pbr_surface]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      The Principled BSDF node is written as an OpenPBR Surface (from Blender 4.5; earlier releases wrote Standard
+      Surface). Some inputs are approximated by the exporter, for example subsurface thin-walled handling, thin film
+      and coat tint are built from separate BSDF nodes layered into the surface.
+    sources:
+      - url: https://developer.blender.org/docs/release_notes/4.5/pipeline_assets_io/
+        title: Blender 4.5 release notes, Pipeline, Assets and I/O
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://github.com/blender/blender/blob/blender-v5.2-release/source/blender/nodes/shader/nodes/node_shader_bsdf_principled.cc
+        title: node_shader_bsdf_principled.cc (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [export]
+    nodes: [oren_nayar_diffuse_bsdf, dielectric_bsdf, conductor_bsdf, artistic_ior, sheen_bsdf, translucent_bsdf,
+      subsurface_bsdf, uniform_edf, blackbody, displacement, surfacematerial, layer]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      Shader nodes map as: Diffuse, Transparent and Ray Portal to oren_nayar_diffuse_bsdf (Transparent is a diffuse
+      stand-in for its BSDF part), Glass and Refraction to dielectric_bsdf, Glossy and Metallic to conductor_bsdf
+      (with artistic_ior), Sheen to sheen_bsdf, Translucent to translucent_bsdf, Subsurface Scattering to
+      subsurface_bsdf, Emission to uniform_edf, Blackbody to blackbody, Displacement and Vector Displacement to
+      displacement, and Material Output to surfacematerial. Principled BSDF also layers BSDFs with layer (and writes thin_film_bsdf, which no longer exists in MaterialX 1.39). Approximations (Transparent as diffuse, Glass tint) make
+      these partly lossy but they are written as native MaterialX nodes.
+    sources:
+      - url: https://github.com/blender/blender/tree/blender-v5.2-release/source/blender/nodes/shader/nodes
+        title: node_shader_*.cc, MaterialX blocks (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [export]
+    nodes: [image, texcoord, tangent, fractal3d, transformpoint, transformvector, transformnormal]
+    materialx: "1.39.4"
+    level: partial
+    notes: >-
+      Image Texture and Environment Texture become image (filter type and address mode mapped; Image Texture maps
+      sRGB and linear colour spaces). Projection modes (Image Texture) and spherical coordinates (Environment
+      Texture) are left as TODOs in the code, so the vector is used as plain texcoord. Noise Texture becomes
+      fractal3d with a code NOTE that some inputs are not supported by MaterialX; Wave also uses fractal3d. Tangent
+      is always written as a world-space tangent (TODO: implement other features). Vector Transform uses
+      transformpoint, transformvector or transformnormal between world and object space only; camera space has no
+      MaterialX implementation in the exporter.
+    sources:
+      - url: https://github.com/blender/blender/tree/blender-v5.2-release/source/blender/nodes/shader/nodes
+        title: node_shader_*.cc, MaterialX blocks (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [export]
+    nodes: [position, normal, constant, randomfloat, cellnoise2d, cellnoise3d, normalmap, heighttonormal, remap,
+      smoothstep, luminance, hsvadjust, hsvtorgb, rgbtohsv, combine3, crossproduct]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      Texture Coordinate (Normal, Object), Geometry and Object Info use position, normal and randomfloat. RGB and
+      Value use constant. White Noise uses cellnoise2d/3d with hsvtorgb. Normal Map becomes normalmap and Bump uses
+      heighttonormal plus normalmap. Map Range uses remap (stepped and smooth modes add smoothstep and extra math).
+      RGB to BW uses luminance, Hue/Saturation/Value uses hsvadjust, Separate/Combine Color use rgbtohsv, hsvtorgb
+      and combine3, and Vector Math uses crossproduct. Blender nodes with empty or TODO blocks (Color Ramp, Curves,
+      Gradient, Attribute, Vertex Color, Fresnel, Layer Weight) are not covered by any record here.
+    sources:
+      - url: https://github.com/blender/blender/tree/blender-v5.2-release/source/blender/nodes/shader/nodes
+        title: node_shader_*.cc, MaterialX blocks (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+
+  - scopes: [export]
+    nodes: [add, subtract, multiply, divide, power, ln, sin, cos, tan, asin, acos, atan2, absval, floor, ceil, sign,
+      sqrt, exp, min, max, clamp, modulo, mix, magnitude, dotproduct, normalize, extract, rotate3d, ifgreater,
+      ifgreatereq, ifequal]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      Math, Vector Math, Clamp, Mix, Mix Shader, Add Shader, Mapping and Invert are built from NodeItem helpers in
+      node_item.cc. Read there, the helpers emit add, subtract, multiply, divide, power, modulo, absval, floor, ceil,
+      sign, sqrt, exp, ln, sin, cos, tan, asin, acos, atan2, min, max, clamp, mix, magnitude, normalize, dotproduct,
+      extract, rotate3d and ifgreater/ifgreatereq/ifequal. Hyperbolic functions (sinh, cosh, tanh) are composed from
+      exp and arithmetic nodes, and constant inputs are folded to values instead of nodes. Mix Color ignores the
+      blend type (TODO in the code). Shader mixing uses mix and add on BSDF/EDF values.
+    sources:
+      - url: https://github.com/blender/blender/tree/blender-v5.2-release/source/blender/nodes/shader/nodes
+        title: node_shader_*.cc, MaterialX blocks (blender-v5.2-release)
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09

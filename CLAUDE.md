@@ -16,7 +16,10 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 ## Layout
 
 - `data/`: all content as YAML. `capabilities.yaml` (taxonomy, file order = display order), `products/<id>.yaml`,
-  `projects/<id>.yaml`, `events.yaml` (timeline milestones, file order breaks date ties).
+  `projects/<id>.yaml`, `events.yaml` (timeline milestones, file order breaks date ties),
+  `node-support/<product-id>.yaml` (renderer-level MaterialX node coverage, see the research guide).
+- `src/data/node-support.ts`: resolves node-support records against `materialx-nodes.json` (most specific selector
+  wins, exceptions override their record). Shared by the validator and `loadData()` (`nodeSupport`, `nodeColumns`).
 - `src/data/schema.ts`: Zod schemas shared by Astro collections and the validator. Change the schema there only.
 - `src/data/yaml.ts`: YAML parsing with the same options as Astro's loader. Use it for any script reading `data/`.
 - `src/content.config.ts`: collections. `src/lib/data.ts` → `loadData()` for pages and endpoints.

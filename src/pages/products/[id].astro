@@ -6,6 +6,7 @@
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import LevelBadge from '../../components/LevelBadge.astro';
+import NodeSupportSection from '../../components/NodeSupportSection.astro';
 import { loadData, type ProductEntry } from '../../lib/data';
 import { withBase } from '../../lib/url';
 import {
@@ -24,8 +25,9 @@ export const getStaticPaths = (async () => {
   return products.map((p) => ({ params: { id: p.id } }));
 }) satisfies GetStaticPaths;
 
-const { products, projects, capabilities } = await loadData();
+const { products, projects, capabilities, nodeSupport } = await loadData();
 const product = products.find((p) => p.id === Astro.params.id) as ProductEntry;
+const nodeEntry = nodeSupport.find((ns) => ns.product === product.id);
 const fmt = new Intl.NumberFormat('en');
 
 const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? projects.find((p) => p.id === id)?.name ?? id;
@@ -180,6 +182,11 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
                 );
               })}
             </ul>
+            {sc.tech === 'materialx' && nodeEntry && (
+              <p class="node-link">
+                <a href="#mtlx-nodes">Node-level support ({nodeEntry.scopes.map((s) => s.label).join(', ')}) ↓</a>
+              </p>
+            )}
           </article>
         ))
       }
@@ -319,6 +326,8 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
         </section>
       ))
     }
+
+    {nodeEntry && <NodeSupportSection entry={nodeEntry} />}
 
     {
       product.issues.length > 0 && (
@@ -563,6 +572,10 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
     background: transparent;
     border-style: dashed;
     color: var(--text-muted);
+  }
+  .node-link {
+    margin: 12px 0 0;
+    font-size: 0.84rem;
   }
 
   .eco-grid {

@@ -1,0 +1,317 @@
+summary: >-
+  RenderMan compiles MaterialX pattern nodes to OSL in both engines. RIS translates the PBR nodes, Standard Surface and
+  OpenPBR into PxrSurface networks. Since 27.3, XPU evaluates MaterialX BSDF, uniform EDF and combiner nodes natively
+  through hdPrman in Solaris. RenderMan also ships MaterialX Lama as its own Lama nodes.
+scopes:
+  - id: ris
+    label: RenderMan RIS
+    context: render
+    hosts: [houdini]
+    notes: Pixar's MaterialX docs only describe Solaris (hdPrman) workflows.
+  - id: xpu
+    label: RenderMan XPU
+    context: render
+    hosts: [houdini]
+    notes: >-
+      XPU's native MaterialX BSDF and combiner path is only available through hdPrman (Hydra and USD workflows),
+      presently in Solaris.
+records:
+  # ── Both engines ────────────────────────────────────────────────────────
+  - groups:
+      - stdlib:adjustment
+      - stdlib:application
+      - stdlib:channel
+      - stdlib:compositing
+      - stdlib:conditional
+      - stdlib:convolution2d
+      - stdlib:geometric
+      - stdlib:math
+      - stdlib:organization
+      - stdlib:procedural
+      - stdlib:procedural2d
+      - stdlib:procedural3d
+      - stdlib:texture2d
+      - stdlib:texture3d
+    generator: genosl
+    materialx: "1.39.3"
+    level: native
+    notes: >-
+      Pixar says both RIS and XPU support OSL patterns, so MaterialX pattern nodes are translated to OSL and run
+      natively. hdPrman's MaterialX filter generates that OSL with MaterialX's OslShaderGenerator. "Pattern nodes" is
+      read as the standard library minus its shader and material groups. The BSDF/EDF/VDF variants of add, multiply
+      and mix are recorded separately per engine.
+    review: >-
+      Pixar doesn't state a MaterialX version. 1.39.3 is Houdini 21.0's, the Solaris build RenderMan 27.3 adds support
+      for; other Houdini versions bring other MaterialX releases. The same inference applies to every `materialx:` value in this file.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://github.com/PixarAnimationStudios/OpenUSD/blob/release/third_party/renderman/plugin/hdPrman/matfiltMaterialX.cpp
+        title: OpenUSD — hdPrman matfiltMaterialX.cpp
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  # ── RIS ─────────────────────────────────────────────────────────────────
+  - scopes: [ris]
+    nodes: [standard_surface, open_pbr_surface]
+    materialx: "1.39.3"
+    level: native
+    notes: >-
+      RIS translates MaterialX Standard Surface and OpenPBR materials into PxrSurface networks, so they inherit
+      PxrSurface's capabilities and limits.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [ris]
+    libraries: [pbrlib]
+    nodedefs:
+      - ND_add_bsdf
+      - ND_add_edf
+      - ND_add_vdf
+      - ND_multiply_bsdfC
+      - ND_multiply_bsdfF
+      - ND_multiply_edfC
+      - ND_multiply_edfF
+      - ND_multiply_vdfC
+      - ND_multiply_vdfF
+      - ND_mix_bsdf
+      - ND_mix_edf
+      - ND_mix_vdf
+    materialx: "1.39.3"
+    level: partial
+    notes: >-
+      RIS uses MaterialX ShaderGen and translates the Physically Based Shading Nodes in a graph into PxrSurface
+      networks. Pixar says this covers "a large portion" of the MaterialX specification. The BSDF/EDF/VDF variants of
+      add, multiply and mix are included as PBR combiner nodes.
+    gaps:
+      - Translated to PxrSurface networks, inheriting PxrSurface's capabilities and limits.
+      - Pixar doesn't list which PBR nodes RIS leaves out.
+    except:
+      - nodes: [layer]
+        level: none
+        notes: Pixar says MaterialX material layering is not supported in RIS (it is in XPU). Read as the layer node.
+    review: >-
+      Pixar's list of unsupported nodes (EDFs other than uniform_edf, VDFs, PBR shader nodes used directly) says "in
+      RenderMan" but sits under the XPU heading, so it isn't applied to RIS. "Material layering" is mapped to the layer
+      node.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [ris]
+    libraries: [bxdf/lama]
+    materialx: "1.39.3"
+    level: native
+    notes: >-
+      Pixar's XPU Features and Limitations table marks Lama as supported in RIS. RenderMan ships MaterialX Lama, ILM's
+      layering system, as its own Lama nodes.
+    review: >-
+      RenderMan's Lama nodes are its own implementations of MaterialX Lama. The docs don't say whether MaterialX
+      documents using the bxdf/lama nodedefs are mapped onto them.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542218994.md
+        title: RenderMan 27 — MaterialX Lama
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  # ── XPU ─────────────────────────────────────────────────────────────────
+  - scopes: [xpu]
+    nodes:
+      - oren_nayar_diffuse_bsdf
+      - burley_diffuse_bsdf
+      - dielectric_bsdf
+      - conductor_bsdf
+      - generalized_schlick_bsdf
+      - translucent_bsdf
+      - subsurface_bsdf
+      - sheen_bsdf
+      - chiang_hair_bsdf
+      - uniform_edf
+    materialx: "1.39.3"
+    level: native
+    since: "27.3"
+    notes: >-
+      XPU evaluates MaterialX BSDF nodes and uniform_edf natively, without translation to PxrSurface. The BSDF list is
+      the BSDF section of MaterialX's PBR spec, which Pixar's docs link to.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://github.com/AcademySoftwareFoundation/MaterialX/blob/main/documents/Specification/MaterialX.PBRSpec.md
+        title: MaterialX Physically Based Shading Nodes specification
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodedefs:
+      - ND_add_bsdf
+      - ND_add_edf
+      - ND_multiply_bsdfC
+      - ND_multiply_bsdfF
+      - ND_multiply_edfC
+      - ND_multiply_edfF
+      - ND_mix_bsdf
+      - ND_mix_edf
+      - ND_layer_bsdf
+    materialx: "1.39.3"
+    level: native
+    since: "27.3"
+    notes: >-
+      XPU evaluates MaterialX combiner nodes natively and fully supports MaterialX material layering. Pixar links
+      "combiner nodes" to the PBR spec's utility section, whose combiners are mix, layer, add and multiply; their BSDF
+      and EDF variants are listed here. The section's other utility nodes aren't combiners and aren't recorded.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://github.com/AcademySoftwareFoundation/MaterialX/blob/main/documents/Specification/MaterialX.PBRSpec.md
+        title: MaterialX Physically Based Shading Nodes specification
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes: [conical_edf, measured_edf, generalized_schlick_edf, absorption_vdf, anisotropic_vdf]
+    nodedefs: [ND_add_vdf, ND_multiply_vdfC, ND_multiply_vdfF, ND_mix_vdf, ND_layer_vdf]
+    materialx: "1.39.3"
+    level: none
+    notes: >-
+      Pixar says only uniform_edf is supported and other EDF nodes are not yet available, and that VDF nodes are not
+      supported yet (volumetric shading nodes are planned). The VDF variants of the combiners are included with the
+      VDF nodes.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes: [surface]
+    materialx: "1.39.3"
+    level: partial
+    notes: >-
+      Pixar says MaterialX PBR shader nodes used directly as surface shaders are not supported yet. Its link points to
+      the PBR spec's shader-node section (surface, volume, light); only surface fits "used as a surface shader".
+    gaps:
+      - Not supported when used directly as a surface shader.
+    review: >-
+      Unclear what "used directly as surface shaders" excludes. Standard Surface and OpenPBR, which XPU renders, are
+      built on the surface node, so it's recorded as partial rather than none.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes: [standard_surface, open_pbr_surface]
+    materialx: "1.39.3"
+    level: native
+    since: "27.3"
+    notes: >-
+      Standard Surface and OpenPBR render through XPU's native MaterialX BSDF and combiner path in Hydra workflows such
+      as Solaris, without translation to PxrSurface.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542220715.md
+        title: RenderMan 27 — MaterialX
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [xpu]
+    nodes:
+      - LamaAdd
+      - LamaConductor
+      - LamaDielectric
+      - LamaDiffuse
+      - LamaEmission
+      - LamaGeneralizedSchlick
+      - LamaIridescence
+      - LamaLayer
+      - LamaMix
+      - LamaSSS
+      - LamaSheen
+      - LamaSurface
+      - LamaTranslucent
+    materialx: "1.39.3"
+    level: partial
+    notes: >-
+      Pixar says XPU supports all MaterialX Lama base nodes except LamaTriColorSSS (not a MaterialX library node), and
+      LamaAdd, LamaMix, LamaSurface and LamaLayer fully. Lama was early access in XPU in 27.0; 27.3 implements every
+      LamaLayer mode.
+    gaps:
+      - Leaf nodes ignore lobeName, userLobeName, matte and similar parameters and write only the default lobes.
+      - LamaSSS can be weighted too high under LamaAdd or LamaMix, and its subset parameters fail inside combiners.
+      - LamaDielectric dispersion doesn't work with LamaSurface.
+      - LamaIridescence lacks the targetHue and incidentAngle knot/array parameters.
+    review: >-
+      RenderMan's Lama nodes are its own implementations of MaterialX Lama. The docs don't say whether MaterialX
+      documents using the bxdf/lama nodedefs are mapped onto them.
+    sources:
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542236818.md
+        title: RenderMan 27 — XPU Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/857702405.md
+        title: RenderMan 27.3 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://rmanwiki-27.pixar.com/space/REN27/542238759.md
+        title: RenderMan 27.0 release notes
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09

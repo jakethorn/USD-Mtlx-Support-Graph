@@ -8,8 +8,40 @@ import LevelBadge from '../components/LevelBadge.astro';
 import { loadData } from '../lib/data';
 import { withBase } from '../lib/url';
 
-const { products, capabilities } = await loadData();
+const { products, capabilities, nodeSupport } = await loadData();
 const capById = new Map(capabilities.map((c) => [c.id, c]));
+
+type Selector = { libraries?: string[]; groups?: string[]; nodes?: string[]; nodedefs?: string[] };
+const selectorText = (s: Selector) => {
+  const names = [...(s.libraries ?? []), ...(s.groups ?? []), ...(s.nodes ?? []), ...(s.nodedefs ?? [])];
+  return names.slice(0, 5).join(', ') + (names.length > 5 ? ` and ${names.length - 5} more` : '');
+};
+
+// Node-support records and exceptions: an exception is listed on its own only when it is flagged itself.
+const nodeItems = nodeSupport.flatMap((ns) => {
+  const product = products.find((p) => p.id === ns.product)!;
+  const scopeText = (ids?: string[]) =>
+    ids ? ` (${ids.map((id) => ns.scopes.find((s) => s.id === id)?.label ?? id).join(', ')})` : '';
+  return ns.records.flatMap((r, i) => {
+    const claims = ns.resolved.claims[i];
+    const own = claims.record.flagged
+      ? [{ product, what: `MaterialX nodes${scopeText(r.scopes)}: ${selectorText(r)}`, tech: 'materialx' as const, level: r.level as string | undefined, reason: r.review ?? 'Low confidence', notes: r.notes, sources: r.sources }]
+      : [];
+    const exceptions = r.except
+      .map((e, j) => ({ e, c: claims.except[j] }))
+      .filter(({ e }) => e.review || e.confidence === 'low')
+      .map(({ e, c }) => ({
+        product,
+        what: `MaterialX nodes${scopeText(r.scopes)}: except ${selectorText(e)}`,
+        tech: 'materialx' as const,
+        level: e.level as string | undefined,
+        reason: e.review ?? 'Low confidence',
+        notes: e.notes,
+        sources: c.sources,
+      }));
+    return [...own, ...exceptions];
+  });
+});
 
 const items = products.flatMap((p) => [
   ...p.support
@@ -29,6 +61,7 @@ const items = products.flatMap((p) => [
   ...p.issues
     .filter((i) => i.review)
     .map((i) => ({ product: p, what: `Issue: ${i.title}`, tech: undefined, level: undefined, reason: i.review!, notes: undefined, sources: [{ url: i.url, title: 'Issue' }] })),
+  ...nodeItems.filter((n) => n.product.id === p.id),
 ]);
 ---
 

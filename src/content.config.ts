@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { capabilitySchema, eventSchema, productSchema, projectSchema } from './data/schema';
+import { capabilitySchema, eventSchema, nodeSupportSchema, productSchema, projectSchema } from './data/schema';
 import { parseDataYaml } from './data/yaml';
 
 // Machine-generated data (data/generated/*.json) is imported directly via
@@ -15,6 +15,12 @@ const products = defineCollection({
 const projects = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './data/projects' }),
   schema: projectSchema,
+});
+
+// Renderer-level MaterialX node support; the file name is the product id.
+const nodeSupport = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './data/node-support' }),
+  schema: nodeSupportSchema,
 });
 
 // The content store sorts entries by id, so record the file order (= display order).
@@ -32,4 +38,4 @@ const events = defineCollection({
   schema: eventSchema.extend({ order: z.number().int() }),
 });
 
-export const collections = { products, projects, capabilities, events };
+export const collections = { products, projects, capabilities, events, nodeSupport };
