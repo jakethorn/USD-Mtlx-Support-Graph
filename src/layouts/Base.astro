@@ -21,6 +21,7 @@ const pathname = Astro.url.pathname;
 const nav = [
   { href: withBase(), label: 'Overview', match: (p: string) => p === withBase() || p === withBase().replace(/\/$/, '') },
   { href: withBase('matrix/'), label: 'Matrix', match: (p: string) => p.startsWith(withBase('matrix')) || p.startsWith(withBase('products/')) },
+  { href: withBase('compare/'), label: 'Compare', match: (p: string) => p.startsWith(withBase('compare')) },
   { href: withBase('versions/'), label: 'Versions', match: (p: string) => p.startsWith(withBase('versions')) },
   { href: withBase('timeline/'), label: 'Timeline', match: (p: string) => p.startsWith(withBase('timeline')) },
   { href: withBase('ecosystem/'), label: 'Ecosystem', match: (p: string) => p.startsWith(withBase('ecosystem')) },

@@ -1,0 +1,28 @@
+---
+/** Compare 2–4 products side by side. Selection and filters live in the URL, so comparisons can be shared. */
+import Base from '../layouts/Base.astro';
+import CompareView from '../components/CompareView.svelte';
+import { withBase } from '../lib/url';
+---
+
+<Base
+  title="Compare products"
+  description="Put up to four DCCs, renderers or engines side by side and see where their OpenUSD and MaterialX support differs."
+>
+  <div class="container page-head">
+    <h1>Compare products</h1>
+    <p class="muted">
+      Pick up to four products to see their OpenUSD and MaterialX support side by side. Every coloured cell links to
+      its sourced record. "Unknown" means no record yet, not "unsupported".
+    </p>
+  </div>
+  <div class="container wide">
+    <CompareView client:load dataUrl={withBase('data/support.json')} />
+  </div>
+</Base>
+
+<style>
+  .wide {
+    max-width: 1400px;
+  }
+</style>
