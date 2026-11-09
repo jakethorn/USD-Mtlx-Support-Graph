@@ -16,6 +16,7 @@
     type VersionLagData,
   } from '../lib/lag';
   import { CATEGORY_LABEL, TECH_LABEL, type Tech } from '../lib/view';
+  import { pick, readParams, writeParams } from '../lib/url-state';
 
   interface Props {
     dataUrl: string;
@@ -67,6 +68,21 @@
   let wrap: HTMLDivElement | undefined = $state();
   let tipW = $state(280);
   let tipH = $state(120);
+
+  // ── shareable URL state (?tech=materialx&cat=renderer&sort=latest&view=table) ──
+  let urlReady = false;
+  onMount(() => {
+    const p = readParams();
+    tech = pick(p.get('tech'), ['usd', 'materialx'] as const) ?? tech;
+    category = pick(p.get('cat'), categories) ?? category;
+    sort = pick(p.get('sort'), ['lag', 'latest', 'name'] as const) ?? sort;
+    view = pick(p.get('view'), ['chart', 'table'] as const) ?? view;
+    urlReady = true;
+  });
+  $effect(() => {
+    const values = { tech, cat: category, sort, view };
+    if (urlReady) writeParams(values, { tech: 'usd', cat: 'all', sort: 'lag', view: 'chart' });
+  });
 
   const DAY = 86_400_000;
   const LANE_H = 46;

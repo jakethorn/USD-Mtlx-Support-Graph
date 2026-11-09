@@ -3,6 +3,8 @@
    * The support matrix: products × capabilities, one coloured cell per sourced record.
    * An empty cell means unknown (no record), never "not supported".
    */
+  import { onMount } from 'svelte';
+  import { pick, pickList, readParams, writeParams } from '../lib/url-state';
   import {
     CATEGORY_LABEL,
     INDUSTRY_LABEL,
@@ -48,6 +50,27 @@
 
   const allCategories = [...new Set(rows.flatMap((r) => r.categories))];
   const allIndustries = [...new Set(rows.flatMap((r) => r.industries))];
+
+  // ── shareable URL state (?tech=usd&cat=renderer&p=houdini&c=usd.import …) ──
+  let urlReady = false;
+  onMount(() => {
+    const p = readParams();
+    tech = pick(p.get('tech'), ['all', 'usd', 'materialx'] as const) ?? tech;
+    const t = pick(p.get('tier'), ['1', '2'] as const);
+    if (t) tier = Number(t) as 1 | 2;
+    categories = pickList(p.get('cat'), allCategories);
+    industry = pick(p.get('ind'), allIndustries) ?? '';
+    query = p.get('q') ?? '';
+    sort = pick(p.get('sort'), ['tier', 'name', 'coverage'] as const) ?? sort;
+    const row = p.get('p');
+    const cap = p.get('c');
+    if (row && cap && rows.some((r) => r.id === row) && capabilities.some((c) => c.id === cap)) selected = { row, cap };
+    urlReady = true;
+  });
+  $effect(() => {
+    const values = { tech, tier, cat: categories, ind: industry, q: query.trim(), sort, p: selected?.row, c: selected?.cap };
+    if (urlReady) writeParams(values, { tech: 'all', tier: 0, sort: 'tier' });
+  });
 
   const caps = $derived(capabilities.filter((c) => tech === 'all' || c.tech === tech));
   const groups = $derived.by(() => {

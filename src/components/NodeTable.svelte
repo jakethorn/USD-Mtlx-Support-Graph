@@ -4,8 +4,9 @@
    * coloured by how one of MaterialX's own code generators supports it (or diffing two generators).
    * The 1 MB dataset is fetched client-side from /data/materialx-nodes.json.
    */
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import type { MaterialXNodes, MtlxNode, MtlxNodeDef } from '../data/generated';
+  import { pick, readParams, writeParams } from '../lib/url-state';
 
   interface Props {
     dataUrl: string;
@@ -50,6 +51,8 @@
   let selectedDef = $state(0);
   let dlg: HTMLDialogElement | undefined = $state();
 
+  // Shareable URL state: ?t=genosl&vs=genmdl&since=1.39.0&q=noise&node=add
+  let urlReady = false;
   onMount(async () => {
     try {
       const res = await fetch(dataUrl);
@@ -58,7 +61,35 @@
       sinceIdx = data.versions.length - 1;
     } catch {
       failed = true;
+      return;
     }
+    const p = readParams();
+    const ids = data.targets.map((t) => t.id);
+    target = pick(p.get('t'), ids) ?? target;
+    const vs = pick(p.get('vs'), ids);
+    if (vs && vs !== target) {
+      targetB = vs;
+      compare = true;
+    }
+    const since = data.versions.indexOf(p.get('since') ?? '');
+    if (since >= 0) sinceIdx = since;
+    query = p.get('q') ?? '';
+    const node = data.nodes.find((n) => n.name === p.get('node') && !n.removedIn);
+    urlReady = true;
+    if (node) {
+      await tick();
+      open(node);
+    }
+  });
+  $effect(() => {
+    const values = {
+      t: target,
+      vs: compare ? targetB : '',
+      since: sinceOn ? sinceVersion : '',
+      q: query.trim(),
+      node: selected?.name,
+    };
+    if (urlReady) writeParams(values, { t: 'genglsl' });
   });
 
   const short = (id: string) => SHORT[id] ?? data?.targets.find((t) => t.id === id)?.label ?? id;
@@ -167,9 +198,14 @@
     selectedDef = Math.max(0, defs.findIndex((d) => d.isDefaultVersion));
     dlg?.showModal();
   }
+  /** Close the node sheet. Clears the selection directly: the dialog `close` event is not reliable everywhere. */
+  function closeNode() {
+    dlg?.close();
+    selected = null;
+  }
   function onDialogClick(e: MouseEvent) {
     // Clicks on the backdrop land on the <dialog> element itself.
-    if (e.target === dlg) dlg?.close();
+    if (e.target === dlg) closeNode();
   }
 
   const selDefs = $derived(selected ? liveDefs(selected) : []);
@@ -288,7 +324,13 @@
   </div>
 {/if}
 
-<dialog bind:this={dlg} onclose={() => (selected = null)} onclick={onDialogClick} aria-labelledby="node-title">
+<dialog
+  bind:this={dlg}
+  onclose={() => (selected = null)}
+  oncancel={() => (selected = null)}
+  onclick={onDialogClick}
+  aria-labelledby="node-title"
+>
   {#if selected && def}
     <div class="sheet">
       <header>
@@ -296,7 +338,7 @@
           <p class="eyebrow muted">{selected.library} · {selected.group ?? 'other'}</p>
           <h2 id="node-title"><code>{selected.name}</code></h2>
         </div>
-        <button class="x" onclick={() => dlg?.close()} aria-label="Close">×</button>
+        <button class="x" onclick={closeNode} aria-label="Close">×</button>
       </header>
       {#if selected.doc}<p class="doc">{selected.doc}</p>{/if}
       <p class="muted small">

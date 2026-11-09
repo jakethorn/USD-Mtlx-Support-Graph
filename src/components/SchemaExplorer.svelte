@@ -3,7 +3,9 @@
    * Interactive explorer for OpenUSD schemas and MaterialX standard-library nodes,
    * backed by the weekly-ingested upstream datasets.
    */
+  import { onMount } from 'svelte';
   import type { ExplorerNode, ExplorerSchema } from '../lib/view';
+  import { pick, readParams, writeParams } from '../lib/url-state';
 
   interface Props {
     usdLatest: string;
@@ -59,6 +61,32 @@
         (!mtlxGroup || n.group === mtlxGroup) &&
         (!q || n.name.toLowerCase().includes(q) || (n.doc?.toLowerCase().includes(q) ?? false)),
     );
+  });
+
+  // ── shareable URL state (?tab=materialx&lib=pbrlib&mq=noise, ?domain=usdLux&kind=api&q=shaping) ──
+  let urlReady = false;
+  onMount(() => {
+    const p = readParams();
+    tab = pick(p.get('tab'), ['usd', 'materialx'] as const) ?? tab;
+    usdDomain = pick(p.get('domain'), domains.map((d) => d.id)) ?? '';
+    usdKind = pick(p.get('kind'), ['all', 'concrete', 'api', 'abstract'] as const) ?? usdKind;
+    usdQuery = p.get('q') ?? '';
+    mtlxLibrary = pick(p.get('lib'), allLibraries) ?? '';
+    mtlxGroup = pick(p.get('group'), allGroups) ?? '';
+    mtlxQuery = p.get('mq') ?? '';
+    urlReady = true;
+  });
+  $effect(() => {
+    const values = {
+      tab,
+      domain: usdDomain,
+      kind: usdKind,
+      q: usdQuery.trim(),
+      lib: mtlxLibrary,
+      group: mtlxGroup,
+      mq: mtlxQuery.trim(),
+    };
+    if (urlReady) writeParams(values, { tab: 'usd', kind: 'all' });
   });
 </script>
 

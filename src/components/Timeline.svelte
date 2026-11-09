@@ -1,6 +1,8 @@
 <script lang="ts">
   /** Chronological view of milestones, upstream releases, product releases and first shipped support. */
+  import { onMount } from 'svelte';
   import { TECH_LABEL, type Tech, type TimelineItem } from '../lib/view';
+  import { pick, pickList, readParams, writeParams } from '../lib/url-state';
 
   let { items }: { items: TimelineItem[] } = $props();
 
@@ -15,6 +17,21 @@
   let tech = $state<'all' | Tech>('all');
   let kinds = $state<Kind[]>(['milestone', 'adoption']);
   let newestFirst = $state(true);
+
+  // ── shareable URL state (?tech=materialx&show=milestone,upstream&order=oldest) ──
+  const DEFAULT_KINDS: Kind[] = ['milestone', 'adoption'];
+  let urlReady = false;
+  onMount(() => {
+    const p = readParams();
+    tech = pick(p.get('tech'), ['all', 'usd', 'materialx'] as const) ?? tech;
+    if (p.has('show')) kinds = pickList(p.get('show'), KINDS.map((k) => k.id));
+    newestFirst = p.get('order') !== 'oldest';
+    urlReady = true;
+  });
+  $effect(() => {
+    const values = { tech, show: kinds, order: newestFirst ? '' : 'oldest' };
+    if (urlReady) writeParams(values, { tech: 'all', show: DEFAULT_KINDS });
+  });
 
   const kindOf = (i: TimelineItem): Kind => (i.subkind === 'upstream' ? 'upstream' : i.kind);
   const toggle = (k: Kind) => (kinds = kinds.includes(k) ? kinds.filter((x) => x !== k) : [...kinds, k]);
