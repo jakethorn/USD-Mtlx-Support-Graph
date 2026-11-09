@@ -12,6 +12,7 @@
     "validate": "tsx scripts/validate-data.ts",
     "review": "tsx scripts/validate-data.ts --review",
     "check:links": "tsx scripts/check-links.ts",
+    "og-image": "tsx scripts/make-og-image.ts",
     "ingest": "python -I scripts/ingest/run_all.py",
     "ingest:materialx": "python -I scripts/ingest/materialx_nodes.py",
     "ingest:usd": "python -I scripts/ingest/usd_schemas.py",

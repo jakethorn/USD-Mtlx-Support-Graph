@@ -39,6 +39,10 @@ const capIndex = new Map(capabilities.map((c, i) => [c.id, i]));
 const capById = new Map(capabilities.map((c) => [c.id, c]));
 const recordByCap = new Map(product.support.map((s) => [s.capability, s]));
 const pagePath = withBase(`products/${product.id}/`);
+const recordsFor = (tech: Tech) => product.support.filter((s) => capById.get(s.capability)?.tech === tech).length;
+const pageDescription =
+  product.summary ??
+  `${product.name} by ${product.vendor}: ${recordsFor('usd')} OpenUSD and ${recordsFor('materialx')} MaterialX support records, each with sources, plus bundled versions and known issues.`;
 const fixUrl = (capability?: string) =>
   correctionUrl({
     product: product.id,
@@ -84,7 +88,7 @@ const latestUsd = product.releases.find((r) => r.usd)?.usd;
 const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
 ---
 
-<Base title={product.name} description={product.summary}>
+<Base title={product.name} description={pageDescription}>
   <div class="container page">
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href={withBase('matrix/')}>← Support matrix</a>
