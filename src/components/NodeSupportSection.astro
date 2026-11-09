@@ -256,7 +256,7 @@ const levelsIn = (counts: Partial<Record<NodeLevel | 'unknown', number>>) => LEV
     gap: 1px;
   }
   .seg {
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
   }
   .seg.unknown {
     background: transparent;
@@ -279,7 +279,7 @@ const levelsIn = (counts: Partial<Record<NodeLevel | 'unknown', number>>) => LEV
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     display: inline-block;
   }
   .dot.unknown {

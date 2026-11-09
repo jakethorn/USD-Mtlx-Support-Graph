@@ -394,7 +394,7 @@
     width: 14px;
     height: 14px;
     border-radius: 3px;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     display: inline-block;
   }
   .scroll {

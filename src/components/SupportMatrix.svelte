@@ -3,7 +3,7 @@
    * The support matrix: products × capabilities, one coloured cell per sourced record.
    * An empty cell means unknown (no record), never "not supported".
    */
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { pick, pickList, readParams, writeParams } from '../lib/url-state';
   import { correctionUrl } from '../lib/feedback';
   import {
@@ -113,6 +113,36 @@
     if (selCell) loadDetails();
   });
 
+  // ── keyboard: one tab stop for the whole grid, arrows move between cells (roving tabindex) ──
+  let gridEl: HTMLTableElement | undefined = $state();
+  let focusRaw = $state({ r: 0, c: 0 });
+  const focusR = $derived(Math.min(focusRaw.r, Math.max(visible.length - 1, 0)));
+  const focusC = $derived(Math.min(focusRaw.c, Math.max(caps.length - 1, 0)));
+  const setFocus = (r: number, c: number) => (focusRaw = { r, c });
+
+  async function onCellKey(e: KeyboardEvent) {
+    const lastR = visible.length - 1;
+    const lastC = caps.length - 1;
+    let r = focusR;
+    let c = focusC;
+    switch (e.key) {
+      case 'ArrowRight': c = Math.min(c + 1, lastC); break;
+      case 'ArrowLeft': c = Math.max(c - 1, 0); break;
+      case 'ArrowDown': r = Math.min(r + 1, lastR); break;
+      case 'ArrowUp': r = Math.max(r - 1, 0); break;
+      case 'PageDown': r = Math.min(r + 5, lastR); break;
+      case 'PageUp': r = Math.max(r - 5, 0); break;
+      case 'Home': c = 0; if (e.ctrlKey) r = 0; break;
+      case 'End': c = lastC; if (e.ctrlKey) r = lastR; break;
+      case 'Escape': if (selected) { selected = null; e.preventDefault(); } return;
+      default: return;
+    }
+    e.preventDefault();
+    setFocus(r, c);
+    await tick();
+    gridEl?.querySelector<HTMLButtonElement>(`button.cell[data-r="${r}"][data-c="${c}"]`)?.focus();
+  }
+
   const fixUrl = (r: MatrixRow, c: MatrixCap) =>
     correctionUrl({
       product: r.id,
@@ -189,8 +219,12 @@
   <li><span class="swatch lv-native flagged"></span>Flagged / low confidence</li>
 </ul>
 
-<div class="scroll" role="region" aria-label="Support matrix" tabindex="0">
-  <table>
+<p class="kbd-hint muted" id="matrix-keys">
+  Keyboard: Tab into the grid, move with the arrow keys (Home/End, Page Up/Down), Enter opens a cell, Esc closes it.
+</p>
+
+<div class="scroll" role="region" aria-label="Support matrix" tabindex="-1">
+  <table bind:this={gridEl} aria-describedby="matrix-keys">
     <thead>
       <tr class="groups">
         <th class="corner" rowspan="2" scope="col">Product</th>
@@ -207,13 +241,13 @@
       </tr>
     </thead>
     <tbody>
-      {#each visible as r (r.id)}
+      {#each visible as r, ri (r.id)}
         <tr class:selected-row={selected?.row === r.id}>
           <th scope="row" class="name">
             <a href={r.href}>{r.name}</a>
             <span class="vendor">{r.vendor}{r.discontinued ? ' · discontinued' : ''}</span>
           </th>
-          {#each caps as c (c.id)}
+          {#each caps as c, ci (c.id)}
             {@const cell = r.cells[c.id]}
             <td>
               <button
@@ -221,6 +255,11 @@
                 class:flagged={cell?.flagged}
                 class:active={selected?.row === r.id && selected?.cap === c.id}
                 title={cellTitle(r, c)}
+                data-r={ri}
+                data-c={ci}
+                tabindex={ri === focusR && ci === focusC ? 0 : -1}
+                onfocus={() => setFocus(ri, ci)}
+                onkeydown={onCellKey}
                 onclick={() => (selected = selected?.row === r.id && selected?.cap === c.id ? null : { row: r.id, cap: c.id })}
               ></button>
             </td>
@@ -328,8 +367,12 @@
     width: 14px;
     height: 14px;
     border-radius: 3px;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     display: inline-block;
+  }
+  .kbd-hint {
+    margin: -4px 0 10px;
+    font-size: 0.78rem;
   }
   .swatch.unknown,
   .cell.unknown {
@@ -471,6 +514,7 @@
     border: 0;
     padding: 0;
     background-color: var(--lv);
+    background-image: var(--lv-pattern, none);
     cursor: pointer;
     display: block;
     margin: 0 auto;

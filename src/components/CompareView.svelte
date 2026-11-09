@@ -338,7 +338,7 @@
   }
   .seg {
     flex-basis: 0;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     min-width: 3px;
   }
   .seg.unknown,
@@ -370,7 +370,7 @@
     width: 12px;
     height: 12px;
     border-radius: 3px;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     display: inline-block;
   }
 

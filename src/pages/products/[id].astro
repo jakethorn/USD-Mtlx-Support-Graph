@@ -538,7 +538,7 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
     gap: 1px;
   }
   .seg {
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
   }
   .seg.unknown {
     background: transparent;
@@ -561,7 +561,7 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--lv);
+    background: var(--lv-pattern, none), var(--lv);
     display: inline-block;
   }
   .dot.unknown {
