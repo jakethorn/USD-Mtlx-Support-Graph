@@ -1,0 +1,209 @@
+summary: >-
+  Unreal's Interchange importer translates MaterialX into Unreal material graphs (native Substrate materials in
+  Substrate projects). Epic's reference lists the supported standard nodes, a few unsupported ones, and PBR nodes that
+  pass through without connected inputs.
+scopes:
+  - id: interchange
+    label: Interchange MaterialX import
+    context: import
+records:
+  - nodes: [constant, randomfloat, randomcolor, ramp, ramp_gradient, ramplr, ramptb, ramp4, splitlr, splittb, noise2d,
+      cellnoise2d, checkerboard, line, circle, cloverleaf, hexagon, grid, crosshatch, tiledcircles, tiledcloverleafs,
+      tiledhexagons, noise3d, cellnoise3d, fractal3d, add, subtract, multiply, divide, modulo, fract, invert, absval,
+      floor, ceil, round, power, safepower, sin, cos, tan, asin, acos, atan2, sqrt, ln, exp, sign, clamp, min, max,
+      normalize, magnitude, distance, dotproduct, crossproduct, transformpoint, transformvector, transformnormal,
+      normalmap, rotate2d, rotate3d, trianglewave, reflect, refract, position, normal, tangent, texcoord, geomcolor,
+      time, remap, smoothstep, rgbtohsv, hsvtorgb, contrast, range, hsvadjust, colorcorrect, premult, unpremult, plus,
+      minus, difference, burn, dodge, screen, overlay, disjointover, in, mask, matte, out, over, inside, outside, mix,
+      ifgreater, ifgreatereq, ifequal, switch, and, or, xor, not, convert, combine2, combine3, combine4, extract,
+      separate2, separate3, separate4, blur, heighttonormal, dot]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      The MaterialX support reference lists these standard nodes as supported, by category (procedural, math,
+      geometric, application, adjustment, compositing, conditional, channel, convolution, organization). Convert to a
+      surface shader creates a Surface Unlit material, blur's size is inconsistent when zooming in the viewport (a
+      known upstream issue), and heighttonormal uses the NormalFromHeight function for direct image inputs and
+      HeightToNormalSmooth otherwise.
+    except:
+      - nodedefs: [ND_mix_displacementshader]
+        level: none
+        notes: The reference says Mix is supported for all types except displacement shaders.
+    sources: &src
+      - url: https://dev.epicgames.com/documentation/unreal-engine/materialx-support-in-unreal-engine?lang=en-US
+        title: MaterialX Support in Unreal Engine (5.9 docs)
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: >-
+      The page lists and/or/xor/not under its Convolution heading (they are conditional nodes); recorded as supported as
+      listed. Re-read verbatim 2026-11-09: 5.8+ is documented against MaterialX 1.39.4 (5.7 against 1.39.3), and this is
+      the 5.9 doc set.
+
+  - nodes: [image, tiledimage, triplanarprojection]
+    materialx: "1.39.4"
+    level: partial
+    notes: Supported, but several image-sampling uniform inputs are unsupported.
+    gaps:
+      - "image: filtertype, layer, framerange, frameoffset and frameendaction inputs are unsupported."
+      - "tiledimage: filtertype, framerange, frameoffset and frameendaction inputs are unsupported."
+      - "triplanarprojection: filtertype, layerx, layery, layerz, framerange, frameoffset and frameendaction inputs are unsupported."
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [worleynoise2d, worleynoise3d, unifiednoise2d, unifiednoise3d]
+    materialx: "1.39.4"
+    level: partial
+    notes: Supported with restrictions on the cell-noise style.
+    gaps:
+      - Only the distance-to-cell-center style is supported.
+      - worleynoise2d and worleynoise3d do not support the jitter input.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [luminance, saturate]
+    materialx: "1.39.4"
+    level: partial
+    notes: Supported, but lumacoeffs can only be set as a uniform value in the Details panel.
+    gaps:
+      - lumacoeffs is only supported as a uniform value set in the Details panel.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [geompropvalue]
+    materialx: "1.39.4"
+    level: partial
+    notes: >-
+      In standalone MaterialX files it is unsupported except a vector2 named "st", which becomes a texcoord node. For
+      MaterialX embedded in USD, values are linked to USD primvars or baked to textures and converted to image nodes.
+    gaps:
+      - Unsupported in standalone MaterialX files apart from a vector2 property named st.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [transformmatrix, transpose, determinant, invertmatrix, creatematrix, geompropvalueuniform, frame]
+    materialx: "1.39.4"
+    level: none
+    notes: The reference lists these as unsupported (matrix operations, geompropvalueuniform and frame).
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - libraries: [cmlib]
+    materialx: "1.39.4"
+    level: native
+    notes: The reference says the entire CM (color management) library is supported.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [viewdirection, facingratio, gooch_shade]
+    materialx: "1.39.4"
+    level: native
+    notes: Listed as supported nodes.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: The page lists these under its "CM Nodes (Color Transforms)" heading (and the color transforms under its NPR heading, apparently swapped); they belong to MaterialX's NPR library.
+
+  - nodes: [standard_surface, UsdPreviewSurface]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      Standard Surface and USD Preview Surface are supported with Substrate on or off.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/materialx-support-in-unreal-engine?lang=en-US
+        title: MaterialX Support in Unreal Engine (5.9 docs)
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.9 docs)
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - nodes: [surface_unlit]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      The import guide lists a Surface Unlit translation setting among the surface-shader material functions
+      (MX_SurfaceUnlit, in both the Substrate and legacy sets), and the support reference says converting to a surface
+      shader creates a Surface Unlit material.
+    sources:
+      - url: https://dev.epicgames.com/documentation/unreal-engine/importing-materialx-files-in-unreal-engine?lang=en-US
+        title: Importing MaterialX files in Unreal Engine (5.9 docs)
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://dev.epicgames.com/documentation/unreal-engine/materialx-support-in-unreal-engine?lang=en-US
+        title: MaterialX Support in Unreal Engine (5.9 docs)
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: >-
+      The guide describes the setting as translating "Standard Surface data for unlit surfaces" and never names the
+      MaterialX surface_unlit node; mapping the setting to that node is an interpretation.
+
+  - nodes: [open_pbr_surface, gltf_pbr]
+    materialx: "1.39.4"
+    level: partial
+    notes: >-
+      OpenPBR Surface and glTF Surface import fully only in Substrate projects. Without Substrate, OpenPBR falls back to
+      the StandardSurface material functions.
+    gaps:
+      - Substrate only (OpenPBR uses Standard Surface functions without Substrate).
+      - Full expressiveness of layered BSDFs needs the Adaptive GBuffer project setting.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: The glTF Surface mapping to gltf_pbr is interpretive.
+
+  - nodes: [disney_principled]
+    materialx: "1.39.4"
+    level: none
+    notes: The reference lists Disney Principled BSDF as not supported.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: Mapped Disney Principled BSDF to the disney_principled node (added in MaterialX 1.39.2).
+
+  - nodes: [burley_diffuse_bsdf, conductor_bsdf, dielectric_bsdf, generalized_schlick_bsdf, oren_nayar_diffuse_bsdf,
+      sheen_bsdf, subsurface_bsdf, translucent_bsdf, chiang_hair_bsdf, conical_edf, generalized_schlick_edf, measured_edf]
+    materialx: "1.39.4"
+    level: partial
+    notes: Physically based BSDF and EDF nodes are implemented as pass-throughs with no inputs connected.
+    gaps:
+      - Pass-through only; inputs are not connected.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: The page says all BSDFs and all EDFs except uniform_edf; this node list is my enumeration of pbrlib BSDF and EDF nodes.
+
+  - nodes: [uniform_edf, absorption_vdf, anisotropic_vdf, surface, displacement, roughness_anisotropy, roughness_dual,
+      glossiness_anisotropy, blackbody, artistic_ior]
+    materialx: "1.39.4"
+    level: native
+    notes: The reference lists uniform_edf, all VDFs and these PBR utility nodes as supported.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: absorption_vdf and anisotropic_vdf are my enumeration of "all VDF supported".
+
+  - nodes: [layer]
+    nodedefs: [ND_add_bsdf, ND_add_edf, ND_mix_bsdf, ND_mix_edf, ND_multiply_bsdfC, ND_multiply_bsdfF, ND_multiply_edfC,
+      ND_multiply_edfF]
+    materialx: "1.39.4"
+    level: partial
+    notes: The PBR utility nodes add, layer, mix and multiply are supported only in Substrate projects.
+    gaps:
+      - Substrate only.
+    sources: *src
+    confidence: high
+    verified: 2026-11-09
+    review: Mapping the utility add/mix/multiply entries to the BSDF/EDF closure nodedefs is interpretive.

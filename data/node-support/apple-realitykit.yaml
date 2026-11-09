@@ -1,0 +1,40 @@
+summary: >-
+  Reality Composer Pro's Shader Graph exposes a catalogue of MaterialX-based nodes (nodedef ids like ND_noise2d_float)
+  next to RealityKit-specific nodes. Apple's per-category node pages list what is available; they don't publish a
+  separate unsupported list.
+scopes:
+  - id: realitykit
+    label: RealityKit Shader Graph
+    context: render
+records:
+  - nodes: [constant, ramplr, ramptb, ramp4, splitlr, splittb, noise2d, cellnoise2d, worleynoise2d, image, tiledimage,
+      UsdUVTexture, UsdTransform2d, noise3d, fractal3d, cellnoise3d, worleynoise3d, triplanarprojection, remap,
+      smoothstep, luminance, rgbtohsv, hsvtorgb, contrast, range, hsvadjust, saturate, time, premult, unpremult, plus,
+      minus, difference, burn, dodge, screen, overlay, disjointover, in, mask, matte, out, over, inside, outside, mix,
+      convert, swizzle, combine2, combine3, combine4, extract, separate2, separate3, separate4, UsdPrimvarReader,
+      position, normal, tangent, bitangent, texcoord, geomcolor, geompropvalue, ifgreater, ifgreatereq, ifequal,
+      switch, add, subtract, multiply, divide, modulo, absval, floor, ceil, power, sin, cos, tan, asin, acos, atan2,
+      sqrt, ln, exp, sign, clamp, min, max, normalize, magnitude, dotproduct, crossproduct, transformpoint,
+      transformvector, transformnormal, transformmatrix, transpose, determinant, invertmatrix, rotate2d, rotate3d,
+      place2d, round, safepower, normalmap, dot, UsdPreviewSurface]
+    materialx: "1.38.10"
+    level: native
+    notes: >-
+      Apple's ShaderGraph documentation has a node page for each of these (the page metadata carries the MaterialX
+      nodedef id, for example ND_worleynoise2d_float, ND_UsdPreviewSurface_surfaceshader), grouped as 2D/3D procedural,
+      texture, adjustment, application, compositing, data, geometric, logic, math, organization, procedural and surface.
+      Display names map to MaterialX nodes (Additive Mix is plus, Subtractive Mix is minus, Ceiling is ceil, Abs is
+      absval, Mix is mix, Preview Surface is UsdPreviewSurface). The RealityKit-specific nodes (ND_realitykit_*,
+      ND_MTL_*, ND_RealityKitTexture*, Up Direction, Normal Map Decode) have no MaterialX counterpart and are omitted.
+    sources:
+      - url: https://developer.apple.com/documentation/shadergraph
+        title: ShaderGraph (node category index and per-node pages)
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: >-
+      Apple documents these as Shader Graph nodes but doesn't call the list a MaterialX support matrix, publishes no
+      MaterialX version, and doesn't say which type variants (the nodedef ids shown are one example type each) are
+      available. The version 1.38.10 is an assumption from the Shader Graph's "MaterialX 1.38 conventions" wording and
+      the presence of 1.38.9 nodes (round, safepower). Re-checked 2026-11-09 against Apple's JSON for all 232 node pages (externalID): every listed node matches an ND_ id, the RealityKit-specific ND_realitykit_*/ND_MTL_*/RealityKitTexture* nodes (including its own logical and/or/xor/not, reflect, refract, fractional) were left out, and the "MaterialX 1.38 conventions" sentence on the ShaderGraph page is the only version statement.

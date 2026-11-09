@@ -1,0 +1,67 @@
+summary: >-
+  The materialx_shaders repository holds RDL2 map shaders generated per MaterialX nodedef (ND_*), for pattern, math,
+  compositing and procedural nodes. It is built only when OpenMoonRay is configured with BUILD_MATERIALX_SHADERS=ON,
+  and the release notes call it work in progress. BSDF, EDF and surface nodes are not covered.
+scopes:
+  - id: moonray
+    label: MoonRay (materialx_shaders)
+    context: render
+
+records:
+  - scopes: [moonray]
+    nodes: [absval, acos, add, asin, atan2, bitangent, bump, burn, ceil, cellnoise2d, cellnoise3d, checkerboard,
+      circle, clamp, cloverleaf, colorcorrect, combine2, combine3, combine4, constant, contrast, convert, cos,
+      crosshatch, crossproduct, determinant, difference, disjointover, distance, divide, dodge, dotproduct, exp,
+      extract, floor, fractal3d, frame, geomcolor, geompropvalue, grid, hexagon, hsvadjust, hsvtorgb, ifequal,
+      ifgreater, ifgreatereq, image, in, inside, invert, invertmatrix, line, ln, luminance, magnitude, mask,
+      matte, max, min, minus, mix, modulo, multiply, noise2d, noise3d, normal, normalize, out, outside, over,
+      overlay, place2d, plus, position, power, premult, ramp4, ramplr, ramptb, randomcolor, randomfloat, range,
+      reflect, refract, remap, rgbtohsv, rotate2d, rotate3d, round, safepower, saturate, screen, sign, sin,
+      smoothstep, splitlr, splittb, sqrt, subtract, switch, tan, tangent, texcoord, tiledcircles,
+      tiledcloverleafs, tiledhexagons, time, transformmatrix, transformnormal, transformpoint, transformvector,
+      transpose, trianglewave, unifiednoise2d, unifiednoise3d, unpremult, worleynoise2d, worleynoise3d]
+    level: experimental
+    notes: >-
+      Nodes with at least one nodedef type variant marked "Yes" (shader exists) in the repository's ShaderStatus.md,
+      and a matching ND_* shader directory in the tree. Some type variants of these nodes are still missing (for
+      example image has no color4, vector2 or vector4 variant, and several integer, boolean and matrix variants of
+      conditionals are blank). The BUILD_MATERIALX_SHADERS option defaults to OFF, and the 2026.29.0 release notes
+      call the feature work in progress.
+    sources:
+      - url: https://github.com/OpenMoonRay/materialx_shaders/blob/main/ShaderStatus.md
+        title: materialx_shaders ShaderStatus.md
+        kind: repo
+        accessed: 2026-11-09
+      - url: https://github.com/OpenMoonRay/openmoonray/releases/tag/v2026.29.0
+        title: OpenMoonRay Release v2026.29.0
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "MaterialX library version is not stated by the repo, so none is recorded. The status table spells the bitangent row 'bittangent' (ND_bittangent_vector3); the tree has dso/map/geometric/bitangent/ND_bitangent_vector3, so it is recorded as bitangent. combine2 is read from rows whose names lost the node prefix (ND_vector2, ND_vector4VF, ND_color4CF), matched by the dso/map/channel/combine2 directory. refract, rotate3d and unifiednoise3d are nodedef rows under another node's name in the table. All are interpretation."
+
+  - scopes: [moonray]
+    nodes: [blur, heighttonormal]
+    level: none
+    notes: >-
+      ShaderStatus.md lists these as stubs with the note that MoonRay does not support convolution shaders.
+    sources:
+      - url: https://github.com/OpenMoonRay/materialx_shaders/blob/main/ShaderStatus.md
+        title: materialx_shaders ShaderStatus.md
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [moonray]
+    nodes: [separate2, separate3, separate4]
+    level: none
+    notes: >-
+      ShaderStatus.md leaves these without a shader, noting that MoonRay does not support multiple outputs yet.
+    sources:
+      - url: https://github.com/OpenMoonRay/materialx_shaders/blob/main/ShaderStatus.md
+        title: materialx_shaders ShaderStatus.md
+        kind: repo
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09

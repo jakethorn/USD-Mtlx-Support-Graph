@@ -1,0 +1,47 @@
+summary: >-
+  Octane 2026.1 added native MaterialX nodes (over 130, shown under Maps / Octane / MaterialX with an MTX suffix)
+  that implement the main pattern nodes of MaterialX 1.39.4 and PBR/EDF nodes. OTOY's pages give counts and
+  categories but no per-node list.
+scopes:
+  - id: octane
+    label: Octane (GPU render)
+    context: render
+
+records:
+  - scopes: [octane]
+    libraries: [pbrlib]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      The Standalone docs describe MaterialX PBR nodes for building custom layered materials, EDF (emission) nodes,
+      and layering and mixing of BSDFs with upstream texture graphs. Individual PBR nodes are not enumerated.
+    sources:
+      - url: https://docs.otoy.com/standaloneSE/MaterialX.html
+        title: Octane Standalone documentation, MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The docs page names no individual PBR nodes and no limits. Recording the whole library is an interpretation of 'PBR nodes ... and EDF nodes'. The same page says EDF nodes arrived in the 'first 2027.1 alpha' while the release notes say 2026.1, so the version on that page may be a typo."
+
+  - scopes: [octane]
+    libraries: [stdlib]
+    materialx: "1.39.4"
+    level: native
+    notes: >-
+      The 2026.1 release notes say over 130 new MaterialX nodes implement the main pattern nodes from MaterialX 1.39.4,
+      usable next to Octane's own texture nodes. An earlier 2026.1 alpha forum post says all nodes from the MaterialX
+      standard are supported, with multi-type nodes shown as one node with a type combo box. No page lists which
+      stdlib nodes are included.
+    sources:
+      - url: https://render.otoy.com/forum/viewtopic.php?t=85315
+        title: OctaneRender 2026.1 Release Notes
+        kind: release-notes
+        accessed: 2026-11-09
+      - url: https://render.otoy.com/forum/viewtopic.php?p=440273
+        title: MaterialX native support, samples and tutorial (2026.1 alpha)
+        kind: forum
+        accessed: 2026-11-09
+    confidence: low
+    verified: 2026-11-09
+    review: "Release notes say 'over 130 new nodes ... main pattern nodes' while the 2025 alpha post says 'All nodes from the MaterialX standard are supported'; no node list found on docs.otoy.com (Standalone MaterialX and MaterialX Surface Material pages name no nodes, only link materialx.org). Recorded as native for the whole stdlib on the strength of the alpha post, but the release notes suggest it may be a subset. Human call needed."

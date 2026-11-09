@@ -113,8 +113,8 @@ that belongs in the product's `mtlx.render` record.
   doubtful mappings with `review`. A product node with no MaterialX counterpart (a vendor-specific node) is out of
   scope.
 
-Example: `data/node-support/karma.yaml` (once written) shows two scopes, a library record with exceptions and a
-per-node record.
+Example: `data/node-support/karma.yaml` shows two scopes, library records with exceptions and per-node records.
+`npm run review` prints each scope's resolved coverage.
 
 ## Tier 1 product ids
 
