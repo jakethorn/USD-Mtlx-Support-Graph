@@ -249,6 +249,113 @@ export const projectSchema = z
   .refine((p) => p.repo || p.url, { message: 'a project needs a repo or a url' });
 
 // ---------------------------------------------------------------------------
+// Renderer-level MaterialX node support (data/node-support/<product-id>.yaml)
+//
+// Renderer docs rarely list nodes one by one. They say "every standard-library node except
+// these", "these node groups", or "these shading models". So a record selects nodes by
+// library, group, node or nodedef, and can carve out exceptions. Names must exist in
+// data/generated/materialx-nodes.json. Resolution (src/data/node-support.ts): the most
+// specific selector wins (nodedef > node > group > library), and an exception always
+// overrides its own record. A node no record covers is unknown.
+// ---------------------------------------------------------------------------
+
+/** What a scope's records describe. */
+export const NODE_CONTEXTS = [
+  'render', // the renderer evaluates the node when it renders a MaterialX material
+  'import', // the node is translated into the product's own material system on import
+  'export', // the product writes the node when it exports MaterialX
+] as const;
+
+/** MaterialX's own shader generators, as listed in materialx-nodes.json `targets`. */
+export const MTLX_GENERATORS = ['genglsl', 'essl', 'genmsl', 'genosl', 'genmdl', 'genslang'] as const;
+
+const nodeNameSchema = z.string().regex(/^[A-Za-z_][A-Za-z0-9_]*$/, 'node names look like standard_surface');
+const nodedefNameSchema = z.string().regex(/^ND_[A-Za-z0-9_]+$/, 'nodedef names look like ND_image_color3');
+const libraryNameSchema = z.string().regex(/^[a-z]+(\/[a-z]+)?$/, 'libraries look like stdlib, pbrlib or bxdf/lama');
+/** A node group in any library ("procedural2d"), or in one library ("stdlib:texture2d"). */
+const groupRefSchema = z
+  .string()
+  .regex(/^([a-z]+(\/[a-z]+)?:)?[a-z0-9_]+$/, 'groups look like procedural2d or stdlib:texture2d');
+
+/** Which nodes a record or exception covers: the union of every list given. */
+const nodeSelector = {
+  /** Every node in these MaterialX data libraries (stdlib, pbrlib, bxdf, bxdf/lama, cmlib, lights, nprlib…). */
+  libraries: z.array(libraryNameSchema).min(1).optional(),
+  /** Every node in these node groups. */
+  groups: z.array(groupRefSchema).min(1).optional(),
+  /** These nodes, all type variants. */
+  nodes: z.array(nodeNameSchema).min(1).optional(),
+  /** These type variants only. */
+  nodedefs: z.array(nodedefNameSchema).min(1).optional(),
+};
+type NodeSelectorShape = { libraries?: unknown; groups?: unknown; nodes?: unknown; nodedefs?: unknown };
+const hasSelector = (s: NodeSelectorShape) => Boolean(s.libraries || s.groups || s.nodes || s.nodedefs);
+const selectorMessage = { message: 'select nodes with at least one of libraries, groups, nodes or nodedefs' };
+
+/**
+ * Nodes inside a record that the source treats differently ("all stdlib nodes except blur").
+ * Sources, confidence and verified default to the parent record's, so give them only when
+ * the exception comes from a different source.
+ */
+export const nodeExceptionSchema = z
+  .strictObject({
+    ...nodeSelector,
+    level: z.enum(SUPPORT_LEVELS),
+    notes: z.string().optional(),
+    gaps: z.array(z.string().min(1)).default([]),
+    sources: sourcesSchema.optional(),
+    confidence: z.enum(CONFIDENCE).optional(),
+    verified: isoDateSchema.optional(),
+    review: reviewSchema,
+  })
+  .refine(hasSelector, selectorMessage);
+
+export const nodeSupportRecordSchema = z
+  .strictObject({
+    /** Scope ids from this file's `scopes`. Omitted = every scope. */
+    scopes: z.array(idSchema).min(1).optional(),
+    ...nodeSelector,
+    /**
+     * Only the nodedefs this MaterialX generator implements (natively or as a node graph),
+     * for products that compile MaterialX with it (e.g. patterns through genosl).
+     */
+    generator: z.enum(MTLX_GENERATORS).optional(),
+    /**
+     * MaterialX release the product is built against. Library and group selectors expand to
+     * the nodes that existed in it. Omitted = the latest tracked release.
+     */
+    materialx: mtlxVersionSchema.optional(),
+    level: z.enum(SUPPORT_LEVELS),
+    /** Product version in which this level of support first shipped. */
+    since: versionSchema.optional(),
+    notes: z.string().optional(),
+    gaps: z.array(z.string().min(1)).default([]),
+    except: z.array(nodeExceptionSchema).default([]),
+    sources: sourcesSchema,
+    confidence: z.enum(CONFIDENCE),
+    verified: isoDateSchema,
+    review: reviewSchema,
+  })
+  .refine(hasSelector, selectorMessage);
+
+/** A column in a node table: one engine, mode or direction of a product (Karma XPU, Blender export). */
+export const nodeSupportScopeSchema = z.strictObject({
+  id: idSchema,
+  label: z.string().min(1),
+  context: z.enum(NODE_CONTEXTS),
+  /** Host products, when the scope is one integration of a renderer (V-Ray for Maya). */
+  hosts: z.array(idSchema).optional(),
+  notes: z.string().optional(),
+});
+
+export const nodeSupportSchema = z.strictObject({
+  /** One or two sentences on how the product handles MaterialX nodes. */
+  summary: z.string().max(400).optional(),
+  scopes: z.array(nodeSupportScopeSchema).min(1),
+  records: z.array(nodeSupportRecordSchema).min(1),
+});
+
+// ---------------------------------------------------------------------------
 // Timeline events (data/events.yaml)
 // ---------------------------------------------------------------------------
 
@@ -271,3 +378,7 @@ export type Issue = z.infer<typeof issueSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type TimelineEvent = z.infer<typeof eventSchema>;
 export type Source = z.infer<typeof sourceSchema>;
+export type NodeSupport = z.infer<typeof nodeSupportSchema>;
+export type NodeSupportScope = z.infer<typeof nodeSupportScopeSchema>;
+export type NodeSupportRecord = z.infer<typeof nodeSupportRecordSchema>;
+export type NodeSupportException = z.infer<typeof nodeExceptionSchema>;

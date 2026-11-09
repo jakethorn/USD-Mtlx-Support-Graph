@@ -1,0 +1,421 @@
+---
+/**
+ * Product page section for data/node-support/<product>.yaml: per-scope coverage of the
+ * MaterialX node library, a node grid coloured by level, and every sourced record.
+ */
+import LevelBadge from './LevelBadge.astro';
+import { materialxNodes, type MtlxNode } from '../data/generated';
+import { existsAt, type NodeLevel } from '../data/node-support';
+import type { NodeSupportRecord } from '../data/schema';
+import type { NodeSupportEntry } from '../lib/data';
+import { LEVEL_LABEL, LEVEL_ORDER } from '../lib/view';
+
+interface Props {
+  entry: NodeSupportEntry;
+}
+const { entry } = Astro.props;
+const { resolved } = entry;
+
+const CONTEXT_LABEL = { render: 'Rendering', import: 'Import', export: 'Export' } as const;
+
+const LIBRARY_ORDER = ['stdlib', 'pbrlib', 'bxdf', 'bxdf/lama', 'bxdf/translation', 'cmlib', 'lights', 'nprlib'];
+const libOrder = (lib: string) => {
+  const i = LIBRARY_ORDER.indexOf(lib);
+  return i === -1 ? LIBRARY_ORDER.length : i;
+};
+
+const latestNodes = materialxNodes.nodes.filter((n) => existsAt(n, resolved.latest));
+const libraryNames = [...new Set(latestNodes.map((n) => n.library))].sort(
+  (a, b) => libOrder(a) - libOrder(b) || a.localeCompare(b),
+);
+const libraries = libraryNames.map((lib) => ({
+  lib,
+  nodes: latestNodes
+    .filter((n) => n.library === lib)
+    .sort((a, b) => (a.group ?? '').localeCompare(b.group ?? '') || a.name.localeCompare(b.name)),
+}));
+
+const scopeLabel = new Map(entry.scopes.map((s) => [s.id, s.label]));
+
+type Selector = Pick<NodeSupportRecord, 'libraries' | 'groups' | 'nodes' | 'nodedefs'>;
+const selectorParts = (s: Selector) => [
+  ...(s.libraries ?? []).map((l) => ({ kind: 'library', name: l })),
+  ...(s.groups ?? []).map((g) => ({ kind: 'group', name: g })),
+  ...(s.nodes ?? []).map((n) => ({ kind: 'node', name: n })),
+  ...(s.nodedefs ?? []).map((d) => ({ kind: 'nodedef', name: d })),
+];
+
+const nodeTitle = (node: MtlxNode, cell: (typeof resolved.scopes)[number]['nodes'][string] | undefined) =>
+  cell
+    ? `${node.name}: ${LEVEL_LABEL[cell.level]}` +
+      (cell.mixed ? ` (${cell.covered} of ${cell.total} type variants recorded, levels may differ)` : '') +
+      (cell.flagged ? ' · needs review' : '')
+    : `${node.name}: unknown`;
+
+const levelsIn = (counts: Partial<Record<NodeLevel | 'unknown', number>>) => LEVEL_ORDER.filter((l) => (counts[l] ?? 0) > 0);
+---
+
+<section id="mtlx-nodes" class="node-support">
+  <h2>MaterialX node support</h2>
+  {entry.summary && <p class="lede">{entry.summary}</p>}
+  <p class="muted small">
+    Coverage of the {latestNodes.length} nodes in MaterialX {resolved.latest}'s own libraries, resolved from the sourced
+    records below. Nodes without a record are unknown, not unsupported.
+  </p>
+
+  <div class="scopes">
+    {
+      resolved.scopes.map((s) => (
+        <article class="scope">
+          <header>
+            <h3>{s.label}</h3>
+            <span class="pill">{CONTEXT_LABEL[s.context]}</span>
+          </header>
+          {s.notes && <p class="small">{s.notes}</p>}
+          <div class="bar" role="img" aria-label={`${s.label} node coverage`}>
+            {levelsIn(s.counts).map((l) => (
+              <span class={`seg lv-${l}`} style={`flex:${s.counts[l]}`} title={`${LEVEL_LABEL[l]}: ${s.counts[l]}`} />
+            ))}
+            {(s.counts.unknown ?? 0) > 0 && (
+              <span class="seg unknown" style={`flex:${s.counts.unknown}`} title={`Unknown: ${s.counts.unknown}`} />
+            )}
+          </div>
+          <ul class="counts" role="list">
+            {levelsIn(s.counts).map((l) => (
+              <li>
+                <span class={`dot lv-${l}`} />
+                <strong>{s.counts[l]}</strong> {LEVEL_LABEL[l].toLowerCase()}
+              </li>
+            ))}
+            {(s.counts.unknown ?? 0) > 0 && (
+              <li class="muted">
+                <span class="dot unknown" />
+                {s.counts.unknown} unknown
+              </li>
+            )}
+          </ul>
+          <details>
+            <summary>Show nodes</summary>
+            {libraries.map(({ lib, nodes }) => (
+              <div class="lib">
+                <h4>{lib}</h4>
+                <ul class="chips" role="list">
+                  {nodes.map((n) => {
+                    const cell = s.nodes[n.name];
+                    return (
+                      <li
+                        class={`chip ${cell ? `lv-${cell.level}` : 'unknown'} ${cell?.mixed ? 'mixed' : ''} ${cell?.flagged ? 'flagged' : ''}`}
+                        title={nodeTitle(n, cell)}
+                      >
+                        {n.name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </details>
+        </article>
+      ))
+    }
+  </div>
+
+  <h3 class="sub">Records</h3>
+  <ul class="records" role="list">
+    {
+      entry.records.map((r, i) => {
+        const claim = resolved.claims[i].record;
+        return (
+          <li class={claim.flagged ? 'flagged' : ''}>
+            <div class="head">
+              <LevelBadge level={r.level} />
+              <span class="sel">
+                {selectorParts(r).map((p) => (
+                  <code class={`sel-${p.kind}`} title={p.kind}>
+                    {p.name}
+                  </code>
+                ))}
+              </span>
+              <span class="muted small">
+                {r.scopes ? r.scopes.map((id) => scopeLabel.get(id) ?? id).join(', ') : 'all scopes'}
+                {r.generator && ` · via MaterialX ${r.generator}`}
+                {r.materialx && ` · MaterialX ${r.materialx}`}
+                {r.since && ` · since ${r.since}`}
+              </span>
+              <span class={`conf conf-${r.confidence}`}>
+                {r.confidence} confidence · verified {r.verified}
+              </span>
+            </div>
+            {r.notes && <p>{r.notes}</p>}
+            {r.gaps.length > 0 && (
+              <ul class="gaps">
+                {r.gaps.map((g) => (
+                  <li>{g}</li>
+                ))}
+              </ul>
+            )}
+            {r.except.length > 0 && (
+              <ul class="except" role="list">
+                {r.except.map((e, j) => {
+                  const ec = resolved.claims[i].except[j];
+                  return (
+                    <li class={e.review || e.confidence === 'low' ? 'flagged' : ''}>
+                      <span class="muted small">except</span>
+                      <LevelBadge level={e.level} />
+                      <span class="sel">
+                        {selectorParts(e).map((p) => (
+                          <code class={`sel-${p.kind}`} title={p.kind}>
+                            {p.name}
+                          </code>
+                        ))}
+                      </span>
+                      {e.notes && <span class="small">{e.notes}</span>}
+                      {e.gaps.length > 0 && <span class="small muted">{e.gaps.join(' ')}</span>}
+                      {e.review && <span class="review small">Review: {e.review}</span>}
+                      {e.sources && (
+                        <span class="sources">
+                          {ec.sources.map((src) => (
+                            <a href={src.url} rel="noopener">
+                              {src.title ?? new URL(src.url).hostname}
+                            </a>
+                          ))}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            {r.review && <p class="review">Review: {r.review}</p>}
+            <p class="sources">
+              {r.sources.map((src) => (
+                <a href={src.url} rel="noopener">
+                  {src.title ?? new URL(src.url).hostname}
+                </a>
+              ))}
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style>
+  .node-support {
+    margin-top: 36px;
+    scroll-margin-top: 80px;
+  }
+  .lede {
+    max-width: 78ch;
+    margin: 0 0 6px;
+  }
+  .small {
+    font-size: 0.84rem;
+  }
+  .scopes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .scope {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--mtlx);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    min-width: 0;
+  }
+  .scope header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .scope h3 {
+    margin: 0;
+    font-size: 1.02rem;
+  }
+  .pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  .bar {
+    display: flex;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--surface-2);
+    gap: 1px;
+  }
+  .seg {
+    background: var(--lv);
+  }
+  .seg.unknown {
+    background: transparent;
+  }
+  .counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    font-size: 0.8rem;
+  }
+  .counts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lv);
+    display: inline-block;
+  }
+  .dot.unknown {
+    background: transparent;
+    border: 1px dashed var(--text-muted);
+  }
+  details summary {
+    cursor: pointer;
+    font-size: 0.84rem;
+    color: var(--accent);
+  }
+  .lib h4 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin: 12px 0 6px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--lv);
+    background: color-mix(in srgb, var(--lv) 16%, transparent);
+    overflow-wrap: anywhere;
+  }
+  .chip.unknown {
+    border: 1px dashed var(--border);
+    background: transparent;
+    color: var(--text-muted);
+  }
+  .chip.mixed {
+    border-style: dashed;
+  }
+  .chip.flagged {
+    box-shadow: inset 0 -2px 0 var(--level-partial);
+  }
+  h3.sub {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin: 24px 0 8px;
+  }
+  .records {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .records > li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    min-width: 0;
+  }
+  .records > li.flagged,
+  .except > li.flagged {
+    border-left: 3px solid var(--level-partial);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+  }
+  .sel {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-width: 0;
+  }
+  .sel code {
+    font-size: 0.76rem;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    overflow-wrap: anywhere;
+  }
+  .sel .sel-library,
+  .sel .sel-group {
+    font-weight: 650;
+  }
+  .records p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+  }
+  .gaps {
+    margin: 6px 0 0;
+    padding-left: 20px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .except {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: grid;
+    gap: 6px;
+  }
+  .except > li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+  }
+  .review {
+    color: var(--level-partial);
+    font-weight: 600;
+  }
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 0.82rem;
+  }
+  .conf {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .conf-low {
+    color: var(--level-none);
+  }
+</style>

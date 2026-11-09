@@ -1,0 +1,315 @@
+summary: >-
+  V-Ray translates MaterialX nodes into V-Ray plugins through a mapping file and custom code. Chaos publishes
+  separate node tables for V-Ray for Houdini (Solaris) and V-Ray for Maya, each with CPU and GPU columns. V-Ray GPU
+  covers fewer nodes than CPU.
+scopes:
+  - id: houdini-cpu
+    label: V-Ray for Houdini, CPU
+    context: render
+    hosts: [houdini]
+  - id: houdini-gpu
+    label: V-Ray for Houdini, GPU
+    context: render
+    hosts: [houdini]
+  - id: maya-cpu
+    label: V-Ray for Maya, CPU
+    context: render
+    hosts: [maya]
+  - id: maya-gpu
+    label: V-Ray for Maya, GPU
+    context: render
+    hosts: [maya]
+
+records:
+  # ── V-Ray for Houdini (Solaris) ───────────────────────────────────────────
+  - scopes: [houdini-cpu, houdini-gpu]
+    nodes: [absval, acescg_to_lin_rec709, acos, add, adobergb_to_lin_rec709, asin, atan2, bitangent, bump, burn,
+      cellnoise2d, clamp, combine2, combine3, combine4, constant, contrast, convert, creatematrix, crosshatch,
+      crossproduct, determinant, difference, disjointover, displacement, dodge, dot, dotproduct, exp, extract,
+      g18_rec709_to_lin_rec709, g22_ap1_to_lin_rec709, g22_rec709_to_lin_rec709, geomcolor, gooch_shade, ifequal,
+      ifgreater, ifgreatereq, in, inside, invert, invertmatrix, luminance, mask, matte, max, min, minus, mix,
+      multiply, normalize, normalmap, open_pbr_surface, out, outside, place2d, plus, premult, ramp, range, reflect,
+      refract, remap, rotate2d, rotate3d, round, safepower, screen, separate2, separate3, separate4, sin, smoothstep,
+      srgb_displayp3_to_lin_rec709, srgb_texture_to_lin_rec709, switch, transpose, trianglewave, unpremult,
+      UsdPreviewSurface, UsdPrimvarReader, viewdirection]
+    level: native
+    notes: >-
+      Rows ticked for both CPU and GPU in the Houdini "Supported Nodes" table. Rows are mapped to node names from
+      their VOP name or USD id. An id naming one type variant (such as ND_asin_float) is read as the whole node.
+      Houdini-only nodes (hmtlx*) are left out. The row labelled "Rec709 Display To Lin Rec709" gives the id
+      ND_lin_displayp3_to_lin_rec709, so neither node is recorded. The page was last edited on 2026-02-18.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [houdini-cpu]
+    nodes: [ceil, cellnoise3d, checkerboard, circle, cloverleaf, colorcorrect, cos, distance, divide, floor,
+      fractal3d, frame, geompropvalue, grid, heighttonormal, hexagon, hsvtorgb, image, line, ln, magnitude, modulo,
+      noise2d, noise3d, normal, over, overlay, position, power, ramp4, ramplr, ramptb, randomcolor, randomfloat,
+      rgbtohsv, saturate, sign, splitlr, splittb, sqrt, standard_surface, subtract, surface_unlit, tan, tangent,
+      texcoord, tiledcircles, tiledcloverleafs, tiledhexagons, tiledimage, time, transformmatrix, transformnormal,
+      transformpoint, transformvector, triplanarprojection, unifiednoise2d, unifiednoise3d, worleynoise2d,
+      worleynoise3d]
+    level: native
+    notes: >-
+      Rows ticked for CPU but crossed or marked Partial for GPU in the Houdini table. The page also lists sin, cos,
+      tan, sqrt, log, floor, exp, ceil, asin and acos as "functions supported in Solaris", without saying for which
+      engine.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [houdini-gpu]
+    nodes: [ceil, cellnoise3d, colorcorrect, cos, divide, floor, fractal3d, frame, geompropvalue, heighttonormal,
+      hsvtorgb, image, ln, magnitude, modulo, noise2d, noise3d, normal, over, overlay, position, power, ramp4,
+      ramplr, ramptb, randomcolor, rgbtohsv, saturate, sign, splitlr, splittb, sqrt, standard_surface, subtract,
+      tan, tangent, texcoord, tiledimage, time, transformmatrix, transformnormal, transformpoint, transformvector,
+      triplanarprojection, worleynoise2d, worleynoise3d]
+    level: none
+    notes: Rows crossed for GPU (and ticked for CPU) in the Houdini table.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The same page's note lists cos, tan, sqrt, floor, ceil and log (ln) as functions supported in Solaris, without naming an engine. The table crosses them for GPU, and this record follows the table."
+
+  - scopes: [houdini-gpu]
+    nodes: [checkerboard, circle, cloverleaf, distance, grid, hexagon, line, randomfloat, surface_unlit, tiledcircles,
+      tiledcloverleafs, tiledhexagons, unifiednoise2d, unifiednoise3d]
+    level: partial
+    notes: Rows marked "Partial" in the GPU column of the Houdini table.
+    gaps:
+      - The table marks GPU support as Partial and does not say what is missing.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [houdini-cpu, houdini-gpu]
+    nodes: [blur, directional_light, hsvadjust, point_light, spot_light, surfacematerial, volumematerial]
+    level: none
+    notes: >-
+      Rows crossed for both CPU and GPU in the Houdini table, including the MtlX Surface Material and Volume
+      Material rows. The Solaris features page also says MtlX shaders render without lights.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [houdini-cpu, houdini-gpu]
+    nodes: [ambientocclusion, arrayappend, curveadjust, swizzle]
+    materialx: "1.38.10"
+    level: none
+    notes: >-
+      Rows crossed for CPU and GPU in the Houdini table. MaterialX 1.39 removed these nodes, so `materialx` is set
+      to 1.38.10, the last release that has them.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [houdini-cpu, houdini-gpu]
+    nodedefs:
+      - ND_convert_boolean_surfaceshader
+      - ND_convert_color3_surfaceshader
+      - ND_convert_color4_surfaceshader
+      - ND_convert_float_surfaceshader
+      - ND_convert_integer_surfaceshader
+      - ND_convert_vector2_surfaceshader
+      - ND_convert_vector3_surfaceshader
+      - ND_convert_vector4_surfaceshader
+    level: none
+    notes: >-
+      MtlX Convert appears twice in the Houdini table: under Channel, ticked for CPU and GPU, and under Shader,
+      crossed for both. The Shader row is read as the convert variants that output a surfaceshader.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279844/MaterialX%20Support
+        title: V-Ray for Houdini, MaterialX Support
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Interpretation: the Shader-category Convert row has no USD id, so mapping it to the surfaceshader convert nodedefs is a guess."
+
+  - scopes: [houdini-cpu, houdini-gpu]
+    nodes: [layer, absorption_vdf, anisotropic_vdf, volume]
+    level: none
+    notes: >-
+      The Solaris features table says MtlX shaders render "without volumetric shading, layered BRDF shaders, and
+      lights". Here that is read as pbrlib's layer node, its VDF nodes and its volume node.
+    sources:
+      - url: https://documentation.chaos.com/space/VRAYHOUDINI/113279113/Solaris%20Features%20and%20Limitations
+        title: V-Ray for Houdini, Solaris Features and Limitations
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Interpretation: the page names features rather than nodes, so which pbrlib nodes 'volumetric shading' and 'layered BRDF shaders' cover is a reading of it."
+
+  # ── V-Ray for Maya ────────────────────────────────────────────────────────
+  - scopes: [maya-cpu, maya-gpu]
+    nodes: [absval, add, bump, burn, clamp, combine2, combine3, combine4, constant, contrast, convert, crossproduct,
+      difference, disjointover, dotproduct, extract, geomcolor, ifequal, ifgreater, ifgreatereq, in, inside, invert,
+      luminance, mask, matte, max, min, minus, mix, multiply, normalize, normalmap, out, outside, place2d, plus,
+      range, remap, rotate2d, rotate3d, screen, separate2, separate3, separate4, switch, unpremult]
+    level: native
+    notes: >-
+      Rows ticked for both CPU and GPU in the V-Ray for Maya "Supported Nodes" table. The table also gives the
+      V-Ray plugin each node maps to, such as TexMix for mix. Rows are mapped as for Houdini, and Houdini-only rows
+      are left out. The table ends after its first Pbr row (Blackbody) and lists none of the nodes added in
+      MaterialX 1.38.8 or later. The page was last edited on 2026-03-10.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-cpu]
+    nodes: [acos, asin, atan2, blur, ceil, cellnoise2d, cellnoise3d, cos, determinant, divide, dodge, exp, floor,
+      fractal3d, frame, geompropvalue, heighttonormal, hsvadjust, hsvtorgb, image, invertmatrix, ln, magnitude,
+      modulo, noise2d, noise3d, normal, over, overlay, position, power, ramp4, ramplr, ramptb, rgbtohsv, saturate,
+      sign, sin, smoothstep, splitlr, splittb, sqrt, subtract, tan, tangent, texcoord, tiledimage, time,
+      transformmatrix, transpose, triplanarprojection, worleynoise2d, worleynoise3d]
+    level: native
+    notes: Rows ticked for CPU and crossed for GPU in the Maya table.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-gpu]
+    nodes: [acos, asin, atan2, blur, ceil, cellnoise2d, cellnoise3d, cos, determinant, divide, dodge, exp, floor,
+      fractal3d, frame, geompropvalue, heighttonormal, hsvadjust, hsvtorgb, image, invertmatrix, ln, magnitude,
+      modulo, noise2d, noise3d, normal, over, overlay, position, power, ramp4, ramplr, ramptb, rgbtohsv, saturate,
+      sign, sin, smoothstep, splitlr, splittb, sqrt, subtract, tan, tangent, texcoord, tiledimage, time,
+      transformmatrix, transpose, triplanarprojection, worleynoise2d, worleynoise3d]
+    level: none
+    notes: Rows crossed for GPU (and ticked for CPU) in the Maya table.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-cpu, maya-gpu]
+    nodes: [bitangent, blackbody, directional_light, point_light, premult, spot_light, surfacematerial,
+      transformnormal, transformpoint, transformvector, volumematerial]
+    level: none
+    notes: Rows crossed for both CPU and GPU in the Maya table.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-cpu, maya-gpu]
+    nodes: [ambientocclusion, arrayappend, curveadjust]
+    materialx: "1.38.10"
+    level: none
+    notes: >-
+      Rows crossed for CPU and GPU in the Maya table. MaterialX 1.39 removed these nodes, so `materialx` is set to
+      1.38.10, the last release that has them.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-cpu]
+    nodes: [swizzle]
+    materialx: "1.38.10"
+    level: native
+    notes: >-
+      Ticked for CPU in the Maya table. MaterialX 1.39 removed swizzle, so `materialx` is set to 1.38.10, the last
+      release that has it.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-gpu]
+    nodes: [swizzle]
+    materialx: "1.38.10"
+    level: none
+    notes: Crossed for GPU in the Maya table (removed in MaterialX 1.39, as above).
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738887/MaterialX%20Supported%20Features
+        title: V-Ray for Maya, MaterialX Supported Features
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+
+  - scopes: [maya-cpu]
+    nodes: [standard_surface]
+    level: native
+    notes: >-
+      The Maya table stops before the Standard Surface row. Chaos's V-Ray for Maya guide renders a MaterialX
+      Standard Surface (with tiledimage and normalmap inputs) on USD geometry in LookdevX. The guide doesn't name an
+      engine, so only the CPU scope is claimed.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111741694/Standard%20Surface%20Shader%20Setup%20for%20USD%20Geometry
+        title: V-Ray for Maya, Standard Surface Shader Setup for USD Geometry
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://documentation.chaos.com/space/VMAYA/111740125/MaterialX
+        title: V-Ray for Maya, MaterialX
+        kind: docs
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "Neither source names an engine, so recording CPU only is a choice. The sources do not say CPU specifically, and GPU status is unknown."
+
+  - scopes: [maya-cpu]
+    nodes: [open_pbr_surface]
+    level: native
+    since: "7.0"
+    notes: >-
+      The V-Ray 7 for Maya release notes add support for OpenPBR Surface in MaterialX. They don't name an engine, so
+      only the CPU scope is claimed.
+    sources:
+      - url: https://documentation.chaos.com/space/VMAYA/111738897/V-Ray%207
+        title: V-Ray for Maya release notes, V-Ray 7 (build 7.00.02)
+        kind: release-notes
+        accessed: 2026-11-09
+    confidence: high
+    verified: 2026-11-09
+    review: "The release note names no engine, so recording CPU only is a choice. The note does not say CPU specifically, and GPU status is unknown."

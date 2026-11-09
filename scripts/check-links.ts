@@ -1,5 +1,5 @@
 /**
- * Checks that every source URL in data/products and data/projects still resolves.
+ * Checks that every source URL in data/products, data/projects and data/node-support still resolves.
  *
  *   npm run check:links            → report broken links (404/410/DNS) and blocked ones (401/403/429)
  *
@@ -30,7 +30,7 @@ function collect(value: unknown, file: string, path: string) {
   }
 }
 
-for (const folder of ['products', 'projects']) {
+for (const folder of ['products', 'projects', 'node-support']) {
   const dir = join(ROOT, 'data', folder);
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.yaml'))) {
     collect(parseDataYaml(readFileSync(join(dir, f), 'utf8')), `data/${folder}/${f}`, '');
