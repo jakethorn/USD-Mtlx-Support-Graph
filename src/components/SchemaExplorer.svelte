@@ -264,7 +264,7 @@
     color: var(--text);
   }
   input {
-    min-width: 280px;
+    min-width: min(280px, 100%);
     flex: 1;
     max-width: 440px;
   }
@@ -284,6 +284,19 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-width: 0;
+  }
+  /* Long identifiers (e.g. ParticleFieldSphericalHarmonicsAttributeAPI,
+     collection:__INSTANCE_NAME__:expansionRule) must wrap on phones. */
+  .card code,
+  .card header strong {
+    overflow-wrap: anywhere;
+  }
+  .card header > div {
+    min-width: 0;
+  }
+  .card header .badge {
+    flex-shrink: 0;
   }
   .card header {
     display: flex;

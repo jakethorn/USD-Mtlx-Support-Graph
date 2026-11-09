@@ -4,13 +4,14 @@ Interactive, data-driven visualisations of how well **OpenUSD** and **MaterialX*
 animation, games and adjacent industries (AEC, product design, automotive, XR and the web). The site covers DCCs,
 renderers, game engines and the open-source tools around them.
 
-**Live site:** https://jakethorn.github.io/USD-Mtlx-Support-Graph/ (once Pages is enabled)
+**Live site:** https://jakethorn.github.io/USD-Mtlx-Support-Graph/
 
 - **Support matrix (`/matrix/`):** Interactive product × capability matrix with technology, tier, category and industry filters and a sourced detail drawer.
 - **Adoption timeline (`/timeline/`):** Spec milestones, upstream OpenUSD & MaterialX releases, and product adoption history.
 - **Open-source ecosystem (`/ecosystem/`):** Libraries, Hydra delegates, DCC plugins and converters with weekly GitHub telemetry and 52-week commit sparklines.
 - **Schemas & nodes (`/schemas/`):** Searchable explorer of every OpenUSD schema since 0.7.0 and every MaterialX standard-library node since 1.38.0 with per-generator target coverage.
 - **Product detail pages (`/products/<id>/`):** Visual capability scorecards, bundled USD/MaterialX version history, ecosystem integrations, known issues and cited sources.
+- **Needs review (`/review/`):** Every record whose sources conflict or are indirect, in one place.
 
 ## How the data works
 
@@ -67,7 +68,8 @@ well under a minute.
 Built with [Astro](https://astro.build) and [Svelte](https://svelte.dev). Pushes to `main` are validated, built and
 deployed to GitHub Pages by [`.github/workflows/site.yml`](.github/workflows/site.yml).
 [`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) re-runs ingestion every Monday, then
-commits and deploys any changes.
+commits and deploys any changes. It also checks every cited source URL and reports dead ones in the run summary
+without failing the run.
 
 ## Contributing
 

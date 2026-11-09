@@ -5,7 +5,7 @@
  *
  * Many vendor sites refuse automated requests (403), so only definite failures are errors.
  */
-import { readdirSync, readFileSync } from 'node:fs';
+import { appendFileSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseDataYaml } from '../src/data/yaml.ts';
@@ -90,5 +90,29 @@ const show = (label: string, items: string[]) => {
 show('BROKEN', broken);
 show('SERVER ERROR', other);
 show('BLOCKED / TIMEOUT (could not check automatically)', blocked);
-console.log(`\n${list.length} unique URLs · ${broken.length} broken · ${other.length} server errors · ${blocked.length} unverifiable`);
+const totals = `${list.length} unique URLs · ${broken.length} broken · ${other.length} server errors · ${blocked.length} unverifiable`;
+console.log(`\n${totals}`);
+
+// In GitHub Actions: annotate each broken link on its data file and write a run summary.
+if (process.env.GITHUB_ACTIONS) {
+  for (const u of [...broken, ...other]) {
+    for (const file of new Set(urls.get(u)!.map((x) => x.file))) {
+      console.log(`::warning file=${file},title=Source link ${results.get(u)}::${u}`);
+    }
+  }
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const rows = [...broken, ...other].map(
+      (u) => `| ${results.get(u)} | ${u} | ${[...new Set(urls.get(u)!.map((x) => `\`${x.file}\``))].join(', ')} |`,
+    );
+    const md = [
+      '## Source link check',
+      '',
+      totals,
+      '',
+      ...(rows.length ? ['| Status | URL | Cited in |', '|---|---|---|', ...rows] : ['No broken links.']),
+      '',
+    ].join('\n');
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+  }
+}
 process.exit(broken.length > 0 ? 1 : 0);

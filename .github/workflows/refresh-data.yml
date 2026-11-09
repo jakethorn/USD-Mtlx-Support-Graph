@@ -60,3 +60,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run site.yml --ref main
+
+      # Warn-only: dead sources show up as annotations and in the run summary without blocking the refresh.
+      - name: Check source links
+        continue-on-error: true
+        run: npm run check:links

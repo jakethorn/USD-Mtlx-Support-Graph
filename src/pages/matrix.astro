@@ -29,8 +29,6 @@ const rows: MatrixRow[] = products
           via: s.via ? nameOf(s.via) : undefined,
           confidence: s.confidence,
           flagged: Boolean(s.review) || s.confidence === 'low',
-          notes: s.notes,
-          gaps: s.gaps,
         },
       ]),
     ),
@@ -50,7 +48,7 @@ const unknownShare = Math.round(100 * (1 - recordCount / (rows.length * caps.len
     </p>
   </div>
   <div class="container wide">
-    <SupportMatrix client:load rows={rows} capabilities={caps} />
+    <SupportMatrix client:load rows={rows} capabilities={caps} detailsUrl={withBase('data/matrix-details.json')} />
   </div>
 </Base>
 

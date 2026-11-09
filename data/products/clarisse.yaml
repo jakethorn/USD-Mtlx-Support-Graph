@@ -4,7 +4,9 @@ categories: [dcc, lookdev, renderer]
 industries: [film-tv, vfx, animation]
 license: commercial
 status: discontinued
-website: https://www.isotropix.com/
+# isotropix.com no longer resolves; this is the last Wayback Machine snapshot of the vendor site. The official
+# docs (clarissewiki.com) survive only in the archive, so archived pages are cited below as kind: docs.
+website: https://web.archive.org/web/20231217215933/https://www.isotropix.com/
 tier: 2
 summary: >-
   Discontinued scene-assembly, layout, lookdev, and rendering tool (Clarisse iFX and BUiLDER) by Isotropix. Added
@@ -81,11 +83,18 @@ support:
     level: partial
     since: "5.0"
     notes: >-
-      Clarisse 5.0 added File > Export > Context As USD / Scene As USD to write .usd, .usda, and .usdc files containing
-      Xform hierarchies, UsdGeomCamera prims, and UsdGeomMesh geometry.
+      File > Export > Context As USD writes a context and its sub-contexts to USD, either standalone (external
+      dependencies baked in) or as overrides on the main stage that keep links to the original assets. Options cover
+      the default prim, exporting duplicated items as instanceable Xforms, hidden items, displacement as geometry, and a
+      single frame or a frame range.
     gaps:
-      - Empirical testing on Clarisse 5.0 SP14 shows the native USD exporter silently omits materials, lights, textures, and procedural scatterers even when their export checkboxes are enabled.
+      - The docs warn that the exported USD hierarchy is not guaranteed to match the Clarisse hierarchy.
+      - Community testing of 5.0 SP14 found the exporter omits materials, lights, textures and procedural scatterers even when their export checkboxes are enabled.
     sources:
+      - url: https://web.archive.org/web/20220811091223/https://clarissewiki.com/5.0/exporting-assets.html
+        title: Clarisse 5.0 docs — Exporting assets (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
         title: "romainguerif/tropix — Empirical analysis of Clarisse iFX 5.0 SP14 native USD exporter"
         kind: repo
@@ -94,9 +103,8 @@ support:
         title: "Elephorm — Clarisse 5 : une version majeure (USD export and variant support)"
         kind: blog
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "Sourced from third-party community reverse-engineering analysis (tropix) and training blog (elephorm); official Isotropix docs are offline."
+    confidence: medium
+    verified: 2026-11-09
 
   # ── Composition ────────────────────────────────────────────────────────────
   - capability: usd.composition.references
@@ -125,13 +133,16 @@ support:
     gaps:
       - VariantSets cannot be authored when exporting to USD.
     sources:
+      - url: https://web.archive.org/web/20230130210303/https://clarissewiki.com/5.0/reference/user/GeometryBundleUsd.html
+        title: Clarisse 5.0 reference — GeometryBundleUsd (variant set and variant selection attributes; Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://www.elephorm.com/blog/logiciel/clarisse-5-une-version-majeure
         title: "Elephorm — Clarisse 5 USD Variant support"
         kind: blog
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "USD variant support in Clarisse 5.0 sourced from third-party tutorial blog; official Isotropix docs are offline."
+    confidence: medium
+    verified: 2026-11-09
 
   # ── Geometry & scene schemas ───────────────────────────────────────────────
   - capability: usd.instancing
@@ -139,7 +150,8 @@ support:
     since: "4.0"
     notes: >-
       Clarisse natively deduplicates and renders millions of USD scenegraph instances and UsdGeomPointInstancer
-      prototypes on import.
+      prototypes on import, where point instancers become GeometryUsdPointInstancer items. On export, the Use Instances
+      option wraps duplicated items in instanceable Xforms.
     gaps:
       - Clarisse's native USD exporter does not export procedural Scatterer items as UsdGeomPointInstancer prims.
     sources:
@@ -147,13 +159,20 @@ support:
         title: "80.lv — Clarisse iFX 4.0 USD instancing support"
         kind: news
         accessed: 2026-11-04
+      - url: https://web.archive.org/web/20230203234959/https://clarissewiki.com/5.0/reference/technical/GeometryUsdPointInstancer.html
+        title: Clarisse 5.0 reference — GeometryUsdPointInstancer (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
+      - url: https://web.archive.org/web/20220811091223/https://clarissewiki.com/5.0/exporting-assets.html
+        title: Clarisse 5.0 docs — Exporting assets, Use Instances option (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
         title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
         kind: repo
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "Sourced from third-party news coverage and community reverse-engineering analysis; official docs offline."
+    confidence: medium
+    verified: 2026-11-09
 
   - capability: usd.geom.meshes
     level: native
@@ -164,13 +183,16 @@ support:
     gaps:
       - On export, Clarisse preserves its internal default UV set name (primvars:parametric) rather than renaming it to primvars:st.
     sources:
+      - url: https://web.archive.org/web/20230327210642/https://www.clarissewiki.com/5.0/reference/technical/GeometryUsdMesh.html
+        title: Clarisse 5.0 reference — GeometryUsdMesh, including subdivision attributes (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
         title: "romainguerif/tropix — Empirical analysis of Clarisse 5.0 SP14 native USD exporter"
         kind: repo
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "Verified against empirical export analysis from community project tropix; official docs offline."
+    confidence: medium
+    verified: 2026-11-09
 
   - capability: usd.animation
     level: partial
@@ -179,13 +201,16 @@ support:
       Clarisse evaluates time-sampled transforms, camera motion, and deforming geometry from referenced USD stages with
       full motion blur support, and writes startTimeCode, endTimeCode, and timeCodesPerSecond on USD export.
     sources:
+      - url: https://web.archive.org/web/20220811091223/https://clarissewiki.com/5.0/exporting-assets.html
+        title: Clarisse 5.0 docs — Exporting assets, animation export modes (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
         title: "romainguerif/tropix — Clarisse 5.0 SP14 USD export header metadata"
         kind: repo
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "Verified against empirical export analysis from community project tropix; official docs offline."
+    confidence: medium
+    verified: 2026-11-09
 
   - capability: usd.cameras
     level: native
@@ -194,13 +219,16 @@ support:
       Clarisse imports and exports UsdGeomCamera prims with focalLength, fStop, horizontalAperture, verticalAperture,
       and world transform matrices.
     sources:
+      - url: https://web.archive.org/web/20230204000511/https://clarissewiki.com/5.0/reference/technical/CameraUsd.html
+        title: Clarisse 5.0 reference — CameraUsd, with focal, aperture and f-stop attributes (Wayback Machine archive)
+        kind: docs
+        accessed: 2026-11-09
       - url: https://github.com/romainguerif/tropix/blob/main/docs/clarisse_native_export_analysis.md
         title: "romainguerif/tropix — Clarisse 5.0 SP14 USD Camera export analysis"
         kind: repo
         accessed: 2026-11-04
-    confidence: low
-    verified: 2026-11-04
-    review: "Verified against empirical export analysis from community project tropix; official docs offline."
+    confidence: medium
+    verified: 2026-11-09
 
   # ── Shading, Hydra & rendering ─────────────────────────────────────────────
   - capability: usd.shade.materialx
@@ -339,4 +367,3 @@ issues:
     affects: "5.5"
     severity: minor
     verified: 2026-11-04
-    review: "Documented technical limitation described in vendor Head of RnD's ASWF presentation."

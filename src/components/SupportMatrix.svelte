@@ -10,13 +10,32 @@
     LEVEL_ORDER,
     LEVEL_SCORE,
     TECH_LABEL,
+    matrixDetailKey,
     type Level,
     type MatrixCap,
+    type MatrixDetail,
     type MatrixRow,
     type Tech,
   } from '../lib/view';
 
-  let { rows, capabilities }: { rows: MatrixRow[]; capabilities: MatrixCap[] } = $props();
+  let {
+    rows,
+    capabilities,
+    detailsUrl,
+  }: { rows: MatrixRow[]; capabilities: MatrixCap[]; detailsUrl: string } = $props();
+
+  // Notes and gaps live in a separate file (keeps the page light); fetched once, on first open.
+  let details = $state<Record<string, MatrixDetail> | null>(null);
+  let detailsError = $state(false);
+  let detailsRequested = false;
+  function loadDetails() {
+    if (detailsRequested) return;
+    detailsRequested = true;
+    fetch(detailsUrl)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d) => (details = d))
+      .catch(() => (detailsError = true));
+  }
 
   // ── filters ──
   let tech = $state<'all' | Tech>('all');
@@ -65,6 +84,10 @@
   const selRow = $derived(selected ? rows.find((r) => r.id === selected!.row) : undefined);
   const selCap = $derived(selected ? capabilities.find((c) => c.id === selected!.cap) : undefined);
   const selCell = $derived(selRow && selCap ? selRow.cells[selCap.id] : undefined);
+  const selDetail = $derived(selRow && selCap && details ? details[matrixDetailKey(selRow.id, selCap.id)] : undefined);
+  $effect(() => {
+    if (selCell) loadDetails();
+  });
 
   function cellTitle(r: MatrixRow, c: MatrixCap) {
     const cell = r.cells[c.id];
@@ -165,7 +188,6 @@
                 class:flagged={cell?.flagged}
                 class:active={selected?.row === r.id && selected?.cap === c.id}
                 title={cellTitle(r, c)}
-                aria-label={cellTitle(r, c)}
                 onclick={() => (selected = selected?.row === r.id && selected?.cap === c.id ? null : { row: r.id, cap: c.id })}
               ></button>
             </td>
@@ -196,9 +218,15 @@
         <span class="muted">{selCell.confidence} confidence</span>
         {#if selCell.flagged}<span class="flag">flagged for review</span>{/if}
       </p>
-      {#if selCell.notes}<p>{selCell.notes}</p>{/if}
-      {#if selCell.gaps.length}
-        <ul class="gaps">{#each selCell.gaps as g, i (i)}<li>{g}</li>{/each}</ul>
+      {#if selDetail}
+        {#if selDetail.notes}<p>{selDetail.notes}</p>{/if}
+        {#if selDetail.gaps.length}
+          <ul class="gaps">{#each selDetail.gaps as g, i (i)}<li>{g}</li>{/each}</ul>
+        {/if}
+      {:else if detailsError}
+        <p class="muted">Couldn't load the notes. The full record is on the product page.</p>
+      {:else if !details}
+        <p class="muted">Loading notes…</p>
       {/if}
       <a href={`${selRow.href}#${selCap.anchor}`}>Sources and full record →</a>
     {:else}

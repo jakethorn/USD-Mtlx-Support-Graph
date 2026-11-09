@@ -15,12 +15,19 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 
 ## Layout
 
-- `data/`: all content as YAML. `capabilities.yaml` (taxonomy, file order = display order), `products/<id>.yaml`.
+- `data/`: all content as YAML. `capabilities.yaml` (taxonomy, file order = display order), `products/<id>.yaml`,
+  `projects/<id>.yaml`, `events.yaml` (timeline milestones, file order breaks date ties).
 - `src/data/schema.ts`: Zod schemas shared by Astro collections and the validator. Change the schema there only.
 - `src/data/yaml.ts`: YAML parsing with the same options as Astro's loader. Use it for any script reading `data/`.
 - `src/content.config.ts`: collections. `src/lib/data.ts` → `loadData()` for pages and endpoints.
 - `src/lib/url.ts`: `withBase()`. Every internal link and asset URL must go through it (Pages base path).
-- `src/styles/global.css`: design tokens (light + dark via `prefers-color-scheme` and `[data-theme]`).
+- `src/styles/global.css`: design tokens (light + dark via `prefers-color-scheme` and `[data-theme]`), plus shared
+  `.lv-<level>` colour hooks and `.chip` filter styles.
+- `src/lib/view.ts`: labels, orderings and island prop types shared by the views.
+- Views: `/` (home), `/matrix/` (`SupportMatrix.svelte`), `/timeline/` (`Timeline.svelte`), `/ecosystem/`, `/schemas/`
+  (`SchemaExplorer.svelte`), `/products/<id>/`, `/review/`. Data downloads: `/data.json` and `/data/<name>.json`.
+- Keep island props small. Long text or large datasets go in a `/data/*.json` endpoint and are fetched on demand.
+  For example, the matrix fetches `/data/matrix-details.json` (notes and gaps) when a cell is first opened.
 
 ## Data rules (do not relax)
 
@@ -33,16 +40,20 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 
 ## Researching products
 
-- Follow `docs/research-guide.md` (levels, sources, review flags). Tier 1 (19 products) was researched on 2026-11-04
-  by parallel agents grouped by vendor, then each file was independently fact-checked against every cited source.
-  Repeat that two-step pattern (research, then verify) for Tier 2.
+- Follow `docs/research-guide.md` (levels, sources, review flags). Tier 1 (19 products) and Tier 2 (16 products) were
+  researched by parallel agents grouped by vendor, then each file was independently fact-checked against every cited
+  source. Use that two-step pattern (research, then verify) for any new batch.
+- Discontinued products whose vendor site is gone (e.g. Clarisse): cite official docs through Wayback Machine
+  snapshot URLs (`https://web.archive.org/web/<timestamp>/<original>`, `kind: docs`). Find pages with the CDX API:
+  `https://web.archive.org/cdx/search/cdx?url=<site>/*&fl=original&collapse=urlkey`. archive.org rate-limits (429),
+  so fetch sequentially.
 - Verification agents work fine on Sonnet. Running six research agents on Opus at once hit the user's 5-hour usage
   limit, so stagger agents or use smaller groups.
-- `npm run check:links` checks every source URL (0 broken at last run). Sites that block bots: unrealengine.com,
+- `npm run check:links` checks every source URL (0 broken at last run). It also runs warn-only at the end of the
+  weekly refresh, which annotates dead links in the run summary. Sites that block bots: unrealengine.com,
   issues.unrealengine.com, autodesk.com product pages, support.maxon.net, projects.blender.org pages (its API and
   raw files work). Appending `.md` gives clean text on help.maxon.net, documentation.chaos.com and
   rmanwiki-27.pixar.com.
-- `/products/<id>/` and `/review/` are plain interim pages for reading the data. The designed views come in Phase 4.
 
 ## Ingestion quirks (scripts/ingest)
 

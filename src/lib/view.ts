@@ -71,9 +71,16 @@ export interface MatrixCell {
   via?: string;
   confidence: 'high' | 'medium' | 'low';
   flagged: boolean;
+}
+
+/** Long text for a matrix cell, served separately (`/data/matrix-details.json`) and fetched on first open. */
+export interface MatrixDetail {
   notes?: string;
   gaps: string[];
 }
+
+/** Key into the matrix details file. */
+export const matrixDetailKey = (productId: string, capId: string) => `${productId}|${capId}`;
 
 export interface MatrixRow {
   id: string;
