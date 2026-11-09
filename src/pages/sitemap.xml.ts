@@ -8,7 +8,7 @@ import { withBase } from '../lib/url';
  */
 export const GET: APIRoute = async ({ site }) => {
   const { products } = await loadData();
-  const pages = ['', 'matrix/', 'compare/', 'versions/', 'nodes/', 'timeline/', 'ecosystem/', 'schemas/', 'review/'];
+  const pages = ['', 'matrix/', 'compare/', 'route/', 'versions/', 'nodes/', 'timeline/', 'ecosystem/', 'schemas/', 'review/'];
   const urls = [...pages.map((p) => withBase(p)), ...products.map((p) => withBase(`products/${p.id}/`))];
   const lastmod = new Date().toISOString().slice(0, 10);
   const body = [

@@ -17,6 +17,8 @@ export const GET: APIRoute = async () => {
   const pages: [string, string, string][] = [
     ['Overview', '', 'home start'],
     ['Support matrix', 'matrix/', 'grid table capabilities products'],
+    ['Compare products', 'compare/', 'side by side versus vs difference'],
+    ['Pipeline route planner', 'route/', 'interop hand-off from to export import pipeline'],
     ['Version lag', 'versions/', 'versions bundled behind upstream releases'],
     ['MaterialX node table', 'nodes/', 'nodes periodic table generators glsl osl mdl msl slang'],
     ['Timeline', 'timeline/', 'history milestones releases adoption'],

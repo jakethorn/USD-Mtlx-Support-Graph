@@ -1,0 +1,29 @@
+---
+/** Pipeline route planner: what should survive a USD hand-off from one product to another. */
+import Base from '../layouts/Base.astro';
+import RoutePlanner from '../components/RoutePlanner.svelte';
+import { withBase } from '../lib/url';
+---
+
+<Base
+  title="Pipeline route planner"
+  description="Pick a source and a target application and see which parts of a scene should survive a USD hand-off between them, with sources."
+>
+  <div class="container page-head">
+    <h1>Pipeline route planner</h1>
+    <p class="muted">
+      Moving a scene from one application to another through USD? Pick both ends to see which parts should carry over
+      (geometry, animation, scene structure, materials) based on each side's sourced records. For the full side-by-side
+      view, use <a href={withBase('compare/')}>Compare</a>.
+    </p>
+  </div>
+  <div class="container narrow">
+    <RoutePlanner client:load dataUrl={withBase('data/support.json')} />
+  </div>
+</Base>
+
+<style>
+  .narrow {
+    max-width: 980px;
+  }
+</style>
