@@ -1,0 +1,89 @@
+---
+/** Served by GitHub Pages for any missing path under the site. */
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/url';
+
+const links = [
+  { href: withBase(), label: 'Overview', text: 'What the site covers and the headline numbers.' },
+  { href: withBase('matrix/'), label: 'Support matrix', text: 'Every product against every capability.' },
+  { href: withBase('compare/'), label: 'Compare products', text: 'Two to four products side by side.' },
+  { href: withBase('versions/'), label: 'Version lag', text: 'Which OpenUSD and MaterialX versions products ship.' },
+  { href: withBase('nodes/'), label: 'MaterialX nodes', text: 'Every standard-library node and its generator coverage.' },
+];
+---
+
+<Base title="Page not found" description="This page doesn't exist. Try the search or one of the main views.">
+  <div class="container page-head">
+    <p class="code muted">404</p>
+    <h1>That page doesn't exist</h1>
+    <p class="muted">
+      It may have moved, or the link may be mistyped. Press <kbd>Ctrl</kbd>&nbsp;<kbd>K</kbd> (or <kbd>/</kbd>) to
+      search products, capabilities, schemas and nodes, or pick a view below.
+    </p>
+    <p class="guess muted" id="guess" hidden></p>
+    <ul class="views" role="list">
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href}>{l.label}</a>
+            <span class="muted">{l.text}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<script is:inline define:vars={{ productsPath: withBase('products/') }}>
+  // A mistyped product URL (…/products/hudini/) most likely means a product; offer the products' search.
+  const path = location.pathname;
+  if (path.startsWith(productsPath)) {
+    const slug = path.slice(productsPath.length).split('/')[0];
+    const guess = document.getElementById('guess');
+    if (slug && guess) {
+      guess.hidden = false;
+      guess.textContent = `Looking for a product called “${slug.replace(/-/g, ' ')}”? Open the search and type its name.`;
+    }
+  }
+</script>
+
+<style>
+  .code {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin: 0 0 6px;
+  }
+  .guess {
+    margin-top: 12px !important;
+  }
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    padding: 1px 5px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface-2);
+  }
+  .views {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: grid;
+    gap: 10px;
+    max-width: 640px;
+  }
+  .views li {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .views a {
+    font-weight: 650;
+  }
+  .views span {
+    font-size: 0.88rem;
+  }
+</style>
