@@ -7,6 +7,9 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
 
 - `npm run validate` / `npm run review`: data checks (`scripts/validate-data.ts`). Run after every data edit.
 - `npm run check`: `astro check` type check.
+- `npm test`: unit tests in `tests/` (Node's built-in runner via tsx). They cover node-support resolution, URL state,
+  feedback links and the version-lag helpers. CI runs them before the type check. Pure logic you add to `src/lib` or
+  `src/data` should get a test here.
 - `npm run build`: static build to `dist/`. CI (`.github/workflows/site.yml`) runs review → check → build → deploy.
 - `npm run ingest` (or `ingest:materialx|usd|releases|github`): Python stdlib scripts in `scripts/ingest/` that write
   `data/generated/*.json`. Locally: `GITHUB_TOKEN="$("/c/Program Files/GitHub CLI/gh.exe" auth token)" npm run ingest`.

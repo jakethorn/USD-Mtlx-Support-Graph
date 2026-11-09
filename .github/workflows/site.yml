@@ -30,6 +30,9 @@ jobs:
       - name: Validate data (and list records flagged for review)
         run: npm run review
 
+      - name: Unit tests
+        run: npm test
+
       - name: Type check
         run: npm run check
 

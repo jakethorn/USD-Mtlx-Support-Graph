@@ -11,6 +11,7 @@
     "check": "astro check",
     "validate": "tsx scripts/validate-data.ts",
     "review": "tsx scripts/validate-data.ts --review",
+    "test": "tsx --test \"tests/*.test.ts\"",
     "check:links": "tsx scripts/check-links.ts",
     "og-image": "tsx scripts/make-og-image.ts",
     "ingest": "python -I scripts/ingest/run_all.py",
