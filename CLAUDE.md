@@ -30,12 +30,36 @@ games and adjacent industries. Deployed to GitHub Pages at base path `/USD-Mtlx-
   them.
 - `src/lib/view.ts`: labels, orderings and island prop types shared by the views.
 - `src/lib/lag.ts`: version-lag maths for `/versions/`, served as `/data/version-lag.json`.
-- Views: `/` (home), `/matrix/` (`SupportMatrix.svelte`), `/versions/` (`VersionLag.svelte`), `/nodes/`
-  (`NodeTable.svelte`), `/timeline/` (`Timeline.svelte`), `/ecosystem/`, `/schemas/` (`SchemaExplorer.svelte`),
-  `/products/<id>/`, `/review/`. Data downloads: `/data.json` and `/data/<name>.json`.
+- Views: `/` (home), `/matrix/` (`SupportMatrix.svelte`), `/compare/` (`CompareView.svelte`), `/route/`
+  (`RoutePlanner.svelte`), `/versions/` (`VersionLag.svelte`), `/nodes/` (`NodeTable.svelte`), `/timeline/`
+  (`Timeline.svelte`), `/ecosystem/`, `/schemas/` (`SchemaExplorer.svelte`), `/products/<id>/`, `/review/`, `404`.
+  Plus `SearchPalette.svelte` (Ctrl+K) in the header and `sitemap.xml`. Data downloads: `/data.json` and
+  `/data/<name>.json`.
+- `src/lib/matrix.ts`: `buildMatrix()`, the product × capability grid shared by `/matrix/` and `/data/support.json`
+  (which `/compare/` and `/route/` fetch).
 - Keep island props small. Long text or large datasets go in a `/data/*.json` endpoint and are fetched on demand:
   the matrix fetches `/data/matrix-details.json` when a cell is first opened, `/versions/` fetches
-  `/data/version-lag.json` and `/nodes/` fetches `/data/materialx-nodes.json`.
+  `/data/version-lag.json`, `/nodes/` fetches `/data/materialx-nodes.json`, and the search fetches
+  `/data/search-index.json` on first open.
+- URL state: interactive views keep their filters in the query string via `src/lib/url-state.ts`. Read in `onMount`
+  (never at init, or hydration mismatches), then write from an `$effect` with defaults omitted. New filters should
+  follow suit, so every view stays shareable.
+- Corrections: `src/lib/feedback.ts` builds pre-filled links to the issue forms in `.github/ISSUE_TEMPLATE/`. Field
+  ids in `correction.yml` are the query parameters, so keep them in sync.
+
+## UI conventions
+
+- Level colours come from `.lv-<level>` (sets `--lv`). Fills must use `background: var(--lv-pattern, none), var(--lv)`
+  so planned, deprecated and none also get a texture. The seven-level palette fails the dataviz validator on colour
+  alone (deprecated↔none, planned reads grey), so the texture is the required secondary encoding. Text badges stay
+  solid.
+- `<dialog>` `close` events don't fire in every environment (the app's browser pane, for one). Clear the
+  open/selected state in your own close handlers and in `oncancel`; don't rely on `onclose`.
+- Islands that must react immediately (search shortcut) use `client:load`. `client:idle` never hydrates in background
+  or hidden tabs.
+- Grids of many controls use a roving tabindex (see `SupportMatrix.svelte`): one tab stop, arrow keys inside.
+- Social card: `public/og.png` comes from `npm run og-image` (`scripts/make-og-image.ts`, sharp). Re-run it after big
+  data changes. Its artwork is the real matrix.
 
 ## Data rules (do not relax)
 

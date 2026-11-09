@@ -6,7 +6,9 @@ renderers, game engines and the open-source tools around them.
 
 **Live site:** https://jakethorn.github.io/USD-Mtlx-Support-Graph/
 
-- **Support matrix (`/matrix/`):** Interactive product × capability matrix with technology, tier, category and industry filters and a sourced detail drawer.
+- **Support matrix (`/matrix/`):** Interactive product × capability matrix with technology, tier, category and industry filters and a sourced detail drawer. Keyboard-navigable with the arrow keys.
+- **Compare (`/compare/`):** Two to four products side by side, with per-technology summary bars, newest bundled versions and a "differences only" filter.
+- **Pipeline route planner (`/route/`):** Pick a source and a target application to see which parts of a scene should survive a USD hand-off, and the best common material path.
 - **Version lag (`/versions/`):** How far each product's bundled OpenUSD and MaterialX versions trail the upstream releases over time.
 - **MaterialX node table (`/nodes/`):** Every standard-library node as a tile, coloured by code-generator coverage, with a two-target compare mode and a release slider.
 - **Adoption timeline (`/timeline/`):** Spec milestones, upstream OpenUSD & MaterialX releases, and product adoption history.
@@ -14,6 +16,12 @@ renderers, game engines and the open-source tools around them.
 - **Schemas & nodes (`/schemas/`):** Searchable explorer of every OpenUSD schema since 0.7.0 and every MaterialX standard-library node since 1.38.0 with per-generator target coverage.
 - **Product detail pages (`/products/<id>/`):** Visual capability scorecards, bundled USD/MaterialX version history, ecosystem integrations, known issues and cited sources.
 - **Needs review (`/review/`):** Every record whose sources conflict or are indirect, in one place.
+
+Across the site:
+- **Search:** press <kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd><kbd>K</kbd> or <kbd>/</kbd> to search products,
+  capabilities, projects, schemas and nodes.
+- **Shareable views:** every filter is kept in the URL, so you can bookmark or share any view.
+- **Corrections:** every record has a "Suggest a correction" link that opens a pre-filled GitHub issue form.
 
 ## How the data works
 
@@ -63,6 +71,7 @@ npm run check:links  # check every cited source URL still resolves
 npm run check      # type check
 npm run build      # static site → dist/
 npm run ingest     # refresh data/generated/ from upstream (set GITHUB_TOKEN for the GitHub API)
+npm run og-image   # regenerate public/og.png, the social preview card (after big data changes)
 ```
 
 Ingestion keeps blobless, sparse clones of OpenUSD and MaterialX in `.cache/repos/`, so scanning every release takes
@@ -77,5 +86,7 @@ without failing the run.
 ## Contributing
 
 How support records are researched and sourced is described in the [research guide](docs/research-guide.md).
-Spotted something wrong or missing? [Open an issue](https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues) with a
-link to a source, or edit the product's YAML file and open a pull request. CI validates every change.
+Spotted something wrong or missing? Use the **Suggest a correction** link next to any record (or
+[pick a form](https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues/new/choose): "Data correction" or "Track a
+product or project") and include a link to a source. You can also edit the product's YAML file and open a pull
+request. CI validates every change.
