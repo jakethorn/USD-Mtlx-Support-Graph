@@ -1,0 +1,56 @@
+name: Data correction
+description: Something on the site is wrong, out of date, or missing. Please include a source.
+title: "Correction: "
+labels: [data-correction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the data accurate! Every record on the site has to be backed by a public source
+        (official docs and release notes are best), so a link is the most useful thing you can give us.
+        Fields are pre-filled when you come from a "Suggest a correction" link on the site.
+  - type: input
+    id: product
+    attributes:
+      label: Product
+      description: Product id or name, e.g. houdini, Blender.
+    validations:
+      required: true
+  - type: input
+    id: capability
+    attributes:
+      label: Capability
+      description: Capability id from the site (e.g. usd.composition.variants, mtlx.openpbr), if it's about one.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem is it?
+      options:
+        - The support level is wrong
+        - It's out of date (a newer release changed things)
+        - A record is missing
+        - A note, gap or version is wrong
+        - A source link is broken or doesn't say this
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What should it say?
+      description: What's wrong now and what's correct, with the product version if it matters.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A public URL that supports the correction (docs, release notes, source code, vendor post).
+      placeholder: https://
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The page you were looking at.

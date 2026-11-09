@@ -5,6 +5,7 @@
    */
   import { onMount } from 'svelte';
   import { pick, pickList, readParams, writeParams } from '../lib/url-state';
+  import { correctionUrl } from '../lib/feedback';
   import {
     CATEGORY_LABEL,
     INDUSTRY_LABEL,
@@ -111,6 +112,15 @@
   $effect(() => {
     if (selCell) loadDetails();
   });
+
+  const fixUrl = (r: MatrixRow, c: MatrixCap) =>
+    correctionUrl({
+      product: r.id,
+      productName: r.name,
+      capability: c.id,
+      capabilityLabel: c.label,
+      page: `${r.href}#${c.anchor}`,
+    });
 
   function cellTitle(r: MatrixRow, c: MatrixCap) {
     const cell = r.cells[c.id];
@@ -251,11 +261,14 @@
       {:else if !details}
         <p class="muted">Loading notes…</p>
       {/if}
-      <a href={`${selRow.href}#${selCap.anchor}`}>Sources and full record →</a>
+      <p class="links">
+        <a href={`${selRow.href}#${selCap.anchor}`}>Sources and full record →</a>
+        <a class="fix" href={fixUrl(selRow, selCap)} rel="noopener">Suggest a correction</a>
+      </p>
     {:else}
       <p>
         No sourced record yet, so this is <strong>unknown</strong>, not unsupported. Know a source?
-        <a href="https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues">Open an issue</a>.
+        <a href={fixUrl(selRow, selCap)} rel="noopener">Tell us about it</a>.
       </p>
     {/if}
   </aside>
@@ -508,6 +521,14 @@
   .detail p {
     margin: 6px 0;
     font-size: 0.92rem;
+  }
+  .detail .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
+  .detail .fix {
+    color: var(--text-muted);
   }
   .eyebrow {
     font-size: 0.72rem !important;

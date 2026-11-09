@@ -1,0 +1,40 @@
+name: Track a product or project
+description: Suggest a DCC, renderer, engine, tool or open-source project the site should cover.
+title: "Track: "
+labels: [new-product]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: Product or project name, and vendor if it has one.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Website or repository
+      placeholder: https://
+    validations:
+      required: true
+  - type: textarea
+    id: support
+    attributes:
+      label: OpenUSD / MaterialX support
+      description: What it supports, as far as you know, with links to docs or release notes.
+    validations:
+      required: true
+  - type: dropdown
+    id: industry
+    attributes:
+      label: Main industry
+      options:
+        - Film, TV & VFX
+        - Animation
+        - Games
+        - AEC
+        - Product design / CAD
+        - Automotive
+        - Simulation / robotics
+        - XR & web
+        - Other

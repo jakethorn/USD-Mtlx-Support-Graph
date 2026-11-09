@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.svelte';
 import { withBase } from '../lib/url';
+import { REPO_URL, correctionUrl, trackProductUrl } from '../lib/feedback';
 
 interface Props {
   title?: string;
@@ -72,8 +73,10 @@ const nav = [
       <div class="container">
         <p class="muted">
           Every claim links to its source. Spotted something wrong or missing?
-          <a href="https://github.com/jakethorn/USD-Mtlx-Support-Graph/issues">Open an issue</a>.
-          · <a href={withBase('data.json')}>Download the data</a> · Built {builtOn}
+          <a href={correctionUrl({ page: pathname })} rel="noopener">Suggest a correction</a> or
+          <a href={trackProductUrl} rel="noopener">ask us to track a product</a>.
+          · <a href={withBase('data.json')}>Download the data</a> · <a href={REPO_URL} rel="noopener">Source on GitHub</a>
+          · Built {builtOn}
         </p>
       </div>
     </footer>

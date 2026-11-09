@@ -9,6 +9,7 @@ import LevelBadge from '../../components/LevelBadge.astro';
 import NodeSupportSection from '../../components/NodeSupportSection.astro';
 import { loadData, type ProductEntry } from '../../lib/data';
 import { withBase } from '../../lib/url';
+import { correctionUrl } from '../../lib/feedback';
 import {
   CATEGORY_LABEL,
   INDUSTRY_LABEL,
@@ -37,6 +38,15 @@ const linkOf = (id: string) =>
 const capIndex = new Map(capabilities.map((c, i) => [c.id, i]));
 const capById = new Map(capabilities.map((c) => [c.id, c]));
 const recordByCap = new Map(product.support.map((s) => [s.capability, s]));
+const pagePath = withBase(`products/${product.id}/`);
+const fixUrl = (capability?: string) =>
+  correctionUrl({
+    product: product.id,
+    productName: product.name,
+    capability,
+    capabilityLabel: capability ? capById.get(capability)?.label : undefined,
+    page: capability ? `${pagePath}#${capAnchor(capability)}` : pagePath,
+  });
 
 const scorecards = (['usd', 'materialx'] as Tech[]).map((tech) => {
   const techCaps = capabilities.filter((c) => c.tech === tech);
@@ -317,6 +327,9 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
                           {src.title ?? new URL(src.url).hostname}
                         </a>
                       ))}
+                      <a class="fix" href={fixUrl(s.capability)} rel="noopener">
+                        Suggest a correction
+                      </a>
                     </p>
                   </li>
                 ))}
@@ -326,6 +339,11 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
         </section>
       ))
     }
+
+    <p class="missing muted">
+      Know about a capability that's missing here, or a newer release that changed things?
+      <a href={fixUrl()} rel="noopener">Suggest a correction</a> with a source and it'll be researched and added.
+    </p>
 
     {nodeEntry && <NodeSupportSection entry={nodeEntry} />}
 
@@ -690,6 +708,20 @@ const latestMtlx = product.releases.find((r) => r.materialx)?.materialx;
     flex-wrap: wrap;
     gap: 4px 12px;
     font-size: 0.82rem;
+  }
+  .missing {
+    margin: 28px 0 0;
+    padding: 12px 16px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+  }
+  .sources .fix {
+    margin-left: auto;
+    color: var(--text-muted);
+  }
+  .sources .fix:hover {
+    color: var(--accent);
   }
   .conf {
     margin-left: auto;
