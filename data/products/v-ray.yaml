@@ -117,6 +117,23 @@ releases:
         kind: release-notes
         accessed: 2026-11-04
 
+  - version: "7.5"
+    date: 2026-11
+    notes: >-
+      Update 5 shipped for 3ds Max in early November 2026 (CG Channel report dated 2026-11-08). It adds an
+      experimental AI Assistant, a native Spot Light and an experimental VRayVolume for OpenVDB files. No USD or
+      MaterialX changes are stated.
+    review: Release date taken from a news article dated 2026-11-08, not from the official release notes, and no USD or MaterialX versions are stated.
+    sources:
+      - url: https://www.cgchannel.com/2026/11/chaos-releases-v-ray-7-5-for-3ds-max-with-new-ai-features/
+        title: Chaos releases V-Ray 7.5 for 3ds Max with new AI features (CG Channel)
+        kind: news
+        accessed: 2026-11-09
+      - url: https://www.chaos.com/vray/3ds-max/whats-new
+        title: V-Ray for 3ds Max, latest updates
+        kind: docs
+        accessed: 2026-11-09
+
 support:
   # ── Rendering ─────────────────────────────────────────────────────────────
   - capability: usd.hydra.delegate
