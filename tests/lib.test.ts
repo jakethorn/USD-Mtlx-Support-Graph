@@ -3,6 +3,35 @@ import assert from 'node:assert/strict';
 import { pick, pickList, readParams, writeParams } from '../src/lib/url-state.ts';
 import { correctionUrl, trackProductUrl } from '../src/lib/feedback.ts';
 import { behindStep, dateValue, median } from '../src/lib/lag.ts';
+import { compareVersions, newestFirst } from '../src/lib/releases.ts';
+
+describe('release ordering', () => {
+  it('compares product versions numerically', () => {
+    assert.ok(compareVersions('2027', '2026.1') > 0);
+    assert.ok(compareVersions('17.1', '16.0') > 0);
+    assert.ok(compareVersions('8.0v1', '7.5v1') > 0);
+    assert.ok(compareVersions('26.05.0.1', '26.05') > 0);
+    assert.equal(compareVersions('5.2', '5.2.0'), 0);
+  });
+  it('flips oldest-first lists using their dates', () => {
+    const katana = [
+      { version: '7.0', date: '2023-11' },
+      { version: '8.0', date: '2024-12' },
+      { version: '9.0', date: '2026-02' },
+    ];
+    assert.deepEqual(newestFirst(katana).map((r) => r.version), ['9.0', '8.0', '7.0']);
+  });
+  it('keeps newest-first lists, including partly undated ones', () => {
+    const maya = [{ version: '2027', date: '2026-03-25' }, { version: '2026', date: '2025-03-26' }, { version: '2024' }];
+    assert.deepEqual(newestFirst(maya).map((r) => r.version), ['2027', '2026', '2024']);
+    const unreal = [{ version: '5.8', date: '2026-06-17' }, { version: '5.7' }, { version: '5.6' }];
+    assert.deepEqual(newestFirst(unreal).map((r) => r.version), ['5.8', '5.7', '5.6']);
+  });
+  it('falls back to version numbers when fewer than two entries are dated', () => {
+    assert.deepEqual(newestFirst([{ version: '4.4.0' }, { version: '5.2.0' }]).map((r) => r.version), ['5.2.0', '4.4.0']);
+    assert.deepEqual(newestFirst([{ version: '2027.0' }, { version: '2025.0' }]).map((r) => r.version), ['2027.0', '2025.0']);
+  });
+});
 
 describe('url-state', () => {
   const g = globalThis as Record<string, unknown>;

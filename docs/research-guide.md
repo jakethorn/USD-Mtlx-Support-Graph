@@ -50,7 +50,9 @@ When support is `native` or `plugin` but with notable caveats, keep the level an
 
 ## Releases
 
-List the product's recent major releases (about the last 3 to 5) under `releases:`. For each, record the USD and
+List the product's recent major releases (about the last 3 to 5) under `releases:`, **newest first**. The site
+normalises the order anyway (`newestFirst()` in `src/lib/releases.ts`), but newest first keeps the files easy to
+read and diff. For each, record the USD and
 MaterialX versions it bundles or is built against (`usd: "24.08"`, `materialx: "1.39.1"`), **only when a source
 states them**. Release notes, "library versions" tables and VFX Reference Platform pages are good sources. These
 feed the "version lag" view, so they are valuable. The USD version must be a real OpenUSD release (see

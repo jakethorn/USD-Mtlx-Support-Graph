@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { Capability, NodeSupport, Product, Project, TimelineEvent } from '../data/schema';
 import { githubStats, materialxNodes, type RepoStats } from '../data/generated';
 import { indexNodes, resolveNodeSupport, type NodeCell, type ResolvedNodeSupport } from '../data/node-support';
+import { newestFirst } from './releases';
 
 export type ProductEntry = Product & { id: string; stats?: RepoStats };
 export type ProjectEntry = Project & { id: string; stats?: RepoStats };
@@ -38,7 +39,8 @@ export async function loadData() {
   ]);
 
   const products: ProductEntry[] = productEntries
-    .map((e) => ({ id: e.id, ...e.data, stats: statsFor(e.data.repo) }))
+    // Release lists aren't all in the same direction in the YAML; downstream code expects newest first.
+    .map((e) => ({ id: e.id, ...e.data, releases: newestFirst(e.data.releases), stats: statsFor(e.data.repo) }))
     .sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name));
 
   const projects: ProjectEntry[] = projectEntries
